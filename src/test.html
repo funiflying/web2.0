@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="./lib/uploadify/uploadify.css"/>
+    <script src="./lib/jquery/dist/jquery-1.10.2.min.js"></script>
+    <script src="./lib/uploadify/jquery.uploadify.min.js"></script>
+    <script>
+        $(function(){
+            $('#file_upload').uploadify({
+                'swf'      : './lib/uploadify/uploadify.swf',
+                'uploader' : 'uploadify.php'
+            });
+
+        })
+
+    </script>
+</head>
+<body>
+<div>
+    <input type="file" name="file_upload" id="file_upload" />
+</div>
+</body>
+</html>

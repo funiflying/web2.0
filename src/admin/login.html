@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-md-8 login-bg">
+
+    </div>
+    <div class="col-md-4" >
+        <div class="panel panel-default background-blank">
+            <div class="panel-heading">
+                <h3 class="panel-title text-orange" style="padding: 15px 0">
+                    登录车同享
+                    <small class="pull-right"><a href="" class=" text-orange">没有账号，立即注册</a></small>
+                </h3>
+
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form" novalidate name="loginForm" style="margin-top: 30px">
+                    <div class="form-group">
+
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control input-lg"   placeholder="请输入用户名或手机号码" required ng-model="account.Account">
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-sm-12">
+                            <input type="password" class="form-control input-lg"   placeholder="请输入密码" required ng-model="account.Pwd">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="remember"> 记住我
+                                </label>
+                                <a href="" class="pull-right">忘记密码</a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 100px">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-block btn-lg btn-orange"  ng-disabled="loginForm.$invalid" ng-click="login()">登录</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>

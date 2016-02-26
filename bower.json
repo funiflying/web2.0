@@ -1,0 +1,28 @@
+{
+  "name": "CTXWeb",
+  "authors": [
+    "funiflying <funiflying@163.com>"
+  ],
+  "description": "chetongxiang",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  },
+  "devDependencies": {
+    "angular": "angularjs#~1.2.3",
+    "angular-ui-router": "~0.2.15",
+    "angular-resource": "~1.2.0"
+  }
+}

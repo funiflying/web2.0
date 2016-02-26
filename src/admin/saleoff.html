@@ -1,0 +1,55 @@
+<style>
+    .modal-dialog{
+        width: 500px;
+    }
+</style>
+<div class="modal-header text-center">
+    <h3 class="modal-title">车源下架</h3>
+    <i class="glyphicon glyphicon-remove-sign dialog-close" ng-click="cancel()"></i>
+</div>
+<div class="modal-body  clearfix">
+    <div class="col-md-offset-1" style="margin-bottom: 10px">
+       <p> <strong>车型:</strong> <span ng-bind="saleoff_car.SpecName"></span></p>
+        <p> <strong>发布时间:</strong> <span ng-bind="saleoff_car.PublishTime|DateFormat:'yyyy-MM-dd'"></span></p>
+       <p> <strong>车源编号:</strong> <span ng-bind="saleoff_car.CarNo"></span></p>
+    </div>
+    <form name="saleoffForm"  class="form-horizontal" novalidate>
+            <div class="form-group">
+                <label  class="control-label col-md-3 form-required">下架原因</label>
+                <div class="col-md-8">
+                    <select ng-model="saleoff.RevokeMemo" required="required" class="form-control input-sm">
+                        <option value="线下售出">线下售出</option>
+                        <option value="暂缓出售">暂缓出售</option>
+                        <option  value="其它原因">其它原因</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="control-label col-md-3 form-required">车主姓名</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" ng-model="saleoff.OwnerName" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="control-label col-md-3 form-required">联系方式</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" ng-model="saleoff.OwnerPhone" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="control-label col-md-3">联系地址</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" ng-model="saleoff.OwnerAddress"/>
+                </div>
+            </div>
+        </form>
+</div>
+<div class="modal-footer clearfix ">
+    <div class="alert {{alert.type}} text-center" ng-bind="alert.msg" ng-show="alert.msg"></div>
+    <div class="col-md-6 col-md-offset-3">
+        <button class="btn btn-info btn-block" ng-click="setSaleOff()" ng-disabled="saleoffForm.$invalid">
+            提交
+        </button>
+    </div>
+
+</div>
