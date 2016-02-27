@@ -6,6 +6,7 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
     });
     //access访问权限,0未不限制，1为需登录
     $stateProvider.state('login',{
+        //登录
         url:'/login',
         templateUrl:'./admin/login.html',
         controller:'LoginController',
@@ -39,6 +40,12 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         controller:'CarController',
         access:1,
         action:'home'
+    }).state('home.account',{
+        url:'/account',
+        templateUrl:'./admin/account.html',
+        controller:'AccountController',
+        access:1,
+        action:'home'
     })
 }]).constant('PAGE_CONFIG',{
         PageSize:10,
@@ -46,12 +53,12 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         PageNo:1
     }).run(['$rootScope','$modal','$timeout','$stateParams','$state','$cookieStore','PAGE_CONFIG',function($rootScope,$modal,$timeout,$stateParams,$state,$cookieStore,PAGE_CONFIG){
     $rootScope.USER=$cookieStore.get('AUTH')||null;
-    $rootScope.HOST='http://192.168.0.218';
+    $rootScope.HOST='http://www.chetongxiang.com';
     $rootScope.PAGE_CONF=PAGE_CONFIG;
     $rootScope.state=$state;
     $rootScope.stateParams=$stateParams;
     //默认车图
-    $rootScope.DefaultCarIcon='./images/defaultCarIcon.png';
+    $rootScope.DefaultCarIcon='./images/default-avator.png';
     //信息提示
     $rootScope.toast=function(msg,callback){
         var modalInstance = $modal.open({

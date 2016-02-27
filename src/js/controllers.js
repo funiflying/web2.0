@@ -49,8 +49,8 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
 
         });
     }
-}]).controller('HomeController',['','',function(){
-
+}]).controller('HomeController',['$rootScope','$scope','$sce',function($rootScope,$scope,$sce){
+   $scope.availableCash=$sce.trustAsHtml('2004<small>.00</small>')
 
 
 
@@ -362,16 +362,8 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             })
         }
     }
-}]).controller('DatepickerDemoCtrl', [
-    function () {
+}]).controller('AccountController', ['$rootScope','$scope',
+    function ($rootScope,$scope) {
 
-        var vm = this;
 
-        vm.valuationDate = new Date();
-        vm.valuationDatePickerIsOpen = false;
-
-        vm.valuationDatePickerOpen = function () {
-
-            this.valuationDatePickerIsOpen = true;
-        };
     }]);

@@ -1,9 +1,9 @@
-
-<div class="tui-admin-title">
-    <h3>车源发布</h3>
-    <a href="#/home/cargather" class="tui-admin-title-btn" >我的车源</a>
-</div>
-<div class="row" style="padding:0 20px 20px 20px">
+<div class="content-wrapper">
+    <div class="tui-admin-title">
+        <h3>车源发布</h3>
+        <a href="#/home/cargather" class="tui-admin-title-btn" >我的车源</a>
+    </div>
+    <div class="row">
     <form novalidate name="carissue" class="form-horizontal" role="form" id="form1">
         <div class="form-group">
             <label for="" class="control-label col-md-2 form-required">品牌-车系-车型</label>
@@ -163,13 +163,13 @@
         <div class="form-group">
             <label  class="control-label col-md-2 form-required">封面图</label>
             <div class="col-md-4" id="file">
-                <div uploader id="car-cover"></div>
+               <div upload data-limit="1" data-action="/common/file/UpLoadCarProcess"></div>
             </div>
         </div>
         <div class="form-group">
             <label  class="control-label col-md-2 form-required">实拍图片</label>
             <div class="col-md-10">
-                <div uploader multi="true" id="car-pics"></div>
+                <div upload data-limit="32" data-action="/common/file/UpLoadCarProcess"></div>
             </div>
         </div>
         <div class="form-group">
@@ -319,5 +319,7 @@
             viewSelect: 'month',
             minView: 2
         });
+
     </script>
+</div>
 </div>

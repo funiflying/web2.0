@@ -1,0 +1,53 @@
+<div class="content-wrapper account-profile">
+    <div class="tui-admin-title">
+        <h3>我的账户</h3>
+    </div>
+    <section class="basic summary-section">
+        <div class="basic-profile clearfix">
+            <div class="pull-left">
+                <a href="" class="profile-header">
+                    <img src="" width="100%" height="100%" ng-src="{{DefaultCarIcon}}">
+                </a>
+            </div>
+        </div>
+    </section>
+    <section class="summary-section section-nav-tabs">
+        <div class="tab-content basic-info-tab">
+            <div class="tab-pane active personal-info" id="personalInfo">
+                <div class="row info-content">
+                    <div class="col-md-9">
+                        <!--username-->
+                        <div class="info-row">
+                            <div  class="row">
+                                <div class="col-xs-2 info-value">用户名</div>
+                                <div class="col-xs-5">
+                                    <span>funiflyling</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--pwd-->
+                        <div class="info-row row-line">
+                            <div  class="row">
+                                <div class="col-xs-2 info-value">密码</div>
+                                <div class="col-xs-5">
+                                    <span>******</span>
+                                </div>
+                                <div class="col-xs-4">
+                                    <div ng-show="!profile.landingPwdSeted" class="ng-hide">
+                                        <a href="" class="btn btn-secondary bind-blue btn-hollow btn-bg-blue" ng-click="toggleEditor(passwdSetEditor, $event)">设置</a>
+                                    </div>
+                                    <div ng-show="profile.landingPwdSeted" class="sl-icons">
+                                        <a href="" class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(passwdChangeEditor, $event)">修改</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+</div>
