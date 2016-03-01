@@ -8,5 +8,6 @@
     <file url="file://$PROJECT_DIR$/js/directives.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/js/filters.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/js/services.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/statics/banklist.html" charset="UTF-8" />
   </component>
 </project>

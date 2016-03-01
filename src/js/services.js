@@ -36,6 +36,9 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                 case 'order'://订单详情
                     surl='/order/GetOrderInfoWithCode';
                     break;
+                case 'paycode'://汇款信息
+                    surl='/order/SendBankInfoToBuyer';
+                    break;
                 case 'prepay'://预付款
                     surl='/Order/UserPrePay';
                     break;

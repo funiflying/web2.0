@@ -1,0 +1,81 @@
+
+<div class="tui-admin-title" ng-init="getList()">
+    <h3>买车订单</h3>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group">
+                        <button type="button" ng-class="{true:'btn btn-default active',false:'btn btn-default'}[history==0]" ng-click="getList(0)">进行中</button>
+                        <button type="button" ng-class="{true:'btn btn-default active',false:'btn btn-default'}[history==1]" ng-click="getList(1)">已完成</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="search" class="form-control" placeholder="输入订单号查找" ng-model="searchCode"/>
+               <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" ng-click="search()">
+                      搜索
+                  </button>
+               </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="car-list-wrap">
+    <div id="myAlert" class="alert alert-warning" ng-if="pageTotal==0">
+        <a href="" class="close" data-dismiss="alert">&times;</a>
+        <strong>提示！</strong>没有记录。
+    </div>
+    <ul class="car-list">
+        <li class="car-list-item" ng-repeat="obj in list">
+            <table class="car-list-tab">
+                <caption>订单编号：<span ng-bind="obj.OrderCode"></span></caption>
+                <tr>
+                    <td class="car-list-pic">
+                        <a href="home/car">
+                            <img  class="car-list-cover" ng-src="{{obj.HomePicID||DefaultCarIcon}}"/>
+                            <p class="car-list-carflag">车源号：<span ng-bind="obj.CarNo"></span></p>
+                        </a>
+						<span class="renzheng_icon" ng-switch="obj.AppraiserFlag">
+                            <img src="./images/renzheng_icon_3.png" ng-switch-when="3"/>
+                            <img src="./images/renzheng_icon_2.png" ng-switch-when="2"/>
+                            <img src="./images/renzheng_icon_1.png" ng-switch-when="1"/>
+                        </span>
+                    </td>
+                    <td class="car-list-info">
+                        <h4 ng-bind="obj.SeriesName+obj.SpecName"></h4>
+                        <p>成交价：<strong class="text-orange" ng-bind="obj.DealPrice/10000|currency:'￥'"></strong><small class="text-orange">万</small></p>
+                        <p>下单时间：<span class="text-info" ng-bind="obj.OrderTime|DateFormat:'yyyy-MM-dd'"></span>&nbsp;&nbsp;&nbsp;&nbsp;当前状态：<span class="text-success"  ng-bind="obj.OrderFlag|OrderStatus"></span>
+                            <span class="text-success" ng-if="obj.CarFlag==0" ng-bind="obj.CheckFlag|CarCheckStatus"></span></p>
+                        <p>车主信息：<span  class="text-info" ng-bind="obj.UserName"></span>&nbsp;&nbsp;<span  class="text-info" ng-bind="obj.Contact"></span></p>
+                        <p class="car-list-info-span">
+                            <span>行驶里程：<i ng-bind="obj.Mileage"></i> 万公里</span>
+                            <span>购买年限：<i ng-bind="obj.Buyyear|DateFormat:'yyyy-MM-dd'"></i></span>
+                            <span>过户次数：<i ng-bind="obj.TransferNo"></i></span>
+                        </p>
+                    </td>
+                    <td class="car-list-toolbar">
+                        <a href="#/home/prepay?OrderCode={{obj.OrderCode}}"  class="btn-operate btn-profile"  ng-if="obj.OrderFlag==0&&(obj.RevokeFlag!=2&&obj.RevokeFlag!=12)" >预付款支付</a>
+                        <a href="#/home/paid?OrderCode={{obj.OrderCode}}"    class="btn-operate btn-profile"  ng-if="obj.OrderFlag==4&&(obj.RevokeFlag!=2&&obj.RevokeFlag!=12)" >购车款支付</a>
+                        <a href="" class="btn-operate btn-profile"  ng-if="obj.RevokeFlag==0&&obj.OrderFlag<10" ng-click="revokeDialog(obj)">撤单申请</a>
+                        <a href="" class="btn-operate btn-profile"  ng-if="(obj.OrderFlag==10||obj.OrderFlag==257)&&(obj.RevokeFlag!=2&&obj.RevokeFlag!=12)"  ng-click="saleOffDialog(obj)">买家评价</a>
+                    </td>
+                </tr>
+            </table>
+    </ul>
+</div>
+<div pagination  total-items="pageTotal" ng-model="currentPage" ng-change="changePager()"
+     previous-text="上一页" next-text="下一页" max-size="10" ng-show="pageTotal>PAGE_CONF.PageSize"></div>
+

@@ -26,7 +26,7 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         templateUrl:'./admin/issuecar.html',
         controller:'CarController',
         access:1,
-        action:'home'
+        action:'car'
     }).state('home.cargather',{
         url:'/cargather',
         templateUrl:'./admin/cargather.html',
@@ -38,7 +38,31 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         templateUrl:'./admin/editcar.html',
         controller:'CarController',
         access:1,
-        action:'home'
+        action:'car'
+    }).state('home.buyorder',{
+        url:'/order?OUID',
+        templateUrl:'./admin/buyorder.html',
+        controller:'OrderController',
+        access:1,
+        action:'order'
+    }).state('home.sellorder',{
+        url:'/sell?OUID',
+        templateUrl:'./admin/sellorder.html',
+        controller:'OrderController',
+        access:1,
+        action:'order'
+    }).state('home.prepay',{
+        url:'/prepay?OrderCode',
+        templateUrl:'./admin/prepay.html',
+        controller:'OrderController',
+        access:1,
+        action:'order'
+    }).state('home.paid',{
+        url:'/paid?OrderCode',
+        templateUrl:'./admin/paid.html',
+        controller:'OrderController',
+        access:1,
+        action:'order'
     })
 }]).constant('PAGE_CONFIG',{
         PageSize:10,
@@ -46,7 +70,7 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         PageNo:1
     }).run(['$rootScope','$modal','$timeout','$stateParams','$state','$cookieStore','PAGE_CONFIG',function($rootScope,$modal,$timeout,$stateParams,$state,$cookieStore,PAGE_CONFIG){
     $rootScope.USER=$cookieStore.get('AUTH')||null;
-    $rootScope.HOST='http://192.168.0.218';
+    $rootScope.HOST='http://192.168.0.218'//window.location.protocol+window.location.host//'http://192.168.0.218';
     $rootScope.PAGE_CONF=PAGE_CONFIG;
     $rootScope.state=$state;
     $rootScope.stateParams=$stateParams;

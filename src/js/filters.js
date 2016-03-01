@@ -152,4 +152,12 @@ angular.module('chetongxiang.filters', []).
             }
             return "未知"
         }
+    }).filter('ClipPhone', function () {
+
+        return function (phone) {
+            if (phone) {
+                return phone.substr(0, 3) + '****' + phone.substr(7, phone.length);
+            }
+        }
+
     });

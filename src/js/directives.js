@@ -111,4 +111,18 @@ angular.module('chetongxiang.directives',[]).directive('uploader',['UploaderServ
             })
         }
     }
+}).directive('banklist',function(){
+    //车辆颜色
+    return{
+        restrict:'AE',
+        replace:false,
+        templateUrl:'./statics/banklist.html',
+        link:function(scope,element,attr){
+            var elem=$(element).find('.pl-item');
+            elem.bind('click',function(){
+                $(this).addClass('active').siblings().removeClass('active');
+                scope.bank=$(this).data('bank')
+            })
+        }
+    }
 })

@@ -26,8 +26,8 @@
             <div class="col-md-4">
                 <div class="btn-toolbar" role="toolbar">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default" ng-click="getList(0)">在线车源</button>
-                        <button type="button" class="btn btn-default" ng-click="getList(1)">历史车源</button>
+                        <button type="button" ng-class="{true:'btn btn-default active',false:'btn btn-default'}[history==0]" ng-click="getList(0)">在线车源</button>
+                        <button type="button" ng-class="{true:'btn btn-default active',false:'btn btn-default'}[history==1]" ng-click="getList(1)">历史车源</button>
                         <button type="button" class="btn btn-default" ng-click="getList(0)">一键置顶</button>
                     </div>
                 </div>

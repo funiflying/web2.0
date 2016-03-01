@@ -362,16 +362,123 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             })
         }
     }
-}]).controller('DatepickerDemoCtrl', [
-    function () {
+}]).controller('OrderController', ['$rootScope','$scope','$filter','ResourceService', function ($rootScope,$scope,$filter,ResourceService) {
+    $scope.pageTotal=0;
 
-        var vm = this;
-
-        vm.valuationDate = new Date();
-        vm.valuationDatePickerIsOpen = false;
-
-        vm.valuationDatePickerOpen = function () {
-
-            this.valuationDatePickerIsOpen = true;
+    //获取订单
+    $scope.history=0;
+    $scope.getList=function(status){
+        if(status!=undefined){
+            $scope.history=status;
+        }
+        var params = {
+            PageNo: $scope.currentPage||1,
+            PageNum:$rootScope.PAGE_CONF.PageSize,
+            history:$scope.history
         };
+        //买车订单
+        if($rootScope.stateParams.OUID==0){
+            ResourceService.getFunServer('buyorderlist',params,'post').then(function(data){
+                if(data.rows){
+                    $scope.list=data.rows;
+                    $scope.pageTotal=parseInt(data.total) ;
+                }
+                else {
+
+                }
+
+            });
+        }
+        //卖车订单
+        else if($rootScope.stateParams.OUID==1){
+            ResourceService.getFunServer('sellorderlist',params,'post').then(function(data){
+                if(data.rows){
+                    $scope.list=data.rows;
+                    $rootScope.pageTotal=parseInt(data.total);
+                }
+                else {
+
+                }
+
+            })
+        }
+
+
+
+
+
+    };
+    //订单详情
+    $scope.getOrder=function(OrderCode){
+        var params={
+            OrderCode:$rootScope.stateParams.OrderCode
+        };
+        ResourceService.getFunServer('order',params).then(function(data){
+            if(data.status==1){
+                $scope.order=data.data.rows[0];
+                var date= new Date((new Date($scope.order.OrderTime)/1000+(86400*2))*1000)
+                $scope.payTime=date.Format('yyyy年MM月dd日');
+            }
+        })
+
+    };
+    //订单号查询
+    $scope.search=function(){
+        var params={
+            OrderCode:$scope.searchCode
+        };
+    };
+    //获取汇款信息
+    $scope.getpay=function(payTotal){
+        var params={
+            OrderCode:$scope.order.OrderCode,
+            paymount:$scope.PrePayMoney||payTotal
+        }
+        ResourceService.getFunServer('paycode',params,'post').then(function(data){
+            if(data.status==1){
+                $scope.alert={
+                    type:'alert-success',
+                    msg:'汇款信息已成功发送至您'+$filter('ClipPhone')($rootScope.USER.Contact) +'的手机，请注意查收'
+                }
+            }else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:data.message
+                }
+            }
+        })
+    };
+   //提交预付款
+    $scope.prepay=function(){
+        if($scope.bank==undefined||$scope.bank==''||$scope.payForm.$invalid){
+            $scope.alert={
+                type:'alert-danger',
+                msg:'请选择汇款银行'
+            }
+        }else{
+            var params={
+                OrderCode:$rootScope.stateParams.OrderCode,
+                PrePayTime:$scope.PrePayTime,
+                PrePayBank:$scope.bank
+            };
+            ResourceService.getFunServer('prepay',params,'post').then(function(data){
+                if(data.status==1){
+                    $scope.alert={
+                        type:'alert-success',
+                        msg:'提交成功'
+                    };
+                    setTimeout(function(){
+                        $rootScope.state.go('home.buyorder',{OUID:0});
+                    },1500);
+                }else{
+                    $scope.alert={
+                        type:'alert-danger',
+                        msg:data.message
+                    }
+                }
+            });
+        }
+    }
+
+
     }]);

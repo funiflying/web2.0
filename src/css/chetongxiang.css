@@ -621,9 +621,9 @@ a:hover{
     position: relative;
     margin-bottom: 20px;
 }
-.tui-admin-header h2 {
+.tui-admin-title h3 {
     color: #333333;
-    font-size: 26px;
+    font-size: 22px;
     font-weight: bold;
 }
 .tui-admin-title-btn {
@@ -668,12 +668,31 @@ a:hover{
 .car-list-item .car-list-tab{
     width: 850px;;
 }
+.car-list-tab caption{
+    padding-left: 10px;
+    border-bottom: 1px solid #F0F0F0;
+    color: #23527c;
+}
 .car-list-tab .car-list-pic{
     width: 290px;
     position: relative;
 }
 .car-list-tab .car-list-pic img{
    display: block;
+    margin-left: 10px;
+}
+.car-list-pic .car-list-carflag{
+    width: 250px;
+    height: 24px;
+    line-height: 24px;
+    position: absolute;
+    background-color: rgba(0,0,0,0.6);
+    top: 135px;
+    left: 10px;;
+    text-align: center;
+    color: #FFFFFF;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 .car-list-tab .car-list-info{
     width: 400px;
@@ -685,8 +704,8 @@ a:hover{
     text-align: center;
 }
 .car-list-item  .car-list-tab .car-list-cover{
-    width: 270px;
-    height: 160px;
+    width: 250px;
+    height: 150px;
     border-radius: 4px;
 }
 .car-list-info h4{
@@ -706,7 +725,7 @@ a:hover{
 }
 .renzheng_icon {
     position: absolute;
-    top: 5px;
+    top: 10px;
     left: 5px;
     width: auto;
     height: auto;
@@ -737,4 +756,329 @@ a:hover{
     background: url("../images/login-bg.png") no-repeat;
     background-size: cover;
     height: 440px;
+}
+/*银行图标
+*/
+.bank-icbc {
+    background-position: 0 -140px;
+}
+.payment-list .pl-item .bank-logo {
+    margin-left: 25px;
+    display: inline-block;
+}
+.bank-logo {
+    background-image: url("../images/bank-logo.png");
+    background-repeat: no-repeat;
+    display: block;
+    height: 28px;
+    overflow: hidden;
+    text-indent: -9999px;
+    width: 125px;
+}
+.payment-list .pl-item {
+    background-color: #fff;
+    border: 1px solid #d2c7e1;
+    border-radius: 4px;
+    cursor: pointer;
+    float: left;
+    height:32px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 5px 0;
+    position: relative;
+    transition: border-color 0.2s ease 0s;
+    width: 150px;
+    margin-left:0;
+}
+.payment-list .pl-item:hover{
+    border-color: #ff450a;
+}
+.payment-list .pl-item.active{
+    border-color: #ff5903;
+}
+
+.bank-bjrcb {
+    background-position: 0 0;
+}
+.bank-bob {
+    background-position: 0 -28px;
+}
+.bank-cbhb {
+    background-position: 0 -56px;
+}
+.bank-bocd {
+    background-position: 0 -84px;
+}
+.bank-fudian {
+    background-position: 0 -112px;
+}
+.bank-icbc {
+    background-position: 0 -140px;
+}
+.bank-ceb {
+    background-position: 0 -168px;
+}
+.bank-cgb, .bank-gdb {
+    background-position: 0 -196px;
+}
+.bank-hkb {
+    background-position: 0 -224px;
+}
+.bank-hzb {
+    background-position: 0 -252px;
+}
+.bank-hengfeng {
+    background-position: 0 -280px;
+}
+.bank-hxb {
+    background-position: 0 -308px;
+}
+.bank-ccb {
+    background-position: 0 -336px;
+}
+.bank-jsb {
+    background-position: 0 -364px;
+}
+.bank-bcm, .bank-bcom {
+    background-position: 0 -392px;
+}
+.bank-jinghua {
+    background-position: 0 -420px;
+}
+.bank-cmbc {
+    background-position: 0 -448px;
+}
+.bank-njcb {
+    background-position: 0 -476px;
+}
+.bank-nbcb {
+    background-position: 0 -504px;
+}
+.bank-abc {
+    background-position: 0 -532px;
+}
+.bank-pab {
+    background-position: 0 -560px;
+}
+.bank-spdb {
+    background-position: 0 -588px;
+}
+.bank-qdccb {
+    background-position: 0 -616px;
+}
+.bank-srcb {
+    background-position: 0 -644px;
+}
+.bank-bos, .bank-shb {
+    background-position: 0 -672px;
+}
+.bank-sdb {
+    background-position: 0 -700px;
+}
+.bank-wzcb {
+    background-position: 0 -728px;
+}
+.bank-cib {
+    background-position: 0 -756px;
+}
+.bank-cmb {
+    background-position: 0 -784px;
+}
+.bank-zjtl {
+    background-position: 0 -812px;
+}
+.bank-boc {
+    background-position: 0 -840px;
+}
+.bank-post, .bank-psbc {
+    background-position: 0 -868px;
+}
+.bank-citic {
+    background-position: 0 -896px;
+}
+.bank-cqrcb {
+    background-position: 0 -924px;
+}
+.bank-cqcb {
+    background-position: 0 -952px;
+}
+.bank-gzrcc {
+    background-position: 0 -980px;
+}
+.bank-gzcb {
+    background-position: 0 -1008px;
+}
+.bank-hsb {
+    background-position: 0 -1036px;
+}
+.bank-czb {
+    background-position: 0 -1064px;
+}
+.bank-bonc {
+    background-position: 0 -1092px;
+}
+.bank-gdnyb {
+    background-position: 0 -1120px;
+}
+.bank-chab {
+    background-position: 0 -1148px;
+}
+.bank-dylscz {
+    background-position: 0 -1177px;
+}
+.bank-dzb {
+    background-position: 0 -1205px;
+}
+.bank-lwb {
+    background-position: 0 -1904px;
+}
+.bank-qsb {
+    background-position: 0 -1260px;
+}
+.bank-rzb {
+    background-position: 0 -1289px;
+}
+.bank-tab {
+    background-position: 0 -1317px;
+}
+.bank-lsb {
+    background-position: 0 -1345px;
+}
+.bank-wfccb {
+    background-position: 0 -1373px;
+}
+.bank-ordos {
+    background-position: 0 -1401px;
+}
+.bank-boxm {
+    background-position: 0 -1430px;
+}
+.bank-bolj {
+    background-position: 0 -1456px;
+}
+.bank-jzcb {
+    background-position: 0 -1484px;
+}
+.bank-jjccb {
+    background-position: 0 -1512px;
+}
+.bank-cjccb {
+    background-position: 0 -1568px;
+}
+.bank-boly {
+    background-position: 0 -1596px;
+}
+.bank-hubnx {
+    background-position: 0 -1623px;
+}
+.bank-bhrcb {
+    background-position: 0 -1708px;
+}
+.bank-hbnx {
+    background-position: 0 -1794px;
+}
+.bank-gsnx {
+    background-position: 0 -1652px;
+}
+.bank-bsb {
+    background-position: 0 -1820px;
+}
+.bank-shxnx {
+    background-position: 0 -1764px;
+}
+.bank-jsnx {
+    background-position: 0 -1681px;
+}
+.bank-whrcb {
+    background-position: 0 -1736px;
+}
+.bank-jzb {
+    background-position: 0 -1876px;
+}
+.bank-drcb {
+    background-position: 0 -1848px;
+}
+.bank-nmgnx {
+    background-position: 0 -1959px;
+}
+.bank-pzhccb {
+    background-position: 0 -1989px;
+}
+.bank-egb {
+    background-position: 0 -1932px;
+}
+.bank-dyccb {
+    background-position: 0 -2045px;
+}
+.bank-whccb {
+    background-position: 0 -2155px;
+}
+.bank-jlnx {
+    background-position: 0 -2073px;
+}
+.bank-sxnx {
+    background-position: 0 -2128px;
+}
+.bank-bojn {
+    background-position: 0 -2100px;
+}
+.bank-bozz {
+    background-position: 0 -2214px;
+}
+.bank-ytcb {
+    background-position: 0 -2184px;
+}
+.bank-bobd {
+    background-position: 0 -2016px;
+}
+.bank-scnx {
+    background-position: 0 -2324px;
+}
+.bank-hnnx {
+    background-position: 0 -2379px;
+}
+.bank-bogy {
+    background-position: 0 -2240px;
+}
+.bank-lzcb {
+    background-position: 0 -2295px;
+}
+.bank-bogl {
+    background-position: 0 -2268px;
+}
+.bank-zjtlcb {
+    background-position: 0 -2353px;
+}
+.bank-boyk {
+    background-position: 0 -2548px;
+}
+.bank-hunnx {
+    background-position: 0 -2576px;
+}
+.bank-lnnx {
+    background-position: 0 -2408px;
+}
+.bank-shbank {
+    background-position: 0 -2464px;
+}
+.bank-lycb {
+    background-position: 0 -2436px;
+}
+.bank-zjkccb {
+    background-position: 0 -2492px;
+}
+.bank-boxia {
+    background-position: 0 -2521px;
+}
+.bank-gznx {
+    background-position: 0 -2604px;
+}
+.bank-czcb {
+    background-position: 0 -2688px;
+}
+.bank-tjrcb {
+    background-position: 0 -2660px;
+}
+.bank-hbcl {
+    background-position: 0 -2632px;
 }
