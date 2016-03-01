@@ -55,7 +55,7 @@ angular.module('chetongxiang.filters', []).
             return descr;
         }
     }).filter('CarStatus', function() {
-        //
+        //车辆状态
         return function(status) {
             status = status + ""
             var descr = "";
@@ -80,7 +80,7 @@ angular.module('chetongxiang.filters', []).
             return descr;
         }
     }).filter('CarCheckStatus', function() {
-        //车辆状态
+        //车辆审核状态
         return function(status) {
             status = status + ""
             var descr = "";
@@ -145,19 +145,53 @@ angular.module('chetongxiang.filters', []).
             return descr;
         }
     }).filter('DateFormat',function(){
+        //格式化时间日期
         return function (date,format){
             if(date){
+                date=date.replace(/-/gi,'/');
                 var d=new Date(date);
                 return d.Format(format);
             }
             return "未知"
         }
     }).filter('ClipPhone', function () {
-
+       //格式化电话号码
         return function (phone) {
             if (phone) {
                 return phone.substr(0, 3) + '****' + phone.substr(7, phone.length);
             }
+        }
+
+    }).filter('OrderRevoke', function () {
+        //撤单状态
+        return function (status) {
+            status = status + "";
+            var descr = "";
+            switch (status) {
+                case "1":
+                    descr = "(买方撤单申请)";
+                    break;
+                case "2":
+                    descr = "(已撤单)";
+                    break;
+                case "3":
+                    descr = "(撤单不通过)";
+                    break;
+                case "11":
+                    descr = "(车主撤单)";
+                    break;
+                case "12":
+                    descr = "(已撤单)";
+                    break;
+                case "13":
+                    descr = "(撤单不通过)";
+                    break;
+                default:
+                    descr = "正常交易中";
+                    break;
+
+            }
+            return descr;
         }
 
     });

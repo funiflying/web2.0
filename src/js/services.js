@@ -55,13 +55,13 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                     surl='/order/CarOwnerFeedback';
                     break;
                 case 'buyrevoke'://买家撤单
-                    surl='/order/UserRevokeRequest';
+                    surl='/order/UserRevokeRequest';//OrderCode,RevokeMemo
                     break;
                 case 'sellrevoke'://卖家撤单
-                    surl='/order/CarOwnerRevokeRequest';
+                    surl='/order/CarOwnerRevokeRequest';//OrderCode,RevokeMemo
                     break;
                 case 'amount'://修改成交价
-                    surl='/order/CarOwnerUpdateOrder';
+                    surl='/order/CarOwnerUpdateOrder';//orderCode,dealPrice
                     break;
                 case 'login'://登录
                     surl='/account/OutAndAllanceLogin';
@@ -224,34 +224,6 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
         },
         removeStorage:function(name){
             localStorage.removeItem(name)
-        },
-        setSearchCarHistory:function(stateParams){
-            if(!stateParams.SearchValue){
-                return;
-            }
-            var SEARCH_CAR_HISTORY=this.getStorage('SEARCH_CAR_HISTORY')||{DATA:[]};
-            var count=0;
-            if(SEARCH_CAR_HISTORY.DATA.length==0){
-                SEARCH_CAR_HISTORY.DATA.push(stateParams);
-            }
-            else{
-                angular.forEach(SEARCH_CAR_HISTORY.DATA,function(obj,index){
-                    if((stateParams.SeriesID&&obj.BrandID==stateParams.BrandID&&obj.SeriesID==stateParams.SeriesID)||(!stateParams.SeriesID&&obj.BrandID==stateParams.BrandID)){
-                        count++;
-                    }
-                })
-                if(count==0){
-                    SEARCH_CAR_HISTORY.DATA.push(stateParams)
-                }
-            }
-            this.setStorage('SEARCH_CAR_HISTORY',SEARCH_CAR_HISTORY);
-        },
-        getSearchCarHistory:function(){
-            var SEARCH_CAR_HISTORY=this.getStorage('SEARCH_CAR_HISTORY')||{DATA:[]};
-            return SEARCH_CAR_HISTORY.DATA
-        },
-        clearSearchCarHistory:function(){
-            this.removeStorage('SEARCH_CAR_HISTORY')
         }
     }
 }).factory('UploaderService',['$http','$rootScope',function($http,$rootScope){
@@ -276,7 +248,6 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
             return $http.post($rootScope.HOST+'/common/file/UpLoadImgByBase64',data)
         }
     }
-
 }]).factory('CarService',['$http','$rootScope',function($http,$rootScope){
     return {
         release:function(data){
@@ -293,8 +264,30 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
         },
         OrderPostTestReport:function(data){
             return $http.post($rootScope.HOST+'/Order/OrderPostTestReport',data)
+        },
+        serviceFees:function(data){
+            return $http.post($rootScope.HOST+'/order/GetServiceFee',data);
         }
-
     }
-
+}]).factory('AuthService',['$http','$rootScope','$cookieStore','ResourceService',function($http,$rootScope,$cookieStore,ResourceService){
+    return {
+        Login:function(data){
+            $rootScope.USER=data;
+            $cookieStore.put('AUTH',data);
+        },
+        IsAuthenticated:function(){
+          if(!!$cookieStore.get('AUTH')){
+              $rootScope.USER=$cookieStore.get('AUTH');
+              return true;
+          }else{
+              $rootScope.USER=null;
+              return false;
+          }
+        },
+        LoginOut:function(){
+            $cookieStore.remove('AUTH');
+            $rootScope.USER=null;
+            $rootScope.state.go('login');
+        }
+    }
 }])

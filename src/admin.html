@@ -20,6 +20,7 @@
         document.createElement('ng-pluralize');
         document.createElement('ng-view');
         document.createElement('uploader');
+        document.createElement('header');
         // Optionally these for CSS
         document.createElement('ng:include');
         document.createElement('ng:pluralize');
@@ -31,7 +32,7 @@
 </head>
 <body>
 <div class="tui-nav">
-    <div class="tui-nav-top">
+    <div class="tui-nav-top" ng-if="USER.UserName">
         <div class="container">
            欢迎您 <a class="text-orange" ng-bind="USER.UserName||USER.Contact"></a>
         </div>

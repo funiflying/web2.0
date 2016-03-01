@@ -158,7 +158,7 @@ a:hover{
     padding: 30px 24px 16px;
 }
 .login-form .options {
-    min-height: 90px;
+    min-height: 110px;
 }
 .login-form .options a, .login-form .options label {
     font-size: 14px;
@@ -319,7 +319,7 @@ a:hover{
     position: relative;
 }
 .summary-nav .nav-list .nav-list-item.active .list-item-link, .summary-nav .nav-list .nav-list-item.active .list-item-link:focus, .summary-nav .nav-list .nav-list-item.active .list-item-link:hover {
-    color: #00BC8D;
+    color: #ff5903;
 }
 .summary-nav .nav-list .list-item-link:focus, .summary-nav .nav-list .list-item-link:hover {
     background-color: transparent;
@@ -331,6 +331,15 @@ a:hover{
     color: #666;
     font-size: 16px;
     outline: 0;
+}
+.summary-nav .nav-list .nav-list-item.active:after {
+    display: block;
+    height: 50px;
+    content: ' ';
+    border-left: 3px solid #ff5903;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 /*
 *车身颜色
@@ -745,8 +754,8 @@ a:hover{
     border-bottom-right-radius: 4px;
 }
 .car-list-tab .car-list-info{
-    width: 400px;
-    border-right: 2px solid #FFFFFF;
+    width: 420px;
+    border-right: 1px solid #f5f5f5;
     padding-right: 10px;
 }
 .car-list-tab .car-list-toolbar{
@@ -806,6 +815,216 @@ a:hover{
     background: url("../images/login-bg.png") no-repeat;
     background-size: cover;
     height: 440px;
+}
+/*
+ * 订单详情
+ */
+.tui-orderdetails-consumer {
+    background: #f5f5f5;
+    border: 1px solid #dedede;
+    line-height: 30px;
+    padding: 0 10px 10px 10px;
+}
+
+.tui-orderdetails-consumer-title {
+    height: 30px;
+    padding-left: 10px;
+    font-size: 16px;
+    color: #333333;
+}
+
+.tui-orderdetails-consumer-info {
+    background: #fff;
+    padding: 10px;
+    border-bottom: 1px solid #dedede;
+}
+
+.tui-orderdetails-consumer-info h3 {
+    background: #fff;
+    line-height: 30px;
+    color: #333333;
+}
+
+.tui-orderdetails-line {
+    height: 0;
+    border-bottom: 1px solid #dedede;
+    margin: 20px 0 30px 0;
+    text-align: center;
+}
+
+.tui-orderdetails-line:after {
+    height: 0;
+    width: 0;
+    display: inline-block;
+    content: "";
+    border: 20px solid #fff;
+    border-top: 20px solid #dedede;
+    margin: 0 auto
+}
+
+.tui-orderdetails {
+    padding: 50px 0;
+}
+
+.tui-orderdetails-pro {
+    width: 250px;
+    position: relative;
+}
+
+.tui-orderdetails-pro>li {
+    height: 80px;
+    line-height: 80px;
+    border-right: 2px solid #DEDEDE;
+    position: relative;
+    color: #666;
+    font-size: 14px;
+    text-align: right;
+    padding-right: 30px;
+}
+
+.tui-orderdetails-pro:before {
+    content: "购车流程";
+    color: #ff6a00;
+    font-size: 24px;
+    line-height: 24px;
+    border: 1px solid #DEDEDE;
+    display: inline-block;
+    border-radius: 4px;
+    padding: 5px 10px;
+    position: absolute;
+    top: -35px;
+    right: -55px;
+}
+
+.tui-orderdetails-pro:after {
+    content: "";
+    color: #ff6a00;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #DEDEDE;
+    display: inline-block;
+    padding: 5px 10px;
+    position: absolute;
+    bottom: -32px;
+    right: -16px;
+}
+
+.tui-orderdetails-unfilled,
+.tui-orderdetails-underway,
+.tui-orderdetails-complete {
+    height: 80px;
+    line-height: 80px;
+    border-right: 2px solid #DEDEDE;
+    position: relative;
+    color: #333333;
+    font-size: 16px;
+    text-align: right;
+    padding-right: 0px;
+}
+
+.tui-orderdetails-descr>li {
+    position: relative;
+    color: #aaaaaa;
+    font-size: 12px;
+    text-align: left;
+}
+
+.tui-orderdetails-on {
+    color: #ff6a00 !important;
+}
+
+.tui-orderdetails-unfilled:after {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    content: "";
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    margin-top: -8px;
+    color: #ff6a00;
+}
+
+.tui-orderdetails-underway:after {
+    width: 16px;
+    height: 16px;
+    content: url(../images/caricon.png);
+    position: absolute;
+    right: 2px;
+    top: 12px;
+    color: #ff6a00;
+}
+
+.tui-orderdetails-complete:after {
+    width: 16px;
+    height: 16px;
+    content: url(../images/TICK.png);
+    position: absolute;
+    right: -8px;
+    top: 2px;
+}
+
+.tui-orderdetails-orderdescr {
+    width: 500px;
+    line-height: 24px;
+    /*background: #ff8c3b;*/
+    border-radius: 4px;
+    border: 1px solid #DEDEDE;
+    position: relative;
+    color: #666;
+    font-size: 12px;
+    margin: 5px 0;
+}
+
+.tui-orderdetails-orderdescr:before {
+    width: 0;
+    height: 0;
+    display: block;
+    content: "";
+    position: absolute;
+    left: -23px;
+    border: 10px solid #fff;
+    border-right: 12px solid #DEDEDE;
+    top: 15px;
+}
+.tui-orderdetails-table{
+    border: 0;
+    width: auto;
+}
+.tui-orderdetails-table th{
+    border: 0;
+    width: 100px;
+    text-align: right;
+}
+.tui-orderdetails-table caption{
+    color: #333333;
+    font-size: 14px;
+    padding: 0 0 0 20px;
+    min-width: 200px;
+}
+
+/*
+*评价
+*/
+
+/*.pj-container {
+    line-height: 1.1;
+    padding: 5px 15px;
+}*/
+.pj-star-icon.active {
+    background-position: 0 0;
+    background-size: 52px 17px;
+}
+.pj-star-icon {
+    display: inline-block;
+    width: 22px;
+    height: 17px;
+    background: url(../images/icon_star3.png) -33px 0 no-repeat;
+    background-size: 52px 17px;
+    text-indent: -9999px;
+    vertical-align: -2px;
 }
 /*银行图标
 */
@@ -1141,6 +1360,7 @@ a:hover{
     background: #FFFFFF;
     min-height: 1120px;
     padding-bottom: 30px;
+    border: 1px solid #ebebeb
 }
 .account-summary .simple-summary {
     margin: 0;

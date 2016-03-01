@@ -1,4 +1,4 @@
-
+<div class="content-wrapper">
 <div class="tui-admin-title" ng-init="getList()">
     <h3>卖车订单</h3>
 </div>
@@ -48,7 +48,6 @@
                             <img  class="car-list-cover" ng-src="{{obj.HomePicID||DefaultCarIcon}}"/>
                             <p class="car-list-carflag">车源号：<span ng-bind="obj.CarNo"></span></p>
                         </a>
-
 						<span class="renzheng_icon" ng-switch="obj.AppraiserFlag">
                             <img src="./images/renzheng_icon_3.png" ng-switch-when="3"/>
                             <img src="./images/renzheng_icon_2.png" ng-switch-when="2"/>
@@ -59,8 +58,8 @@
                         <h4 ng-bind="obj.SeriesName+obj.SpecName"></h4>
                         <p>成交价：<strong class="text-orange" ng-bind="obj.DealPrice/10000|currency:'￥'"></strong><small class="text-orange">万</small></p>
                         <p>下单时间：<span class="text-info" ng-bind="obj.OrderTime|DateFormat:'yyyy-MM-dd'"></span>&nbsp;&nbsp;&nbsp;&nbsp;当前状态：<span class="text-success"  ng-bind="obj.OrderFlag|OrderStatus"></span>
-                            <span class="text-success" ng-if="obj.CarFlag==0" ng-bind="obj.CheckFlag|CarCheckStatus"></span></p>
-                        <p>买家信息：<span class="text-info" ng-bind="obj.UserName+'--'+obj.Contact"></span></p>
+                            <span class="text-danger" ng-if="obj.RevokeFlag!=0" ng-bind="obj.RevokeFlag|OrderRevoke"></span></p>
+                        <p>买家信息：<span  class="text-info" ng-bind="obj.UserName"></span>&nbsp;&nbsp;<span  class="text-info" ng-bind="obj.Contact"></span></p>
                         <p class="car-list-info-span">
                             <span>行驶里程：<i ng-bind="obj.Mileage"></i> 万公里</span>
                             <span>购买年限：<i ng-bind="obj.Buyyear|DateFormat:'yyyy-MM-dd'"></i></span>
@@ -68,12 +67,10 @@
                         </p>
                     </td>
                     <td class="car-list-toolbar">
-                        <a href="" class="btn-operate btn-profile" ng-if="obj.CarFlag!=254&&obj.CarFlag!=255" ng-click="saleOffDialog(obj)">下架车源</a>
-                        <a href="#/home/editcar?CarNo={{obj.CarNo}}" class="btn-operate btn-profile" ng-if="obj.CarFlag==0">编辑车源</a>
-                        <a href="" class="btn-operate btn-profile" ng-if="obj.ReportCount>0&&obj.CarFlag!=254&&obj.CarFlag!=255" >检测报告</a>
-                        <a href="" class="btn-operate btn-profile" ng-if="obj.ReportCount==0&&( user.IdentityTag==2 || user.IdentityTag==3)&&obj.CarFlag!=254&&obj.CarFlag!=254&&obj.CarFlag!=255" >填检测报告</a>
-                        <a href="" class="btn-operate btn-profile" target="_blank" >查看详情</a>
-                        <a href="" class="btn-operate btn-profile" ng-if="obj.CarFlag==254" ng-click="republish(obj.CarNo)">快速发布</a>
+                        <a href="" ng-if="obj.OrderFlag==0&&(obj.RevokeFlag!=2&&obj.RevokeFlag!=12)" class="btn-operate btn-profile" ng-click="openPirceDialog(obj)">修改成交价</a>
+                        <a href="" class="btn-operate btn-profile"  ng-if="obj.RevokeFlag==0&&obj.OrderFlag<10" ng-click="calcelDialog(obj)">撤单申请</a>
+                        <a  class="btn-operate btn-profile"  href="#/home/selleval?OrderCode={{obj.OrderCode}}"   ng-if="(obj.OrderFlag==10||obj.OrderFlag==256)&&obj.CarOwnerGiveScore==0&&(obj.RevokeFlag!=2&&obj.RevokeFlag!=12)">卖家评价</a>
+                        <a href="#/home/item?OrderCode={{obj.OrderCode}}"  class="btn-operate btn-profile"  >订单详情</a>
                     </td>
                 </tr>
             </table>
@@ -82,3 +79,4 @@
 <div pagination  total-items="pageTotal" ng-model="currentPage" ng-change="changePager()"
      previous-text="上一页" next-text="下一页" max-size="10" ng-show="pageTotal>PAGE_CONF.PageSize"></div>
 
+</div>

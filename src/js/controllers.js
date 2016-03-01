@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/2/18.
  */
-angular.module('chetongxiang.controllers',[]).controller('LoginController',['$rootScope','$scope','$cookieStore','ResourceService',function($rootScope,$scope,$cookieStore,ResourceService){
+angular.module('chetongxiang.controllers',[]).controller('LoginController',['$rootScope','$scope','$cookieStore','ResourceService','AuthService',function($rootScope,$scope,$cookieStore,ResourceService,AuthService){
    //本地用户名
     $scope.account={
         Account:$cookieStore.get('NAME')||null
@@ -12,15 +12,13 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         if($scope.loginForm.$valid){
             ResourceService.getFunServer('login',$scope.account,'post').then(function(data){
                 if(data.status){
-                    console.log(data.data);
-                    $rootScope.USER=data.data;
-                    $cookieStore.put('AUTH',data.data);
+                    AuthService.Login(data.data);
                     if(dialog){
                         //弹出层登录
                         $scope.cancel();
                     }
                     else{
-                        $rootScope.state.go('home');
+                        $rootScope.state.go('home.main');
                     }
                     //记住用户名
                     if($scope.remember){
@@ -41,10 +39,10 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     };
     //退出
     $scope.loginOff=function(){
-        ResourceService.getFunServer('loginout').then(function(data){
+        ResourceService.getFunServer('loginout',{}).then(function(data){
+            AuthService.LoginOut();
             if(data.status==1){
-                $rootScope.state.go('login');
-                $cookieStore.remove('AUTH');
+                AuthService.LoginOut();
             }
 
         });
@@ -339,7 +337,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
    //修改品牌
     $scope.editabled=function(){
         $scope.isEdit=!$scope.isEdit;
-    }
+    };
    //修改车源
     $scope.editcar=function(){
         if($scope.carissue.$valid){
@@ -362,11 +360,10 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             })
         }
     }
-}]).controller('OrderController', ['$rootScope','$scope','$filter','ResourceService', function ($rootScope,$scope,$filter,ResourceService) {
+}]).controller('OrderController', ['$rootScope','$scope','$filter','ResourceService','CarService', function ($rootScope,$scope,$filter,ResourceService,CarService) {
     $scope.pageTotal=0;
-
-    //获取订单
     $scope.history=0;
+    //获取订单
     $scope.getList=function(status){
         if(status!=undefined){
             $scope.history=status;
@@ -394,7 +391,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             ResourceService.getFunServer('sellorderlist',params,'post').then(function(data){
                 if(data.rows){
                     $scope.list=data.rows;
-                    $rootScope.pageTotal=parseInt(data.total);
+                    $scope.pageTotal=parseInt(data.total);
                 }
                 else {
 
@@ -402,11 +399,6 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
 
             })
         }
-
-
-
-
-
     };
     //订单详情
     $scope.getOrder=function(OrderCode){
@@ -432,7 +424,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     $scope.getpay=function(payTotal){
         var params={
             OrderCode:$scope.order.OrderCode,
-            paymount:$scope.PrePayMoney||payTotal
+            paymount:payTotal||$scope.PrePayMoney
         }
         ResourceService.getFunServer('paycode',params,'post').then(function(data){
             if(data.status==1){
@@ -478,7 +470,248 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                 }
             });
         }
-    }
+    };
+    //服务费
+    $scope.getserviceFees=function(){
+           var params={
+               OrderCode:$rootScope.stateParams.OrderCode
+           };
+        CarService.serviceFees(params).success(function(data){
+           $scope.serviceFees=data;
+           $scope.getOrder();
+           $scope.getCouponList();
+        });
+    };
+    //优惠券列表
+    $scope.getCouponList=function(){
+        var params={
+            PageNo:1,
+            PageSize:100
+        };
+        ResourceService.getFunServer('discount',params).then(function(data){
+            if(data.status==1){
+                $scope.discountlist=data.data;
+            }
+        })
+    };
+    //使用优惠券结算
+    $scope.usageDicount=function(){
+        var params={
+            OrderCode:$rootScope.stateParams.OrderCode,
+            PolicyCodes:$scope.discount
+        };
+        if(params.PolicyCodes&&params.PolicyCodes.length>0){
+           ResourceService.getFunServer('discountusage',params).then(function(data){
+               if(data.status==1){
+                   $scope.paid();
+               }else{
+                   $scope.alert={
+                       type:'alert-danger',
+                       msg:data.message
+                   }
+               }
+           })
+        }else{
+            $scope.paid();
+        }
+    };
+    //提交全款
+    $scope.paid=function(){
+        var params={
+            OrderCode:$rootScope.stateParams.OrderCode,
+            AllMoneyBank:$scope.bank,
+            AllMoneyTime:$scope.AllMoneyTime
+        };
+        if($scope.bank==undefined||$scope.bank==''||$scope.payForm.$invalid){
+            $scope.alert={
+                type:'alert-danger',
+                msg:'请选择汇款银行'
+            }
+        }else{
+            ResourceService.getFunServer('fullpay',params).then(function(data){
+                if(data.status==1){
+                    $scope.alert={
+                        type:'alert-success',
+                        msg:'提交成功'
+                    };
+                    setTimeout(function(){
+                        $rootScope.state.go('home.buyorder',{OUID:0});
+                    },1500);
+                }else{
+                    $scope.alert={
+                        type:'alert-danger',
+                        msg:data.message
+                    }
+                }
+            });
+        }
+    };
+    //申请撤单
+    $scope.calcelDialog=function(obj){
+        $scope.calcel_order=obj;
+        $rootScope.dialog('./admin/calcelorder.html','OrderController',$scope);
+    };
+    //撤单
+    $scope.cancelOrder=function(){
+        var params={
+            OrderCode:$scope.calcel_order.OrderCode,
+            RevokeMemo: $scope.RevokeMemo
+        };
+        if($rootScope.stateParams.OUID==0){
+            ResourceService.getFunServer('buyrevoke',params).then(function(data){
+                if(data.status==1){
+                    $scope.alert={
+                        type:'alert-success',
+                        msg:'提交成功'
+                    };
+                    setTimeout(function(){
+                        $scope.cancel();
+                        window.location.reload();
+                    },1500)
+                }
+                else{
+                    $scope.alert={
+                        type:'alert-danger',
+                        msg:data.message
+                    }
+                }
+            })
+        }
+        else if($rootScope.stateParams.OUID==1){
+            ResourceService.getFunServer('sellrevoke',params).then(function(data){
+                if(data.status==1){
+                    $scope.alert={
+                        type:'alert-success',
+                        msg:'提交成功'
+                    };
+                    setTimeout(function(){
+                        $scope.cancel();
+                        window.location.reload();
+                    },1500)
+                }
+                else{
+                    $scope.alert={
+                        type:'alert-danger',
+                        msg:data.message
+                    }
+                }
+            })
+        }
+    };
+    //修改成交价
+    $scope.openPirceDialog=function(obj){
+        $scope.calcel_order=obj;
+        $rootScope.dialog('./admin/orderprice.html','OrderController',$scope);
+    };
+    //修改成交价
+    $scope.price=function(){
+        var params={
+            orderCode: $scope.calcel_order.OrderCode,
+            dealPrice: $scope.DealPrice
+        };
+        ResourceService.getFunServer('amount',params).then(function(data){
+            if(data.status==1){
+                $scope.alert={
+                    type:'alert-success',
+                    msg:'修改成功'
+                };
+                setTimeout(function(){
+                    $scope.cancel();
+                    window.location.reload();
+                },1500)
+            }
+            else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:data.message
+                }
+            }
+        })
+    };
+    //买家评价
+    $scope.buyEvaluate=function(){
+        var params={
+            OrderCode: $rootScope.stateParams.OrderCode,
+            UserGiveScore:$scope.UserGiveScore||1,
+            UserGiveShipping:$scope.UserGiveShipping||1,
+            UserGiveTest:$scope.UserGiveTest||1,
+            UserGiveTestTarget:$scope.UserGiveTestTarget||1,
+            UserFeedback: $scope.UserFeedback
+        };
+        ResourceService.getFunServer('buyfeedback',params).then(function(data){
+            if(data.status==1){
+                $scope.alert={
+                    type:'alert-success',
+                    msg:'评价成功'
+                };
+                setTimeout(function(){
+                    $scope.cancel();
+                    window.location.reload();
+                },1500)
+            }
+            else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:data.message
+                }
+            }
+        })
+    };
+    //买家评价
+    $scope.buyEvaluate=function(){
+        var params={
+            OrderCode: $rootScope.stateParams.OrderCode,
+            UserGiveScore:$scope.UserGiveScore||1,
+            UserGiveShipping:$scope.UserGiveShipping||1,
+            UserGiveTest:$scope.UserGiveTest||1,
+            UserGiveTestTarget:$scope.UserGiveTestTarget||1,
+            UserFeedback: $scope.UserFeedback
+        };
+        ResourceService.getFunServer('buyfeedback',params).then(function(data){
+            if(data.status==1){
+                $scope.alert={
+                    type:'alert-success',
+                    msg:'评价成功'
+                };
+                setTimeout(function(){
+                    $scope.cancel();
+                    window.location.reload();
+                },1500)
+            }
+            else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:data.message
+                }
+            }
+        })
+    };
+    //卖家评价
+    $scope.sellEvaluate=function(){
+        var params={
+            OrderCode: $rootScope.stateParams.OrderCode,
+            CarOwnerGiveScore:$scope.CarOwnerGiveScore||1,
+            CarOwnerMemo: $scope.CarOwnerMemo
+        };
+        ResourceService.getFunServer('sellfeedback',params).then(function(data){
+            if(data.status==1){
+                $scope.alert={
+                    type:'alert-success',
+                    msg:'评价成功'
+                };
+                setTimeout(function(){
+                    $scope.cancel();
+                    window.location.reload();
+                },1500)
+            }
+            else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:data.message
+                }
+            }
+        })
+    };
 }]).controller('AccountController', ['$rootScope','$scope',
     function ($rootScope,$scope) {
 

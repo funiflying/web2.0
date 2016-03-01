@@ -213,7 +213,7 @@ angular.module('chetongxiang.directives',[]).directive('uploader',['UploaderServ
         }
     }
 }).directive('banklist',function(){
-    //车辆颜色
+    //银行列表
     return {
         restrict: 'AE',
         replace: false,
@@ -222,7 +222,7 @@ angular.module('chetongxiang.directives',[]).directive('uploader',['UploaderServ
             var elem = $(element).find('.pl-item');
             elem.bind('click', function () {
                 $(this).addClass('active').siblings().removeClass('active');
-                scope.bank = $(this).data('bank')
+                scope.bank = $(this).data('bank');
             })
         }
     }
@@ -242,4 +242,66 @@ angular.module('chetongxiang.directives',[]).directive('uploader',['UploaderServ
             $(element).tooltip(option);
         }
     }
-})
+}).directive('tuiDiscout',function(){
+    return {
+        restrict: 'EA',
+        link: function(scope, elem, attrs) {
+            var element=elem[0];
+            elem.find("input[type=checkbox]").bind('click',function(){
+                var checked=$("input[name=discount]");
+                var arr=[];
+                var val=0;
+                angular.forEach(checked,function(obj,index){
+                    if(obj.checked){
+                        arr.push(obj.id);
+                        val+=parseFloat(obj.value);
+
+                    }
+                });
+                if(val>scope.serviceFees){
+                    $("#Msg").text('您抵用券的总金额(￥'+val+')已超过可抵服务费(￥'+scope.serviceFees+')的金额');
+                    val=scope.serviceFees;
+                }
+                else{
+                    $("#Msg").text('');
+                }
+                $("#discountCount").text("￥"+val);
+                $(".needpay").text("￥"+parseFloat(scope.order.PayTotal-val));
+                scope.order.PayTotal=scope.order.PayTotal-val;
+                scope.$parent.discount=arr;
+            })
+        },
+        replace: false,
+        templateUrl:''
+    }
+}).directive('evaluate',['$rootScope',function($rootScope){
+    //评价
+    return{
+        restrict:'EA',
+        replace:false,
+        template:'<div class="pj-container"><span class="pj-star-icon active" val="1" >星星</span>'+
+        '<span class="pj-star-icon" val="2">星星</span>'+
+        '<span class="pj-star-icon" val="3">星星</span>'+
+        '<span class="pj-star-icon" val="4">星星</span>'+
+        '<span class="pj-star-icon" val="5">星星</span></div>',
+        link:function(scope,element,attr){
+            var elem=$(element[0]).find('.pj-star-icon')
+            elem.bind('click',function(){
+                var val=$(this).attr('val')
+                var arr= $(this).parent('.pj-container').find('.pj-star-icon');
+                var name=$(this).parent('.pj-container').parent('div').attr('data-name');
+                scope[name]=val;
+                console.log(scope)
+                arr.each(function(index,obj){
+                    var i=$(obj).attr('val');
+                    if(i<val||i==val){
+                        $(this).addClass('active')
+                    }
+                    else {
+                        $(this).removeClass('active')
+                    }
+                })
+            })
+        }
+    }
+}]);

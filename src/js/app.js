@@ -15,40 +15,46 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         url:'/home',
         templateUrl:'./admin/home.html',
         access:1,
-        action:'home',
+        action:'main'
     }).state('home.main',{
         url:'/main',
         templateUrl:'./admin/main.html',
         controller:'HomeController',
         access:1,
-        action:'home'
+        action:'main'
     }).state('home.issuecar',{
         url:'/issuecar',
         templateUrl:'./admin/issuecar.html',
         controller:'CarController',
         access:1,
-        action:'car'
+        action:'issuecar'
     }).state('home.cargather',{
         url:'/cargather',
         templateUrl:'./admin/cargather.html',
         controller:'CarController',
         access:1,
-        action:'home'
+        action:'cargather'
     }).state('home.editcar',{
         url:'/editcar?CarNo',
         templateUrl:'./admin/editcar.html',
         controller:'CarController',
         access:1,
-        action:'car'
+        action:'cargather'
     }).state('home.buyorder',{
         url:'/order?OUID',
         templateUrl:'./admin/buyorder.html',
         controller:'OrderController',
         access:1,
-        action:'order'
+        action:'buyorder'
     }).state('home.sellorder',{
         url:'/sell?OUID',
         templateUrl:'./admin/sellorder.html',
+        controller:'OrderController',
+        access:1,
+        action:'sellorder'
+    }).state('home.detail',{
+        url:'/item?OrderCode',
+        templateUrl:'./admin/orderdetail.html',
         controller:'OrderController',
         access:1,
         action:'order'
@@ -57,33 +63,47 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         templateUrl:'./admin/prepay.html',
         controller:'OrderController',
         access:1,
-        action:'order'
+        action:'buyorder'
     }).state('home.paid',{
         url:'/paid?OrderCode',
         templateUrl:'./admin/paid.html',
         controller:'OrderController',
         access:1,
-        action:'order',
-        action:'home'
+        action:'buyorder',
+    }).state('home.buyeval',{
+        url:'/buyeval?OrderCode',
+        templateUrl:'./admin/buyevaluate.html',
+        controller:'OrderController',
+        access:1,
+        action:'buyorder',
+    }).state('home.selleval',{
+        url:'/selleval?OrderCode',
+        templateUrl:'./admin/sellevaluate.html',
+        controller:'OrderController',
+        access:1,
+        action:'sellorder'
     }).state('home.account',{
         url:'/account',
         templateUrl:'./admin/account.html',
         controller:'AccountController',
         access:1,
-        action:'home'
-    })
+        action:'account'
+    });
+     $httpProvider.interceptors.push('myInterceptor');
 }]).constant('PAGE_CONFIG',{
         PageSize:10,
         PageTotal:0,
         PageNo:1
-    }).run(['$rootScope','$modal','$timeout','$stateParams','$state','$cookieStore','PAGE_CONFIG',function($rootScope,$modal,$timeout,$stateParams,$state,$cookieStore,PAGE_CONFIG){
+    }).run(['$rootScope','$modal','$timeout','$stateParams','$state','$cookieStore','PAGE_CONFIG','AuthService',function($rootScope,$modal,$timeout,$stateParams,$state,$cookieStore,PAGE_CONFIG,AuthService){
     $rootScope.USER=$cookieStore.get('AUTH')||null;
     $rootScope.HOST='http://192.168.0.218'//window.location.protocol+window.location.host//'http://192.168.0.218';
     $rootScope.PAGE_CONF=PAGE_CONFIG;
     $rootScope.state=$state;
     $rootScope.stateParams=$stateParams;
     //默认车图
-    $rootScope.DefaultCarIcon='./images/default-avator.png';
+    $rootScope.DefaultCarIcon='./images/defaultCarIcon.png'
+      //默认头像
+    $rootScope.DefaultUserIcon='./images/default-avator.png';
     //信息提示
     $rootScope.toast=function(msg,callback){
         var modalInstance = $modal.open({
@@ -91,18 +111,23 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
             ' <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">'+
             '&times;'+
            '</button>'+
-            '<header>'+
-            '<div ng-if="!session.isAuthenticated" class="clearfix ng-scope">'+
+            '<div>'+
+            '<div  class="clearfix">'+
              '<h3 class="modal-title">提示信息</h3>'+
             '</div>'+
-           ' </header></div>'+
-            '<div class="modal-body" style="min-height: 100px"><h4>'+msg+
+           ' </div></div>'+
+            '<div class="modal-body" style="height: 100px"><h4>'+msg+
            '</h4></div>'+
             '</div><div class="modal-footer">'+
            '<button class="btn btn-sm btn-default" ng-click="cancel()">退出</button>'+
            ' </div>',  //指向上面创建的视图
             size : 'sm'//大小配置
         });
+        $rootScope.cancel=function(){
+            modalInstance.close(
+                angular.isFunction(callback)?callback():null
+            );
+        };
         $timeout(function(){
             modalInstance.close(
                 angular.isFunction(callback)?callback():null
@@ -129,7 +154,50 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
 
         });
     };
-    // $rootScope.toast('./admin/dialog.html')
-   //$rootScope.dialog('./logindialog.html')
+        //路由控制
+        $rootScope.$on("$stateChangeStart", function(event) {
+            document.getElementsByTagName('body')[0].scrollTop=0;
+        });
+        $rootScope.$on('$stateChangeSuccess', function() {
 
-}]);
+            if($state.current.access==1&&!AuthService.IsAuthenticated()){
+                 $rootScope.toast('您还没有登录或登录超时',function(){
+                     $rootScope.state.go('login');
+                 });
+            }
+            if ($state.current.action) {
+                $rootScope.ACTION=$state.current.action
+            }else{
+                $rootScope.ACTION = "home"
+            }
+        });
+        $rootScope.$on('$stateNotFound', function(event){
+            $rootScope.state.go('404')
+        });
+
+}]).factory("myInterceptor",['$q', '$rootScope', function($q,$rootScope) {
+        //http 拦截
+        var requestInterceptor = {
+            request: function(config) {
+
+                return config;
+            },
+            requestError:function(config){
+                return config
+            },
+            response:function(response){
+                if(response.data.status==-1){
+                    $rootScope.toast('您还没有登录或登录超时',function(){
+                        $rootScope.state.go('login');
+                    });
+                }
+
+                return response
+            },
+            responseError:function(response){
+
+                return response
+            }
+        };
+        return requestInterceptor;
+    }]);

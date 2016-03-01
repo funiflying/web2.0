@@ -1,4 +1,4 @@
-
+<div class="content-wrapper">
 <div class="tui-admin-title" ng-init="getList()">
     <h3>买车订单</h3>
 </div>
@@ -58,7 +58,7 @@
                         <h4 ng-bind="obj.SeriesName+obj.SpecName"></h4>
                         <p>成交价：<strong class="text-orange" ng-bind="obj.DealPrice/10000|currency:'￥'"></strong><small class="text-orange">万</small></p>
                         <p>下单时间：<span class="text-info" ng-bind="obj.OrderTime|DateFormat:'yyyy-MM-dd'"></span>&nbsp;&nbsp;&nbsp;&nbsp;当前状态：<span class="text-success"  ng-bind="obj.OrderFlag|OrderStatus"></span>
-                            <span class="text-success" ng-if="obj.CarFlag==0" ng-bind="obj.CheckFlag|CarCheckStatus"></span></p>
+                            <span class="text-danger" ng-if="obj.RevokeFlag!=0" ng-bind="obj.RevokeFlag|OrderRevoke"></span></p>
                         <p>车主信息：<span  class="text-info" ng-bind="obj.UserName"></span>&nbsp;&nbsp;<span  class="text-info" ng-bind="obj.Contact"></span></p>
                         <p class="car-list-info-span">
                             <span>行驶里程：<i ng-bind="obj.Mileage"></i> 万公里</span>
@@ -69,8 +69,9 @@
                     <td class="car-list-toolbar">
                         <a href="#/home/prepay?OrderCode={{obj.OrderCode}}"  class="btn-operate btn-profile"  ng-if="obj.OrderFlag==0&&(obj.RevokeFlag!=2&&obj.RevokeFlag!=12)" >预付款支付</a>
                         <a href="#/home/paid?OrderCode={{obj.OrderCode}}"    class="btn-operate btn-profile"  ng-if="obj.OrderFlag==4&&(obj.RevokeFlag!=2&&obj.RevokeFlag!=12)" >购车款支付</a>
-                        <a href="" class="btn-operate btn-profile"  ng-if="obj.RevokeFlag==0&&obj.OrderFlag<10" ng-click="revokeDialog(obj)">撤单申请</a>
-                        <a href="" class="btn-operate btn-profile"  ng-if="(obj.OrderFlag==10||obj.OrderFlag==257)&&(obj.RevokeFlag!=2&&obj.RevokeFlag!=12)"  ng-click="saleOffDialog(obj)">买家评价</a>
+                        <a href="" class="btn-operate btn-profile"  ng-if="obj.RevokeFlag==0&&obj.OrderFlag<10" ng-click="calcelDialog(obj)">撤单申请</a>
+                        <a href="#/home/buyeval?OrderCode={{obj.OrderCode}}" class="btn-operate btn-profile"  ng-if="(obj.OrderFlag==10||obj.OrderFlag==257)&&(obj.RevokeFlag!=2&&obj.RevokeFlag!=12)" >买家评价</a>
+                        <a href="#/home/item?OrderCode={{obj.OrderCode}}"  class="btn-operate btn-profile"  >订单详情</a>
                     </td>
                 </tr>
             </table>
@@ -79,3 +80,4 @@
 <div pagination  total-items="pageTotal" ng-model="currentPage" ng-change="changePager()"
      previous-text="上一页" next-text="下一页" max-size="10" ng-show="pageTotal>PAGE_CONF.PageSize"></div>
 
+</div>
