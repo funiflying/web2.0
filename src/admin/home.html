@@ -1,5 +1,5 @@
-<div>
-    <div class="col-md-2 left-nav-list">
+<div class="clearfix">
+    <div class="left-nav-list">
        <!-- <div class="tui-admin-user text-center">
             <img src="images/defaultIcon.gif" alt="" class="thumbnail center-block"/>
             <h4>吴先生</h4>
@@ -84,8 +84,8 @@
                     </a>
                 </dd>
                 <dd class="nav-list-item" >
-                    <a class="list-item-link ng-isolate-scope"  ui-sref="account-profile" href="#/account-profile">
-                        <span class="nav-list-words">账户设置</span>
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".account" href="home/account">
+                        <span class="nav-list-words">基本信息</span>
                     </a>
                 </dd>
                 <dt class="nav-list-header">
@@ -95,6 +95,11 @@
                 <dd class="nav-list-item" >
                     <a class="list-item-link ng-isolate-scope"  ui-sref="account-profile" href="#/account-profile">
                         <span class="nav-list-words">信息编辑</span>
+                    </a>
+                </dd>
+                <dd class="nav-list-item" >
+                    <a class="list-item-link ng-isolate-scope"  ui-sref="account-profile" href="#/account-profile">
+                        <span class="nav-list-words">成员管理</span>
                     </a>
                 </dd>
                 <dt class="nav-list-header">
@@ -161,11 +166,17 @@
                 </dd>
                 <dt class="nav-list-header">
                     <span class="sl-icon-accountmanage"></span>
-                    <span class="nav-list-words">个人信息</span>
+                    <span class="nav-list-words">账户管理</span>
                 </dt>
                 <dd class="nav-list-item" >
                     <a class="list-item-link ng-isolate-scope"  ui-sref=".cargather" href="home/cargather">
-                        <span class="nav-list-words">个人资料</span>
+                        <span class="nav-list-words">充值提现</span>
+                    </a>
+                </dd>
+
+                <dd class="nav-list-item" >
+                    <a class="list-item-link "  ui-sref=".cargather" href="home/cargather">
+                        <span class="nav-list-words">银行卡管理</span>
                     </a>
                 </dd>
                 <dd class="nav-list-item" >
@@ -173,11 +184,10 @@
                         <span class="nav-list-words">优惠券</span>
                     </a>
                 </dd>
-                <dd class="nav-list-item" >
-                    <a class="list-item-link ng-isolate-scope"  ui-sref=".cargather" href="home/cargather">
-                        <span class="nav-list-words">银行卡</span>
-                    </a>
-                </dd>
+                <dt class="nav-list-header">
+                    <span class="sl-icon-accountothers"></span>
+                    <span class="nav-list-words">其他</span>
+                </dt>
                 <dd class="nav-list-item" >
                     <a class="list-item-link ng-isolate-scope"  ui-sref=".cargather" href="home/cargather">
                         <span class="nav-list-words">评估师认证</span>
@@ -189,7 +199,6 @@
 
 
     </div>
-    <div class="col-md-8 app-content">
-        <div ui-view></div>
+    <div class="app-content" ui-view>
     </div>
 </div>

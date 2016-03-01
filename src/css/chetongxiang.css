@@ -19,7 +19,29 @@ a:hover{
 .tui-margin-center{
     margin: 0 auto;
 }
-
+.tooltip.bottom .tooltip-arrow {
+    border-bottom-color:#f5f5f5
+}
+.tooltip.top .tooltip-arrow {
+    border-top-color:#f5f5f5
+}
+.tooltip.left .tooltip-arrow {
+    border-left-color:#f5f5f5
+}
+.tooltip.rigt .tooltip-arrow {
+    border-right-color:#f5f5f5
+}
+.tooltip.bottom .tooltip-arrow {
+    border-bottom-color:#f5f5f5
+}
+.tooltip .tooltip-inner{
+    background: #f5f5f5;
+    color: #999;
+    line-height: 2;
+}
+.form-horizontal .form-group{
+   margin-right:0
+}
 /*
 *btn
 */
@@ -34,6 +56,16 @@ a:hover{
     -moz-transition: border .25s linear,color .25s linear,background-color .25s linear;
     transition: border .25s linear,color .25s linear,background-color .25s linear;
     -webkit-font-smoothing: subpixel-antialiased;
+}
+.btn-secondary {
+    color: #FFF;
+    background-color: #00bc8d;
+}
+.btn-filter, .btn-link:focus, .btn-link:hover, .btn-outline-action, .btn-outline-inverse, .btn-outline-primary, .btn-outline-secondary {
+    background-color: transparent;
+}
+.btn-outline-primary.active, .btn-outline-primary:active, .btn-outline-primary:focus, .btn-outline-primary:hover {
+    color: #00bc8d;
 }
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn{
     cursor: default;
@@ -207,7 +239,9 @@ a:hover{
 .left-nav-list{
     background: #FFFFFF;
     padding:  0;
-    width: 240px !important;
+    width: 240px ;
+    float: left;
+    margin-right: 12px;
 }
 .nav-tabs{
     border: none;
@@ -228,11 +262,14 @@ a:hover{
    margin-left: 20px;
 }
 .app-content{
-    width: 880px !important;
-    background: #FFFFFF;
-    margin-left: 15px;
+    width: 880px ;
+    display: table-cell;
     min-height: 1120px;
+    margin-left: 15px;
+    padding-left: 0;
+    padding-right: 0;
 }
+
 /*********************************/
 .summary-nav .nav-list {
     padding: 0 0 64px;
@@ -270,6 +307,10 @@ a:hover{
 }
 .summary-nav .sl-icon-accountmanage {
     background-position: 0 -208px;
+    vertical-align: -3px;
+}
+.summary-nav .sl-icon-accountothers {
+    background-position: 0 -228px;
     vertical-align: -3px;
 }
 .summary-nav .nav-list .nav-list-item {
@@ -403,6 +444,10 @@ a:hover{
 .background-blank{
     background: #ffffff !important;
 }
+.background-transparent{
+    background:transparent !important;
+    padding-left: 0;
+}
 /*
  车源图片
 */
@@ -422,7 +467,7 @@ a:hover{
     overflow-x: auto;
 }
 .file-loading {
-    background: transparent url("../img/loading.gif") no-repeat scroll left top;
+    background: transparent url("../images/loading.gif") no-repeat scroll left top;
     border: medium none;
     color: #fff;
     font-size: 999px;
@@ -616,15 +661,26 @@ a:hover{
 }
 .tui-admin-title{
     border-bottom: 1px solid #dedede;
-    height: 45px;
-    line-height: 45px;
+    height: 50px;
+    line-height: 50px;
     position: relative;
-    margin-bottom: 20px;
+    background: #FFFFFF;
+    margin-bottom: 20px; ;
+    display: table;
+    width: 100%;
 }
 .tui-admin-title h3 {
+<<<<<<< HEAD
     color: #333333;
     font-size: 22px;
     font-weight: bold;
+=======
+    display: table-cell;
+    vertical-align: middle;
+    color: #4a4a4a;
+    margin: 0;
+    font-size: 16px;
+>>>>>>> 6e62a4b8a8c2716e20880550a78d60e4b5a3d0c6
 }
 .tui-admin-title-btn {
     background: #f58e0f none repeat scroll 0 0;
@@ -635,7 +691,7 @@ a:hover{
     padding: 10px 20px;
     position: absolute;
     right: 20px;
-    top: 0;
+    top: 5px;
     border-radius: 4px;
 }
 .tui-admin-title-btn:hover{
@@ -757,6 +813,7 @@ a:hover{
     background-size: cover;
     height: 440px;
 }
+<<<<<<< HEAD
 /*银行图标
 */
 .bank-icbc {
@@ -1082,3 +1139,176 @@ a:hover{
 .bank-hbcl {
     background-position: 0 -2632px;
 }
+=======
+/*
+*main
+*/
+.content-wrapper {
+    padding-left: 15px;
+    padding-right: 15px;
+    background: #FFFFFF;
+    min-height: 1120px;
+    padding-bottom: 30px;
+}
+.account-summary .simple-summary {
+    margin: 0;
+    padding: 20px 0;
+    background-color: #FFF;
+    border: 1px solid #ebebeb;
+}
+.account-summary .simple-summary .money-row {
+    width: 226px;
+    height: 125px;
+    padding: 0 22px;
+    border-left: solid 1px #ebebeb;
+    float: right;
+}
+.account-summary .simple-summary .money-row-sum {
+    margin-top: -5px;
+}
+.account-summary .keywords-gray {
+    font-size: 16px;
+    color: #999;
+}
+.highlighted-sum {
+    display: inline-block;
+    color: #00bc8d;
+    margin-top: 0;
+    font-weight: 400;
+}
+.account-summary .simple-summary .highlighted-sum {
+    margin: 8px 0 22px;
+    color: #333;
+    font-size: 30px;
+}
+.account-summary .simple-summary .money-row-sum .btn {
+    padding: 8px 25px;
+    font-size: 16px;
+}
+.account-summary .simple-summary .money-row-sum .btn-secondary {
+    margin-right: 8px;
+    border: 1px solid #00BC8D;
+}
+.btn-secondary.active, .btn-secondary:active, .btn-secondary:focus, .btn-secondary:hover {
+    color: #FFF;
+    background-color: #26c69e;
+    border-color: #26c69e;
+}
+.btn-outline-primary {
+    color: #00bc8d;
+    border: 1px solid #00bc8d;
+}
+.account-summary .simple-summary .avatar-row {
+    width: 216px;
+    height: 125px;
+    border-right: solid 1px #ebebeb;
+    float: left;
+}
+.account-summary .simple-summary .avatar-row .profile-avatar {
+    display: inline-block;
+    width: 90px;
+    height: 90px;
+    margin: 0 0 7px 48px;
+    padding: 3px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    overflow: hidden;
+}
+.account-summary .simple-summary .profile-row {
+    height: 125px;
+    padding: 0 0 0 22px;
+    float: left;
+}
+.account-summary .simple-summary .profile-row-security {
+    margin:10px;
+}
+.account-summary .keywords-gray {
+    font-size: 16px;
+    color: #999;
+}
+.icon-monthly-report,  .sl-icon-email,  .sl-icon-mobile, .sl-icon-profile {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background-image: url(../images/account.png);
+    background-repeat: no-repeat;
+}
+.sl-icon-email {
+    background-position: 0 0;
+}
+ .sl-icon-profile {
+    background-position: 0 -56px;
+}
+.verify-icon.active .sl-icon-mobile {
+    background-position: 0 -112px;
+}
+/*
+*account
+*/
+.content-wrapper .summary-section {
+    background-color: #FFF;
+    padding: 30px;
+}
+.account-profile .basic-profile {
+    padding-top: 15px;
+}
+.account-profile .profile-header {
+    display: block;
+    padding: 3px;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    text-align: center;
+    color: #333;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background-color: transparent;
+    background-size: cover;
+    margin-right: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+}
+.account-profile .field {
+    font-size: 15px;
+    color: #4a4a4a;
+}
+.account-profile .field .username {
+    margin-top: 5px;
+    color: #617086;
+}
+.section-nav-tabs {
+    border-top: solid 1px #ebebeb;
+    padding-top: 10px;
+}
+.account-profile .info-content .info-row.row-line {
+    border-bottom: 1px solid #ddd;
+}
+.tab-content {
+    margin-bottom: 20px;
+    padding: 5px 5px 0;
+    z-index: 1;
+}
+.account-profile .basic-info-tab {
+    margin-bottom: 0;
+}
+.tab-content>.tab-pane {
+    display: none;
+}
+.tab-content>.active {
+    display: block;
+}
+.account-profile .personal-info .row {
+    line-height: 30px;
+}
+.account-profile .info-content .info-row {
+    line-height: 1;
+}
+.account-profile .personal-info .row .btn-hollow {
+    width: 90px;
+    padding: 3px 0 0;
+    background: #FFF;
+    border: 1px solid #00bc8d;
+}
+>>>>>>> 6e62a4b8a8c2716e20880550a78d60e4b5a3d0c6
