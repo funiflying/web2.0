@@ -670,17 +670,11 @@ a:hover{
     width: 100%;
 }
 .tui-admin-title h3 {
-<<<<<<< HEAD
-    color: #333333;
-    font-size: 22px;
-    font-weight: bold;
-=======
     display: table-cell;
     vertical-align: middle;
     color: #4a4a4a;
     margin: 0;
     font-size: 16px;
->>>>>>> 6e62a4b8a8c2716e20880550a78d60e4b5a3d0c6
 }
 .tui-admin-title-btn {
     background: #f58e0f none repeat scroll 0 0;
@@ -813,7 +807,6 @@ a:hover{
     background-size: cover;
     height: 440px;
 }
-<<<<<<< HEAD
 /*银行图标
 */
 .bank-icbc {
@@ -1139,7 +1132,6 @@ a:hover{
 .bank-hbcl {
     background-position: 0 -2632px;
 }
-=======
 /*
 *main
 */
@@ -1311,4 +1303,3 @@ a:hover{
     background: #FFF;
     border: 1px solid #00bc8d;
 }
->>>>>>> 6e62a4b8a8c2716e20880550a78d60e4b5a3d0c6
