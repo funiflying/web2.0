@@ -6,7 +6,6 @@ body{
     font-size: 14px;
     font-family: "Microsoft Yahei", Helvetica, Arial, sans-serif;
     color:#4c4c4c;
-    padding-bottom: 30px;
     background: #f5f5f5;
 }
 ul li {
@@ -16,10 +15,16 @@ a:hover{
     text-decoration: none;
     color: #f0ad4e;;
 }
+a:focus, a:hover{
+    text-decoration: none;
+}
 .tui-margin-center{
     margin: 0 auto;
 }
-.tooltip.bottom .tooltip-arrow {
+.tooltip{
+    min-width: 200px;
+}
+/*.tooltip.bottom .tooltip-arrow {
     border-bottom-color:#f5f5f5
 }
 .tooltip.top .tooltip-arrow {
@@ -38,6 +43,12 @@ a:hover{
     background: #f5f5f5;
     color: #999;
     line-height: 2;
+}*/
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: middle;
+    border-top: 1px solid #ddd;
 }
 .form-horizontal .form-group{
    margin-right:0
@@ -686,8 +697,8 @@ a:hover{
     font-size: 16px;
 }
 .tui-admin-title-btn {
-    background: #f58e0f none repeat scroll 0 0;
-    border: 1px solid #f58e0f;
+    background: #3780b7 none repeat scroll 0 0;
+    border: 1px solid #3780b7;
     color: #fff;
     display: inline-block;
     line-height: 1em;
@@ -699,7 +710,7 @@ a:hover{
 }
 .tui-admin-title-btn:hover{
     color: #fff;
-    background: #ff560f none repeat scroll 0 0;
+    background: #3c72b7 none repeat scroll 0 0;
 }
 /*
 *车辆列表样式
@@ -1522,4 +1533,212 @@ a:hover{
     padding: 3px 0 0;
     background: #FFF;
     border: 1px solid #00bc8d;
+}
+.account-profile .info-content .info-row .row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0;
+}
+.account-profile .personal-info .row .bind-blue {
+    color: #00bc8d;
+}
+.account-profile .editing {
+    background: #f5f5f5;
+}
+.account-profile .personal-info .row input {
+    padding-left: 15px;
+    top: -5px;
+}
+.input-sm {
+    height: 35px;
+    padding: 6px 10px;
+    font-size: 12px;
+    line-height: 1.462;
+}
+.account-profile .personal-info .row .btn-group {
+    display: inline-block;
+    float: right;
+    margin-top: 15px;
+    margin-right: 22px;
+}
+.account-profile .personal-info .row .btn-confirm {
+    width: 90px;
+    padding: 3px 0 0;
+    color: #FFF;
+    border: 1px solid #0dba8f;
+}
+.account-profile .personal-info .row .btn-hollow {
+    width: 90px;
+    padding: 3px 0 0;
+    background: #FFF;
+    border: 1px solid #00bc8d;
+}
+.account-profile .personal-info .row .bind-gray {
+    color: #999;
+}
+.account-profile .info-content .tradekey-editing .phone-code-input {
+    width: 58%;
+    margin-right: 10px;
+    float: left;
+}
+.account-profile .tradekey-editing .row .get-phonecode-btn {
+    width: 38%;
+    padding: 8px 0 5px;
+    float: left;
+}
+.account-profile .personal-info .row .display-block {
+    display: block;
+}
+.account-profile .personal-info .row .bind-red {
+    color: #e2462d;
+}
+/*
+*footer
+*/
+.footer-container{
+    background: #E4E4E4;
+}
+.footer-container .footer-site-map {
+    padding: 40px 20px 0;
+    font-size: 16px;
+}
+.footer-container .footer-site-map dl {
+    float: left;
+    width: 22%;
+    margin-bottom: 38px;
+    padding: 0;
+}
+.footer-container .footer-site-map dt {
+    margin-bottom: 30px;
+    line-height: 16px;
+    font-weight: 400;
+    color: #333;
+}
+.footer-container .footer-site-map dd {
+    margin-bottom: 30px;
+    line-height: 16px;
+    color: #999;
+}
+.footer-container a {
+    color: #999;
+}
+.footer-container .footer-site-map dl.policy {
+    width: 23%;
+}
+.footer-container .footer-site-map dl.app-download {
+    width: 25%;
+}
+.footer-container .footer-site-map .app-download dd {
+    margin-bottom: 10px;
+}
+.footer-container .footer-site-map dl.our-office {
+    width: 30%;
+}
+.footer-container .footer-site-map .app-download .download-link {
+    margin-left: 112px;
+}
+.footer-container .footer-site-map dd .android,.footer-container .footer-site-map dd .iPhone {
+    display: block;
+    width: 124px;
+    height: 41px;
+    border: 2px solid #FFFFFF;
+    border-radius: 5px;
+    line-height: 38px;
+    font-size: 18px;
+    color: #f5ab2e;
+    vertical-align: middle;
+}
+.footer-container .footer-site-map dd .icon-android, .footer-container .footer-site-map dd .icon-iphone {
+    margin-left: 10px;
+    font-size: 24px;
+    vertical-align: 1px;
+}
+.footer-container .footer-site-map .qr-code {
+    position: relative;
+    top: -102px;
+    left: 0;
+    display: block;
+    width: 92px;
+    height: 92px;
+    background: url('../images/wechatQR.png')  no-repeat;
+    background-size: 92px 92px;
+}
+.footer-container .footer-site-map .app-download .footer-public {
+    margin-top: -82px;
+}
+.footer-container .footer-site-map .app-download .footer-mobile, .footer-container .footer-site-map .app-download .footer-public {
+    margin-bottom: 20px;
+}
+.footer-container .footer-site-map .app-download .public-code {
+    width: 92px;
+    height: 92px;
+    background: url('../images/wechatQR.png')  no-repeat;;
+}
+.footer-container  .footer-site-map .our-office {
+    padding-left: 50px;
+}
+.footer-container .footer-site-map .our-office .map {
+    margin-bottom: 5px;
+    width: 100%;
+    height: 101px;
+    background: url(../images/footer-common-image.png) -192px -354px no-repeat;
+}
+.footer-container .footer-site-map .our-office dd {
+    display: block;
+    float: left;
+    margin: 0;
+    width: 25%;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.footer-container .footer-site-map .our-office .media {
+    margin-top: 5px;
+    width: 235px;
+}
+.footer-container .footer-friend-link {
+    margin-bottom: 34px;
+    padding: 10px 20px 0;
+    border-top: 1px solid #CCC;
+    font-size: 13px;
+}
+.footer-container .footer-friend-link dt {
+    display: inline-block;
+    margin-right: 14px;
+    font-weight: 400;
+    color: #999;
+}
+.footer-container .footer-friend-link dd {
+    display: inline-block;
+    line-height: 16px;
+}
+.footer-container .footer-friend-link a {
+    display: inline-block;
+    padding: 0 10px;
+    color: #bbb;
+}
+.footer-container .footer-friend-link dd:after {
+    content: "|";
+    color: #bbb;
+}
+.footer-container .footer-copyright {
+    margin-bottom: 0;
+    padding-left: 0;
+    text-align: center;
+    font-size: 14px;
+    color: #999;
+    padding-bottom: 50px;
+    border-top: 1px solid #CCC;
+    padding-top: 20px;
+}
+.footer-container .footer-copyright li {
+    display: inline-block;
+    margin-left: 10px;
+    list-style: none;
+}
+.footer-copyright li:before {
+    content: "|";
+    margin-right: 10px;
+}
+ .footer-copyright li:first-child:before {
+    content: "";
 }
