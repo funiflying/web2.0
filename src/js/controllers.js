@@ -714,5 +714,16 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     };
 }]).controller('AccountController', ['$rootScope','$scope',
     function ($rootScope,$scope) {
+ }]).controller('IndexController', ['$rootScope','$scope','ResourceService',
+    function ($rootScope,$scope,ResourceService) {
+       $scope.getHomeCar=function(){
+            var params={
 
+            }
+            ResourceService.getFunServer('RequestHomeData',params).then(function(data){
+                if(data.status==1){
+                    $scope.list=data.data;
+                }
+            })
+       }
     }]);

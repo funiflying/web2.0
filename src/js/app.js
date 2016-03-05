@@ -1,7 +1,7 @@
 angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookies','chetongxiang.controllers','chetongxiang.services','chetongxiang.directives','chetongxiang.filters'])
     .config(['$stateProvider','$urlRouterProvider','$httpProvider',function($stateProvider,$urlRouterProvider,$httpProvider){
 
-    $urlRouterProvider.otherwise('home/main',{
+    $urlRouterProvider.otherwise('',{
 
     });
     //access访问权限,0未不限制，1为需登录
@@ -96,7 +96,7 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         PageNo:1
     }).run(['$rootScope','$modal','$timeout','$stateParams','$state','$cookieStore','PAGE_CONFIG','AuthService',function($rootScope,$modal,$timeout,$stateParams,$state,$cookieStore,PAGE_CONFIG,AuthService){
     $rootScope.USER=$cookieStore.get('AUTH')||null;
-    $rootScope.HOST='http://192.168.0.218'//window.location.protocol+window.location.host//'http://192.168.0.218';
+    $rootScope.HOST=''//window.location.protocol+window.location.host//'http://192.168.0.218';
     $rootScope.PAGE_CONF=PAGE_CONFIG;
     $rootScope.state=$state;
     $rootScope.stateParams=$stateParams;

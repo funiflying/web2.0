@@ -5,8 +5,11 @@
 body{
     font-size: 14px;
     font-family: "Microsoft Yahei", Helvetica, Arial, sans-serif;
-    color:#4c4c4c;
+    color:#666;
     background: #f5f5f5;
+}
+ul{
+    padding-left: 0;
 }
 ul li {
     list-style: none;
@@ -20,6 +23,9 @@ a:focus, a:hover{
 }
 .tui-margin-center{
     margin: 0 auto;
+}
+address, cite, code, dfn, em, var, i {
+    font-style: normal;
 }
 .tooltip{
     min-width: 200px;
@@ -52,6 +58,11 @@ a:focus, a:hover{
 }
 .form-horizontal .form-group{
    margin-right:0
+}
+@media (min-width: 1200px) {
+    .container {
+        width: 1200px;
+    }
 }
 /*
 *btn
@@ -245,7 +256,7 @@ a:focus, a:hover{
     display: inline-block;
     padding: 30px 20px;
     font-size: 16px;
-    color: #4c4c4c;
+    color: #666;
 }
 .left-nav-list{
     background: #FFFFFF;
@@ -258,7 +269,7 @@ a:focus, a:hover{
     border: none;
 }
 .nav-tabs a{
-    color: #4c4c4c;
+    color: #666;
 }
 .nav-tabs>li>a{
     border: none;
@@ -1741,4 +1752,404 @@ a:focus, a:hover{
 }
  .footer-copyright li:first-child:before {
     content: "";
+}
+ /*
+ *index
+ */
+.index-nav{
+    border-bottom: 2px solid #ff6a00;
+
+}
+.index-nav-top a{
+    margin: 0 10px;
+    color: #333;
+}
+.index-nav-top a:hover{
+    color: #ff6a00;
+}
+.spacer {
+    width: 1px;
+    height: 12px;
+    padding: 0;
+    background: #CCCCCC;
+    display: inline-block;
+    overflow: hidden;
+}
+.index-nav-bar{
+    position: relative;
+}
+.index-nav-link{
+    padding: 0;
+    height: 45px;
+    line-height: 45px;
+    margin: 0;
+}
+.index-nav-item{
+    float: left;
+    -moz-transition:all 0.3s linear;
+    -webkit-transition:all 0.3s linear;
+    transition:all 0.3s linear
+    text-align: center;
+    line-height: 45px;
+}
+.index-nav-item a{
+   font-size: 18px;
+    color: #000000;
+    display: block;
+    padding: 0 30px;
+}
+.index-nav-item a:hover{
+    color: #FFFFFF;
+}
+.index-nav-item.active{
+    background: #ff6a00;
+    color: #FFFFFF;
+}
+.index-nav-item:hover{
+    background-color: #ff6a00;
+    color: #FFFFFF;
+}
+.index-nav-item.active a{
+    color: #FFFFFF;
+}
+#myCarousel img{
+    height: 390px;
+    width: 100%;
+}
+.side-container{
+    position: relative;
+}
+.sef-area{
+    width: 330px;
+    height: 320px;
+    padding: 20px;
+    border-bottom: 2px solid #ff6a00;
+    position: absolute;
+    left: 15px;
+    top: 80px;
+    z-index: 999;
+    background: #FFFFFF;
+    font-size: 12px;
+}
+.sef-area .sx-pinpai .dd a:hover,
+.sef-area .sx-price .dd a:hover,
+.sef-area .sx-chexing .dd a:hover,
+.sx-pinpai .ppmore table a:hover{
+    color: #e87627;
+}
+.sx {
+    margin-top: 10px;
+}
+.sx .dt {
+    font-weight: bold;
+    font-size: 14px;
+    color: #ff6a00;
+    line-height:30px;
+}
+.sx-pinpai .dd {
+    margin: 0 -10px;
+    height: 42px;
+}
+.sx-pinpai .dd a {
+    display: inline-block;
+    float: left;
+    width: 42px;
+    height: 42px;
+    line-height: 66px;
+    text-align: center;
+    margin-right: 8px;
+    _overflow: hidden;
+    background-image: url('../images/icons-index.png');
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    color: #666;
+}
+.i-dazhong {
+    background-position: 11px 0;
+}
+.i-toyota {
+    background-position: -125px 0;
+}
+.i-honda {
+    background-position: -175px 0;
+}
+.i-benz {
+    background-position: -76px 0;
+}
+.i-bmw {
+    background-position: -34px 0;
+}
+.i-audi {
+    background-position: -230px 0;
+}
+.sx-pinpai .ppmore {
+    display: none;
+    top: 0px;
+    left: 330px;
+    background-color: #fff;
+    width: 640px;
+    padding: 10px 5px 10px 15px;
+    border: 2px solid #e87627;
+}
+.sx-pinpai .ppmore.active {
+    display: block;
+}
+.sx-pinpai .ppmore p {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+.sx-pinpai .tbl {
+    width: 350px;
+    float: left;
+    margin-right: 10px;
+}
+.sx-pinpai .tbr {
+    width: 250px;
+    float: left;
+}
+.sx-pinpai table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.sx-pinpai tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+    border-top: 1px dashed #dbdbdb;
+}
+.sx-pinpai .ppmore table td {
+    vertical-align: top;
+    padding: 5px 0;
+    line-height: 18px;
+    /*overflow: hidden;*/
+}
+.sx-pinpai .zm {
+    font-size: 14px;
+    font-weight: bold;
+    width: 30px;
+    color: #e87627;
+}
+.sx-pinpai .ppmore table a {
+    margin-right: 13px;
+    white-space: nowrap;
+    white-space: pre-wrap;
+    color: #666;
+}
+.sx-pinpai .poa {
+    position: absolute;
+}
+.sx-pinpai .leftline {
+    position: absolute;
+    left: -2px;
+    top:64px;
+    width: 2px;
+    background: #fff;
+    height:80px;
+}
+.sx-pinpai {
+    border: 2px solid #fff;
+    margin-left: 20px;
+
+}
+.sx-pinpai,
+.sx-price {
+    margin-bottom: 10px;
+}
+.sx-price .dd a {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 14px;
+    line-height: 28px;
+    color: #666;;
+}
+.sx-chexing {
+    width: 302px;
+    padding-bottom: 3px;
+}
+.sx-chexing .dd a {
+    display: inline-block;
+    height: 28px;
+    line-height: 30px;
+    margin-right: 10px;
+    text-align: center;
+    font-size: 16px;
+    _overflow: hidden;
+    /*background-image: url('../images/icons-index.png');
+    background-repeat: no-repeat;
+    vertical-align: middle;*/
+    color: #666;
+}
+.x-sanxiang {
+    background-position: -38px -52px;
+    width: 45px;
+}
+.x-suv {
+    background-position: -85px -52px;
+    width: 42px;
+}
+.x-mpv {
+    background-position: -129px -52px;
+    width: 46px;
+}
+.x-paoche {
+    background-position: -179px -52px;
+    width: 48px;
+}
+.search-wrap {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.search-wrap .main-box {
+    margin: 10px auto;
+}
+.search-layout {
+    width: 280px;
+    height: 336px;
+    padding: 15px;
+    float: left;
+    /*filter: alpha(opacity=65); opacity:0.65;*/
+
+    overflow: hidden;
+    background: #FFF;
+    border-bottom: 2px solid #d6004b;
+}
+.search-layout .search-main {
+    position: relative;
+}
+.search-main input {
+    width: 250px;
+    height: 35px;
+    line-height: 35px;
+    padding: 0 10px;
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #B2B2B2;
+    -webkit-writing-mode: horizontal-tb;
+}
+.search-index {
+    width: 330px;
+    height: 84px;
+    border: 2px solid #FFFFFF;
+    border-right: 0px;
+    margin-left: -20px;
+    padding-right: -20px;
+}
+
+.search-index.active {
+    width: 330px;
+    height: 84px;
+    border: 2px solid #e87627;
+    border-right: 0px;
+    margin-left: -20px;
+    padding-right: -20px;
+}
+.tool-bar{
+    height: 50px;
+    line-height: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border-bottom: 1px solid #dedede;
+}
+.tool-bar-link a{
+    display: inline-block;
+    color: #666;
+    margin: 0 10px;
+    height: 50px;
+}
+.tool-bar-link a:hover{
+    color: #ff6a00;
+}
+.tool-bar-link a.active{
+    border-bottom:2px solid #ff6a00;
+    color:#ff6a00;
+}
+.car-item {
+    float: left;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    _display: inline;
+    position: relative;
+    z-index: 2;
+    width: 285px;
+}
+.car-item:hover {
+    box-shadow: 0 3px 3px #b2b2b2;
+}
+.list-infoBox {
+    height: 290px;
+    width: 285px;
+    background: #fff;
+    position: relative;
+    z-index: 5;
+}
+.list-infoBox img{
+    width: 285px;
+    height: 194px;
+}
+.list-infoBox p {
+    padding: 0 10px;
+}
+.infoBox {
+    font-size: 16px;
+    line-height: 1em;
+    margin: 12px 0 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    width: 270px;
+    white-space: nowrap;
+}
+.info-title {
+    color: #000;
+}
+ .fc-gray {
+    color: #999;
+    margin: 0;
+    font-size: 12px;
+}
+.shuxian{
+    font-style: normal;
+    color: #CCCCCC;
+}
+.priType-s {
+    margin-top: 3px;
+}
+.priType-s span {
+    margin-right: 5px;
+}
+.priType {
+    font-size: 22px;
+    color: #ff7e00;
+}
+
+.car-item:after {
+    content: attr(city);
+    display: inline-block;
+    width: auto;
+    height: 24px;
+    line-height: 24px;
+    background: #000000;
+    opacity: 0.7;
+    position: absolute;
+    left: 5px;
+    top: 165px;
+    font-size: 12px;
+    border-radius: 4px;
+    color: #ffffff;
+    padding: 0 10px;
+    z-index: 5;
+}
+.buy-link {
+    color: #fff;
+    font-size: 18px;
+    background: #ff6a00;
+    padding: 15px 65px 15px 65px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    display: inline-block;
 }

@@ -7,7 +7,7 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
             var surl = "",defer = $q.defer();
             switch (sname) {
                 case "RequestHomeData"://首页车源
-                    surl = "/Common/Car/RequestHomeData/";
+                    surl = "/data/home.json"//"/Common/Car/RequestHomeData/";
                     break;
                 case "brandlist"://品牌列表
                     surl = "/data/brandlist.json";

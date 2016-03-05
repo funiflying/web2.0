@@ -23,6 +23,7 @@
   "devDependencies": {
     "angular": "angularjs#~1.2.3",
     "angular-ui-router": "~0.2.15",
-    "angular-resource": "~1.2.0"
+    "angular-resource": "~1.2.0",
+    "gulp": "^3.9.1"
   }
 }

@@ -304,4 +304,56 @@ angular.module('chetongxiang.directives',[]).directive('uploader',['UploaderServ
             })
         }
     }
-}]);
+}]).directive('autoComplete',function(){
+    return{
+        restict:'A',
+        replace:false,
+        link:function(scope,element,attr){
+            $(element).AutoComplete({
+                'width':"auto",
+                'itemHeight': 30,
+                'listStyle':'custom',
+                'data': "./data/brandlist-new.json",
+                'ajaxDataType': 'json',
+                'async':true,
+                'matchHandler': function(keyword, data) {
+                    return data.brandName.indexOf(keyword) >-1  // 匹配规则: 以输入框中的值开头且大小写敏感
+                },
+                'beforeLoadDataHandler': function(keyword) {
+                    return  setTimeout(function(){
+                        return true;
+                    },350)
+
+                },
+                'createItemHandler': function(index, data) {
+                    return "<span class='text-info' style='display: block;line-height: 30px;padding-left: 15px'>" + data.brandName + "</span>"; // 文本显示为绿色，并在前后使用'--'包裹
+                },
+                'emphasisHandler': function(keyword, data) {
+
+                    // var regex = RegExp("(" + keyword.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1") + ")", 'ig');
+                    // data.brandName = data.brandName.replace(regex, "<span style='font-weight:bold;color:blue;'>$1</span>");
+                },
+                'afterSelectedHandler': function(data) {
+                    window.location.href='buy.html?brand='+data.brandID;
+
+                }
+            });
+        }
+    }
+}).directive('brandlist',function(){
+    //品牌列表
+    return {
+        restrict: 'AE',
+        replace: false,
+        link: function (scope, element, attr) {
+            var elem = $(element);
+            elem.hover(function(){
+                $(this).addClass('active');
+                $('#Allbrand').addClass('active')
+            },function(){
+                $(this).removeClass('active');
+                $('#Allbrand').removeClass('active')
+            })
+        }
+    }
+});
