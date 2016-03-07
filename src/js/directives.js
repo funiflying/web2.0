@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/2/18.
  */
-angular.module('chetongxiang.directives',[]).directive('uploader',['UploaderService','ResourceService',function(UploaderService,ResourceService){
+angular.module('chetongxiang.directives',[]).directive('upload',['UploaderService','ResourceService',function(UploaderService,ResourceService){
     //图片上传
     return {
         restrict:'EA',
@@ -72,11 +72,12 @@ angular.module('chetongxiang.directives',[]).directive('uploader',['UploaderServ
                 }
                 $(element).find('.file-preview-thumbnails').append(holdplace);
                 //删除
-                var rm=$(element).find('.kv-file-upload')
+                var rm=$(element).find('.kv-file-upload');
                 rm.bind('click',function(){
                     var params={
                         fileName:$(this).parents('.file-preview-frame').attr('data-path')
-                    }
+                    };
+
                     ResourceService.getFunServer('delimg',params,'post').then(function(data){
                         if(data.status==1){
                             $(this).parents('.file-preview-frame').remove();
@@ -99,12 +100,12 @@ angular.module('chetongxiang.directives',[]).directive('uploader',['UploaderServ
             }
         }
     }
-}]).directive('upload',['UploaderService','ResourceService',function(UploaderService,ResourceService){
-//车辆颜色
+}]).directive('uploader',['UploaderService','ResourceService',function(UploaderService,ResourceService){
+//
     return{
         restrict:'AE',
         replace:false,
-        templateUrl:'./statics/upload.html',
+        templateUrl:'./statics/uploader.html',
         link:function(scope,element,attr){
             var $elem=$(element);
             var $btn=$(element).find('.filePicker');
@@ -119,6 +120,7 @@ angular.module('chetongxiang.directives',[]).directive('uploader',['UploaderServ
                 // 选择文件的按钮。可选。
                 // 内部根据当前运行是创建，可能是input元素，也可能是flash.
                 pick: $btn,
+                compress:false,
                 // 只允许选择图片文件。
                 accept: {
                     title: 'Images',
@@ -130,16 +132,20 @@ angular.module('chetongxiang.directives',[]).directive('uploader',['UploaderServ
 
             // 当有文件添加进来的时候
             uploader.on( 'fileQueued', function( file ) {
-                var $li=$( '<div data-path="123456" class="file-preview-frame col-md-3" id="'+file.id+'">' +
+                var $li=$( '<div class="file-preview-frame col-md-3" id="'+file.id+'">' +
                     '<img style="width:200px;height:160px;"  class="file-preview-image" >' +
                     '<div class="file-thumbnail-footer">' +
                     '<div class="file-actions">' +
                     '<div class="file-footer-buttons"><span class="text-orange pull-left img-loading"><i class="glyphicon glyphicon-info-sign"></i> <span class="up-text">正在上传... </span><img src="./images/loading.gif" alt=""/></span>' +
-                    '<button title="删除" class="kv-file-upload btn btn-xs btn-default pull-right" type="button">   <i class="glyphicon glyphicon-trash text-danger"></i>'+
-                    '</button> <button title="上传" class="kv-file-remove btn btn-xs btn-default pull-right" type="button"><i class="glyphicon  glyphicon-upload text-info"></i></button>' +
+                    '<button title="删除" class="kv-file-remove btn btn-xs btn-default pull-right" type="button">   <i class="glyphicon glyphicon-trash text-danger"></i>'+
+                    '</button> <button title="上传" class="kv-file-upload btn btn-xs btn-default pull-right" type="button"><i class="glyphicon  glyphicon-upload text-info"></i></button>' +
                     '</div></div></div></div>');
                 var  $img = $li.find('.file-preview-image');
                 $elem.find('.file-drop-zone-title').hide();
+                if (!attr.multi || attr.multi == 'false') {
+                    uploader.cancelFile( file.id );
+                    $(element).find('.file-preview-frame').remove();
+                }
                 $elem.find('.file-preview-thumbnails').append($li);
                 // 创建缩略图
                 // 如果为非图片文件，可以不用调用此方法。
@@ -151,20 +157,21 @@ angular.module('chetongxiang.directives',[]).directive('uploader',['UploaderServ
                     }
                     $img.attr( 'src', src );
                 }, 200, 160 );
-                $elem.find('.kv-file-upload').bind('click',function(){
+                $elem.find('.kv-file-remove').bind('click',function(e){
                     var filename=$(this).parents('.file-preview-frame').data('path');
-                    if(filename){
-                        ResourceService.getFunServer('delimg',{fileName:filename}).then(function(){
-                            if(data.status==1){
-                                uploader.cancelFile( file.id );
-                                $(this).parents('.file-preview-frame').remove();
-                                var length=$elem.find('.file-preview-frame').length
-                                if(length==0){
-                                    $elem.find('.file-drop-zone-title').show();
-                                }
-                            }
-                        })
+                    if(filename) {
+                        ResourceService.getFunServer('delimg', {fileName: filename});
                     }
+                    uploader.cancelFile( file.id );
+                    $(e.target).parents('.file-preview-frame').remove();
+                    var length=$elem.find('.file-preview-frame').length;
+                    if(length==0){
+                        $elem.find('.file-drop-zone-title').show();
+                    }
+                });
+                //重新上传
+                $elem.find('.kv-file-upload').bind('click',function(){
+                   uploader.retry(file);
                 });
             });
             // 文件上传过程中创建进度条实时显示。
@@ -172,19 +179,11 @@ angular.module('chetongxiang.directives',[]).directive('uploader',['UploaderServ
 
             });
             // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-            uploader.on( 'uploadSuccess', function( file ) {
-                console.log(file)
-                if(status==1){
+            uploader.on( 'uploadSuccess', function( file,data ) {
                     $( '#'+file.id ).find('.img-loading').find('img').remove();
-                    $( '#'+file.id ).attr('data-path',src);
+                    $( '#'+file.id ).attr('data-path',data.data);
                     $( '#'+file.id ).find('.img-loading').removeClass('text-orange').addClass('text-info');
                     $( '#'+file.id ).find('.up-text').text('上传成功');
-                }
-                else{
-                    $( '#'+file.id ).find('.img-loading').find('img').remove();
-                    $( '#'+file.id ).find('.img-loading').removeClass('text-orange').addClass('text-danger');
-                    $( '#'+file.id ).find('.up-text').text('上传失败，请重试');
-                }
             });
             // 文件上传失败，显示上传出错。
             uploader.on( 'uploadError', function( file ) {
@@ -205,7 +204,7 @@ angular.module('chetongxiang.directives',[]).directive('uploader',['UploaderServ
         restrict:'A',
         replace:false,
         link:function(scope,element,attr){
-            var elem=$(element).find('.car-color-item');
+            var elem=$(element).find('span');
             elem.bind('click',function(){
                 scope.Color=$(this).attr('data-value');
                 $(this).addClass('active').siblings().removeClass('active');
@@ -232,12 +231,11 @@ angular.module('chetongxiang.directives',[]).directive('uploader',['UploaderServ
         restrict:'A',
         replace:false,
         link:function(scope,element,attr){
-            console.log( attr);
             var option={
                 title:attr.title,
                 placement:attr.tooltipPlacement,
                 delay:
-                { show: 500, hide: 1000000 }
+                { show: 500, hide: 500 }
             }
             $(element).tooltip(option);
         }

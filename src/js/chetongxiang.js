@@ -409,3 +409,16 @@ function getArea(obj) {
     $("#_citysheng li:eq(2)").addClass("citySel");
     return g;
 }
+//查询字符串
+function GetQueryString() {
+    var url = location.search; //获取url中"?"符后的字串
+    var QueryString = new Object();
+    if (url.indexOf("?") != -1) {
+        var str = url.substr(1);
+        strs = str.split("&");
+        for(var i = 0; i < strs.length; i ++) {
+            QueryString[strs[i].split("=")[0]]=decodeURIComponent(strs[i].split("=")[1]);
+        }
+    }
+    return QueryString;
+}

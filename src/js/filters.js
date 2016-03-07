@@ -194,4 +194,52 @@ angular.module('chetongxiang.filters', []).
             return descr;
         }
 
+    }).filter('Role', function() {
+        //用户角色
+        return function(status) {
+            var flag = "";
+            status = status + "";
+            switch (status) {
+                case "0":
+                    flag = "普通会员";
+                    break;
+                case "1":
+                    flag = "普通员工";
+                    break;
+                case "2":
+                    flag = "评估师";
+                    break;
+                case "3":
+                    flag = "法人代表";
+                    break;
+                case "11":
+                    flag = "普通员工";
+                    break;
+                case "12":
+                    flag = "评估师"
+                    break;
+                case "13":
+                    flag = "法人代表"
+                    break;
+                case "14":
+                    flag = "股东"
+                    break;
+                case "101":
+                    flag = "总部客服"
+                    break;
+                case "102":
+                    flag = "总部财务"
+                    break;
+                case "103":
+                    flag = "总部评估师"
+                    break;
+                case "202":
+                    flag = "评估师"
+                    break;
+                default:
+                    flag = ""
+                    break;
+            }
+            return flag;
+        }
     });

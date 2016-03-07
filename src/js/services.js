@@ -25,7 +25,7 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                     surl='/data/Brand.json';
                     break;
                 case 'SendPhoneValCode'://发送手机验证码
-                    surl='/common/message/SendValiadeCode';
+                    surl='/common/message/SendValiadeCode';//phone
                     break;
                 case 'buyorderlist'://买车订单
                     surl='/order/UserGetOrderList';
@@ -94,7 +94,7 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                     surl='/Common/Car/DeleteCarImg'; //删除车源图片?CarPicID=
                     break;
                 case 'GetCarCreditInfoByCarNo':  //获取诚信数据
-                    surl='/common/car/GetCarCreditInfoByCarNo';
+                    surl='/common/car/GetCarCreditInfoByCarNo';//CarNo
                     break;
                 case 'Series':  //获取车系
                     surl='/Common/Carbrand/GetSeries';
@@ -135,6 +135,13 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                     break;
                 case 'updateUser':
                     surl='/account/UpdatingUser';//更新用户信息
+                    break;
+                case 'resetPwd':
+                    surl='/account/ChangePwd';//修改密码//newPwd,oldPwd
+                    break;
+                case 'hastradePwd':
+                    surl='/account/CheckCurrentUserIfHasTradePwd';//是否设置交易密码
+                    break;
                     break;
                 case 'resetTradePwd':
                     surl='/account/ChangeTradePwd';//重置Trade
@@ -194,7 +201,22 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                     surl='/common/car/GetGuidePrice';  //急售指导价
                     break;
                 case 'validcode':
-                    surl='/common/message/ValideMessageCode';  //短信验证
+                    surl='/common/message/ValideMessageCode';  //短信验证 phonenum,code
+                    break;
+                case 'company':
+                    surl='/alliance/alliance/GetCurrentAllanceAndUsers';  //联盟商信息 pageNo,pageNum
+                break;
+                case 'updatecompany':
+                    surl='/alliance/alliance/UpdateAllance';  //联盟商信息 entity
+                    break;
+                case 'deletemployee':
+                    surl='/alliance/alliance/DeleteAllanceUser';  //联盟商信息 AllianceCode,User_Alliance_AllianceCode[{UserID:UserID}]
+                    break;
+                case 'addemployee':
+                    surl='/Account/AddUser';  //新增联盟商成员 {"UserName":"","Contact":"","Account":"","Pwd":"","IdentityTag":""}
+                    break;
+                case 'isexist':
+                    surl='/account/CheckIsExists';  //验证账号是否存在Contact，返回0为存在
                     break;
                 default:
                     break;

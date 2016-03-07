@@ -1,10 +1,69 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+<style>
+    .modal-dialog{
+        width: 500px;
+    }
+</style>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">
+        <i class="glyphicon glyphicon-remove"></i>
+    </button>
+    <header>
+        <div class="clearfix">
+            <h3 class="modal-title">新增成员</h3>
+        </div>
+    </header>
+</div>
+<div class="modal-body  clearfix">
+    <form name="employeeForm"  class="form-horizontal" novalidate>
+        <div class="form-group">
+            <label  class="control-label col-md-3 form-required" >真实姓名</label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" ng-model="new.UserName" required placeholder="请输入姓名">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="control-label col-md-3 form-required">联系电话</label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" ng-model="new.Contact" required ng-pattern="/^(0|86)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/" ng-blur="isExist()" placeholder="请输入联系电话">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="control-label col-md-3 form-required">用户名</label>
+            <div class="col-md-8">
+                <input class="form-control" ng-model="new.Contact" readonly required placeholder="联系电话即为用户名">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="control-label col-md-3 form-required">密码</label>
+            <div class="col-md-8">
+                <input type="password" class="form-control" ng-model="new.Pwd" required placeholder="请输入密码">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="control-label col-md-3 form-required">确认密码</label>
+            <div class="col-md-8">
+                <input type="password" class="form-control" ng-model="confPwd" required placeholder="请确认密码">
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="control-label col-md-3 form-required">成员角色</label>
+            <div class="col-md-8">
+                <label class="checkbox-inline" >
+                    <input type="radio" name="role"
+                           value="2" ng-model="new.IdentityTag" required> 评估师
+                </label>
+                <label class="checkbox-inline" >
+                    <input type="radio" name="role"  value="1" ng-model="new.IdentityTag" required > 普通员工
+                </label>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer clearfix ">
+    <div class="alert {{alert.type}} text-center" ng-bind="alert.msg" ng-show="alert.msg"></div>
+    <div class="col-md-6 col-md-offset-3">
+        <button class="btn btn-info btn-block" ng-click="add()" ng-disabled="employeeForm.$invalid">
+            提交
+        </button>
+    </div>
+</div>

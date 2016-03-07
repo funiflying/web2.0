@@ -47,10 +47,15 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
 
         });
     }
+}]).controller('IndexController',['$rootScope','$scope','$sce',function($rootScope,$scope,$sce){
+    $scope.availableCash=$sce.trustAsHtml('2004<small>.00</small>');
+    $scope.s=[1,2,3,4,5,6];
+    console.log(GetQueryString())
+   // $rootScope.dialog('./logindialog.html')
+
 }]).controller('HomeController',['$rootScope','$scope','$sce',function($rootScope,$scope,$sce){
-   $scope.availableCash=$sce.trustAsHtml('2004<small>.00</small>')
-
-
+   $scope.availableCash=$sce.trustAsHtml('2004<small>.00</small>');
+    $scope.s=[1,2,3,4,5,6]
 
 }]).controller('CarController',['$rootScope','$scope','$filter','ResourceService','CarService',function($rootScope,$scope,$filter,ResourceService,CarService){
     $scope.car={
@@ -274,28 +279,33 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     };
    //图片占位符
     function preview(src,element,id) {
-        var holdplace =$( '<div  class="file-preview-frame col-md-3" data-path="'+src+'">' +
-            '<img style="width:200px;height:160px;"  class="file-preview-image" src="' + src + '">' +
+        var holdplace =$( '<div class="file-preview-frame col-md-3" id="'+file.id+'"  data-path="'+src+'">' +
+            '<img style="width:200px;height:160px;"  class="file-preview-image" src="'+src+'" >' +
             '<div class="file-thumbnail-footer">' +
             '<div class="file-actions">' +
-            '<div class="file-footer-buttons"></span>' +
-            '<button title="删除" class="kv-file-upload btn btn-xs btn-default pull-right" type="button" value="'+id+'">   <i class="glyphicon glyphicon-trash text-danger"></i>'+
+            '<div class="file-footer-buttons">' +
+            '<button title="删除" class="kv-file-remove btn btn-xs btn-default pull-right" type="button">   <i class="glyphicon glyphicon-trash text-danger"></i>'+
             '</button> ' +
             '</div></div></div></div>');
         $(element).find('.file-drop-zone-title').hide();
         $(element).find('.file-preview-thumbnails').append(holdplace);
         if(id==""||id==undefined){
-            holdplace.find('.kv-file-upload').remove();
+            holdplace.find('.kv-file-remove').remove();
+            holdplace.parents('.file-input').find('.input-group ').remove();
         }
         //删除
         var rm=$(element).find('.kv-file-upload');
-        rm.bind('click',function(){
+        rm.bind('click',function(e){
             var params={
                 CarPicID:this.value
             };
             ResourceService.getFunServer('deletecarimg',params,'post').then(function(data){
                 if(data.status==1){
-                    $(this).parents('.file-preview-frame').remove();
+                    $(e.target).parents('.file-preview-frame').remove();
+                    var length=$(element).find('.file-preview-frame').length;
+                    if(length==0){
+                        $(element).find('.file-drop-zone-title').show();
+                    }
                 }
             });
 
@@ -712,7 +722,480 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             }
         })
     };
-}]).controller('AccountController', ['$rootScope','$scope',
-    function ($rootScope,$scope) {
+}]).controller('AccountController', ['$rootScope','$scope','ResourceService','$filter',function ($rootScope,$scope,ResourceService,$filter) {
+    $scope.profile={};
+    $scope.passwdChangeEditor={editing:false,error:'',errorType:'bind-red'};
+    $scope.tradePasswdEditor={editing:false,error:'',errorType:'bind-red',sent:false,time:60,tradePasswdEditor:'',setting:false};
+    $scope.trueNameEditor={editing:false,error:'',errorType:'bind-red',sent:false,time:60,setting:false};
+    $scope.cityEditor={editing:false,error:'',errorType:'bind-red',sent:false,time:60,setting:false};
+    $scope.phoneEditor={editing:false,error:'',errorType:'bind-red',sent:false,time:60,setting:false};
+   //用户信息
+   $scope.getProfile=function(){
+       ResourceService.getFunServer('user',{}).then(function(data){
+           if(data.status==1){
+               $scope.profile=data.data;
+           }
+       })
+   };
+    //更改用户信息
+    $scope.updateUser=function(){
 
-    }]);
+      ResourceService.getFunServer('updateUser',$scope.profile).then(function(data){
+
+
+      })
+    };
+   //修改切换
+    $scope.toggleEditor=function(a,b,c){
+      a[b]=!a[b];
+    };
+   //修改密码
+    $scope.changePassword=function(){
+        if($scope.passwdChangeForm.$valid){
+            if($scope.passwdChangeEditor.params.newPwd!=$scope.passwdChangeEditor.confPwd){
+
+                $scope.passwdChangeEditor.error='*两次密码输入不一致'
+            }
+            else{
+                ResourceService.getFunServer('resetPwd',$scope.passwdChangeEditor.params).then(function(data){
+                    if(data.status==1){
+                        $scope.passwdChangeEditor.errorType='text-success';
+                        $scope.passwdChangeEditor.error='登录密码修改成功';
+                    }else{
+                        $scope.passwdChangeEditor.error=data.message;
+                    }
+                })
+            }
+        }
+    };
+  //交易密码
+    $scope.hasTradePwd=function(){
+        ResourceService.getFunServer('hastradePwd',{}).then(function(data){
+            if(data.status==1){
+                $scope.tradePasswdEditor.TradePwd='******';
+            }
+            else{
+                $scope.tradePasswdEditor.TradePwd='未设置';
+            }
+        })
+    };
+    //设置交易密码
+   $scope.setTradePassword=function(){
+       if($scope.TradePwdSetForm.$valid){
+           if($scope.tradePasswdEditor.params.PayPassword!=$scope.tradePasswdEditor.confPwd){
+
+               $scope.tradePasswdEditor.error='*两次密码输入不一致'
+           }
+           else{
+               var params={
+                   UserID:$scope.profile.UserID,
+                   PayPassword:$scope.tradePasswdEditor.params.PayPassword
+               };
+               ResourceService.getFunServer('updateUser',params).then(function(data){
+                   if(data.status==1){
+                       $scope.tradePasswdEditor.errorType='text-success';
+                       $scope.tradePasswdEditor.error='交易密码设置成功';
+                   }else{
+
+                       $scope.tradePasswdEditor.error=data.message;
+                   }
+               })
+           }
+       }
+   };
+    //修改交易密码
+    $scope.changeTradePassword=function(){
+        if($scope.TradePwdChangeForm.$valid){
+            if($scope.tradePasswdEditor.params.newTradePwd!=$scope.tradePasswdEditor.confPayPassword){
+
+                $scope.tradePasswdEditor.error='*两次密码输入不一致'
+            }
+            else{
+                ResourceService.getFunServer('resetTradePwd',$scope.tradePasswdEditor.params).then(function(data){
+                    if(data.status==1){
+                        $scope.tradePasswdEditor.errorType='text-success';
+                        $scope.tradePasswdEditor.error='交易密码修改成功';
+                    }else{
+
+                        $scope.tradePasswdEditor.error=data.message;
+                    }
+                })
+            }
+
+        }
+    };
+    //真实姓名
+    $scope.setTrueName=function(){
+        if($scope.trueNameSetForm.$valid){
+            var params={
+                UserID:$scope.profile.UserID,
+                UserName:$scope.trueNameEditor.params.UserName
+            };
+            ResourceService.getFunServer('updateUser',params).then(function(data){
+                if(data.status==1){
+                    $scope.trueNameEditor.errorType='text-success';
+                    $scope.trueNameEditor.error='姓名设置成功';
+                    $scope.getProfile();
+                }else{
+
+                    $scope.trueNameEditor.error=data.message;
+                }
+
+            })
+        }
+    };
+    //修改真实姓名
+    $scope.changeTrueName=function(){
+        if($scope.changeTrueNameForm.$valid){
+            var params={
+                UserID:$scope.profile.UserID,
+                UserName:$scope.trueNameEditor.params.UserName
+            };
+            ResourceService.getFunServer('updateUser',params).then(function(data){
+                if(data.status==1){
+                    $scope.trueNameEditor.errorType='text-success';
+                    $scope.trueNameEditor.error='姓名设置成功';
+                    $scope.getProfile();
+                }else{
+
+                    $scope.cityEditor.error=data.message;
+                }
+
+            })
+        }
+    };
+    //设置城市
+    $scope.setCity=function(){
+        if($scope.citySetForm.$valid){
+            var city=angular.element('#city').val();
+            if(city.indexOf('-')==city.lastIndexOf('-')){
+              city= city.substr(city.indexOf('-')+1,city.length);
+            }else{
+                city=city.substr(city.indexOf('-')+1,city.lastIndexOf('-'))
+            }
+            var params={
+                UserID:$scope.profile.UserID,
+                CityID:angular.element('#city').attr('city'),
+                CityName:city,
+                Address:$scope.profile.Address
+            };
+            ResourceService.getFunServer('updateUser',params).then(function(data){
+                if(data.status==1){
+                    $scope.cityEditor.errorType='text-success';
+                    $scope.cityEditor.error='设置成功';
+                    $scope.getProfile();
+                }else{
+                    $scope.cityEditor.errorType='bind-red';
+                    $scope.cityEditor.error=data.message;
+                }
+            })
+        }
+    };
+    //修改城市
+    $scope.changeCity=function(){
+        if($scope.citySetForm.$valid){
+            var city=angular.element('#city2').val();
+            if(city.indexOf('-')==city.lastIndexOf('-')){
+                city= city.substr(city.indexOf('-')+1,city.length);
+            }else{
+                city=city.substr(city.indexOf('-')+1,city.lastIndexOf('-'))
+            }
+            var params={
+                UserID:$scope.profile.UserID,
+                CityID:angular.element('#city').attr('city'),
+                CityName:city,
+                Address:$scope.profile.Address
+            };
+            ResourceService.getFunServer('updateUser',params).then(function(data){
+                if(data.status==1){
+                    $scope.cityEditor.errorType='text-success';
+                    $scope.cityEditor.error='设置成功';
+                    $scope.getProfile();
+                }else{
+                    $scope.cityEditor.errorType='bind-red';
+                    $scope.trueNameEditor.error=data.message;
+                }
+            })
+        }
+    };
+   //计时
+    $scope.timmer=function(){
+            if($scope.phoneEditor.time==0){
+                $scope.phoneEditor.time=60;
+                $scope.phoneEditor.sent=false;
+            }
+            else
+            {
+                $scope.phoneEditor.time--;
+                $scope.phoneEditor.sent=true;
+                angular.element('.phoneCountDown').text($scope.phoneEditor.time)
+                setTimeout($scope.timmer,1000);
+            }
+
+    };
+  //接受短信验证码
+    $scope.fetchTradekeyCode=function(){
+
+        var params={
+            phoneNum:$scope.phoneEditor.Contact
+        };
+        if($scope.phoneEditor.Contact==$scope.profile.Contact){
+            $scope.phoneEditor.errorType='bind-red';
+            $scope.phoneEditor.error='您输入的手机号已当前手机号码一致';
+        }
+        else{
+            ResourceService.getFunServer('SendPhoneValCode',params).then(function(data){
+                if(data.status==1){
+                    $scope.timmer();
+                    $scope.phoneEditor.errorType='text-info';
+                    $scope.phoneEditor.error='验证码已发送至您'+$filter('ClipPhone')($scope.phoneEditor.Contact)+'的手机，请注意查收';
+                }
+            })
+        }
+
+    };
+   //重新绑定
+    $scope.changePhone=function(){
+        if($scope.changPhoneForm.$valid){
+            var params={
+                phonenum:$scope.phoneEditor.Contact,
+                code:$scope.phoneEditor.confCode
+            };
+            ResourceService.getFunServer('validcode',params).then(function(data){
+                if(data.status==1){
+                    ResourceService.getFunServer('updateUser',{
+                        UserID:$scope.profile.UserID,
+                        Contact:$scope.phoneEditor.Contact
+                    }).then(function(d){
+                        if(d.status==1){
+                            $scope.phoneEditor.errorType='text-info';
+                            $scope.phoneEditor.error='您已成功更换绑定手机号';
+                            $scope.getProfile();
+                        }else{
+                            $scope.phoneEditor.errorType='bind-red';
+                            $scope.phoneEditor.error= d.message;
+                        }
+
+                    })
+                }else{
+                    $scope.phoneEditor.errorType='bind-red';
+                    $scope.phoneEditor.error=data.message;
+                }
+
+            })
+        }
+
+    }
+}]).controller('CompanyController', ['$rootScope','$scope','ResourceService','$filter',function ($rootScope,$scope,ResourceService,$filter) {
+    //联盟商信息
+    $scope.getCompany=function(){
+        var params={
+            PageNo:1,
+            PageNum:1000
+        };
+        ResourceService.getFunServer('company',params).then(function(data){
+            if(data.status==1){
+                $scope.company=data.data;
+                if($scope.company.BusinessLicenseAddr){
+                    preview($scope.company.BusinessLicenseAddr,'#BusinessLicenseNo');
+                }
+                if($scope.company.OrganizationPicAddr){
+                    preview($scope.company.OrganizationPicAddr,'#OrganizationCode')
+                }
+
+
+            }
+        })
+    };
+    //图片占位符
+    function preview(src,element,id) {
+        var holdplace =$( '<div class="file-preview-frame col-md-3"   data-path="'+src+'">' +
+            '<img style="width:200px;height:160px;"  class="file-preview-image" src="'+src+'" >' +
+            '<div class="file-thumbnail-footer">' +
+            '<div class="file-actions">' +
+            '<div class="file-footer-buttons">' +
+            '<button title="删除" class="kv-file-remove btn btn-xs btn-default pull-right" type="button">   <i class="glyphicon glyphicon-trash text-danger"></i>'+
+            '</button> ' +
+            '</div></div></div></div>');
+        if (id=='' || id ==undefined) {
+            $(element).find('.file-preview-frame').remove();
+        }
+        $(element).find('.file-drop-zone-title').hide();
+        $(element).find('.file-preview-thumbnails').append(holdplace);
+        //删除
+        var rm=$(element).find('.kv-file-remove');
+        rm.bind('click',function(e){
+            var params={
+                fileName:src
+            };
+            ResourceService.getFunServer('delimg',params,'post').then(function(data){
+                if(data.status==1){
+                    $(e.target).parents('.file-preview-frame').remove();
+                    var length=$(element).find('.file-preview-frame').length;
+                    if(length==0){
+                        $(element).find('.file-drop-zone-title').show();
+                    }
+                }
+            });
+
+
+        });
+        return holdplace
+    }
+    //编辑信息
+    $scope.editCompany=function(){
+        if($scope.companyForm.$valid){
+            getPicPath();
+            var city=angular.element('#city').val();
+            if(city.indexOf('-')==city.lastIndexOf('-')){
+                city= city.substr(city.indexOf('-')+1,city.length);
+            }else{
+                city=city.substr(city.indexOf('-')+1,city.lastIndexOf('-'))
+            }
+            $scope.company.CityName=city;
+            $scope.company.CityID=angular.element('#city').attr('city')||$scope.company.CityID;
+            ResourceService.getFunServer('updatecompany',$scope.company).then(function(data){
+                if(data.status==1){
+                   $scope.alert={
+                       type:'alert-success',
+                       msg:'编辑成功'
+                   };
+                   setTimeout(function(){
+                       window.location.reload();
+                   },1500)
+                }
+                else{
+                    $scope.alert={
+                        type:'alert-danger',
+                        msg: data.messge
+                    };
+                }
+            })
+        }
+    }
+    //读图片路径
+    function getPicPath(){
+        var cover=$('#OrganizationCode').find('.file-preview-frame').attr('data-path')||'';
+        var pics=angular.element('#BusinessLicenseNo').find('.file-preview-frame').attr('data-path')||'';
+        $scope.company.OrganizationPicAddr=cover;
+        $scope.company.BusinessLicenseAddr=pics;
+        return true;
+    }
+    //编辑成员
+    $scope.editDialog=function(obj){
+        $scope.employee=obj;
+        $rootScope.dialog('./admin/editemployee.html','CompanyController',$scope);
+    };
+    //编辑成员
+    $scope.edit=function(){
+        if($scope.employeeForm.$valid){
+            ResourceService.getFunServer('updateUser',$scope.employee).then(function(data){
+                if(data.status==1){
+                    $scope.alert={
+                        type:'alert-success',
+                        msg:'编辑成功'
+                    };
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1500)
+                }else{
+                    $scope.alert={
+                        type:'alert-danger',
+                        msg:data.message
+                    };
+                }
+            })
+        }
+    };
+    $scope.deleteDialog=function(obj){
+        $scope.employee=obj;
+        $rootScope.dialog('./admin/delemployee.html','CompanyController',$scope);
+    };
+    //删除成员
+    $scope.delete=function(){
+        var params={
+            AllianceCode:$scope.employee.AllianceCode,
+            User_Alliance_AllianceCode:[{UserID:$scope.employee.UserID}]
+        };
+        ResourceService.getFunServer('deletemployee',params).then(function(data){
+            if(data.status==1){
+                $scope.alert={
+                    type:'alert-success',
+                    msg:'删除成功'
+                };
+                setTimeout(function(){
+                    window.location.reload();
+                },1500)
+            }else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:data.message
+                };
+            }
+        })
+    };
+    //添加成员
+    $scope.addDialog=function(){
+        $rootScope.dialog('./admin/addemployee.html','CompanyController',$scope);
+    };
+    $scope.new={};
+    $scope.isExist=function(){
+        if(!$scope.new.Contact){
+            return;
+        }
+        var params={
+            Contact:$scope.new.Contact
+        };
+        $scope.exist=false;
+        ResourceService.getFunServer('isexist',params).then(function(data){
+            if(data.status==0){
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:'该手机号已被注册'
+                };
+                $scope.exist=true
+            }
+            else{
+                $scope.alert={
+                    type:'',
+                    msg:null
+                };
+            }
+        })
+    };
+    $scope.add=function(){
+        if($scope.exist){
+            $scope.alert={
+                type:'alert-danger',
+                msg:'该手机号已被注册'
+            };
+        }
+       else{
+            if($scope.new.Pwd!=$scope.confPwd){
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:'两次密码不一致'
+                };
+            }else{
+                $scope.new.Account=$scope.new.Contact;
+                ResourceService.getFunServer('addemployee',$scope.new).then(function(data){
+                    if(data.status==1){
+                        $scope.alert={
+                            type:'alert-success',
+                            msg:'新增成功'
+                        };
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1500)
+                    }else{
+                        $scope.alert={
+                            type:'alert-danger',
+                            msg:data.message
+                        };
+                    }
+                })
+            }
+        }
+
+    }
+}]);

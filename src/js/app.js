@@ -1,7 +1,7 @@
 angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookies','chetongxiang.controllers','chetongxiang.services','chetongxiang.directives','chetongxiang.filters'])
     .config(['$stateProvider','$urlRouterProvider','$httpProvider',function($stateProvider,$urlRouterProvider,$httpProvider){
 
-    $urlRouterProvider.otherwise('home/main',{
+    $urlRouterProvider.otherwise('',{
 
     });
     //access访问权限,0未不限制，1为需登录
@@ -88,6 +88,18 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         controller:'AccountController',
         access:1,
         action:'account'
+    }).state('home.company',{
+        url:'/company',
+        templateUrl:'./admin/company.html',
+        controller:'CompanyController',
+        access:1,
+        action:'company'
+    }).state('home.employee',{
+        url:'/employee',
+        templateUrl:'./admin/employee.html',
+        controller:'CompanyController',
+        access:1,
+        action:'employee'
     });
      $httpProvider.interceptors.push('myInterceptor');
 }]).constant('PAGE_CONFIG',{

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap-datetimepicker.min.css"/>
     <link rel="stylesheet" href="./lib/webuploader-0.1.5/webuploader.css"/>
+    <link rel="stylesheet" href="./css/iconfont.css"/>
     <link rel="stylesheet" href="./css/chetongxiang.css"/>
     <!--[if lte IE 8]>
     <script>
@@ -41,12 +42,10 @@
         <a href="">首页</a><a href="">我要买车</a><a href="">我要卖车</a><a href="">服务保障</a><a style="margin-left: 80px;" href="" ng-click="loginOff()" ng-if="USER">退出登录 <span class="glyphicon glyphicon-off"></span></a>
     </div>
 </div>
-<div class="container container-fluid" style="padding-top: 30px">
+<div class="container container-fluid" style="padding: 30px 0">
     <div ui-view></div>
-
-
 </div>
-
+<div ng-include="'./statics/footer.html'"></div>
 
 <script src="./lib/jquery/dist/jquery-1.10.2.min.js"></script>
 <script src="./js/chetongxiang.js"></script>
