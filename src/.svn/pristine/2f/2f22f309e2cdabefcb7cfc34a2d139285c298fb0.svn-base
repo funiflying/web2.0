@@ -29,7 +29,7 @@
     <script src="//cdn.bootcss.com/html5shiv/3.6/html5shiv.min.js"></script>
     <![endif]-->
 </head>
-<body ng-controller="IndexController" >
+<body ng-controller="IndexController">
 <div class="tui-nav index-nav" ng-controller="LoginController">
     <div class="tui-nav-top" >
         <div class="wrapper index-nav-top">
@@ -38,7 +38,7 @@
             <span class="pull-right"><a href="" class="text-orange">急售通道</a><span class="spacer"></span><a href="">意见反馈</a><span class="spacer"></span><a href="">操作手册</a><span class="spacer"></span><a  href="http://192.168.0.218/OA/login.html">分公司登录</a></span>
         </div>
     </div>
-    <div class="tui-nav-link wrapper text-right" >
+    <div class="tui-nav-link container text-right" >
 
     </div>
     <div class=" wrapper index-nav-bar">
@@ -48,7 +48,6 @@
             <li class="index-nav-item"><a href="sell.html">我要卖车</a></li>
             <li class="index-nav-item"><a href="join.html">我要入驻</a></li>
             <li class="index-nav-item"><a href="expert.html">专家库</a></li>
-            <li class="index-nav-item"><a href="safeguard.html">服务保障</a></li>
         </ul>
     </div>
 </div>
@@ -74,75 +73,46 @@
         <h1 class="item-title" ng-bind="car.SpecName"></h1>
         <p class="item-tag" >车源号：<strong ng-bind="car.CarNo|FormatCarNo" class="text-orange"></strong></p>
         <div class="item-price-wrap clearfix">
-            <div class="item-price-container">
-                <p class="item-price" ng-bind-html="car|CarPrice"></p>
-                <strike class="item-newcar-price" ng-bind-html="car.NewCarPrice|NewCarPrice"></strike>
+            <div class="item-price-container" ng-if="!USER||!USER.AllianceCode||car.WholesalePrice==0">
+                    <p class="item-price" ng-bind="car.Price/10000|currency:'￥'"><small style="font-size: 14px"> 万</small></p>
+                    <strike class="item-newcar-price" >新车价 <i ng-bind="car.NewCarPrice/10000|currency:'￥'"></i><small style="font-size: 12px"> 万</small></strike>
+            </div>
+            <div class="item-price-container" ng-if="USER&&USER.AllianceCode&&car.WholesalePrice>0">
+                <p class="item-price" ><i ng-bind="car.WholesalePrice/10000|currency:'￥'"></i><small style="font-size: 14px"> 万(同行价)</small></p>
+                <strike class="item-newcar-price" >原售价 <i ng-bind="car.Price/10000|currency:'￥'"></i><small style="font-size: 12px"> 万</small></strike>
             </div>
             <div class="item-price-carinfo">
                 <p>里程 : <i ng-bind="car.Mileage"></i> 万公里</p>
                 <p>车龄 : <i ng-bind="car.Buyyear|DateFormat:'yyyy-MM'"></i> 至今 (<i ng-bind="car.CarYear"></i>) 年</p>
                 <p>过户 : <i ng-bind="car.TransferNo"></i> 次</p>
             </div>
+
         </div>
-        <div class="item-contact clearfix" ng-bind-html="car|FormatOwner">
+        <div class="consignee-address-container clearfix" >
+            <div class="consignee-address">
+                配送城市：<input id="city" class="address" type="text" placeholder="输入收车城市" ng-model="city" />
+            </div>
+            <div class="consignee-dealprice">
+                <p>
+                   应付金额：<strong class="text-orange" ng-if="!USER||!USER.AllianceCode||car.WholesalePrice==0" ng-bind="car.Price|currency:'￥'"></strong>
+                             <strong class="text-orange" ng-if="USER&&USER.AllianceCode&&car.WholesalePrice>0" ng-bind="car.WholesalePrice|currency:'￥'"></strong>
+                </p>
+                <p>
+                    预付款： <strong class="text-orange" ng-if="!USER||!USER.AllianceCode||car.WholesalePrice==0" ng-bind="car.Price*0.2|currency:'￥'"></strong>
+                              <strong class="text-orange" ng-if="USER&&USER.AllianceCode&&car.WholesalePrice>0" ng-bind="car.WholesalePrice*0.2|currency:'￥'"></strong>
+
+                </p>
+            </div>
         </div>
-        <div ng-bind-html="car|FormatBuyBtn"></div>
+        <div class="text-left">
+            <button type="button" class="item-buy-btn" ng-click="orderSubmit()">提交订单</button>
+        </div>
         <div ng-bind-html="car|FormatDetection"> </div>
+
     </div>
 </div>
-<div class="wrapper">
-    <ul class="item-describe clearfix">
-        <li>
-            <h3 class="item-describe-title">车主自述</h3>
-            <div class="item-describe-readme" ng-bind="car.Readme||'暂无车主描述信息'"></div>
-        </li>
-        <li style="border-left: 1px solid #DEDEDE;padding-left: 15px">
-            <h3 class="item-describe-title">车源基本信息</h3>
-            <div class="item-describe-info" >
-                <table>
-                    <tr>
-                        <th style="width: 15%">车源号</th>
-                        <td style="width: 25%"><i ng-bind="car.CarNo"></i></td>
-                        <th style="width: 15%">颜色</th>
-                        <td style="width: 15%"><i ng-bind="car.Color|Corlor"></i></td>
-                        <th style="width: 15%">车型</th>
-                        <td style="width: 15%"><i ng-bind="car.Style|CarStyle"></i></td>
-                    </tr>
-                    <tr>
-                        <th>牌照地点</th>
-                        <td><i ng-bind="car.RegisterPlace"></i></td>
-                        <th>年检到期</th>
-                        <td><i ng-bind="car.Annual_Inspect_Time|DateFormat:'yyyy-MM-dd'"></i></td>
-                        <th>排量</th>
-                        <td><i ng-bind="car.OutputVolumeDetail"></i></td>
-                    </tr>
-                    <tr>
-                        <th>变速箱</th>
-                        <td><i ng-bind="car.GearBox|GearBox"></i></td>
-                        <th>国别</th>
-                        <td><i ng-bind="car.Country|Country"></i></td>
-                        <th>排放标准</th>
-                        <td><i ng-bind="car.DischargeStandardDetail"></i></td>
-                    </tr>
-                </table>
-            </div>
-        </li>
 
-    </ul>
-</div>
-<div class="wrapper">
-   <div class="item-title-lead">
-        <div class="title">车辆图片</div>
-        <div class="placeholder"></div>
-   </div>
-</div>
-<div class="wrapper">
-    <ul class="item-galery-repeat clearfix">
-        <li ng-repeat="obj in CarPic"><img src="{{obj.PicAddr|LargeIcon}}" alt=""/></li>
-    </ul>
-    
-</div>
-<div ng-include="'./statics/footer.html'">sddsfds</div>
+<div ng-include="'./statics/footer.html'"></div>
 <script src="./js/chetongxiang.js"></script>
 <script src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="./lib/angular/angular.min.js"></script>
@@ -151,11 +121,15 @@
 <script src="./lib/angular-resource/angular-resource.min.js"></script>
 <script src="./lib/angular/angular-cookies.min.js"></script>
 <script src="./js/app.js"></script>
-<script src="./js/controllersIndex.js"></script>
+<script src="./js/controllers.js"></script>
 <script src="./js/services.js"></script>
 <script src="./js/filters.js"></script>
 <script src="./js/directives.js"></script>
 <script src="./js/cityJson.js"></script>
-
+<script>
+    $('#city').on('click',function(e){
+        SelCity(this,e)
+    })
+</script>
 </body>
 </html>

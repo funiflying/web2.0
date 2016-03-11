@@ -134,7 +134,7 @@
                     <em class="show" >全部<i></i></em>
                         <div  class="otherbrand" data-role="otherBrand">
                             <div class="o-b-box">
-                                <!-- <span class="arrow"><s></s></span>-->
+                               <!-- <span class="arrow"><s></s></span>-->
                                 <ul class="o-b-list" data-role="letterNav">
                                     <li class="clearfix">
                                         <span>A</span>
@@ -570,7 +570,7 @@
 <script src="./lib/angular-resource/angular-resource.min.js"></script>
 <script src="./lib/angular/angular-cookies.min.js"></script>
 <script src="./js/app.js"></script>
-<script src="./js/controllersIndex.js"></script>
+<script src="./js/controllers.js"></script>
 <script src="./js/services.js"></script>
 <script src="./js/filters.js"></script>
 <script src="./js/directives.js"></script>

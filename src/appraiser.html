@@ -301,7 +301,7 @@
 <div class="wrapper tool-bar">
     <span class="text-orange">为您找到 <strong ng-bind="pageTotal"></strong> 位认证评估师</span>
 </div>
-<div class="wrapper" ng-init="getExpert();" style="min-height: 800px">
+<div class="wrapper clearfix" id="appraiser" ng-init="getExpert();" style="min-height: 800px">
     <ul class="expert-list clearfix" ng-show="pageTotal>0">
         <li class="expert-list-item" ng-repeat="obj in list">
             <div class="title">
@@ -312,18 +312,46 @@
                     <img ng-src="{{obj.HeadImage||DefaultUserIcon}}" alt=""/>
                 </div>
                 <div class="describe">
-                        <p>编号：<span ng-bind="obj.AppraiserCode">6030711043736</span></p>
-                        <p  class="skill-repeat">擅长品牌：<span ng-repeat="skill in obj.Skill" ng-bind="skill.BrandName"></span></p>
-                        <p>评估次数：<span class="text-orange" ng-bind="obj.EntrustTestCount||0">0</span>次
-                            <span style="margin-left: 10px">好评率：<span class="text-orange" ng-bind="obj.EntrustGoodPerson||100">100</span>%</span>
-                        </p>
-                        <p>地址：<span ng-bind="obj.Address||'暂无地址信息'"></span></p>
+                    <p>编号：<span ng-bind="obj.AppraiserCode">6030711043736</span></p>
+                    <p  class="skill-repeat">擅长品牌：<span ng-repeat="skill in obj.Skill" ng-bind="skill.BrandName"></span></p>
+                    <p>评估次数：<span class="text-orange" ng-bind="obj.EntrustTestCount||0">0</span>次
+                        <span style="margin-left: 10px">好评率：<span class="text-orange" ng-bind="obj.EntrustGoodPerson||100">100</span>%</span>
+                    </p>
+                    <p>地址：<span ng-bind="obj.Address||'暂无地址信息'"></span></p>
 
                 </div>
             </div>
         </li>
     </ul>
+    <div class="appraiser-about-car" ng-init="getCar()">
+        <div class="appr-right-wrap">
+            <div class="appr-right-tit">委托车辆信息</div>
+            <div class="appr-right-car">
+                <div class="appr-right-img">
+                    <img width="290" ng-src="http://ctx-debug.oss-cn-shanghai.aliyuncs.com/Files/CarImg/a9dc5be82e86444c8028b70a571628ff.jpg" src="http://ctx-debug.oss-cn-shanghai.aliyuncs.com/Files/CarImg/a9dc5be82e86444c8028b70a571628ff.jpg">
+							<span class="renzheng_icon" ng-bind-html="car|FormatIndexDetection">
 
+							</span>
+                </div>
+                <div class="appr-right-text">
+                    <p class="span16 text-ellipsis " ng-bind="car.SpecName">华晨宝马-宝马3系 2005款 325i 领先型</p>
+                    <p class="span14 ">2016-2-28上牌   6万公里</p>
+                    <p><span class="color-price span24 ">30.00 </span><span class="span14 color-price">万</span> <span class="span14"><strike class="ng-binding">46.10万</strike></span></p><p></p>
+                </div>
+            </div>
+
+            <div class="appr-right-tit">委托车同享金牌评估师</div>
+            <div class="appr-right-car">
+                <div class="appr-right-img"><img width="290" src="./images/ctx_pgs.gif"></div>
+                <div class="appr-right-text">
+                    <p class="span18 color-hei text-center">金牌评估师  车同享权威认证</p>
+                    <p class="span14 color-hei text-center">一键委托，评估更便捷，进度全跟踪</p>
+                    <p class="text-center"><button ng-click="toctx()">提交请求</button></p>
+                </div>
+                <div style="position: absolute; right: -6px; top: -55px;"><img src="./images/jinpai.png"></div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="wrapper">
     <div pagination  total-items="pageTotal" ng-model="currentPage" ng-change="changeCityPager()" class="pagination-lg" items-perPage="10"

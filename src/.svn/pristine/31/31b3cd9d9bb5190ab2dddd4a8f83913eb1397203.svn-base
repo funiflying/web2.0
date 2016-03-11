@@ -12,7 +12,7 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         controller:'LoginController',
         access:0
     }).state('register',{
-            //注册
+            //登录
         url:'/register',
         templateUrl:'./admin/register.html',
         controller:'RegisterController',
@@ -23,13 +23,7 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         templateUrl:'./admin/password.html',
         controller:'RegisterController',
         access:0
-    }).state('appraiser',{
-            //找回密码
-            url:'/appraiser',
-            templateUrl:'./admin/appraiser.html',
-            controller:'IndexController',
-            access:0
-        }).state('success',{
+    }).state('success',{
         //登录
         url:'/success?TAG',
         templateUrl:'./admin/success.html',
@@ -122,12 +116,6 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         url:'/employee',
         templateUrl:'./admin/employee.html',
         controller:'CompanyController',
-        access:1,
-        action:'employee'
-    }).state('home.entrust',{
-        url:'/entrust',
-        templateUrl:'./admin/entrust.html',
-        controller:'EntrustController',
         access:1,
         action:'employee'
     });

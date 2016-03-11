@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$USER_HOME$/Desktop/新建文本文档 (2).txt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/css/chetongxiang.css" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/js/app.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/js/chetongxiang.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/js/controllers.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/js/controllersIndex.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/js/directives.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/js/filters.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/js/services.js" charset="UTF-8" />

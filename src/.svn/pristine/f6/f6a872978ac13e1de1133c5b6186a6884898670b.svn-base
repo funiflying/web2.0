@@ -362,7 +362,7 @@ angular.module('chetongxiang.filters', []).
             }
             else{
                 var elem= ' <a class="item-buy-btn" href="order.html?CarNo='+car.CarNo+'"><i class="glyphicon glyphicon-shopping-cart"></i> 立即购买</a>'+
-                    '<a class="item-evaluation-btn" href="appraiser.html?CarNo='+car.CarNo+'&Brand='+car.Brand+'&CityID='+car.CityID+'"><img src="images/Trust-evaluation-icon.png" alt=""/>委托评估</a>';
+                    '<a class="item-evaluation-btn" href="entrust.html?CarNo='+car.CarNo+'"><img src="images/Trust-evaluation-icon.png" alt=""/>委托评估</a>';
 
                 return $sce.trustAsHtml(elem);
             }
@@ -738,42 +738,5 @@ angular.module('chetongxiang.filters', []).
                 }
             }
             return appr;
-        }
-    }).filter('ApprOrderStatus', function() {
-        //评估检测状态
-        return function(status) {
-            status = status + "";
-            var descr = "";
-            switch (status) {
-                case "0":
-                    descr = "未付款";
-                    break;
-                case "1":
-                    descr = "已付款待接单";
-                    break;
-                case "2":
-                    descr = "待评估";
-                    break;
-                case "3":
-                    descr = "已评估待评估师评价";
-                    break;
-                case "4":
-                    descr = "评估师已评价待用户评价";
-                    break;
-                case "5":
-                    descr = "客户已评价";
-                    break;
-                case "6":
-                    descr = "订单完成";
-                    break;
-                case "255":
-                    descr = "订单完成";
-                    break;
-                default:
-                    descr = "未知：" + status;
-                    break;
-
-            }
-            return descr;
         }
     });
