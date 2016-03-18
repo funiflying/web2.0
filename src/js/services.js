@@ -21,6 +21,9 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                 case "CarList"://车辆筛选
                     surl='/common/car/SearchCar';
                     break;
+                case "CarPeerList"://同行车辆筛选
+                    surl='/common/car/SearchCarForMobile';
+                    break;
                 case 'brandlist-search'://品牌查询
                     surl='/data/Brand.json';
                     break;
@@ -230,6 +233,18 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                 case 'expert':
                     surl='/alliance/appraiser/SearchAppraiserWithIndex';  //专家库{"CityID":0,"BrandID":0,"SeriesID":0,"PageNo":1,"PageNum":10}
                     break;
+                case 'appraiser':
+                    surl='/Alliance/Appraiser/GetAppraiserInfo';  //评估师信息?AppraiserCode
+                    break;
+                case 'updateappraiser':
+                    surl='/Alliance/Appraiser/UpdateAppraiser';  //更新评估师信息entity
+                    break;
+                case 'deleteSkill':
+                    surl='/Alliance/AppraiserSkill/DeleteAppraiserSkill';  //删除评估师技能 SkillID
+                    break;
+                case 'addSkill':
+                    surl='/Alliance/AppraiserSkill/AddAppraiserSkillList';  //添加评估师技能 [{ BrandID,AppraiserCode}]
+                    break;
                 default:
                     break;
             }
@@ -324,7 +339,7 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
         LoginOut:function(){
             $cookieStore.remove('AUTH');
             $rootScope.USER=null;
-            $rootScope.state.go('login');
+            window.location.href="index.html";
         }
     }
 }]).factory('CookieService',['$rootScope',function($rootScope){
@@ -356,6 +371,24 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
             this.SetCookie('CITY',value);
         }
 
-
     }
+}]).factory('PayService',['$http',function($http){
+    return {
+        //评估订单支付
+        AppraiserPay: function(obj) {
+            return $http.post('/Common/MSpay/RequestAppraiserPay', obj);
+        },
+        //支付
+        payServlet: function(obj) {
+            return $http.post('http://110.80.39.174:9012/gwpay/payServlet', obj);
+        }
+    }
+
+}]).factory('AppraiserService',['$http',function($http){
+    return {
+        AddSkill: function(obj) {
+            return $http.post('/Alliance/AppraiserSkill/AddAppraiserSkillList', obj);
+        }
+    }
+
 }]);

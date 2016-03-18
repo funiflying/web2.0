@@ -44,29 +44,31 @@
                     <caption>订单编号：<span ng-bind="obj.AppraiseOrderCode"></span></caption>
                     <tr>
                         <td class="car-list-pic">
-                            <a href="item.html?CarNo={{obj.CarNo}}">
-                                <img  class="car-list-cover" ng-src="{{obj.HomePicID||DefaultCarIcon}}"/>
-                                <p class="car-list-carflag">车源号：<span ng-bind="obj.CarNo"></span></p>
+                            <a href="item.html?CarNo={{obj.Car.CarNo}}" target="_blank">
+                                <img  class="car-list-cover" ng-src="{{obj.Car.HomePicID||DefaultCarIcon}}"/>
+                                <p class="car-list-carflag">车源号：<span ng-bind="obj.Car.CarNo"></span></p>
                             </a>
                         </td>
                         <td class="car-list-info">
-                            <h4 ng-bind="obj.SeriesName+obj.SpecName"></h4>
+                            <h4 ng-bind="obj.Car.SeriesName+obj.Car.SpecName"></h4>
                             <p>评估费用：<strong class="text-orange" ng-bind="obj.AppraiserFee|currency:'￥'"></strong></p>
                             <p>下单时间：<span class="text-info" ng-bind="obj.OrderTime|DateFormat:'yyyy-MM-dd'"></span>&nbsp;&nbsp;&nbsp;&nbsp;当前状态：<span class="text-success"  ng-bind="obj.OrderFlag|ApprOrderStatus"></span>
                                 <span class="text-danger" ng-if="obj.RevokeFlag!=0" ng-bind="obj.RevokeFlag|OrderRevoke"></span></p>
-                            <p>评估师：<span  class="text-info" ng-bind="obj.UserName"></span>&nbsp;&nbsp;<span  class="text-info" ng-bind="obj.Contact"></span></p>
+                            <p>委托人：<span  class="text-info" ng-bind="obj.UserName"></span>&nbsp;&nbsp;<span  class="text-info" ng-bind="obj.Contact"></span>
+                                车主：<span  class="text-info" ng-bind="obj.Car.UserName"></span>&nbsp;&nbsp;<span  class="text-info" ng-bind="obj.Car.Contact"></span>
+                            </p>
                             <p class="car-list-info-span">
-                                <span>行驶里程：<i ng-bind="obj.Mileage"></i> 万公里</span>
-                                <span>购买年限：<i ng-bind="obj.Buyyear|DateFormat:'yyyy-MM-dd'"></i></span>
-                                <span>过户次数：<i ng-bind="obj.TransferNo"></i></span>
+                                <span>行驶里程：<i ng-bind="obj.Car.Mileage"></i> 万公里</span>
+                                <span>购买年限：<i ng-bind="obj.Car.Buyyear|DateFormat:'yyyy-MM-dd'"></i></span>
+                                <span>过户次数：<i ng-bind="obj.Car.TransferNo"></i></span>
                             </p>
                         </td>
                         <td class="car-list-toolbar">
-                            <a href=""  class="btn-operate btn-profile" ng-if="obj.OrderFlag==0">支付费用</a>
-                            <a href=""    class="btn-operate btn-profile" ng-if="obj.OrderFlag>=3">检测报告</a>
-                            <a href="" class="btn-operate btn-profile" ng-if="obj.OrderFlag>=3">评估报告</a>
-                            <a href="" class="btn-operate btn-profile" ng-if="obj.OrderFlag==4">交易评价</a>
-                            <a href=""  class="btn-operate btn-profile" ng-if="obj.OrderFlag==0 && obj.RevokeFlag==0" ng-click="revokeDialog(obj)">撤销委托</a>
+                            <a href="javascript:void(0)"  class="btn-operate btn-profile" ng-if="obj.OrderFlag==1&&obj.RevokeFlag==0">立即接单</a>
+                            <a ng-href="#/detection?CarNo={{obj.CarNo}}&Event=1"    class="btn-operate btn-profile" 'ng-if="obj.OrderFlag==2"'>填检测报告</a>
+                            <a ng-href="#/view?Code={{obj.TestReportCode}}" class="btn-operate btn-profile" 'ng-if="obj.OrderFlag>2"'>检测报告</a>
+                            <a href="" class="btn-operate btn-profile" ng-if="obj.OrderFlag>2">评估报告</a>
+                            <a href="" class="btn-operate btn-profile" ng-if="obj.OrderFlag==3">交易评价</a>
                         </td>
                     </tr>
                 </table>

@@ -3,11 +3,87 @@
         <h3>我的账户</h3>
     </div>
     <section class="basic summary-section">
-        <div class="basic-profile clearfix">
+       <!-- <div class="basic-profile clearfix">
             <div class="pull-left">
                 <a href="" class="profile-header">
                     <img src="" width="100%" height="100%" ng-src="{{profile.HeadImage||DefaultUserIcon}}">
                 </a>
+            </div>
+        </div>-->
+        <div class="row">
+            <div class="basic-profile" id="crop-avatar">
+                <!-- Current avatar -->
+                <div class="avatar-view pull-left text-center" title="" style="width: 118px;">
+                    <a href="" class="profile-header">
+                        <img ng-src="{{profile.HeadImage||DefaultUserIcon}}" alt="" width="100%" height="100%" id="tui-headImage" />
+                    </a>
+                    <button class="btn btn-primary btn-sm cropper-btn" ng-click="icon()">更换头像</button>
+                </div>
+                <!-- Cropping modal -->
+                <div class="modal fade" id="avatar-modal" aria-hidden="false" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <form class="avatar-form" action="/common/file/UpLoadHeaderImgProcess" enctype="multipart/form-data" method="post">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title" id="avatar-modal-label">上传头像</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="avatar-body">
+
+                                        <!-- Upload image and data -->
+                                        <div class="avatar-upload">
+                                            <input type="hidden" class="avatar-src" name="avatar_src">
+                                            <input type="hidden" class="avatar-data" name="avatar_data">
+                                            <label for="avatarInput">选择头像</label>
+                                            <button class="btn btn-info">选择头像</button>
+                                            <input type="file" class="avatar-input" id="avatarInput" name="file">
+                                        </div>
+
+                                        <!-- Crop and preview -->
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <div class="avatar-wrapper"></div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="avatar-preview preview-lg"></div>
+                                                <div class="avatar-preview preview-md"></div>
+                                                <div class="avatar-preview preview-sm"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row avatar-btns">
+                                            <div class="col-md-9">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-primary" data-method="rotate" data-option="-90" title="Rotate -90 degrees">左旋转</button>
+                                                    <button type="button" class="btn btn-primary" data-method="rotate" data-option="-15">-15度</button>
+                                                    <button type="button" class="btn btn-primary" data-method="rotate" data-option="-30">-30度</button>
+                                                    <button type="button" class="btn btn-primary" data-method="rotate" data-option="-45">-45度</button>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-primary" data-method="rotate" data-option="90" title="Rotate 90 degrees">右旋转</button>
+                                                    <button type="button" class="btn btn-primary" data-method="rotate" data-option="15">15度</button>
+                                                    <button type="button" class="btn btn-primary" data-method="rotate" data-option="30">30度</button>
+                                                    <button type="button" class="btn btn-primary" data-method="rotate" data-option="45">45度</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button type="button" class="btn btn-primary btn-block avatar-save" ng-click="uplodeImg()">上传</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div> -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.modal -->
+
+                <!-- Loading state -->
+                <div class="uploader-loading" aria-label="Loading" role="img" tabindex="-1"></div>
             </div>
         </div>
     </section>
@@ -333,4 +409,8 @@
     $("#city2").click(function (e) {
         SelCity(this,e);
     });
+
+
+
+
 </script>

@@ -87,9 +87,9 @@
         <div class="sef-area">
             <div class="seach-bar">
                 <div class="input-group">
-                    <input type="text" id="search" auto-complete class="form-control" placeholder="输入品牌、车源号">
+                    <input type="text" id="search" auto-complete  class="form-control" placeholder="输入品牌、车源号" ng-model="code">
                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">
+                      <button class="btn btn-default" type="button" ng-click="search()">
                           <i class="glyphicon glyphicon-search"></i>
                       </button>
                    </span>

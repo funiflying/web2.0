@@ -40,11 +40,9 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     //退出
     $scope.loginOff=function(){
         ResourceService.getFunServer('loginout',{}).then(function(data){
-            AuthService.LoginOut();
             if(data.status==1){
                 AuthService.LoginOut();
             }
-
         });
     }
     //接受短信验证码
@@ -68,6 +66,13 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
 
     };
 }]).controller('IndexController', ['$rootScope','$scope','$filter','ResourceService','CarService', function ($rootScope,$scope,$filter,ResourceService,CarService) {
+    if(window.location.href.indexOf('peer.html')>0&&(!$rootScope.USER||$rootScope.USER&&$rootScope.USER.IdentityTag==0)){
+        $rootScope.toast('您没有访问权限',function(){
+            window.location.href='index.html';
+            return false
+        })
+    }
+    $scope.code='';
     $scope.currentPage=1;
     $scope.showMore=false;
     $scope.hideMore=true;
@@ -119,9 +124,9 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         Sort: null,
         Style: null,
         WomenCar:null,
-        CarNo:null
+        CarNo:null,
+        IncludeFlag:null
     };
-
     $scope.QS=QueryString();
     delete  $scope.QS.q;
     for(var obj in $scope.QS){
@@ -229,6 +234,24 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         $scope.hideMore=true;
         $scope.series=$scope.seriesArr.slice(0,10);
     };
+    //同行
+    $scope.peerList=function(){
+        ResourceService.getFunServer('CarPeerList',$scope.filter).then(function(data){
+            if(data.status==1){
+                if(data.count){
+                    angular.forEach(data.data,function(obj,index){
+                        if(obj.name=='Carsource'){
+                            $scope.list=obj.value;
+                            $scope.pageTotal=data.count;
+                        }
+                    })
+                }else{
+                    $scope.list=[];
+                    $scope.pageTotal=0;
+                }
+            }
+        });
+    };
     //翻页
     $scope.changePager=function(){
         $scope.filter.PageNo=$scope.currentPage;
@@ -241,22 +264,24 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     };
     //搜索
     $scope.search=function(){
+        var QS=QueryString();
         if(!$scope.code){
             return;
         }
         if(!isNaN($scope.code)&&$scope.code.length==13){
-            $scope.filter.CarNo=$scope.code;
+            QS.CarNo=$scope.code;
         }
         else{
-            $scope.filter.CarNo=null;
-            $scope.filter.SearchWord=$scope.code;
+            QS.CarNo=null;
+            QS.SearchWord=$scope.code;
         }
-        var QS=QueryString();
+
+        var href='?q=0';
         delete  QS.q;
         for(var obj in QS){
-            $scope.filter[obj]=QS[obj];
+            href+='&'+obj+'='+QS[obj];
         }
-        $scope.getList();
+        window.location.href=window.location.href.replace(location.search,'')+href;
     };
     //车辆详情
     $scope.getCar=function(){
@@ -284,13 +309,64 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                                 $scope.Pic=$scope.CarPic.slice($scope.p,12)
                             }
                             break;
+                        case "Test_Report":
+                            $scope.report = val[i].value[0];
+                            break;
+                        case "Test_ReportDetail":
+                            $scope.report.ReportDetail = val[i].value;
+                            break;
+                        case "Test_ReportCarSurfaceCase":
+                            $scope.report.SurfaceCase = val[i].value;
+                            break;
                         default:
                             obj=val[i].value[0];
                             break;
                     }
                 }
+                viewReport();
             }
         })
+    };
+    var viewReport=function(){
+        $scope.score={
+            'background-image':'url("../images/detection/'+$scope.report.CarRate+'.png")'
+        };
+        angular.forEach($scope.report.ReportDetail,function(obj,index){
+            if(obj.Flag==1&&obj.Param1==null){
+                angular.element('#'+obj.AbnormalColumn).removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                angular.element('.detect-accident-'+obj.AbnormalColumn).addClass('active')
+            }
+            if(obj.Flag==1&&obj.Param1==1){
+                //修复
+                angular.element('#'+obj.AbnormalColumn).addClass('carAIblue_'+obj.AbnormalColumn)
+            }
+            if(obj.Flag==1&&obj.Param1==2){
+                //更换
+                angular.element('#'+obj.AbnormalColumn).addClass('carAIGH_'+obj.AbnormalColumn)
+            }
+            if(obj.Flag==1&&obj.Param1==3){
+                //修复
+                angular.element('#'+obj.AbnormalColumn).addClass('carAISC_'+obj.AbnormalColumn)
+            }
+            if(obj.Flag==0){
+                angular.element('#'+obj.AbnormalColumn).removeClass('glyphicon-ok-sign').text('无')
+            }
+
+
+        });
+        angular.forEach($scope.report.SurfaceCase,function(obj,index){
+            if(obj.ProblemFlag==1){
+                //刮擦
+                var flag=$('<i class="e_guacha"  style="left: '+obj.X+'px; top: '+obj.Y+'px;"></i>');
+                $('#GC_PZ').append(flag)
+            }
+            if(obj.ProblemFlag==2){
+                //碰撞
+                flag=$('<i class="e_pengzhuang"  style="left: '+obj.X+'px; top: '+obj.Y+'px;"></i>');
+                $('#GC_PZ').append(flag)
+            }
+        })
+
     };
     //查看大图
     $scope.changeCover=function(src){
@@ -423,7 +499,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     $scope.getExpert=function(){
         ResourceService.getFunServer('expert',$scope.expert_filter).then(function(data){
             if(data.status==1){
-                $scope.list=$filter('AppraiserSkill')(data.data.rows['Appraiser'],data.data.rows['AppraiserSkill']);;
+                $scope.list=$filter('AppraiserSkill')(data.data.rows['Appraiser'],data.data.rows['AppraiserSkill']);
                 $scope.pageTotal=data.data.total;
             }
             else{
@@ -443,7 +519,6 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         }
         $scope.getExpert();
     };
-    //委托车同享评估
     //委托车同享安排评估师下单
     $scope.toctx = function() {
 
@@ -466,7 +541,54 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                 $rootScope.toast(data.message)
             }
         });
+    };
+    //提交评估请求
+    $scope.requestDialog=function(obj){
+        $scope.appraiser_req=obj;
+        if(!$rootScope.USER){
+            $scope.alert={
+                type:'alert-warning',
+                msg:'您还未登录，请登录'
+            };
+            $rootScope.dialog('logindialog.html','LoginController',$scope,function(){
+                if($rootScope.USER){
+                    $scope.alert={
+                        type:'',
+                        msg:null
+                    };
+                    $rootScope.dialog('./admin/request.html','LoginController',$scope);
+                }
+
+
+            },$scope);
+            return false;
+        }else{
+            $rootScope.dialog('./admin/request.html','LoginController',$scope);
+        }
+    };
+    $scope.request=function(){
+        var params = {
+            CarNo:$scope.QS.CarNo ,
+            AppraiserFee:angular.element('#fees').val(),
+            OrderDescription: "",
+            OrderFlag: 1,
+            AppraiserCode:$scope.appraiser_req.AppraiserCode
+        };
+        ResourceService.getFunServer('TestEntrust',params).then(function(data){
+            if(data.data){
+                $scope.alert={
+                    type:'alert-success',
+                    msg:'您的委托请求提交成功,正为你转向支付页面......'
+                };
+                setTimeout(function(){
+                    window.location.href='admin.html#/pay?OrderCode='+data.data+'&Amount='+params.AppraiserFee;
+                },1500)
+            }else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:data.message
+                };
+            }
+        })
     }
-
-
 }]);

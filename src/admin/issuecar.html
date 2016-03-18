@@ -120,7 +120,7 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <input type="text" class="form-control" ng-model="car.Price" required>
-                    <span class="input-group-addon">元</span>
+                    <span class="input-group-addon">万</span>
                      <span class="input-group-addon">
                         含过户费 <input type="checkbox">
                      </span>
@@ -132,7 +132,7 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <input type="text" class="form-control" ng-model="car.WholesalePrice" required placeholder="填0表示面议">
-                    <span class="input-group-addon">元</span>
+                    <span class="input-group-addon">万</span>
                 </div>
             </div>
         </div>
@@ -168,7 +168,7 @@
         <div class="form-group">
             <label  class="control-label col-md-2 form-required">实拍图片</label>
             <div class="col-md-10">
-                <div uploader data-limit="36" multi data-action="/common/file/UpLoadCarProcess" id="car-pics"></div>
+                <div uploader data-limit="36" multi="true" data-action="/common/file/UpLoadCarProcess" id="car-pics"></div>
             </div>
         </div>
         <div class="form-group">

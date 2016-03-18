@@ -241,7 +241,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                 $rootScope.state.go('home.cargather');
 
             } else if ($scope.QS == 'APPRSISER') {
-                $rootScope.state.go('home.entrust');
+                $rootScope.state.go('home.entrustorder');
             }
             else if ($scope.QS == 'ORDER') {
                 $rootScope.state.go('home.buyorder', {OUID: 0});
@@ -927,14 +927,22 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
        ResourceService.getFunServer('user',{}).then(function(data){
            if(data.status==1){
                $scope.profile=data.data;
+               $scope.hasBank=!!$scope.profile.RegisterBankCode;
+               $scope.showBank=!$scope.hasBank;
            }
        })
+       if($rootScope.USER.IdentityTag==3){
+           ResourceService.getFunServer('alliance',{}).then(function(data){
+               if(data.status==1){
+                   $scope.Business=data.data[0];
+               }
+           });
+       }
    };
     //更改用户信息
     $scope.updateUser=function(){
 
       ResourceService.getFunServer('updateUser',$scope.profile).then(function(data){
-
 
       })
     };
@@ -1177,8 +1185,110 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             })
         }
 
+    };
+    //头像
+    $scope.icon=function(){
+        var ca = new CropAvatar('#crop-avatar');
+        $scope.uplodeImg = function() {
+            ca.submit().success(function(d) {
+                $scope.profile.HeadImage= d.data;
+                $scope.updateUser();
+            })
+        };
+        ca.click()
+    };
+    //绑定银行卡
+
+    $scope.addbank=false;
+    $scope.addCard=function(){
+        $scope.addbank=true;
+        $scope.showBank=false;
+        $scope.hasBank=false;
+    };
+    $scope.changeBank=function(){
+        $scope.addbank=true;
+        $scope.hasBank=false;
+        $scope.showBank=false;
+    };
+    $scope.band=function(){
+        $scope.profile.RegisterBank=$scope.bank;
+        if($scope.profile.RegisterBank==null||$scope.profile.RegisterBank==undefined||$scope.profile.RegisterBank==''){
+            $scope.alert={
+                type:'alert-danger',
+                msg:'请选择开户银行'
+            };
+            return false;
+        }
+        ResourceService.getFunServer('updateUser',$scope.profile).then(function(data){
+              if(data.status==1){
+                  $scope.alert={
+                      type:'alert-success',
+                      msg:'银行卡绑定成功'
+                  }
+                  setTimeout(function(){
+                      window.location.reload();
+                  },2000)
+              }else{
+                  $scope.alert={
+                      type:'alert-danger',
+                      msg:data.message
+                  }
+              }
+        })
+    };
+    //提现
+    $scope.withdraw=function(){
+        if($scope.depositForm.$valid){
+            $scope.Business?$scope.deposit.BusinessFlag=1:$scope.deposit.BusinessFlag=0;
+            if(!parseInt($scope.deposit.PayMoney)>0){
+                return;
+            }
+            ResourceService.getFunServer('withdraw',$scope.deposit,'post').then(function(data){
+                if(data.status==1){
+                    $scope.alert={
+                        type:'alert-success',
+                        msg:'您的提现请求已经成功提交，将在3个工作日内到账，如有疑问请致电400-0732-777'
+                    };
+                    setTimeout(function(){
+                        window.location.reload();
+                    },2000)
+                } else{
+                    $scope.alert={
+                        type:'alert-danger',
+                        msg:data.message
+                    };
+                }
+            })
+        }
     }
 }]).controller('CompanyController', ['$rootScope','$scope','ResourceService','$filter',function ($rootScope,$scope,ResourceService,$filter) {
+    //用户信息
+    $scope.profile={
+        User:$rootScope.USER,
+        Business:null
+    };
+    $scope.getProfile=function(){
+        if($rootScope.USER.IdentityTag==0){
+            ResourceService.getFunServer('user',{}).then(function(data){
+                if(data.status==1){
+                    $scope.profile.User=data.data;
+                }
+            })
+
+        }else{
+            ResourceService.getFunServer('alliance',{}).then(function(data){
+                if(data.status==1){
+                    $scope.profile.Business=data.data[0];
+                }
+            });
+            ResourceService.getFunServer('user',{}).then(function(data){
+                if(data.status==1){
+                    $scope.profile.User=data.data;
+                }
+            });
+
+        }
+    };
     //联盟商信息
     $scope.getCompany=function(){
         var params={
@@ -1388,7 +1498,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         }
 
     }
-}]).controller('EntrustController',['$rootScope','$scope','ResourceService','$filter',function ($rootScope,$scope,ResourceService,$filter){
+}]).controller('EntrustOrderController',['$rootScope','$scope','ResourceService','$filter',function ($rootScope,$scope,ResourceService,$filter){
     $scope.pageTotal=0;
     $scope.history=0;
     //获取订单
@@ -1403,7 +1513,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             UserID:$rootScope.USER&&$rootScope.USER.Userid
         };
         //委托评估订单
-            ResourceService.getFunServer('UserGetOrderList',params,'post').then(function(data){
+        ResourceService.getFunServer('UserGetOrderList',params,'post').then(function(data){
                 if(data.data.rows){
                     $scope.list=data.data.rows;
                     $scope.pageTotal=parseInt(data.data.total) ;
@@ -1413,41 +1523,841 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                 }
 
             });
-        //撤销评估
-        $scope.revokeDialog=function(obj){
-           $scope.calcel_order=obj;
-           $rootScope.dialog('./admin/cancelentrust.html','EntrustController',$scope)
+    };
+    //撤销评估
+    $scope.revokeDialog=function(obj){
+        $scope.calcel_order=obj;
+        $rootScope.dialog('./admin/cancelentrust.html','EntrustOrderController',$scope)
+    };
+    $scope.cancelOrder=function(){
+        var params={
+            AppraiserOrderCode:$scope.calcel_order.AppraiserOrderCode
         };
-        $scope.cancelOrder=function(){
-               var params={
-                   AppraiserOrderCode:$scope.calcel_order.AppraiserOrderCode
-               };
-                ResourceService.getFunServer('UserRevoke',params).then(function(data){
-                    if(data.status==1){
-                        $scope.alert={
-                            type:'alert-success',
-                            msg:'订单撤销成功'
-                        };
-                        setTimeout(function(){
-                            window.location.reload();
-                        },1500)
-                    }else{
-                        $scope.alert={
-                            type:'alert-danger',
-                            msg:data.message
-                        };
-                    }
+        ResourceService.getFunServer('UserRevoke',params).then(function(data){
+            if(data.status==1){
+                $scope.alert={
+                    type:'alert-success',
+                    msg:'订单撤销成功'
+                };
+                setTimeout(function(){
+                    window.location.reload();
+                },1500)
+            }else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:data.message
+                };
+            }
 
 
-                })
+        })
 
+
+    }
+    //翻页
+    $scope.changePager=function(){
+        $scope.getList();
+    }
+}]).controller('PayController',['$rootScope','$scope','PayService',function($rootScope,$scope,PayService){
+    $scope.OrderCode=$rootScope.stateParams.OrderCode;
+    $scope.Amount=$rootScope.stateParams.Amount;
+    $scope.btn_disabled=true;
+    $scope.banklistdata = [
+        {
+            bankid:0,
+            bankcode:'01000000',
+            bankname:'邮储银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                }
+            ],
+            bankdesc:'电话：95580',
+            sname:'post'
+        },
+        {
+            bankid:1,
+            bankcode:'01020000',
+            bankname:'工商银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                },
+                {
+                    cardtype:'3',
+                    cardname:'信用卡'
+                }
+            ],
+            bankdesc:'电话：95588',
+            sname:'icbc'
+        },
+        {
+            bankid:2,
+            bankcode:'01030000',
+            bankname:'农业银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                },
+                {
+                    cardtype:'3',
+                    cardname:'信用卡'
+                }
+            ],
+            bankdesc:'电话：95599',
+            sname:'abc'
+        },
+        {
+            bankid:3,
+            bankcode:'01040000',
+            bankname:'中国银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                },
+                {
+                    cardtype:'3',
+                    cardname:'信用卡'
+                }
+            ],
+            bankdesc:'电话：95566',
+            sname:'boc'
+        },
+        {
+            bankid:4,
+            bankcode:'01050000',
+            bankname:'建设银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                },
+                {
+                    cardtype:'3',
+                    cardname:'信用卡'
+                }
+            ],
+            bankdesc:'电话：95533',
+            sname:'bccb'
+        },
+        {
+            bankid:5,
+            bankcode:'03010000',
+            bankname:'交通银行',
+            banktype:[
+                {
+                    cardtype:'3',
+                    cardname:'借记卡'
+                },
+                {
+                    cardtype:'3',
+                    cardname:'信用卡'
+                }
+            ],
+            bankdesc:'电话：95559',
+            sname:'bcom'
+        },
+        {
+            bankid:6,
+            bankcode:'03020000',
+            bankname:'中信银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                }
+            ],
+            bankdesc:'电话：95558',
+            sname:'citic'
+        },
+        {
+            bankid:7,
+            bankcode:'03030000',
+            bankname:'光大银行',
+            banktype:[
+                {
+                    cardtype:'3',
+                    cardname:'借记卡'
+                },
+                {
+                    cardtype:'3',
+                    cardname:'信用卡'
+                }
+            ],
+            bankdesc:'电话：95595',
+            sname:'ceb'
+        },
+        {
+            bankid:8,
+            bankcode:'03050000',
+            bankname:'中国民生银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                },
+                {
+                    cardtype:'3',
+                    cardname:'信用卡'
+                }
+            ],
+            bankdesc:'电话：95568',
+            sname:'cmbc'
+        },
+        {
+            bankid:9,
+            bankcode:'03060000',
+            bankname:'广发银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                },
+                {
+                    cardtype:'2',
+                    cardname:'信用卡'
+                }
+            ],
+            bankdesc:'电话：95508',
+            sname:'cgb'
+        },
+        {
+            bankid:10,
+            bankcode:'03070000',
+            bankname:'平安银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                },
+                {
+                    cardtype:'1',
+                    cardname:'信用卡'
+                }
+            ],
+            bankdesc:'电话：4006699999',
+            sname:'pab'
+        },
+        {
+            bankid:11,
+            bankcode:'03080000',
+            bankname:'招商银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                },
+                {
+                    cardtype:'3',
+                    cardname:'信用卡'
+                }
+            ],
+            bankdesc:'电话：95555',
+            sname:'cmb'
+        },
+        {
+            bankid:12,
+            bankcode:'03090000',
+            bankname:'兴业银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                }
+            ],
+            bankdesc:'电话：95561',
+            sname:'cib'
+        },
+        {
+            bankid:13,
+            bankcode:'03100000',
+            bankname:'浦发银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                },
+                {
+                    cardtype:'2',
+                    cardname:'信用卡'
+                }
+            ],
+            bankdesc:'电话：95528',
+            sname:'spdb'
+        },
+        {
+            bankid:14,
+            bankcode:'03200000',
+            bankname:'东亚银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                }
+            ],
+            bankdesc:'电话：8008303811',
+            sname:'hkbea'
+        },
+        {
+            bankid:15,
+            bankcode:'04031000',
+            bankname:'北京银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                }
+            ],
+            bankdesc:'电话：95526',
+            sname:'bob'
+        },
+        {
+            bankid:16,
+            bankcode:'04083320',
+            bankname:'宁波银行',
+            banktype:[
+                {
+                    cardtype:'3',
+                    cardname:'借记卡'
+                }
+            ],
+            bankdesc:'电话：96528',
+            sname:'nbcb'
+        },
+        {
+            bankid:17,
+            bankcode:'04243010',
+            bankname:'南京银行',
+            banktype:[
+                {
+                    cardtype:'1',
+                    cardname:'借记卡'
+                }
+            ],
+            bankdesc:'电话：96400',
+            sname:'njcb'
+        },
+        {
+            bankid:18,
+            bankcode:'65012900',
+            bankname:'上海农村商业银行',
+            banktype:[
+                {
+                    cardtype:'3',
+                    cardname:'借记卡'
+                },
+                {
+                    cardtype:'3',
+                    cardname:'信用卡'
+                }
+            ],
+            bankdesc:'电话：4006962999',
+            sname:'srcb'
+        }
+    ];
+    $scope.pay=function(){
+        var  obj = {
+            orderCode: $scope.OrderCode,
+            bank_code:$('input[name=bankcode]').val(),
+            pay_type:$('input[name=banktype]').val()
+        };
+        if (obj.orderCode ==null || obj.bank_code =='' || obj.pay_type == '') {
+            $scope.alert={
+                type:'alert-danger',
+                msg:'请选择支付方式和银行卡类型'
+            };
+            return false;
+        }
+        PayService.AppraiserPay(obj).success(
+            function(d){
+                if (d.data != null) {
+                    $scope.paydata = d.data;
+                    $scope.btn_disabled=false
+                }
+                else{
+                    $scope.btn_disabled=true;
+                }
+            }
+        );
+    };
+    $scope.checkpay=function(){
+      $rootScope.dialog('./admin/payconfirm.html','PayController',$scope,function(){
+          window.location.reload();
+      })
+    };
+    $scope.obstacle=function(){
+        window.location.reload();
+    };
+    $scope.complete=function(){
+        $scope.cancel();
+        $rootScope.state.go('home.entrustorder');
+    }
+}]).controller('MainController',['$rootScope','$scope','ResourceService','$filter',function ($rootScope,$scope,ResourceService,$filter){
+
+    //用户信息
+    $scope.profile={
+        User:$rootScope.USER,
+        Business:null
+    };
+    $scope.getProfile=function(){
+        if($rootScope.USER.IdentityTag==0){
+            ResourceService.getFunServer('user',{}).then(function(data){
+                if(data.status==1){
+                    $scope.profile.User=data.data;
+                }
+            })
+
+        }else{
+            ResourceService.getFunServer('alliance',{}).then(function(data){
+                if(data.status==1){
+                    $scope.profile.Business=data.data[0];
+                }
+            });
+            ResourceService.getFunServer('user',{}).then(function(data){
+                if(data.status==1){
+                    $scope.profile.User=data.data;
+                }
+            });
 
         }
     };
+}]).controller('AppraiserController',['$rootScope','$scope','ResourceService','$filter','AppraiserService',function ($rootScope,$scope,ResourceService,$filter,AppraiserService){
+
+    //评估师信息
+    $scope.getAppraiser=function(){
+        if($rootScope.USER&&$rootScope.USER.AppraiserCode)
+        {
+            var params={
+                AppraiserCode:$rootScope.USER.AppraiserCode
+            };
+            ResourceService.getFunServer('appraiser',params).then(function (data){
+                if(data.status==1){
+                    $scope.appraiser=data.data.Appraiser[0];
+                    $scope.skill=data.data.AppraiserSkill;
+                }
+            })
+        }
+    };
+    //更新评估师信息
+    $scope.updateAppraiser=function(){
+        ResourceService.getFunServer('updateappraiser',$scope.appraiser).then(function(data){
+            if(data.status==1){
+
+            }else{
+               $rootScope.toast(data.message)
+            }
+        })
+    };
+    //签名
+    $scope.signature=function(){
+        //签名
+        var ca1 = new CropAvatar('#crop-signature');
+        $scope.uplodeImg = function() {
+            ca1.submit().success(function(d) {
+                $scope.appraiser.Signature= d.data;
+                $scope.updateAppraiser();
+            })
+        };
+        ca1.click();
+    };
+    //评估师申请
+    $scope.approve=function(){
+       var params={
+           realName:$scope.realName,
+           AppraiserPic:angular.element('#cover').find('.file-preview-frame').data('path')
+       };
+        ResourceService.getFunServer('apprasiorApply',params).then(function(data){
+            if(data.status==1){
+                $scope.alert={
+                    type:'alert-success',
+                    msg:'您的申请已提交，我们将尽快为您审核'
+                }
+            }else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:data.message
+                }
+            }
+        })
+    };
+    //删除技能
+    $scope.deleteSkill=function(skillID){
+        if(skillID){
+            var params={
+                SkillID:skillID
+            };
+            ResourceService.getFunServer('deleteSkill',params).then(function(data){
+                if(data.status==1){
+                    $scope.alert={
+                        type:'alert-success',
+                        msg:'删除成功'
+                    };
+                    setTimeout(function(){
+                        $scope.getAppraiser();
+                        $scope.alert={
+                            type:null,
+                            msg:null
+                        }
+                    },1500)
+                }else{
+                    $scope.alert={
+                        type:'alert-danger',
+                        msg:data.message
+                    }
+                }
+            })
+        }
+    };
+    //添加技能
+    $scope.addDialog=function(){
+        $rootScope.dialog('./admin/addprofess.html','AppraiserController',$scope)
+
+    };
+    $scope.add=function(){
+        var params=[];
+        var elem=angular.element('#selectBrand').find('a');
+        angular.forEach(elem,function(obj,index){
+           var o=new Object();
+            o.BrandID=obj.id;
+            o.AppraiserCode=$rootScope.USER&&$rootScope.USER.AppraiserCode;
+            params.push(o);
+        });
+        if(params.length>0){
+            AppraiserService.AddSkill(params).success(function(data){
+                if(data.status==1){
+                    $scope.alert={
+                        type:'alert-success',
+                        msg:'新技能添加成功'
+                    };
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1500)
+                }else{
+                    $scope.alert={
+                        type:'alert-danger',
+                        msg:data.message
+                    };
+                }
+            })
+        }
+        else{
+            $scope.alert={
+                type:'alert-danger',
+                msg:'您没有选择技能'
+            };
+        }
+
+
+    }
+}]).controller('EntrustController',['$rootScope','$scope','ResourceService','$filter',function ($rootScope,$scope,ResourceService,$filter){
+    $scope.pageTotal=0;
+    $scope.history=0;
+    //获取订单
+    $scope.getList=function(status){
+        if(status!=undefined){
+            $scope.history=status;
+        }
+        var params = {
+            PageNo: $scope.currentPage||1,
+            PageNum:$rootScope.PAGE_CONF.PageSize,
+            history:$scope.history,
+            AppraiserCode:$rootScope.USER&&$rootScope.USER.AppraiserCode
+        };
+        //委托评估订单
+        ResourceService.getFunServer('AppraiserGetOrderList',params,'post').then(function(data){
+            if(data.status==1){
+                var entity=data.data;
+                $scope.orderlist=entity[1].value.rows;
+                $scope.car=entity[0].value.rows;
+                $scope.list=$filter('EntrustOrder')($scope.orderlist,$scope.car);
+                $scope.pageTotal=parseInt($scope.list.length) ;
+            }
+            else {
+                $scope.list=[];
+                $scope.pageTotal=0 ;
+            }
+
+        });
+    };
+    //翻页
+    $scope.changePager=function(){
+        $scope.getList();
+    };
+}]).controller('DetectionController',['$rootScope','$scope','ResourceService','$filter','CarService',function ($rootScope,$scope,ResourceService,$filter,CarService){
+    var CarNo=$rootScope.stateParams.CarNo;
+    var EventFlag=$rootScope.stateParams.Event||0;////委托检测  检测+评估 1,交易车辆卖方检测 2,交易车辆买方检测 3,线下检测 4 默认检测    只检测不做评估 0;
+    var TestCode=$rootScope.stateParams.Code;
+    $scope.dateTimeNow=new Date();
+    $scope.report={
+        CarNo: CarNo,
+        CarRate: "95",
+        TestDescription: "经检测，排除重大事故、排除水淹、排除火烧；外观正常，无钣金修复、无刮擦；内饰整洁干净无异味；安全系统、刹车系统以及电子设备一切正常；发动机启动运行正常，动力充沛，换挡平顺，一切正常！",
+        EventFlag: EventFlag,
+        AccidentCheckMemo: "车体骨架结构无变形、无扭曲、无更换、无烧焊、无褶皱；无火烧痕迹，无水泡痕迹。",
+        SecurityCheckMemo: "经检测轮胎正常、四门螺丝正常。",
+        ControlCheckMemo: "经试驾员专业测试，发动机、变速箱正常，无怠速抖动，变速时无闯档顿挫，转向无乏力感。",
+        AICheckMemo: "经检测，无钣金修复、无刮擦，外观正常；灯光设备正常；内饰整洁干净，无异味。其它无更换、无异常！",
+        DeviceCheckMemo: "经检测，安全系统正常、电子设备正常、发动机舱正常！",
+        OtheMemo:"",
+        Test_ReportCarSurfaceCase_Test_Report_TestReportCode:[],
+        Test_ReportDetail_Test_Report_TestReportCode:[]
+    };
+    //车辆详情
+    $scope.carInfo=function(){
+        var params={
+            CarNo:CarNo
+        };
+        ResourceService.getFunServer('GetCar',params).then(function(data){
+            if(data.status==1){
+                var val=data.data;
+                var o=new Object();
+                for(var i=0;i<val.length;i++){
+                    var name=val[i].name;
+                    switch (name){
+                        case 'Car':
+                            var  o= val[i].value[0];
+                            o.Mileage=parseInt(o.Mileage);
+                            o.TransferNo=parseInt(o.TransferNo);
+                            o.Price=parseFloat(o.Price);
+                            o.WholesalePrice=parseFloat(o.WholesalePrice);
+                            o.Buyyear =o.Buyyear&&$filter('DateFormat')(o.Buyyear,'yyyy-MM-dd');
+                            o.InitialDate =o.InitialDate&&$filter('DateFormat')(o.InitialDate,'yyyy-MM-dd');
+                            o.Annual_Inspect_Time =o.Annual_Inspect_Time&&$filter('DateFormat')(o.Annual_Inspect_Time,'yyyy-MM-dd');
+                            o.Compulsory_insurance_Time =o.Compulsory_insurance_Time&&$filter('DateFormat')(o.Compulsory_insurance_Time,'yyyy-MM-dd');
+                            o.Commercial_Insurance_Time =o.Commercial_Insurance_Time&&$filter('DateFormat')(o.Commercial_Insurance_Time,'yyyy-MM-dd');
+                            o.IsUrgent=o.IsUrgent.toString().toLowerCase()=='true'?true:false;
+                            o.QuasiNewCar=o.QuasiNewCar.toString().toLowerCase()=='true'?true:false;
+                            o.LearnerCar=o.LearnerCar.toString().toLowerCase()=='true'?true:false;
+                            o.WomenCar=o.WomenCar.toString().toLowerCase()=='true'?true:false;
+                            o.SevenSeat=o.SevenSeat.toString().toLowerCase()=='true'?true:false;
+                            o.DrivingLicense=o.DrivingLicense.toString().toLowerCase()=='true'?true:false;
+                            o.Registration=o.Registration.toString().toLowerCase()=='true'?true:false;
+                            o.PurchaseInvoices=o.PurchaseInvoices.toString().toLowerCase()=='true'?true:false;
+                            o.IncludeTransferFee=o.IncludeTransferFee.toString().toLowerCase()=='true'?true:false;
+                            o.CarPic_Car_CarNo=[];
+                            $scope.car=o;
+                            $scope.spec={
+                                CatalogID:$scope.car.CatalogID,
+                                SpecName:$scope.car.SpecName
+                            };
+                            $scope.Color=$scope.car.Color;
+                           // preview($scope.car.HomePicID,'#car-cover');
+                            break;
+                        case 'CarPic':
+                            $scope.CarPic=val[i].value;
+                            angular.forEach($scope.CarPic,function(obj,index){
+                                if(index>0){
+                                  //  preview(obj.PicAddr,'#car-pics',obj.CarPicID);
+                                }
+                            });
+                            break;
+                        default:
+                            //  obj=val[i].value[0];
+                            break;
+                    }
+                }
+                return $scope.car;
+            }
+        });
+    };
+    //提交检测报告
+    $scope.detect=function(){
+        var Accident=angular.element('#Accident i.glyphicon-exclamation-sign');
+        var Security=angular.element('#Security i.glyphicon-exclamation-sign');
+        var AI=angular.element('#AI li');
+        var GC=angular.element('#GC_PZ .e_guacha');
+        var PZ=angular.element('#GC_PZ .e_pengzhuang');
+        var Device=angular.element('#Device i.glyphicon');
+        var A=-1,B=-1,C=-1,D=-1;
+        var Test_ReportDetail_Test_Report_TestReportCode=[];
+        var Test_ReportCarSurfaceCase_Test_Report_TestReportCode=[];
+
+        angular.forEach(Accident,function(obj,index){
+           var id=$(obj).attr('id');
+           var value=$(obj).attr('value');
+           var o={};
+            o.AbnormalColumn=id;
+            o.Flag=value;
+            o.Description='缺陷';
+            Test_ReportDetail_Test_Report_TestReportCode.push(o);
+            if(parseInt(id,10)<18){
+                D=0; //D
+            }
+            if(parseInt(id,10)==18||parseInt(id,10)==123||parseInt(id,10)==124){
+                C=0;//C
+            }
+        });
+        angular.forEach(Security,function(obj,index){
+            var id=$(obj).attr('id');
+            var value=$(obj).attr('value');
+            var o={};
+            o.AbnormalColumn=id;
+            o.Flag=value;
+            o.Description='缺陷';
+            Test_ReportDetail_Test_Report_TestReportCode.push(o);
+        });
+        angular.forEach(AI,function(obj,index){
+            var id=$(obj).attr('id');
+            var value=parseInt($(obj).attr('value'),10);
+            if(value!=0){
+                var o={};
+                o.AbnormalColumn=id;
+                o.Flag=1;
+                o.Param1=value;
+                if(value==1){
+                    o.Description='修复';
+                }
+                else if(value==2){
+                    o.Description='更换';
+                }
+                else if(value==3){
+                    o.Description='色差';
+                }
+                Test_ReportDetail_Test_Report_TestReportCode.push(o);
+                if(parseInt(id,10)>63&&parseInt(id,10)<75){
+                   B=0;
+                }
+                else if(parseInt(id,10)==75||parseInt(id,10)==76){
+                   A=0;
+                }
+            }
+        });
+        angular.forEach(GC,function(obj,index){
+            var X=$(obj).data('x');
+            var Y=$(obj).data('y');
+            var o={};
+            o.ProblemFlag=1;
+            o.X=X;
+            o.Y=Y;
+            Test_ReportCarSurfaceCase_Test_Report_TestReportCode.push(o);
+            B=0;
+        });
+        angular.forEach(PZ,function(obj,index){
+            var X=$(obj).data('x');
+            var Y=$(obj).data('y');
+            var o={};
+            o.ProblemFlag=2;
+            o.X=X;
+            o.Y=Y;
+            Test_ReportCarSurfaceCase_Test_Report_TestReportCode.push(o);
+            B=0;
+        });
+        angular.forEach(Device,function(obj,index){
+            var id=$(obj).attr('id');
+            var value=parseInt($(obj).attr('value'),10);
+            if(value!=2){
+                var o={};
+                o.AbnormalColumn=id;
+                o.Flag=value;
+                if(value==1){
+                    o.Description='缺陷';
+                }
+                else if(value==0){
+                    o.Description='无';
+                }
+                Test_ReportDetail_Test_Report_TestReportCode.push(o);
+            }
+        });
+        $scope.report.Test_ReportDetail_Test_Report_TestReportCode=Test_ReportDetail_Test_Report_TestReportCode;
+        $scope.report.Test_ReportCarSurfaceCase_Test_Report_TestReportCode=Test_ReportCarSurfaceCase_Test_Report_TestReportCode;
+
+        if(A==0&&B==-1&&C==-1&&D==-1){
+            $scope.report.CarRate=$scope.report.CarRate+"A";
+        }
+        if(B==0&&C==-1&&D==-1){
+            $scope.report.CarRate=$scope.report.CarRate+"B";
+        }
+        if(C==0&&D==-1){
+            $scope.report.CarRate=$scope.report.CarRate+"C";
+        }
+        if(D==0){
+            $scope.report.CarRate=$scope.report.CarRate+"D";
+        }
+        if(A==-1&&B==-1&&C==-1&&D==-1){
+            $scope.report.CarRate=$scope.report.CarRate+"A";
+        }
+        CarService.WriteTestReport($scope.report).success(function(data){
+
+
+        })
 
 
 
 
+    };
+    //获取检测报告
+    $scope.getReport=function(){
+        var params={
+            TestReportCode:TestCode
+        };
+       ResourceService.getFunServer('GetTestReportWithCode',params).then(function(data){
+            if(data.status==1){
+                var d=data.data;
+                for (var i=0;i< d.length;i++){
+                    var name=d[i].name;
+                    switch (name){
+                        case "Test_Report":
+                            $scope.report = d[i].value[0];
+                            break;
+                        case "Test_ReportDetail":
+                            $scope.report.ReportDetail = d[i].value;
+                            break;
+                        case "Test_ReportCarSurfaceCase":
+                            $scope.report.SurfaceCase = d[i].value;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                $scope.score={
+                     'background-image':'url("../images/detection/'+$scope.report.CarRate+'.png")'
+                };
+               angular.forEach($scope.report.ReportDetail,function(obj,index){
+                   if(obj.Flag==1&&obj.Param1==null){
+                       angular.element('#'+obj.AbnormalColumn).removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                       angular.element('.detect-accident-'+obj.AbnormalColumn).addClass('active')
+                   }
+                   if(obj.Flag==1&&obj.Param1==1){
+                        //修复
+                       angular.element('#'+obj.AbnormalColumn).addClass('carAIblue_'+obj.AbnormalColumn)
+                   }
+                   if(obj.Flag==1&&obj.Param1==2){
+                       //更换
+                       angular.element('#'+obj.AbnormalColumn).addClass('carAIGH_'+obj.AbnormalColumn)
+                   }
+                   if(obj.Flag==1&&obj.Param1==3){
+                       //修复
+                       angular.element('#'+obj.AbnormalColumn).addClass('carAISC_'+obj.AbnormalColumn)
+                   }
+                   if(obj.Flag==0){
+                       angular.element('#'+obj.AbnormalColumn).removeClass('glyphicon-ok-sign').text('无')
+                   }
 
 
-}])
+               });
+                angular.forEach($scope.report.SurfaceCase,function(obj,index){
+                    if(obj.ProblemFlag==1){
+                        //刮擦
+                        var flag=$('<i class="e_guacha"  style="left: '+obj.X+'px; top: '+obj.Y+'px;"></i>');
+                        $('#GC_PZ').append(flag)
+                    }
+                    if(obj.ProblemFlag==2){
+                        //碰撞
+                        flag=$('<i class="e_pengzhuang"  style="left: '+obj.X+'px; top: '+obj.Y+'px;"></i>');
+                        $('#GC_PZ').append(flag)
+                    }
+                })
+
+            }
+
+       })
+
+    }
+
+
+
+}]);

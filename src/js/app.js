@@ -24,16 +24,39 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         controller:'RegisterController',
         access:0
     }).state('appraiser',{
-            //找回密码
-            url:'/appraiser',
-            templateUrl:'./admin/appraiser.html',
-            controller:'IndexController',
-            access:0
-        }).state('success',{
-        //登录
+        //找回密码
+        url:'/appraiser',
+        templateUrl:'./admin/appraiser.html',
+        controller:'IndexController',
+        access:0
+    }).state('success',{
+        //成功状态
         url:'/success?TAG',
         templateUrl:'./admin/success.html',
         controller:'RegisterController',
+        access:0
+    }).state('pay',{
+        //支付
+        url:'/pay?OrderCode&Amount',
+        templateUrl:'./admin/pay.html',
+        controller:'PayController',
+        access:1
+    }).state('detection',{
+        //支付
+        url:'/detection?CarNo&Event',
+        templateUrl:'./admin/detection.html',
+        controller:'DetectionController',
+        access:0
+    }).state('view',{
+        //支付
+        url:'/view?Code',
+        templateUrl:'./admin/view-report.html',
+        controller:'DetectionController',
+        access:0
+    }).state('agreement',{
+        //注册协议
+        url:'/agreement',
+        templateUrl:'./admin/agreement.html',
         access:0
     }).state('home',{
         url:'/home',
@@ -43,7 +66,7 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
     }).state('home.main',{
         url:'/main',
         templateUrl:'./admin/main.html',
-        controller:'',
+        controller:'MainController',
         access:1,
         action:'main'
     }).state('home.issuecar',{
@@ -124,12 +147,48 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         controller:'CompanyController',
         access:1,
         action:'employee'
+    }).state('home.entrustorder',{
+        url:'/entrustorder',
+        templateUrl:'./admin/entrustorder.html',
+        controller:'EntrustOrderController',
+        access:1,
+        action:'entrustorder'
+    }).state('home.signature',{
+        url:'/signature',
+        templateUrl:'./admin/signature.html',
+        controller:'AppraiserController',
+        access:1,
+        action:'signature'
     }).state('home.entrust',{
         url:'/entrust',
         templateUrl:'./admin/entrust.html',
         controller:'EntrustController',
         access:1,
-        action:'employee'
+        action:'entrust'
+    }).state('home.approve',{
+        url:'/approve',
+        templateUrl:'./admin/approve.html',
+        controller:'AppraiserController',
+        access:1,
+        action:'approve'
+    }).state('home.bankcard',{
+        url:'/bankcard',
+        templateUrl:'./admin/bankcard.html',
+        controller:'AccountController',
+        access:1,
+        action:'bank'
+    }).state('home.withdrawal',{
+        url:'/deposit',
+        templateUrl:'./admin/withdrawal.html',
+        controller:'AccountController',
+        access:1,
+        action:'deposit'
+    }).state('home.professional',{
+        url:'/professional',
+        templateUrl:'./admin/professional.html',
+        controller:'AppraiserController',
+        access:1,
+        action:'AppraiserController'
     });
      $httpProvider.interceptors.push('myInterceptor');
 }]).constant('PAGE_CONFIG',{
@@ -204,8 +263,17 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         $rootScope.$on('$stateChangeSuccess', function() {
 
             if($state.current.access==1&&!AuthService.IsAuthenticated()){
-                 $rootScope.toast('您还没有登录或登录超时',function(){
-                     $rootScope.state.go('login');
+                $rootScope.alert={
+                    type:'alert-warning',
+                    msg:'您还未登录，或登录超时'
+                };
+                 $rootScope.dialog('logindialog.html','LoginController',$rootScope,function(){
+                     if($rootScope.USER){
+                         window.location.reload();
+                     }
+                     else{
+                         $rootScope.state.go('login');
+                     }
                  });
             }
             if ($state.current.action) {
@@ -229,11 +297,11 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
                 return config
             },
             response:function(response){
-                if(response.data.status==-1){
+               /* if(response.data.status==-1){
                     $rootScope.toast('您还没有登录或登录超时',function(){
                         $rootScope.state.go('login');
                     });
-                }
+                }*/
 
                 return response
             },

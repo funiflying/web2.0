@@ -1,0 +1,54 @@
+
+<div class="content-wrapper">
+    <div class="tui-admin-title" ng-init="getAppraiser()">
+        <h3>评估师认证</h3>
+    </div>
+    <section class="summary-section">
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="tip-wrapper">
+                    <header class="header">
+                        <h4 class="header-label">温馨提示</h4>
+                    </header>
+                    <div>
+                        <ol class="my-account-tip">
+                            <li><p>申请成为车同享评估师,享受评估师专属权益</p></li>
+                            <li><p>填写用户用真实姓名</p></li>
+                            <li><p>上传的证书不能大于3M</p></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="decollator-line"></div>
+    <div class="row">
+        <form class="form-horizontal" novalidate name="approveForm">
+            <div class="form-group">
+                <label class="col-md-2 control-label form-required">
+                    真实姓名
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" required ng-model="realName"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label form-required">
+                    资格证书
+                </label>
+                <div class="col-md-4">
+                    <div uploader data-limit="1" data-action="/common/file/UpLoadCertificateImgProcess"  id="cover"></div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="decollator-line"></div>
+
+    <div class="col-md-3 col-md-offset-3" style="margin-top: 30px;margin-bottom: 30px">
+        <button class="btn btn-block btn-lg btn-info" ng-click="approve()" ng-disabled="approveForm.$invalid">提交申请</button>
+    </div>
+    <div class="col-md-7 col-md-offset-1" style="height: 60px">
+        <div class="alert {{alert.type}} text-center" ng-bind="alert.msg" ng-show="alert.msg"></div>
+    </div>
+</div>

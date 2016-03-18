@@ -1,0 +1,106 @@
+
+<div class="content-wrapper">
+    <div class="tui-admin-title" ng-init="getProfile()">
+        <h3>资金提现</h3>
+    </div>
+    <section class="summary-section">
+
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="tip-wrapper">
+                    <header class="header">
+                        <h4 class="header-label">温馨提示</h4>
+                    </header>
+                    <div>
+                        <ol class="my-account-tip">
+                            <li><p>在你申请提现前，请先在"银行卡管理"页面绑定银行卡</p></li>
+                            <li><p>收到你的提现请求后，车同享将在3个工作日（双休日或法定节假日顺延）处理你的提现申请，请你注意查收。如有疑问请致电400-0732-777</p></li>
+                            <li><p>为保障你的账户资金安全，申请提现时，你必须输入交易密码，若还没设置交易密码，请到"基本信息"页设置交易密码。</p></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="status-wrapper">
+                    <div class="textTop">
+                        <div class="col-xs-6 cashText">可用余额</div>
+                        <div  class="col-xs-6 cashNumber" ng-bind="Business.Balance||profile.Balance|currency:'￥'"></div>
+                        <div class="col-xs-6 cashText">可提现金额</div>
+                        <div class="col-xs-6 cashNumber" ng-bind="Business.Balance||profile.Balance|currency:'￥'"></div>
+                    </div>
+                    <div class="buttonBottom">
+                        <a class="btn btn-outline-primary btn-embossed"  href="#/home/bankcard">
+                            <span class="sl-icon-credit-card"></span>绑定银行卡
+                        </a>
+                        <a class="btn btn-primary btn-embossed"  href="#/home/account">
+                            <span class="sl-icon-piggy-bank"></span>交易密码
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <div class="decollator-line"></div>
+    <div class="" style="height: 60px;width:80%;margin:0 auto">
+        <div class="alert {{alert.type}} text-center" ng-bind="alert.msg" ng-show="alert.msg"></div>
+    </div>
+    <div class="row">
+        <form class="form-horizontal" novalidate name="depositForm">
+            <div class="form-group">
+                <label class="col-md-2 control-label ">
+                    收款银行
+                </label>
+                <div class="col-md-4">
+                    <p class="form-control-static" ng-bind="Business.RegisterBank||profile.RegisterBank"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label ">
+                    收款账号
+                </label>
+                <div class="col-md-4">
+                    <p class="form-control-static" ng-bind="Business.RegisterBankCode||profile.RegisterBankCode"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label ">
+                    收款人
+                </label>
+                <div class="col-md-4">
+                    <p class="form-control-static" ng-bind="Business.CompanyName||profile.UserName"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">
+                    当前余额
+                </label>
+                <div class="col-md-4">
+                    <p class="form-control-static" ng-bind="Business.Balance||profile.Balance|currency:'￥'"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label form-required">
+                    提现金额
+                </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control"  required  ng-model="deposit.PayMoney"  />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label form-required">
+                    支付密码
+                </label>
+                <div class="col-md-4">
+                    <input type="password" class="form-control"  required  ng-model="deposit.PayPwd"  />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="decollator-line"></div>
+
+    <div class="col-md-3 col-md-offset-3" style="margin-top: 30px;margin-bottom: 30px">
+        <button class="btn btn-block btn-lg btn-info" ng-click="withdraw()" ng-disabled="depositForm.$invalid">立即提现</button>
+    </div>
+
+</div>

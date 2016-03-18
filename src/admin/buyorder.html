@@ -48,11 +48,7 @@
                             <img  class="car-list-cover" ng-src="{{obj.HomePicID||DefaultCarIcon}}"/>
                             <p class="car-list-carflag">车源号：<span ng-bind="obj.CarNo"></span></p>
                         </a>
-						<span class="renzheng_icon" ng-switch="obj.AppraiserFlag">
-                            <img src="./images/renzheng_icon_3.png" ng-switch-when="3"/>
-                            <img src="./images/renzheng_icon_2.png" ng-switch-when="2"/>
-                            <img src="./images/renzheng_icon_1.png" ng-switch-when="1"/>
-                        </span>
+						<span class="renzheng_icon" ng-bind-html="obj|FormatIndexDetection"></span>
                     </td>
                     <td class="car-list-info">
                         <h4 ng-bind="obj.SeriesName+obj.SpecName"></h4>

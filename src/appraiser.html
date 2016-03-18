@@ -318,9 +318,9 @@
                         <span style="margin-left: 10px">好评率：<span class="text-orange" ng-bind="obj.EntrustGoodPerson||100">100</span>%</span>
                     </p>
                     <p>地址：<span ng-bind="obj.Address||'暂无地址信息'"></span></p>
-
                 </div>
             </div>
+            <button class="expert-btn" ng-click="requestDialog(obj)">选择他</button>
         </li>
     </ul>
     <div class="appraiser-about-car" ng-init="getCar()">

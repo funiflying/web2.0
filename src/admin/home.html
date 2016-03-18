@@ -1,77 +1,5 @@
 <div class="clearfix">
     <div class="left-nav-list">
-       <!-- <div class="tui-admin-user text-center">
-            <img src="images/defaultIcon.gif" alt="" class="thumbnail center-block"/>
-            <h4>吴先生</h4>
-            <p>
-                <a href="">账号设置</a> |
-                <a href="">消息<span class="badge text-info">3</span></a>
-            </p>
-        </div>-->
-    <!--    <ul id="main-nav" class="nav nav-tabs nav-stacked" style="">
-            <li>
-                <a ui-sref=".main">
-                    <i class="glyphicon glyphicon-th-large"></i>
-                    我的首页
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <i class="glyphicon glyphicon-cog"></i>
-                    企业信息
-                </a>
-            </li>
-            <li>
-                <a href="#car"  class="nav-header collapsed" data-toggle="collapse">
-                    <i class="glyphicon glyphicon-th-list"></i>
-                    车源管理
-                    <span class="pull-right glyphicon glyphicon-chevron-down"></span>
-                </a>
-                <ul id="car" class="nav nav-list collapse secondmenu" style="height: 0;">
-                    <li ui-sref=".cargather"><a href="javascript:void (0)">我的车源</a></li>
-                    <li ui-sref=".issuecar"><a href="javascript:void (0)">发布车源</a></li>
-                    <li><a href="#"> 同行找车</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#order" class="nav-header collapsed" data-toggle="collapse">
-                    <i class="glyphicon glyphicon-list-alt"></i>
-                    交易管理
-                    <span class="pull-right glyphicon glyphicon-chevron-down"></span>
-                </a>
-                <ul id="order" class="nav nav-list collapse secondmenu" style="height: 0;">
-                    <li><a href="#">买车订单</a></li>
-                    <li><a href="#">卖车订单</a></li>
-                    <li><a href="#">委托评估</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#appraiser" class="nav-header collapsed" data-toggle="collapse">
-                    <i class="glyphicon glyphicon-pencil"></i>
-                    评估检测
-                    <span class="pull-right glyphicon glyphicon-chevron-down"></span>
-                </a>
-                <ul id="appraiser" class="nav nav-list collapse secondmenu" style="height: 0;">
-                    <li><a href="#">委托评估订单</a></li>
-                    <li><a href="#">线下检测</a></li>
-                    <li><a href="#">技能设定</a></li>
-                    <li><a href="#">评估师签名</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#account" class="nav-header collapsed" data-toggle="collapse">
-                    <i class="glyphicon glyphicon-user"></i>
-                    个人中心
-                    <span class="pull-right glyphicon glyphicon-chevron-down"></span>
-                </a>
-                <ul id="account" class="nav nav-list collapse secondmenu" style="height: 0;">
-                    <li><a href="#">个人设置</a></li>
-                    <li><a href="#">优惠券</a></li>
-                    <li><a href="#">银行卡管理</a></li>
-                    <li><a href="#">申请评估师</a></li>
-                </ul>
-            </li>
-        </ul>-->
         <div class="summary-nav">
             <dl class="nav nav-list">
                 <dt class="nav-list-header">
@@ -79,25 +7,25 @@
                     <span class="nav-list-words">我的账户</span>
                 </dt>
                 <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='main']">
-                    <a class="list-item-link ng-isolate-scope"  href="#/account-summary">
+                    <a class="list-item-link ng-isolate-scope" ui-sref=".main"  >
                         <span class="nav-list-words">账户总览</span>
                     </a>
                 </dd>
                 <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='account']" >
-                    <a class="list-item-link ng-isolate-scope"  ui-sref=".account" href="home/account">
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".account" >
                         <span class="nav-list-words">基本信息</span>
                     </a>
                 </dd>
-                <dt class="nav-list-header">
+                <dt class="nav-list-header" ng-if="USER.IdentityTag==3">
                     <span class="sl-icon-myaccount"></span>
                     <span class="nav-list-words">企业信息</span>
                 </dt>
-                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='company']" >
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='company']" ng-if="USER.IdentityTag==3">
                     <a class="list-item-link ng-isolate-scope"  ui-sref=".company" href="home/company">
                         <span class="nav-list-words">信息编辑</span>
                     </a>
                 </dd>
-                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='employee']" >
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='employee']" ng-if="USER.IdentityTag==3">
                     <a class="list-item-link ng-isolate-scope"  ui-sref=".employee" href="home/employee">
                         <span class="nav-list-words">成员管理</span>
                     </a>
@@ -116,8 +44,8 @@
                         <span class="nav-list-words">发布车源</span>
                     </a>
                 </dd>
-                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='peer']" >
-                    <a class="list-item-link ng-isolate-scope"  ui-sref=".issuecar" href="home/issuecar">
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='peer']" ng-if="USER.IdentityTag!=0">
+                    <a class="list-item-link ng-isolate-scope"  target="_blank"  href="peer.html?IncludeFlag=1">
                         <span class="nav-list-words">同行找车</span>
                     </a>
                 </dd>
@@ -135,47 +63,47 @@
                         <span class="nav-list-words">卖车订单</span>
                     </a>
                 </dd>
-                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='']" >
-                    <a class="list-item-link ng-isolate-scope"  ui-sref=".entrust" href="home/entrust">
-                        <span class="nav-list-words">委托评估</span>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='entrustorder']" >
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".entrustorder" href="javascript:void(0)">
+                        <span class="nav-list-words">评估订单</span>
                     </a>
                 </dd>
-                <dt class="nav-list-header">
+                <dt class="nav-list-header" ng-if="USER.IdentityTag==2||USER.IdentityTag==3">
                     <span class="sl-icon-accountmanage"></span>
                     <span class="nav-list-words">评估检测</span>
                 </dt>
-                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='']" >
-                    <a class="list-item-link ng-isolate-scope"  ui-sref=".cargather" href="home/cargather">
-                        <span class="nav-list-words">委托订单</span>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='entrust']" ng-if="USER.IdentityTag==2||USER.IdentityTag==3">
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".entrust" href="javascript:void(0)">
+                        <span class="nav-list-words">委托评估</span>
                     </a>
                 </dd>
-                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='']" >
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='']" ng-if="USER.IdentityTag==2||USER.IdentityTag==3">
                     <a class="list-item-link ng-isolate-scope"  ui-sref=".cargather" href="home/cargather">
                         <span class="nav-list-words">线下检测</span>
                     </a>
                 </dd>
-                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='']" >
-                    <a class="list-item-link ng-isolate-scope"  ui-sref=".cargather" href="home/cargather">
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='professional']" ng-if="USER.IdentityTag==2||USER.IdentityTag==3">
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".professional" href="javascript:void(0)">
                         <span class="nav-list-words">技能设定</span>
                     </a>
                 </dd>
-                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='signature']" >
-                    <a class="list-item-link ng-isolate-scope"  ui-sref=".cargather" href="home/cargather">
-                        <span class="nav-list-words">我的签章</span>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='signature']" ng-if="USER.IdentityTag==2||USER.IdentityTag==3">
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".signature" href="javascript:void(0)">
+                        <span class="nav-list-words">我的签名</span>
                     </a>
                 </dd>
                 <dt class="nav-list-header">
                     <span class="sl-icon-accountmanage"></span>
                     <span class="nav-list-words">账户管理</span>
                 </dt>
-                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='fund']" >
-                    <a class="list-item-link ng-isolate-scope"  ui-sref=".cargather" href="home/cargather">
-                        <span class="nav-list-words">充值提现</span>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='deposit']" >
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".withdrawal" href="javascript:void(0)">
+                        <span class="nav-list-words">资金提现</span>
                     </a>
                 </dd>
 
                 <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='bank']" >
-                    <a class="list-item-link "  ui-sref=".cargather" href="home/cargather">
+                    <a class="list-item-link "  ui-sref=".bankcard" href="javascript:void(0)">
                         <span class="nav-list-words">银行卡管理</span>
                     </a>
                 </dd>
@@ -188,16 +116,13 @@
                     <span class="sl-icon-accountothers"></span>
                     <span class="nav-list-words">其他</span>
                 </dt>
-                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='approve']" >
-                    <a class="list-item-link ng-isolate-scope"  ui-sref=".cargather" href="home/cargather">
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='approve']" ng-if="USER.IdentityTag==1||USER.IdentityTag==0">
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".approve" href="javascript:void(0)">
                         <span class="nav-list-words">评估师认证</span>
                     </a>
                 </dd>
             </dl>
         </div>
-
-
-
     </div>
     <div class="app-content" ui-view>
     </div>

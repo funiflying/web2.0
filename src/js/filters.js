@@ -107,43 +107,6 @@ angular.module('chetongxiang.filters', []).
             }
             return descr;
         }
-    }).filter('ApprOrderStatus', function() {
-        //评估检测状态
-        return function(status) {
-            status = status + "";
-            var descr = "";
-            switch (status) {
-                case "0":
-                    descr = "未付款";
-                    break;
-                case "1":
-                    descr = "已付款待接单";
-                    break;
-                case "2":
-                    descr = "待评估";
-                    break;
-                case "3":
-                    descr = "已评估待评估师评价";
-                    break;
-                case "4":
-                    descr = "评估师已评价待用户评价";
-                    break;
-                case "5":
-                    descr = "客户已评价";
-                    break;
-                case "6":
-                    descr = "订单完成";
-                    break;
-                case "255":
-                    descr = "订单完成";
-                    break;
-                default:
-                    descr = "未知：" + status;
-                    break;
-
-            }
-            return descr;
-        }
     }).filter('DateFormat',function(){
         //格式化时间日期
         return function (date,format){
@@ -278,6 +241,24 @@ angular.module('chetongxiang.filters', []).
             }
             else{
                 return  $sce.trustAsHtml($filter('currency')(car.Price/10000,'￥')+'<small style="font-size: 14px"> 万</small>');
+            }
+        }
+    }]).filter('WholesalePrice',['$filter','$sce',function($filter,$sce){
+        //格式化同行价格
+        return function(car){
+            if(!car){
+                return null
+            }
+            if(car.CarFlag==1){
+                return $sce.trustAsHtml('<span><i class="fc-org priType"><span><small style="color: #999;">交易中...</small></span></i></span>');
+            }
+            else{
+                if(car.WholesalePrice==0){
+                    var elem='<span><i class="fc-org priType"><small>面议</small></i></span><small class="reference">零售价:'+$filter('currency')(car.Price/10000,'￥')+'<small style="font-size: 14px"> 万</small></small>';
+                    return  $sce.trustAsHtml(elem);
+                }
+                 elem='<span><i class="fc-org priType">'+$filter('currency')(car.WholesalePrice/10000,'￥')+'<small style="font-size: 14px"> 万</small></i></span><small class="reference">零售价:'+$filter('currency')(car.Price/10000,'￥')+'<small style="font-size: 14px"> 万</small></small>';
+                return  $sce.trustAsHtml(elem);
             }
         }
     }]).filter('NewCarPrice',['$filter','$sce',function($filter,$sce){
@@ -755,10 +736,10 @@ angular.module('chetongxiang.filters', []).
                     descr = "待评估";
                     break;
                 case "3":
-                    descr = "已评估待评估师评价";
+                    descr = "评估师评价";
                     break;
                 case "4":
-                    descr = "评估师已评价待用户评价";
+                    descr = "用户评价";
                     break;
                 case "5":
                     descr = "客户已评价";
@@ -775,5 +756,50 @@ angular.module('chetongxiang.filters', []).
 
             }
             return descr;
+        }
+    }).filter('UserInfo',['$filter','$sce',function($filter,$sce){
+        //格式化个人中心名称
+        return function(data){
+               if(data.Business){
+                  var elemt='<span class="white" >'+data.Business.CompanyName+'</span><small style="margin-left: 20px"><span class="label label-info">商家</span></small>';
+                  return   $sce.trustAsHtml(elemt)
+               }
+               else{
+                   var elemt='<span class="white" >'+(data.User.UserName||data.User.Account)+'</span> <small style="margin-left: 20px"><span class="label label-info">个人用户</span></small>';
+                   return   $sce.trustAsHtml(elemt)
+               }
+        }
+    }]).filter('Cash',['$filter','$sce',function($filter,$sce){
+        //格式化余额显示
+        return function(data){
+            if(data.User.IdentityTag==3&&data.Business){
+                var elemt=' <h3 class="highlighted-sum" >'+$filter('currency')(data.Business.Balance,"￥")+'</h3><div><a class="btn btn-outline-primary btn-embossed" ui-sref=".deposit" href="#/home/deposit">提现</a></div>';
+                return   $sce.trustAsHtml(elemt)
+            }
+            else{
+                var elemt=' <h3 class="highlighted-sum" >'+$filter('currency')(data.User.Balance,"￥")+'</h3><div><a class="btn btn-outline-primary btn-embossed" ui-sref=".deposit" href="#/home/deposit">提现</a></div>';
+                return   $sce.trustAsHtml(elemt)
+            }
+        }
+    }]).filter('EntrustOrder',function(){
+        //评估师技能
+        return function(order,car) {
+            if(!order){
+                return null;
+            }
+            var map1 = {},
+                dest1 = [];
+            for(var m=0;m<order.length;m++){
+                var a=order[m];
+                a.Car=[];
+                for(var n=0;n<car.length;n++){
+                    var p=car[n];
+                    if(a.CarNo==p.CarNo){
+                        a.Car=p;
+                        break;
+                    }
+                }
+            }
+            return order;
         }
     });
