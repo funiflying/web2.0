@@ -958,4 +958,17 @@ angular.module('chetongxiang.directives', []).directive('upload', ['UploaderServ
             });
         }
     }
+}).directive('navFix', function () {
+    return {
+        restrict: 'AE',
+        replace: false,
+        link: function (scope, element, attr) {
+            $(element).on('click','li',function(){
+                var id=$(this).find('a').attr('href');
+                var top=$(id)[0].offsetTop-10;
+                $('body').animate({scrollTop:top},1500)
+            });
+
+        }
+    }
 });

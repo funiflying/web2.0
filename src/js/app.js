@@ -198,7 +198,7 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
     }).run(['$rootScope','$modal','$timeout','$stateParams','$state','$cookieStore','PAGE_CONFIG','AuthService','CookieService',function($rootScope,$modal,$timeout,$stateParams,$state,$cookieStore,PAGE_CONFIG,AuthService,CookieService){
     $rootScope.USER=$cookieStore.get('AUTH')||null;
     $rootScope.CITY=CookieService.GetCookie('CITY')||{CityName:'全国',CityID:''} ;
-    $rootScope.HOST='http://192.168.0.218';//window.location.protocol+window.location.host//
+    $rootScope.HOST='http://demo.chetongxiang.com';//window.location.protocol+window.location.host//
     $rootScope.PAGE_CONF=PAGE_CONFIG;
     $rootScope.state=$state;
     $rootScope.stateParams=$stateParams;

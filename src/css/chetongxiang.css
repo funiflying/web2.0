@@ -3136,6 +3136,7 @@ address, cite, code, dfn, em, var, i {
     overflow: hidden;
     position: relative;
     background: url(../images/sell-bg.png) no-repeat center;
+    background-size: contain;
 }
 .sell_b_w {
     position: relative;
@@ -4696,4 +4697,138 @@ pager{
     font-size: 16px;
     margin-left: 15px;
 
+}
+.detect-bd {
+    background-color: #FFFFFF;
+    font-size: 14px;
+}
+.detect-right {
+    width: 215px;
+    text-align: center;
+    line-height: 24px;
+    padding-bottom: 10px;
+}
+.divis-pic {
+    width: 100px;
+    height: 150px;
+    display: block;
+    margin: 25px auto 15px;
+    overflow: hidden;
+}
+.divis-pic img {
+    vertical-align: middle;
+}
+.f-type02 {
+    color: #333;
+    font-weight: 700;
+}
+.detect-left {
+    width: 970px;
+    border-right: solid 1px #ddd;
+}
+.detect-tt {
+    padding: 0 20px;
+    line-height: 45px;
+    background: #f5f5f5;
+}
+.det-go {
+    color: #666;
+}
+.yahei {
+    font-family: "Microsoft Yahei";
+}
+.detect-info {
+    padding: 0 20px;
+    line-height: 24px;
+    font-size: 12px;
+    position: relative;
+}
+.detect-txt {
+    padding: 10px 0;
+    height: 44px;
+    overflow: hidden;
+}
+.detect-xm {
+    border-top: 1px solid #e4e2e3;
+    padding: 15px 0;
+}
+.detect-xm-c {
+    margin-right: -60px;
+}
+.detect-xm dl {
+    width: 230px;
+    float: left;
+    line-height: 28px;
+}
+.detect-xm dt {
+    font-size: 14px;
+    color: #333;
+    _padding-bottom: 7px;
+}
+.detect-xm dl dd, .detect-xm dl dt {
+    _height: 28px;
+}
+.detect-xm .d-w2 {
+    position: relative;
+}
+.laybox {
+    margin: 30px auto;
+}
+.combox {
+    border: solid 1px #ddd;
+    background: #FFFFFF;
+}
+.cont-tips-outer {
+    margin: 0 auto;
+    height: 49px;
+    border: solid 1px #ddd;
+
+}
+.cont-tips {
+    height: 47px;
+    background-color: #fff;
+    width: 1200px;
+}
+.apt-btn {
+    display: block;
+    width: 124px;
+    height: 47px;
+    line-height: 47px;
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+    background: #fd8000;
+}
+.check-tel {
+    margin: 10px 20px 0 0;
+}
+.cont-tips-qh li {
+    float: left;
+    display: inline;
+    border-right: solid 1px #ddd;
+    font-family: "Microsoft Yahei";
+    font-size: 16px;
+}
+.cont-tips-qh li.active a, .cont-tips-qh li a:hover {
+    background-color: #fd8000;
+    text-decoration: none;
+    color: #fff;
+}
+
+.cont-tips-qh li a {
+    padding: 0 30px;
+    display: inline-block;
+    height: 47px;
+    line-height: 47px;
+    color: #666;
+}
+.navbar-fixed {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    _position: absolute;
+    _top: expression(documentElement.scrollTop);
+    box-shadow: 0 2px 2px #eee;
+    -webkit-box-shadow: 0 2px 2px #eee;
+    -moz-box-shadow: 0 2px 2px #eee;
 }
