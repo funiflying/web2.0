@@ -11,6 +11,53 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         templateUrl:'./admin/login.html',
         controller:'LoginController',
         access:0
+    }).state('register',{
+            //注册
+        url:'/register',
+        templateUrl:'./admin/register.html',
+        controller:'RegisterController',
+        access:0
+    }).state('password',{
+        //找回密码
+        url:'/password',
+        templateUrl:'./admin/password.html',
+        controller:'RegisterController',
+        access:0
+    }).state('appraiser',{
+        //找回密码
+        url:'/appraiser',
+        templateUrl:'./admin/appraiser.html',
+        controller:'IndexController',
+        access:0
+    }).state('success',{
+        //成功状态
+        url:'/success?TAG',
+        templateUrl:'./admin/success.html',
+        controller:'RegisterController',
+        access:0
+    }).state('pay',{
+        //支付
+        url:'/pay?OrderCode&Amount',
+        templateUrl:'./admin/pay.html',
+        controller:'PayController',
+        access:1
+    }).state('detection',{
+        //支付
+        url:'/detection?CarNo&Event',
+        templateUrl:'./admin/detection.html',
+        controller:'DetectionController',
+        access:0
+    }).state('view',{
+        //支付
+        url:'/view?Code',
+        templateUrl:'./admin/view-report.html',
+        controller:'DetectionController',
+        access:0
+    }).state('agreement',{
+        //注册协议
+        url:'/agreement',
+        templateUrl:'./admin/agreement.html',
+        access:0
     }).state('home',{
         url:'/home',
         templateUrl:'./admin/home.html',
@@ -19,7 +66,7 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
     }).state('home.main',{
         url:'/main',
         templateUrl:'./admin/main.html',
-        controller:'HomeController',
+        controller:'MainController',
         access:1,
         action:'main'
     }).state('home.issuecar',{
@@ -88,15 +135,70 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         controller:'AccountController',
         access:1,
         action:'account'
+    }).state('home.company',{
+        url:'/company',
+        templateUrl:'./admin/company.html',
+        controller:'CompanyController',
+        access:1,
+        action:'company'
+    }).state('home.employee',{
+        url:'/employee',
+        templateUrl:'./admin/employee.html',
+        controller:'CompanyController',
+        access:1,
+        action:'employee'
+    }).state('home.entrustorder',{
+        url:'/entrustorder',
+        templateUrl:'./admin/entrustorder.html',
+        controller:'EntrustOrderController',
+        access:1,
+        action:'entrustorder'
+    }).state('home.signature',{
+        url:'/signature',
+        templateUrl:'./admin/signature.html',
+        controller:'AppraiserController',
+        access:1,
+        action:'signature'
+    }).state('home.entrust',{
+        url:'/entrust',
+        templateUrl:'./admin/entrust.html',
+        controller:'EntrustController',
+        access:1,
+        action:'entrust'
+    }).state('home.approve',{
+        url:'/approve',
+        templateUrl:'./admin/approve.html',
+        controller:'AppraiserController',
+        access:1,
+        action:'approve'
+    }).state('home.bankcard',{
+        url:'/bankcard',
+        templateUrl:'./admin/bankcard.html',
+        controller:'AccountController',
+        access:1,
+        action:'bank'
+    }).state('home.withdrawal',{
+        url:'/deposit',
+        templateUrl:'./admin/withdrawal.html',
+        controller:'AccountController',
+        access:1,
+        action:'deposit'
+    }).state('home.professional',{
+        url:'/professional',
+        templateUrl:'./admin/professional.html',
+        controller:'AppraiserController',
+        access:1,
+        action:'AppraiserController'
     });
      $httpProvider.interceptors.push('myInterceptor');
 }]).constant('PAGE_CONFIG',{
         PageSize:10,
         PageTotal:0,
         PageNo:1
-    }).run(['$rootScope','$modal','$timeout','$stateParams','$state','$cookieStore','PAGE_CONFIG','AuthService',function($rootScope,$modal,$timeout,$stateParams,$state,$cookieStore,PAGE_CONFIG,AuthService){
+    }).run(['$rootScope','$modal','$timeout','$stateParams','$state','$cookieStore','PAGE_CONFIG','AuthService','CookieService',function($rootScope,$modal,$timeout,$stateParams,$state,$cookieStore,PAGE_CONFIG,AuthService,CookieService){
     $rootScope.USER=$cookieStore.get('AUTH')||null;
-    $rootScope.HOST=''//window.location.protocol+window.location.host//'http://192.168.0.218';
+    $rootScope.CITY=CookieService.GetCookie('CITY')||{CityName:'全国',CityID:''} ;
+    $rootScope.HOST='http://192.168.0.218';//window.location.protocol+window.location.host//
     $rootScope.PAGE_CONF=PAGE_CONFIG;
     $rootScope.state=$state;
     $rootScope.stateParams=$stateParams;
@@ -161,8 +263,17 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         $rootScope.$on('$stateChangeSuccess', function() {
 
             if($state.current.access==1&&!AuthService.IsAuthenticated()){
-                 $rootScope.toast('您还没有登录或登录超时',function(){
-                     $rootScope.state.go('login');
+                $rootScope.alert={
+                    type:'alert-warning',
+                    msg:'您还未登录，或登录超时'
+                };
+                 $rootScope.dialog('logindialog.html','LoginController',$rootScope,function(){
+                     if($rootScope.USER){
+                         window.location.reload();
+                     }
+                     else{
+                         $rootScope.state.go('login');
+                     }
                  });
             }
             if ($state.current.action) {
@@ -186,11 +297,11 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
                 return config
             },
             response:function(response){
-                if(response.data.status==-1){
+               /* if(response.data.status==-1){
                     $rootScope.toast('您还没有登录或登录超时',function(){
                         $rootScope.state.go('login');
                     });
-                }
+                }*/
 
                 return response
             },

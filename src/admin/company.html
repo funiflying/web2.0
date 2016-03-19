@@ -1,10 +1,84 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<div class="content-wrapper" ng-init="getCompany();">
+    <div class="tui-admin-title">
+        <h3>企业信息</h3>
+    </div>
+    <div class="row">
+        <form class="form-horizontal" novalidate name="companyForm">
+        <div class="form-group">
+            <label class="control-label col-md-2 form-required">企业名称</label>
+            <div class="col-md-4">
+                <input type="text" class="form-control" ng-model="company.CompanyName" required/>
+            </div>
+        </div>
+            <div class="form-group">
+                <label class="control-label col-md-2 form-required">企业负责人</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" ng-model="company.Charger" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">组织机构代码</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" ng-model="company.OrganizationCode"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">组织机构代码证</label>
+                <div class="col-md-4">
+                    <div uploader data-limit="1" data-action="/common/file/UpLoadCertificateImgProcess"  id="OrganizationCode"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">工商执照注册号</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" ng-model="company.BusinessLicenseNo"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">工商执照注册图</label>
+                <div class="col-md-4">
+                    <div uploader data-limit="1" data-action="/file/UpLoadCertificateImgProcess"  id="BusinessLicenseNo"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2 form-required">所在城市</label>
+                <div class="col-md-4">
+                    <p class="input-group">
+                        <input type="text" id="city" class="form-control background-blank"  required value="{{company.CityName}}" placeholder="" readonly/>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ><i class="glyphicon glyphicon-map-marker"></i></button>
+                  </span>
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2 form-required">开户银行</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" ng-model="company.RegisterBank" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2 form-required">开户账号</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" ng-model="company.RegisterBankCode" required/>
+                </div>
+            </div>
+        </form>
+        <div class="decollator-line"></div>
+        <div class="col-md-8 col-md-offset-2 " >
+            <div class="alert {{alert.type}} text-center" ng-bind="alert.msg" ng-show="alert.msg"></div>
+        </div>
+        <div class="col-md-3 col-md-offset-5 " style="margin-top: 30px ">
+            <button class="btn btn-block btn-lg btn-info" ng-click="editCompany()" ng-disabled="companyForm.$invalid">保存修改</button>
+        </div>
+    </div>
+    <script>
+        $("#city").click(function (e) {
+            SelCity(this,e);
+        });
+    </script>
 
-</body>
-</html>
+
+
+
+</div>

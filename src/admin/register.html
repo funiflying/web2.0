@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-md-8 login-bg">
+    </div>
+    <div class="col-md-4" >
+        <div class="panel panel-default background-blank">
+            <div class="panel-heading">
+                <h3 class="panel-title text-orange" style="padding: 15px 0">
+                    欢迎加入车同享
+                    <small class="pull-right"><a href="#/login" class="text-info" style="color: #444;">已有账号，点击登录</a></small>
+                </h3>
+
+            </div>
+            <div class="panel-body" id="login-modal" >
+                <form class="form-horizontal login-form" role="form" novalidate name="registerForm" style="margin-top: 30px">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <input type="text" class="form-control"  ng-blur="isExist()"  placeholder="请输入手机号码" required ng-model="Contact" ng-pattern="/^(0|86)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/">
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            <input type="text" class="form-control form-code"   placeholder="请输入验证码" required ng-model="Code">
+                            <button type="button" class="btn btn-default code-btn" ng-click="fetchTradekeyCode()" ng-disabled="sent" >
+                                 <span class="phoneCountDown" ng-show="sent">
+
+                                 </span>
+                                获取验证码
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group options">
+                        <div class="col-md-12">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="true" checked="checked" required ng-model="agreement">  我已阅读并同意车同享 <a href="#/agreement" class="text-orange">《车同享用户注册协议》</a>
+                                </label>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="margin-top: 10px">
+                            <div class="alert {{alert.type}} alert-dismissable " ng-show="alert.msg" >
+                                <span ng-bind="alert.msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 22px">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-block btn-lg btn-orange"  ng-disabled="registerForm.$invalid||!agreement" ng-click="register()">注册</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>

@@ -9,7 +9,7 @@
                     <caption>订单编号：<i ng-bind="order.OrderCode"></i></caption>
                     <tr>
                         <td class="car-list-pic">
-                            <a href="home/car">
+                            <a href="item.html?CarNo={{order.CarNo}}" target="_blank">
                                 <img  class="car-list-cover" ng-src="{{order.HomePicID||DefaultCarIcon}}"/>
                                 <p class="car-list-carflag">车源号：<span ng-bind="order.CarNo"></span></p>
                             </a>

@@ -133,7 +133,7 @@
                 <div class="input-group">
 
                     <input type="text" class="form-control" ng-model="car.Price" required>
-                    <span class="input-group-addon">元</span>
+                    <span class="input-group-addon">万</span>
                      <span class="input-group-addon">
                         含过户费 <input type="checkbox">
                      </span>
@@ -145,7 +145,7 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <input type="text" class="form-control" ng-model="car.WholesalePrice" required>
-                    <span class="input-group-addon">元</span>
+                    <span class="input-group-addon">万</span>
                 </div>
             </div>
         </div>
@@ -155,7 +155,7 @@
                 <p class="input-group">
                     <input type="text" class="form-control datetime" ng-model="car.Buyyear" required placeholder="输入格式为:2000-01-01"/>
                       <span class="input-group-btn">
-                        <button type="button" class="btn btn-default"  ><i class="glyphicon glyphicon-calendar"></i></button>
+                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
                       </span>
                 </p>
             </div>
@@ -175,13 +175,13 @@
         <div class="form-group">
             <label  class="control-label col-md-2 form-required">封面图</label>
             <div class="col-md-4" id="file">
-                <div uploader id="car-cover"></div>
+                <div  id="car-cover" uploader data-limit="1" data-action="/common/file/UpLoadCarProcess"></div>
             </div>
         </div>
         <div class="form-group">
             <label  class="control-label col-md-2 form-required">实拍图片</label>
             <div class="col-md-10">
-                <div uploader multi="true" id="car-pics"></div>
+                <div  id="car-pics" multi uploader data-limit="36" data-action="/common/file/UpLoadCarProcess"></div>
             </div>
         </div>
         <div class="form-group">
@@ -201,7 +201,7 @@
         <div class="form-group">
             <label for="" class="control-label col-md-2">发动机号</label>
             <div class="col-md-4">
-                <input type="text" class="form-control text-uppercase" ng-model="car.EngineNo">
+                <input type="text" class="form-control " ng-model="car.EngineNo">
             </div>
         </div>
         <div class="form-group">

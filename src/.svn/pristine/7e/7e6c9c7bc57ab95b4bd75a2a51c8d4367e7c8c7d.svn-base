@@ -1,0 +1,62 @@
+<!--
+<div class="modal-header text-center">
+    <h3 class="modal-title">html5jq模态框</h3>
+    <i class="glyphicon glyphicon-remove-sign dialog-close" ng-click="cancel()"></i>
+</div>
+<div class="modal-body">
+    <input type="text" ng-model="car.name"/>
+    <input type="text" ng-model="car.pas"/>
+</div>
+<div class="modal-footer text-center">
+    <button class="btn btn-primary" ng-click="ok()">
+        确认
+    </button>
+    <button class="btn btn-warning" ng-click="cancel()">退出</button>
+</div>-->
+<style>
+    .modal-dialog{
+        width: 400px;
+    }
+</style>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">
+            <i class="glyphicon glyphicon-remove"></i>
+        </button>
+        <header>
+           <div ng-if="!session.isAuthenticated" class="clearfix ng-scope">
+                <h3 class="modal-title">登录<span class="pull-right secondary-title">没有账号？<a href="/account/create">立即注册</a></span></h3>
+           </div>
+        </header>
+    </div>
+    <div class="modal-body" id="login-modal" >
+        <form class="form-horizontal login-form" role="form" novalidate name="loginForm" >
+            <div class="input-group">
+                <input type="text" class="form-control username"   placeholder="请输入用户名或手机号码" required ng-model="account.Account">
+            </div>
+            <div class="input-group" >
+                <input type="password" class="form-control password"   placeholder="请输入密码" required ng-model="account.Pwd">
+            </div>
+            <div class="options">
+                <div class="row" >
+                    <div class="col-md-6 text-left checkbox-wrapper">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="remember"> 记住我
+                            </label>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <a  href="" >忘记密码？</a>
+                    </div>
+                    <div>
+                        <!-- ngRepeat: error in errors -->
+                    </div>
+                </div>
+            </div>
+            <div class="input-group" style="margin-bottom: 20px">
+                    <button type="button" class="tui-btn btn-block btn-orange"  ng-disabled="loginForm.$invalid" ng-click="login(dialog)">登录</button>
+            </div>
+        </form>
+    </div>
+

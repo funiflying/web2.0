@@ -1,10 +1,56 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<div class="background-transparent" ng-init="getCompany()">
+    <div class="account-summary background-blank">
+        <div class="row simple-summary" ng-init="getProfile()">
+            <div class="money-row">
+                <div class="money-row-sum" >
+                    <div class="keywords-gray">可用余额(元)</div>
+                    <div ng-bind-html="profile|Cash"></div>
 
-</body>
-</html>
+                </div>
+            </div>
+            <div class="avatar-row">
+                <img class="profile-avatar"  ng-src="{{profile.User.HeadImage||DefaultUserIcon}}">
+            </div>
+            <div class="profile-row">
+                <div class="profile-row-security keywords-gray" ng-bind-html="profile|UserInfo"></div>
+                <div class="profile-row-security">
+                    <span>会员级别:</span>
+                    <span class="white" ng-bind="profile.User.IdentityTag|Role"></span>
+                    <p ng-if="profile.User.IdentityTag==0"><a href="" class="manage-security">申请为评估师 <i class="glyphicon glyphicon-pencil"></i></a></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="content-wrapper" style="margin-top: 10px;min-height: 1025px">
+<div class="tui-admin-title" ng-init="carInfo()">
+    <h3>成员管理</h3>
+    <a href="" class="tui-admin-title-btn " ng-click="addDialog()">新增成员</a>
+</div>
+<div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th style="width: 25%">用户名</th>
+            <th style="width: 25%;">联系电话</th>
+            <th style="width: 15%;">真实姓名</th>
+            <th style="width: 15%;">成员角色</th>
+            <th style="width:20%;">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="obj in  company.User_Alliance_AllianceCode">
+            <td><span ng-bind="obj.Account"></span></td>
+            <td><span ng-bind="obj.Contact"></span></td>
+            <td><span ng-bind="obj.UserName"></span></td>
+            <td><span ng-bind="obj.IdentityTag|Role"></span></td>
+            <td>
+                <button type="button" class="btn btn-info btn-sm" ng-click="editDialog(obj)"><i class="glyphicon glyphicon-edit"></i> 编辑</button>
+                <button type="button" ng-if="obj.IdentityTag!=3" class="btn btn-warning btn-sm" ng-click="deleteDialog(obj)"><i class="glyphicon glyphicon-trash"></i> 删除</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>

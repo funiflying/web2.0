@@ -7,7 +7,7 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
             var surl = "",defer = $q.defer();
             switch (sname) {
                 case "RequestHomeData"://首页车源
-                    surl = "/data/home.json"//"/Common/Car/RequestHomeData/";
+                    surl ="/Common/Car/RequestHomeData/";
                     break;
                 case "brandlist"://品牌列表
                     surl = "/data/brandlist.json";
@@ -18,14 +18,17 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                 case "GetTestReportWithCode"://检测报告
                     surl = "/Alliance/TestReport/GetTestReportWithCode";
                     break;
-                case "CarListServcie"://车辆筛选
+                case "CarList"://车辆筛选
+                    surl='/common/car/SearchCar';
+                    break;
+                case "CarPeerList"://同行车辆筛选
                     surl='/common/car/SearchCarForMobile';
                     break;
                 case 'brandlist-search'://品牌查询
                     surl='/data/Brand.json';
                     break;
                 case 'SendPhoneValCode'://发送手机验证码
-                    surl='/common/message/SendValiadeCode';
+                    surl='/common/message/SendValiadeCode';//phone
                     break;
                 case 'buyorderlist'://买车订单
                     surl='/order/UserGetOrderList';
@@ -69,6 +72,9 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                 case 'loginout'://登出
                     surl='/account/LoginOff';
                     break;
+                case 'register'://注册
+                    surl='/account/OutsiteRegister';
+                    break;
                 case 'GetCar':
                     surl='/common/car/GetCar';   //获取车源基本信息
                     break;
@@ -94,7 +100,7 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                     surl='/Common/Car/DeleteCarImg'; //删除车源图片?CarPicID=
                     break;
                 case 'GetCarCreditInfoByCarNo':  //获取诚信数据
-                    surl='/common/car/GetCarCreditInfoByCarNo';
+                    surl='/common/car/GetCarCreditInfoByCarNo';//CarNo
                     break;
                 case 'Series':  //获取车系
                     surl='/Common/Carbrand/GetSeries';
@@ -133,8 +139,21 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                 case 'servicecity':
                     surl='/oa/direct/HomeGetAlldirectCity';//开通城市
                     break;
+                case 'city':
+                    surl='/common/City/getcity';//城市
+                    break;
                 case 'updateUser':
                     surl='/account/UpdatingUser';//更新用户信息
+                    break;
+                case 'resetPwd':
+                    surl='/account/ChangePwd';//修改密码//newPwd,oldPwd
+                    break;
+                case 'findPwd':
+                    surl='/account/ChangePwdByMobie';//找回密码// code, phonenum,newpwd
+                    break;
+                case 'hastradePwd':
+                    surl='/account/CheckCurrentUserIfHasTradePwd';//是否设置交易密码
+                    break;
                     break;
                 case 'resetTradePwd':
                     surl='/account/ChangeTradePwd';//重置Trade
@@ -149,7 +168,7 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                     surl='/account/GetCurrentUserinfo';//用户信息
                     break;
                 case 'sellcar':
-                    surl='/JoinMessage/JoinMessage/AddJoinMessage';//买车请求
+                    surl='/JoinMessage/JoinMessage/AddJoinMessage';//卖车请求
                     break;
                 case 'sellcarcount':
                     surl='/Common/car/GetSellingCount';//在售车源
@@ -194,7 +213,37 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                     surl='/common/car/GetGuidePrice';  //急售指导价
                     break;
                 case 'validcode':
-                    surl='/common/message/ValideMessageCode';  //短信验证
+                    surl='/common/message/ValideMessageCode';  //短信验证 phonenum,code
+                    break;
+                case 'company':
+                    surl='/alliance/alliance/GetCurrentAllanceAndUsers';  //联盟商信息 pageNo,pageNum
+                break;
+                case 'updatecompany':
+                    surl='/alliance/alliance/UpdateAllance';  //联盟商信息 entity
+                    break;
+                case 'deletemployee':
+                    surl='/alliance/alliance/DeleteAllanceUser';  //联盟商信息 AllianceCode,User_Alliance_AllianceCode[{UserID:UserID}]
+                    break;
+                case 'addemployee':
+                    surl='/Account/AddUser';  //新增联盟商成员 {"UserName":"","Contact":"","Account":"","Pwd":"","IdentityTag":""}
+                    break;
+                case 'isexist':
+                    surl='/account/CheckIsExists';  //验证账号是否存在Contact，返回0为存在
+                    break;
+                case 'expert':
+                    surl='/alliance/appraiser/SearchAppraiserWithIndex';  //专家库{"CityID":0,"BrandID":0,"SeriesID":0,"PageNo":1,"PageNum":10}
+                    break;
+                case 'appraiser':
+                    surl='/Alliance/Appraiser/GetAppraiserInfo';  //评估师信息?AppraiserCode
+                    break;
+                case 'updateappraiser':
+                    surl='/Alliance/Appraiser/UpdateAppraiser';  //更新评估师信息entity
+                    break;
+                case 'deleteSkill':
+                    surl='/Alliance/AppraiserSkill/DeleteAppraiserSkill';  //删除评估师技能 SkillID
+                    break;
+                case 'addSkill':
+                    surl='/Alliance/AppraiserSkill/AddAppraiserSkillList';  //添加评估师技能 [{ BrandID,AppraiserCode}]
                     break;
                 default:
                     break;
@@ -210,7 +259,7 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                 defer.resolve(data);
             }, function(data, headers) {
                 defer.reject(data);
-            })
+            });
             return defer.promise;
         }
     }
@@ -232,16 +281,16 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
             flag=parseInt(flag)
             switch (flag){
                 case 1:
-                    return $http.post($rootScope.HOST+'/common/file/UpLoadImgByBase64ForCar',data)
+                    return $http.post($rootScope.HOST+'/common/file/UpLoadImgByBase64ForCar',data);
                     break;
                 case 2:
-                    return $http.post($rootScope.HOST+'/common/file/UpLoadImgByBase64ForUser',data)
+                    return $http.post($rootScope.HOST+'/common/file/UpLoadImgByBase64ForUser',data);
                     break;
                 case 3:
-                    return $http.post($rootScope.HOST+'/common/file/UpLoadImgByBase64ForAppraiserSign',data)
+                    return $http.post($rootScope.HOST+'/common/file/UpLoadImgByBase64ForAppraiserSign',data);
                     break;
                 case 4:
-                    return $http.post($rootScope.HOST+'/common/file/UpLoadImgByBase64ForCertificateImg',data)
+                    return $http.post($rootScope.HOST+'/common/file/UpLoadImgByBase64ForCertificateImg',data);
                     break;
                 default:
             }
@@ -258,6 +307,9 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
         },
         carsellcount:function(){
             return $http.get($rootScope.HOST+'/Common/car/GetSellingCount')
+        },
+        joinCount:function(param){
+            return $http.get($rootScope.HOST+'/Alliance/Alliance/GetAllianceCount?EventFlag='+param)
         },
         WriteTestReport:function(data){
             return $http.post($rootScope.HOST+'/Alliance/TestReport/WriteTestReport',data)
@@ -287,7 +339,56 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
         LoginOut:function(){
             $cookieStore.remove('AUTH');
             $rootScope.USER=null;
-            $rootScope.state.go('login');
+            window.location.href="index.html";
         }
     }
-}])
+}]).factory('CookieService',['$rootScope',function($rootScope){
+    return {
+        //自定义设置COOKIE
+        SetCookie: function(name, value) {
+            var Days = 30;
+            var exp = new Date();
+            exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+            document.cookie = name + "=" + escape(JSON.stringify(value)) + ";expires=" + exp.toGMTString();
+        },
+        //自定义获取COOKIE
+        GetCookie: function(name) {
+            var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+            arr = document.cookie.match(reg);
+            if (arr){
+                return JSON.parse( unescape(arr[2]));
+            }else{
+                return null;
+            }
+        },
+        RemoveCookie: function(name) {
+
+            var date = new Date();
+            date.setTime(date.getTime() - 10000);
+            document.cookie = name + "=a; expires=" + date.toGMTString();
+        },
+        SetCityCookie:function(value){
+            this.SetCookie('CITY',value);
+        }
+
+    }
+}]).factory('PayService',['$http',function($http){
+    return {
+        //评估订单支付
+        AppraiserPay: function(obj) {
+            return $http.post('/Common/MSpay/RequestAppraiserPay', obj);
+        },
+        //支付
+        payServlet: function(obj) {
+            return $http.post('http://110.80.39.174:9012/gwpay/payServlet', obj);
+        }
+    }
+
+}]).factory('AppraiserService',['$http',function($http){
+    return {
+        AddSkill: function(obj) {
+            return $http.post('/Alliance/AppraiserSkill/AddAppraiserSkillList', obj);
+        }
+    }
+
+}]);

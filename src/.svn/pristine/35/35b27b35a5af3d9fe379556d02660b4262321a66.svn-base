@@ -1,0 +1,36 @@
+<div class="background-transparent">
+<div class="account-summary background-blank">
+    <div class="row simple-summary">
+        <div class="money-row">
+            <div class="money-row-sum" >
+                <div class="keywords-gray">可用余额(元)</div>
+                <h3 class="highlighted-sum " ng-bind-html="availableCash"></h3>
+                <div>
+                    <a class="btn btn-secondary btn-embossed" href="/account/deposit" target="_blank">
+                        充值
+                    </a>
+                    <a class="btn btn-outline-primary btn-embossed" href="#/transfer/withdrawal">
+                        提现
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="avatar-row">
+            <img class="profile-avatar"  ng-src="{{USER.HeadImage||DefaultUserIcon}}">
+        </div>
+        <div class="profile-row">
+            <div class="profile-row-security keywords-gray">
+                <span class="white" >泉州小林二手车服务中心</span>
+                <small><span class="label label-info">商家</span></small>
+            </div>
+            <div class="profile-row-security">
+                <span>会员级别:</span>
+                <span class="white" >评估师</span>
+                <p><a href="#/account-profile" class="manage-security">申请为评估师 <i class="glyphicon glyphicon-pencil"></i></a></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</div>
