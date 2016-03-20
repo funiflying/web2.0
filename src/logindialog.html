@@ -14,7 +14,7 @@
     </header>
 </div>
 <div class="modal-body" id="login-modal" ng-controller="LoginController">
-    <form class="form-horizontal login-form" role="form" novalidate name="loginForm" >
+    <form class="form-horizontal login-form" role="form" novalidate name="loginForm" ng-keypress="submitKey($event)">
         <div class="input-group">
             <input type="text" class="form-control username"   placeholder="请输入用户名或手机号码" required ng-model="account.Account">
         </div>

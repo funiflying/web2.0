@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/2/18.
  */
-angular.module('chetongxiang.controllers',[]).controller('LoginController',['$rootScope','$scope','$cookieStore','ResourceService','AuthService',function($rootScope,$scope,$cookieStore,ResourceService,AuthService){
+angular.module('chetongxiang.controllers',[]).controller('LoginController',['$rootScope','$scope','$cookieStore','ResourceService','AuthService','CookieService',function($rootScope,$scope,$cookieStore,ResourceService,AuthService,CookieService){
    //本地用户名
     $scope.account={
         Account:$cookieStore.get('NAME')||null
@@ -22,10 +22,10 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                     }
                     //记住用户名
                     if($scope.remember){
-                        $cookieStore.put('NAME',$scope.account.Account)
+                        CookieService.SetCookie('NAME',$scope.account.Account)
                     }
                     else{
-                        $cookieStore.remove('NAME');
+                        CookieService.RemoveCookie('NAME');
                     }
                 }
                 else{
@@ -67,6 +67,13 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         }
 
     };
+    //回车提交
+    $scope.submitKey=function(e){
+        var keyCode=window.event? e.keyCode: e.which;
+        if(keyCode==13){
+            $scope.login();
+        }
+    }
 }]).controller('RegisterController',['$rootScope','$scope','$cookieStore','$filter','ResourceService','AuthService',function($rootScope,$scope,$cookieStore,$filter,ResourceService,AuthService){
 
     //同意注册协议

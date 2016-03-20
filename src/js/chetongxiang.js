@@ -431,6 +431,9 @@ var oMultiDiff={"19969":"DZ","19975":"WM","19988":"QJ","20048":"YL","20056":"SC"
 //参数,中文字符串
 //返回值:拼音首字母串数组
 function PingYin(str){
+    if(str==""){
+        return null;
+    }
     if(typeof(str) != "string")
         throw new Error(-1,"函数makePy需要字符串类型参数!");
     var arrResult = new Array(); //保存中间结果的数组
@@ -452,6 +455,9 @@ function checkCh(ch){
     return (oMultiDiff[uni]?oMultiDiff[uni]:(strChineseFirstPY.charAt(uni-19968)));
 }
 function mkRslt(arr){
+    if(!arr){
+        return null;
+    }
     var arrRslt = [""];
     for(var i=0,len=arr.length;i<len;i++){
         var str = arr[i];

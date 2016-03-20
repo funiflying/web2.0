@@ -641,8 +641,11 @@ angular.module('chetongxiang.filters', []).
             var arr=[];
             angular.forEach(array,function(obj,index){
                 var py=PingYin(obj.CityName);
-                obj.PinYing=py[0];
-                arr.push(obj);
+                if(py){
+                    obj.PinYing=py[0];
+                    arr.push(obj);
+                }
+
             });
             var map = {},
                 dest = [];
