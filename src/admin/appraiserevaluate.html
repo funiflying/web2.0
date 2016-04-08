@@ -1,0 +1,60 @@
+<div class="content-wrapper">
+    <div class="tui-admin-title" ng-init="getOrder()">
+        <h3>评估师评价</h3>
+    </div>
+    <div class="car-list-wrap">
+        <ul class="car-list">
+            <li class="car-list-item" >
+                <table class="car-list-tab">
+                    <caption>订单编号：<span ng-bind="order.AppraiseOrderCode"></span></caption>
+                    <tr>
+                        <td class="car-list-pic">
+                            <a href="item.html?CarNo={{Car.CarNo}}" target="_blank">
+                                <img  class="car-list-cover" ng-src="{{Car.HomePicID||DefaultCarIcon}}"/>
+                                <p class="car-list-carflag">车源号：<span ng-bind="Car.CarNo"></span></p>
+                            </a>
+                        </td>
+                        <td class="car-list-info">
+                            <h4 ng-bind="Car.SpecName"></h4>
+                            <p>评估费用：<strong class="text-orange" ng-bind="order.AppraiserFee|currency:'￥'"></strong></p>
+                            <p>下单时间：<span class="text-info" ng-bind="order.OrderTime|DateFormat:'yyyy-MM-dd'"></span>&nbsp;&nbsp;&nbsp;&nbsp;当前状态：<span class="text-success"  ng-bind="order.OrderFlag|ApprOrderStatus"></span>
+                                <span class="text-danger" ng-if="order.RevokeFlag!=0" ng-bind="order.RevokeFlag|OrderRevoke"></span></p>
+                            <p>评估师：<span  class="text-info" ng-bind="order.UserName"></span>&nbsp;&nbsp;<span  class="text-info" ng-bind="order.Contact"></span></p>
+                            <p class="car-list-info-span">
+                                <span>行驶里程：<i ng-bind="Car.Mileage"></i> 万公里</span>
+                                <span>购买年限：<i ng-bind="Car.Buyyear|DateFormat:'yyyy-MM-dd'"></i></span>
+                                <span>过户次数：<i ng-bind="Car.TransferNo"></i></span>
+                            </p>
+                        </td>
+                        <td class="car-list-toolbar">
+                            <a onclick="window.history.go(-1)" href="" class="btn-profile btn-operate">返回</a>
+                        </td>
+                    </tr>
+                </table>
+        </ul>
+    </div>
+    <div id="myAlert" class="alert {{alert.type}}" ng-if="alert.msg">
+        <a href="" class="close" data-dismiss="alert">&times;</a>
+        <strong>提示！</strong><span ng-bind="alert.msg"></span>。
+    </div>
+    <div class="row col-md-offset-1" style="margin-top: 50px">
+        <form name="evalForm" class="form-horizontal" novalidate>
+            <div class="form-group">
+                <label class="col-md-2 control-label">对委托人评价</label>
+                <div class="col-md-8">
+                    <div evaluate data-name="UserGiveScore" class="form-control-static"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">建议或意见</label>
+                <div class="col-md-6">
+                    <textarea  rows="5" ng-model="UserFeedback" class="form-control"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="decollator-line"></div>
+    <div class="col-md-3 col-md-offset-5 " style="margin-top: 30px ">
+        <button class="btn btn-block btn-info" ng-click="evaluate()" >提交</button>
+    </div>
+</div>

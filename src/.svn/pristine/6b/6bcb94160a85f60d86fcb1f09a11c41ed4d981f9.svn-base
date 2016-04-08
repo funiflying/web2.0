@@ -1,0 +1,140 @@
+<style type="text/css">
+    .dd {
+        position: relative;
+        display: block;
+        margin: 0;
+        padding: 0;
+        max-width: 600px;
+        list-style: none;
+        font-size: 13px;
+        line-height: 20px;
+    }
+
+    .dd-list {
+        display: block;
+        position: relative;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .dd-list .dd-list {
+        padding-left: 30px;
+    }
+
+    .dd-item,
+    .dd-empty,
+    .dd-placeholder {
+        display: block;
+        position: relative;
+        margin: 0;
+        padding: 0;
+        min-height: 20px;
+        font-size: 13px;
+        line-height: 20px;
+    }
+
+    .dd-handle {
+        display: block;
+        height: 160px;
+        width: 200px;
+        color: #333;
+        text-decoration: none;
+    }
+
+    .dd-handle:hover {
+        color: #2ea8e5;
+        background: #fff;
+    }
+
+
+
+    .dd-placeholder,
+    .dd-empty {
+        margin: 5px 0;
+        padding: 0;
+        min-height: 30px;
+        background: #f2fbff;
+        border: 1px dashed #b6bcbf;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+    }
+
+    .dd-empty {
+        border: 1px dashed #bbb;
+        min-height: 100px;
+        background-color: #e5e5e5;
+        background-image: -webkit-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), -webkit-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+        background-image: -moz-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), -moz-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+        background-image: linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+        background-size: 60px 60px;
+        background-position: 0 0, 30px 30px;
+    }
+
+    .dd-dragel {
+        position: absolute;
+        pointer-events: none;
+        z-index: 9999;
+    }
+
+    .dd-dragel > .dd-item .dd-handle {
+        margin-top: 0;
+    }
+
+    .dd-dragel .dd-handle {
+        -webkit-box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, .1);
+        box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, .1);
+    }
+
+</style>
+
+
+<div class="file-input file-input-ajax-new">
+    <div class="file-preview">
+        <div class=" file-drop-zone">
+            <div class="file-drop-zone-title">添加图片 …
+            </div>
+
+            <div class="file-preview-thumbnails clearfix">
+                <div class="dd nestable" >
+                    <ol class="dd-list">
+
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="input-group ">
+        <div class="form-control file-caption  kv-fileinput-caption" tabindex="-1">
+            <span class="file-caption-ellipsis" title="">…</span>
+            <div class="file-caption-name" title=""></div>
+        </div>
+        <div class="input-group-btn" >
+            <div class="btn btn-primary btn-file">
+                <i class="glyphicon glyphicon-folder-open"></i> &nbsp;选择 …
+                <div class=" filePicker"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../lib/jquery/dist/jquery.nestable.js"></script>
+<script>
+    $(document).ready(function() {
+
+        var updateOutput = function(e) {
+            var list = e.length ? e : $(e.target),
+                    output = list.data('output');
+            if (window.JSON) {
+                console.log(window.JSON.stringify(list.nestable('serialize'))); //, null, 2));
+            } else {
+                output.val('JSON browser support required for this demo.');
+            }
+        };
+
+        // activate Nestable for list 1
+        $('.nestable').nestable() .on('change', updateOutput);
+
+
+
+    });
+</script>

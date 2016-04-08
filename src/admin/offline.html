@@ -1,0 +1,47 @@
+
+
+
+<div class="content-wrapper">
+    <div class="tui-admin-title" ng-init="getList()">
+        <h3>线下检测</h3>
+        <a href="#/offline" class="tui-admin-title-btn" >新增线下检测</a>
+    </div>
+    <div class="car-list-wrap">
+        <div id="myAlert" class="alert alert-warning" ng-if="pageTotal==0">
+            <a href="" class="close" data-dismiss="alert">&times;</a>
+            <strong>提示！</strong>没有记录。
+        </div>
+        <ul class="car-list">
+            <li class="car-list-item" ng-repeat="obj in list">
+                <table class="car-list-tab">
+                    <tr>
+                        <td class="car-list-pic">
+                            <a href="item.html?CarNo={{obj.CarNo}}">
+                                <img  class="car-list-cover" ng-src="{{obj.HomePicID||DefaultCarIcon}}"/>
+                                <p class="car-list-carflag">车源编号：<span ng-bind="obj.OfflineCode"></span></p>
+                            </a>
+                        </td>
+                        <td class="car-list-info">
+                            <h4 ng-bind="obj.SpecName"></h4>
+                            <p>车辆售价：<strong class="text-orange" ng-bind="obj.TradeMoney/10000|currency:'￥'"></strong><small class="text-orange">万</small></p>
+                            <p>交易时间：<span class="text-info" ng-bind="obj.TradeTime|DateFormat:'yyyy-MM-dd'"></span>
+                            </p>
+                            <p>车主姓名：<span class="text-info" ng-bind="obj.OwnerName"></span> <span class="text-info" ng-bind="obj.OwnerPhone"></span></p>
+                            <p class="car-list-info-span">
+                                <span>行驶里程：<i ng-bind="obj.Mileage"></i> 万公里</span>
+                                <span>购买年限：<i ng-bind="obj.Buyyear|DateFormat:'yyyy-MM-dd'"></i></span>
+                                <span>过户次数：<i ng-bind="obj.TransferNo"></i></span>
+                            </p>
+                        </td>
+                        <td class="car-list-toolbar">
+                            <a href="#/detection?CarNo={{obj.OfflineCode}}&&Event=3" class="btn-operate btn-profile" target="_blank"  ng-if="!obj.TestReportCode">填检测报告</a>
+                            <a href="#/view?Code={{obj.TestReportCode}}" class="btn-operate btn-profile" target="_blank"  ng-if="obj.TestReportCode">检测报告</a>
+                        </td>
+                    </tr>
+                </table>
+            </li>
+        </ul>
+    </div>
+    <div pagination  total-items="pageTotal" ng-model="currentPage" ng-change="changePager()"
+         previous-text="上一页" next-text="下一页" max-size="10" ng-show="pageTotal>PAGE_CONF.PageSize"></div>
+</div>

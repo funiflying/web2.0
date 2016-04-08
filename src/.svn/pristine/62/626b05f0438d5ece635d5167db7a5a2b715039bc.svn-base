@@ -1,0 +1,63 @@
+<div class="wrapper find-pwd-container">
+    <div class="find-pwd-content">
+        <div class="password-title">
+            选择支付方式并核对订单信息
+        </div>
+        <div class="clearfix">
+            <div class="row col-md-10 col-md-offset-1 password-steps">
+                <form class="form-horizontal" >
+                    <div class="form-group">
+                        <label class="control-label col-md-2">订单号</label>
+                        <div class="col-md-5">
+                            <p  class="form-control-static" ng-bind="OrderCode" /></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">订单金额</label>
+                        <div class="col-md-5">
+                            <p  class="form-control-static" ng-bind="Amount|currency:'￥'" /></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">支付方式</label>
+                        <div class="col-md-10">
+                            <div paybanklist></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2"></label>
+                        <div class="col-md-8">
+                                <div class="alert {{alert.type}}" ng-bind="alert.msg">
+                                </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <form action="https://ipay.cmbc.com.cn:9012/gwpay/payServlet" id="form_query" target="_blank" method="post">
+            <div style="display:inline-block; height: 0; width: 0; overflow: hidden;">oid_partner:
+                <input runat="server" type="text" name="oid_partner" id="oid_partner"  value="{{paydata.oid_partner}}"/><br/>
+                user_id:<input runat="server" type="text" name="user_id"  id="user_id" value="{{paydata.user_id}}"/><br/>
+                no_order:<input runat="server" type="text" name="no_order" id="no_order" value="{{paydata.no_order}}"/><br/>
+                dt_order:<input runat="server" type="text" name="dt_order" id="dt_order" value="{{paydata.dt_order}}"/><br/>
+                name_goods:<input runat="server" type="text" name="name_goods"  id="name_goods" value="{{paydata.name_goods}}"/><br/>
+                info_order:<input runat="server" type="text" name="info_order" id="info_order" value="{{paydata.info_order}}"/><br/>
+                money_order:<input runat="server" type="text" name="money_order" id="money_order" value="{{paydata.money_order}}"/><br/>
+                notify_url:<input runat="server" type="text" name="notify_url" id="notify_url" value="{{paydata.notify_url}}"/><br/>
+                url_return:<input runat="server" type="text" name="url_return" id="url_return" value="{{paydata.url_return}}"/><br/>
+                url_order:<input runat="server" type="text" name="url_order" id="url_order" value="{{paydata.url_order}}"/><br/>
+                bank_code:<input runat="server" type="text" name="bank_code" id="bank_code" value="{{paydata.bank_code}}"/><br/>
+                pay_type:<input runat="server" type="text" name="pay_type" id="pay_type" value="{{paydata.pay_type}}"/><br/>
+                sign:<input runat="server" type="text" name="sign" id="sign" value="{{paydata.signstr}}"/><br/></div>
+
+            <div class="button-wrapper center-block">
+                <button class=" btn  btn-block btn-lg btn-orange"  ng-click="checkpay()" type="submit"   ng-disabled="btn_disabled">立即支付</button>
+            </div>
+        </form>
+    </div>
+
+
+
+
+</div>

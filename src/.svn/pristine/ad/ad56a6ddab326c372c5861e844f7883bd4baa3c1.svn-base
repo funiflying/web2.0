@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="chetongxiang">
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta name="Description" content="平台以二手车交易平台为业务核心和入口，通过B2B2C的商业模式，整合全国二手车及上下游资源，建立二手车商诚信体系，提供公正、专业的车辆检测和车况评估服务，最大限度地满足二手车商之间的车源同享、车源互调，真正实现车商和消费者之间爱车同享，利益同享"/>
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="Keywords" content=""/>
+    <title>车同享汽车交易平台</title>
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./css/jquery.autocomplete.css"/>
+    <link rel="stylesheet" href="./css/chetongxiang.css"/>
+    <script src="./lib/jquery/dist/jquery-1.10.2.min.js"></script>
+    <!--[if lte IE 8]>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
+        document.createElement('uploader');
+        document.createElement('header');
+        // Optionally these for CSS
+        document.createElement('ng:include');
+        document.createElement('ng:pluralize');
+        document.createElement('ng:view');
+    </script>
+    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/3.6/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body ng-controller="IndexController" ng-init="getChain()">
+<div class="tui-nav index-nav" ng-controller="LoginController">
+    <div class="tui-nav-top" >
+        <div class="wrapper index-nav-top">
+            欢迎您来到车同享, <span ng-if="!USER.UserName"><a href="./admin.html#/login">请登录</a><span class="spacer"></span><a href="admin.html#/register" class="text-orange">免费注册</a></span><span ng-if="USER.UserName"><a href="./admin.html#/home/account" class="text-orange" ng-bind="USER.UserName||USER.Contact"></a> <a
+                href="javascript:void(0)" ng-click="loginOff()">退出</a></span>
+            <span class="pull-right"><a href="urgent.html" class="text-orange" target="_blank">急售通道</a><span class="spacer"></span><a href="admin.html#/feedback" target="_blank">意见反馈</a><span class="spacer"></span><a href="admin.html#/handbook" target="_blank">操作手册</a><span class="spacer"></span><a href="http://192.168.0.218/OA/login.html">分公司登录</a></span>
+        </div>
+    </div>
+    <div class="tui-nav-link container text-right" >
+        <div class="c2city " change-city>
+            <a href="javascript:void(0)" class="choose-city" >
+                <span><span class="cn" ng-bind="CITY.CityName"></span><i>&nbsp;</i></span>
+            </a>
+            <i class="maskline"></i>
+            <div class="city-box">
+                <div class="all-city">
+                    <!--  <dl>
+                          <dt>周边</dt>
+                          <dd></dd>
+                      </dl>-->
+                    <dl>
+                        <dt>热门</dt>
+                        <dd>
+                            <a href="javascript:void(0)" data-city="全国">全国</a>
+                            <a href="javascript:void(0)" data-value="1101" data-name="CityID" data-city
+                                    ="北京">北京</a>
+                            <a href="javascript:void(0)" data-value="3401" data-name="CityID" data-city
+                                    ="合肥">合肥</a>
+                            <a href="javascript:void(0)" data-value="3701" data-name="CityID" data-city
+                                    ="济南">济南</a>
+                            <a href="javascript:void(0)" data-value="3501" data-name="CityID" data-city
+                                    ="福州">福州</a>
+                            <a href="javascript:void(0)" data-value="3301" data-name="CityID" data-city
+                                    ="杭州">杭州</a>
+
+                            <a href="javascript:void(0)" data-value="3101" data-name="CityID" data-city
+                                    ="上海">上海</a>
+                            <a href="javascript:void(0)" data-value="5001" data-name="CityID" data-city
+                                    ="重庆">重庆</a>
+                            <a href="javascript:void(0)" data-value="5301" data-name="CityID" data-city
+                                    ="昆明">昆明</a>
+                            <a href="javascript:void(0)" data-value="4501" data-name="CityID" data-city
+                                    ="南宁">南宁</a>
+                            <a href="javascript:void(0)" data-value="4101" data-name="CityID" data-city
+                                    ="郑州">郑州</a>
+                            <a href="javascript:void(0)" data-value="2101" data-name="CityID" data-city
+                                    ="沈阳">沈阳</a>
+                        </dd>
+                    </dl>
+                    <div class="city-line"></div>
+                    <dl ng-repeat="obj in chain">
+                        <dt ng-bind="obj.PinYing"></dt>
+                        <dd>
+                            <a ng-repeat="o in obj.City" ng-bind="o.CityName" data-city="{{o.CityName}}" href="javascript:void(0)" data-name="CityID" data-value="{{o.CityID}}"></a>
+                        </dd>
+                    </dl>
+
+                </div>
+                <p class="more-city">更多城市正在加紧筹备，敬请期待。</p>
+            </div>
+        </div>
+    </div>
+    <div class=" wrapper index-nav-bar">
+        <ul class="index-nav-link">
+            <li class="index-nav-item"><a href="index.html">首页</a></li>
+            <li class="index-nav-item"><a href="buy.html">我要买车</a></li>
+            <li class="index-nav-item"><a href="sell.html">我要卖车</a></li>
+            <li class="index-nav-item"><a href="join.html">我要入驻</a></li>
+            <li class="index-nav-item active"><a href="expert.html">专家库</a></li>
+            <li class="index-nav-item"><a href="safeguard.html">服务保障</a></li>
+        </ul>
+    </div>
+</div>
+<div class="wrapper filter-container">
+    <div class="search-bar">
+
+    </div>
+    <div class="filter-content">
+        <div class="filter-box" filter>
+            <dl class="fliter-bd clearfix">
+                <dt>城市</dt>
+                <dd filter-selected>
+                    <a data-name="CityID" data-brand="0" data-value="0"   ng-class="{true:'active',false:''}[expert_filter.CityID==0]">全国</a>
+                    <a href="javascript:void(0)" ng-repeat="obj in city" data-name="CityID"  data-value="{{obj.CityID}}" ng-class="{true:'active',false:''}[expert_filter.CityID==obj.CityID]"  ng-bind="obj.CityName"></a>
+                      <span class="brand-all" ng-show="showCityMore" ng-click="showCity()">
+                        <em class="show">更多<i></i></em>
+                     </span>
+                    <span class="brand-all" ng-hide="hideCityMore" ng-click="hideCity()">
+                        <em class="show">收起<i class="up"></i></em>
+                     </span>
+                </dd>
+            </dl>
+            <dl class="fliter-bd clearfix">
+                <dt>品牌</dt>
+                <dd filterbrand morebrand >
+                    <a data-name="Brand" data-value="0"  ng-class="{true:'active',false:''}[expert_filter.BrandID==0]" >不限</a>
+                    <a data-name="Brand" data-value="34" ng-class="{true:'active',false:''}[expert_filter.BrandID==34]"  class="statics-brand">大众</a>
+                    <a data-name="Brand" data-value="48" ng-class="{true:'active',false:''}[expert_filter.BrandID==48]"  class="statics-brand">福特</a>
+                    <a data-name="Brand" data-value="45" ng-class="{true:'active',false:''}[expert_filter.BrandID==45]"  class="statics-brand">丰田</a>
+                    <a data-name="Brand" data-value="155" ng-class="{true:'active',false:''}[expert_filter.BrandID==155]"  class="statics-brand">现代</a>
+                    <a data-name="Brand" data-value="19" ng-class="{true:'active',false:''}[expert_filter.BrandID==19]"  class="statics-brand">本田</a>
+                    <a data-name="Brand" data-value="126" ng-class="{true:'active',false:''}[expert_filter.BrandID==126]"  class="statics-brand">日产</a>
+                    <a data-name="Brand" data-value="156" ng-class="{true:'active',false:''}[expert_filter.BrandID==156]"  class="statics-brand">雪佛兰</a>
+                    <a data-name="Brand" data-value="21" ng-class="{true:'active',false:''}[expert_filter.BrandID==21]"  class="statics-brand">标致</a>
+                    <a data-name="Brand" data-value="20" ng-class="{true:'active',false:''}[expert_filter.BrandID==20]"  class="statics-brand">比亚迪</a>
+                    <a data-name="Brand" data-value="8" ng-class="{true:'active',false:''}[expert_filter.BrandID==8]"  class="statics-brand">宝马</a>
+                    <a data-name="Brand" data-value="71" ng-class="{true:'active',false:''}[expert_filter.BrandID==71]"  class="statics-brand">吉利汽车</a>
+                    <a data-name="Brand" data-value="157" ng-class="{true:'active',false:''}[expert_filter.BrandID==157]" class="statics-brand" >雪铁龙</a>
+                    <a data-name="Brand" data-value="122" ng-class="{true:'active',false:''}[expert_filter.BrandID==122]"  class="statics-brand">起亚</a>
+                    <a data-name="Brand" data-value="5" ng-class="{true:'active',false:''}[expert_filter.BrandID==5]"  class="statics-brand">奥迪</a>
+                    <a data-name="Brand" data-value="120" ng-class="{true:'active',false:''}[expert_filter.BrandID==120]"  class="statics-brand">奇瑞</a>
+                    <a data-name="Brand" data-value="17" ng-class="{true:'active',false:''}[expert_filter.BrandID==17]"  class="statics-brand">奔驰</a>
+                    <a data-name="Brand" data-value="100" ng-class="{true:'active',false:''}[expert_filter.BrandID==100]"  class="statics-brand">铃木</a>
+                    <span class="brand-all" allbrand id="morebrand">
+                    <em class="show" >全部<i></i></em>
+                        <div  class="otherbrand" data-role="otherBrand">
+                            <div class="o-b-box">
+                                <!-- <span class="arrow"><s></s></span>-->
+                                <ul class="o-b-list" data-role="letterNav">
+                                    <li class="clearfix">
+                                        <span>A</span>
+                                        <div>
+                                            <a data-name="Brand" data-value="1">AC Schnitzer</a><a data-name="Brand" data-value="2">阿尔法罗密欧</a><a data-name="Brand" data-value="3">阿斯顿·马丁</a><a data-name="Brand" data-value="4">安凯客车</a><a data-name="Brand" data-value="5">奥迪</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>B</span>
+                                        <div>
+                                            <a data-name="Brand" data-value="6">巴博斯</a>
+                                            <a data-value="7" data-name="Brand">宝骏</a>
+                                            <a data-value=" 8" data-name="Brand">宝马</a>
+                                            <a data-value=" 9" data-name="Brand">宝沃</a>
+                                            <a data-value=" 10" data-name="Brand">保时捷</a>
+                                            <a data-value=" 11" data-name="Brand">北京</a>
+                                            <a data-value=" 12" data-name="Brand">北汽幻速</a>
+                                            <a data-value=" 13" data-name="Brand">北汽绅宝</a>
+                                            <a data-value=" 14" data-name="Brand">北汽威旺</a>
+                                            <a data-value=" 15"  data-name="Brand">北汽新能源</a>
+                                            <a  data-name="Brand" data-value=" 16">北汽制造</a>
+                                            <a  data-name="Brand" data-value=" 17">奔驰</a>
+                                            <a  data-name="Brand" data-value=" 18">奔腾</a>
+                                            <a  data-name="Brand" data-value=" 19">本田</a>
+                                            <a  data-name="Brand" data-value=" 20">比亚迪</a>
+                                            <a  data-name="Brand" data-value=" 21">标致</a>
+                                            <a  data-name="Brand" data-value=" 22">别克</a>
+                                            <a  data-name="Brand" data-value=" 23">宾利</a>
+                                            <a  data-name="Brand" data-value=" 24">布加迪</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>C</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 25">昌河</a>
+                                            <a  data-name="Brand" data-value=" 26">成功汽车</a>
+                                            <a  data-name="Brand" data-value=" 27">长安</a>
+                                            <a  data-name="Brand" data-value=" 28">长安商用</a>
+                                            <a  data-name="Brand" data-value=" 29">长城</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>D</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 30">Dacia</a>
+                                            <a  data-name="Brand" data-value=" 31">DMC</a>
+                                            <a  data-name="Brand" data-value=" 32">DS</a>
+                                            <a  data-name="Brand" data-value=" 33">大发</a>
+                                            <a  data-name="Brand" data-value=" 34">大众</a>
+                                            <a  data-name="Brand" data-value=" 35">道奇</a>
+                                            <a  data-name="Brand" data-value=" 36">东风</a>
+                                            <a  data-name="Brand" data-value=" 37">东风风度</a>
+                                            <a  data-name="Brand" data-value=" 38">东风风行</a>
+                                            <a  data-name="Brand" data-value=" 39">东风风神</a>
+                                            <a  data-name="Brand" data-value=" 40">东风小康</a>
+                                            <a  data-name="Brand" data-value=" 41">东南</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>F</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 42">Fisker</a>
+                                            <a  data-name="Brand" data-value=" 43">法拉利</a>
+                                            <a  data-name="Brand" data-value=" 44">菲亚特</a>
+                                            <a  data-name="Brand" data-value=" 45">丰田</a>
+                                            <a  data-name="Brand" data-value=" 46">福迪</a>
+                                            <a  data-name="Brand" data-value=" 47">福汽启腾</a>
+                                            <a  data-name="Brand" data-value=" 48">福特</a>
+                                            <a  data-name="Brand" data-value=" 49">福田</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfi">
+                                        <span>G</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 50">GMC</a>
+                                            <a  data-name="Brand" data-value=" 51">Gumpert</a>
+                                            <a  data-name="Brand" data-value=" 52">观致</a>
+                                            <a  data-name="Brand" data-value=" 53">光冈</a>
+                                            <a  data-name="Brand" data-value=" 54">广汽传祺</a>
+                                            <a  data-name="Brand" data-value=" 55">广汽吉奥</a>
+
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>H</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 56">Hennessey</a><a  data-name="Brand" data-value=" 57">哈飞</a><a  data-name="Brand" data-value=" 58">哈弗</a><a  data-name="Brand" data-value=" 59">海格</a><a  data-name="Brand" data-value=" 60">海马</a><a  data-name="Brand" data-value=" 61">悍马</a><a  data-name="Brand" data-value=" 62">恒天</a>
+                                            <a  data-name="Brand" data-value=" 63">红旗</a><a  data-name="Brand" data-value=" 65">华普</a><a  data-name="Brand" data-value=" 66">华骐</a><a  data-name="Brand" data-value=" 67">华颂</a><a  data-name="Brand" data-value=" 68">华泰</a><a  data-name="Brand" data-value=" 69">黄海</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>J</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 70">Jeep</a><a  data-name="Brand" data-value=" 71">吉利汽车</a><a  data-name="Brand" data-value=" 72">江淮</a><a  data-name="Brand" data-value=" 73">江铃</a><a  data-name="Brand" data-value=" 74">江铃集团轻汽</a><a  data-name="Brand" data-value=" 75">捷豹</a><a  data-name="Brand" data-value=" 76">金杯</a>
+                                            <a  data-name="Brand" data-value=" 77">金龙</a><a  data-name="Brand" data-value=" 78">金旅</a><a  data-name="Brand" data-value=" 79">九龙</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>K</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 80">KTM</a><a  data-name="Brand" data-value=" 81">卡尔森</a><a  data-name="Brand" data-value=" 82">卡威</a><a  data-name="Brand" data-value=" 83">开瑞</a><a  data-name="Brand" data-value=" 84">凯佰赫</a><a  data-name="Brand" data-value=" 85">凯迪拉克</a><a  data-name="Brand" data-value=" 86">凯翼</a>
+                                            <a  data-name="Brand" data-value=" 87">科尼赛克</a><a  data-name="Brand" data-value=" 88">克莱斯勒</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>L</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 89">兰博基尼</a><a  data-name="Brand" data-value=" 90">蓝旗亚</a><a  data-name="Brand" data-value=" 91">朗世</a><a  data-name="Brand" data-value=" 92">劳斯莱斯</a><a  data-name="Brand" data-value=" 93">雷克萨斯</a><a  data-name="Brand" data-value=" 94">雷诺</a><a  data-name="Brand" data-value=" 95">理念</a>
+                                            <a  data-name="Brand" data-value=" 96">力帆</a><a  data-name="Brand" data-value=" 97">莲花汽车</a><a  data-name="Brand" data-value=" 98">猎豹汽车</a><a  data-name="Brand" data-value=" 99">林肯</a><a  data-name="Brand" data-value=" 100">铃木</a><a  data-name="Brand" data-value=" 101">领志</a><a  data-name="Brand" data-value=" 102">陆风</a>
+                                            <a  data-name="Brand" data-value=" 103">路虎</a>
+                                            <a  data-name="Brand" data-value=" 104">路特斯</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>M</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 105">MG</a><a  data-name="Brand" data-value=" 106">MINI</a><a  data-name="Brand" data-value=" 107">马自达</a><a  data-name="Brand" data-value=" 108">玛莎拉蒂</a><a  data-name="Brand" data-value=" 109">迈巴赫</a><a  data-name="Brand" data-value=" 110">迈凯伦</a><a  data-name="Brand" data-value=" 111">摩根</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>N</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 112">Noble</a><a data-value=" 113">纳智捷</a><a  data-name="Brand" data-value=" 114">南京金龙</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>O</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 115">讴歌</a><a  data-name="Brand" data-value=" 116">欧宝</a><a  data-name="Brand" data-value=" 117">欧朗</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>P</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 118">帕加尼</a><a  data-name="Brand" data-value=" 119">佩奇奥</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>Q</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 120">奇瑞</a><a  data-name="Brand" data-value=" 121">启辰</a><a  data-name="Brand" data-value=" 122">起亚</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>R</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 124">Rezvani</a><a  data-name="Brand" data-value=" 125">Rinspeed</a><a  data-name="Brand" data-value=" 126">日产</a><a  data-name="Brand" data-value=" 127">荣威</a><a  data-name="Brand" data-value=" 128">如虎</a><a  data-name="Brand" data-value=" 129">瑞麒</a></td>
+
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>S</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 130">Scion</a><a  data-name="Brand" data-value=" 131">smart</a><a  data-name="Brand" data-value=" 132">SPIRRA</a><a data-value=" 133">SSC</a><a  data-name="Brand" data-value=" 134">萨博</a><a  data-name="Brand" data-value=" 135">赛麟</a><a  data-name="Brand" data-value=" 136">三菱</a>
+                                            <a  data-name="Brand" data-value=" 137">上海</a><a  data-name="Brand" data-value=" 138">上汽大通</a><a  data-name="Brand" data-value=" 139">世爵</a><a  data-name="Brand" data-value=" 140">双环</a><a  data-name="Brand" data-value=" 141">双龙</a><a  data-name="Brand" data-value=" 142">思铭</a><a  data-name="Brand" data-value=" 143">斯巴鲁</a>
+                                            <a  data-name="Brand" data-value=" 144">斯柯达</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>T</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 145">特斯拉</a><a  data-name="Brand" data-value=" 146">腾势</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>W</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 147">威麟</a><a  data-name="Brand" data-value=" 148">威兹曼</a><a  data-name="Brand" data-value=" 149">潍柴英致</a><a  data-name="Brand" data-value=" 150">沃尔沃</a><a  data-name="Brand" data-value=" 151">沃克斯豪尔</a><a  data-name="Brand" data-value=" 152">五菱汽车</a><a  data-name="Brand" data-value=" 153">五十铃</a></td>
+
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>X</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 154">西雅特</a><a  data-name="Brand" data-value=" 155">现代</a><a  data-name="Brand" data-value=" 156">雪佛兰</a><a  data-name="Brand" data-value=" 157">雪铁龙</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>Y</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 158">野马汽车</a><a  data-name="Brand" data-value=" 159">一汽</a><a  data-name="Brand" data-value=" 160">依维柯</a><a  data-name="Brand" data-value=" 161">英菲尼迪</a><a  data-name="Brand" data-value=" 162">永源</a><a  data-name="Brand" data-value=" 163">游侠</a></td>
+
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>Z</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 164">Zenvo</a><a  data-name="Brand" data-value=" 165">之诺</a><a  data-name="Brand" data-value=" 166">知豆</a><a  data-name="Brand" data-value=" 167">中华</a><a  data-name="Brand" data-value=" 168">中兴</a><a  data-name="Brand" data-value=" 169">众泰</a></td>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </span>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<div class="wrapper tool-bar">
+    <span class="text-orange">为您找到 <strong ng-bind="pageTotal"></strong> 位认证评估师</span>
+</div>
+<div class="wrapper clearfix" id="appraiser" ng-init="getExpert();" style="min-height: 800px">
+    <ul class="expert-list clearfix" ng-show="pageTotal>0">
+        <li class="expert-list-item" ng-repeat="obj in list">
+            <div class="title">
+                <span>【<i ng-bind="obj.CityName"></i>】</span>&nbsp;&nbsp;<span ng-bind="obj.UserName"></span>&nbsp;<span ng-bind="obj.Contact"></span>
+            </div>
+            <div class="expert-list-item-container">
+                <div class="icon">
+                    <img ng-src="{{obj.HeadImage||DefaultUserIcon}}" alt=""/>
+                </div>
+                <div class="describe">
+                    <p>编号：<span ng-bind="obj.AppraiserCode">6030711043736</span></p>
+                    <p  class="skill-repeat">擅长品牌：<span ng-repeat="skill in obj.Skill" ng-bind="skill.BrandName"></span></p>
+                    <p>评估次数：<span class="text-orange" ng-bind="obj.EntrustTestCount||0">0</span>次
+                        <span style="margin-left: 10px">好评率：<span class="text-orange" ng-bind="obj.EntrustGoodPerson||100">100</span>%</span>
+                    </p>
+                    <p>地址：<span ng-bind="obj.Address||'暂无地址信息'"></span></p>
+                </div>
+            </div>
+            <button class="expert-btn" ng-click="requestDialog(obj)">选择他</button>
+        </li>
+    </ul>
+    <div class="appraiser-about-car" ng-init="getCar()">
+        <div class="appr-right-wrap">
+            <div class="appr-right-tit">委托车辆信息</div>
+            <div class="appr-right-car">
+                <div class="appr-right-img">
+                    <img width="290" ng-src="http://ctx-debug.oss-cn-shanghai.aliyuncs.com/Files/CarImg/a9dc5be82e86444c8028b70a571628ff.jpg" src="http://ctx-debug.oss-cn-shanghai.aliyuncs.com/Files/CarImg/a9dc5be82e86444c8028b70a571628ff.jpg">
+							<span class="renzheng_icon" ng-bind-html="car|FormatIndexDetection">
+
+							</span>
+                </div>
+                <div class="appr-right-text">
+                    <p class="span16 text-ellipsis " ng-bind="car.SpecName">华晨宝马-宝马3系 2005款 325i 领先型</p>
+                    <p class="span14 ">2016-2-28上牌   6万公里</p>
+                    <p><span class="color-price span24 ">30.00 </span><span class="span14 color-price">万</span> <span class="span14"><strike class="ng-binding">46.10万</strike></span></p><p></p>
+                </div>
+            </div>
+
+            <div class="appr-right-tit">委托车同享金牌评估师</div>
+            <div class="appr-right-car">
+                <div class="appr-right-img"><img width="290" src="./images/ctx_pgs.gif"></div>
+                <div class="appr-right-text">
+                    <p class="span18 color-hei text-center">金牌评估师  车同享权威认证</p>
+                    <p class="span14 color-hei text-center">一键委托，评估更便捷，进度全跟踪</p>
+                    <p class="text-center"><button ng-click="toctx()">提交请求</button></p>
+                </div>
+                <div style="position: absolute; right: -6px; top: -55px;"><img src="./images/jinpai.png"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrapper">
+    <div pagination  total-items="pageTotal" ng-model="currentPage" ng-change="changeCityPager()" class="pagination-lg" items-perPage="10"
+         previous-text="上一页" next-text="下一页" max-size="10" ng-show="pageTotal>PAGE_CONF.PageSize"></div>
+</div>
+<div ng-include="'./statics/footer.html'"></div>
+<script src="./js/chetongxiang.js"></script>
+<script src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./lib/angular/angular.min.js"></script>
+<script src="./lib/bootstrap/dist/js/ui-bootstrap-tpls.js"></script>
+<script src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="./lib/angular-resource/angular-resource.min.js"></script>
+<script src="./lib/angular/angular-cookies.min.js"></script>
+<script src="./js/app.js"></script>
+<script src="./js/controllersIndex.js"></script>
+<script src="./js/services.js"></script>
+<script src="./js/filters.js"></script>
+<script src="./js/directives.js"></script>
+<script src="./lib/jquery/dist/jquery.autocomplete.min.js"></script>
+</body>
+</html>

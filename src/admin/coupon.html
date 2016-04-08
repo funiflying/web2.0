@@ -1,0 +1,36 @@
+
+<div class="content-wrapper">
+    <div class="tui-admin-title">
+        <h3>我的优惠券</h3>
+    </div>
+    <div class="d-coupon-wrap">
+        <div class="d-coupon-group" ng-init="getList()">
+            <div id="myAlert" class="alert alert-warning" ng-if="pageTotal==0">
+                <a href="" class="close" data-dismiss="alert">&times;</a>
+                <strong>提示！</strong>没有记录。
+            </div>
+            <div class="d-coupon-list" ng-repeat="obj in discountlist" >
+                <div class="d-coupon-left">
+                    <div class="">
+                        <p class="font36 color-white">￥<span ng-bind="obj.PolicyValue"></span>元</p>
+                        <p class="font16 color-white">【<span ng-if="obj.PolicyRange=='0'">服务费抵用券</span>】</p>
+                        <p class="font16 color-white" >编号：<span ng-bind="obj.PolicyCode"></span></p>
+                    </div>
+                </div>
+                <div class="d-coupon-right">
+                    <div class="d-coupon-padding">
+                        <p class="line-height">名称：<span ng-bind="obj.PolicyName"></span></p>
+                        <p class="line-height">数量：<span ng-bind="obj.HaveCount"></span>张</p>
+                        <p class="line-height">是否可叠加使用：<span ng-if="!obj.PolicyUseMutile">否</span><span ng-if="obj.PolicyUseMutile">是</span></p>
+                        <p class="line-height">使用有效期:<span ng-bind="obj.PolicyStartDateFull|DateFormat:'yyyy年MM月dd日'"></span>-<span ng-bind="obj.PolicyEndDateFull|DateFormat:'yyyy年MM月dd日'"></span></p>
+                    </div>
+                </div>
+                <div class="d-coupon-action">
+                    <a href="#/home/discount?PolicyCode={{obj.PolicyCode}}">查看详情</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div pagination  total-items="pageTotal" ng-model="currentPage" ng-change="changePager()"
+         previous-text="上一页" next-text="下一页" max-size="10" ng-show="pageTotal>PAGE_CONF.PageSize"></div>
+</div>

@@ -1,0 +1,99 @@
+<div class="content-wrapper">
+<div class="tui-admin-title" ng-init="getOrder()">
+    <h3>预付款</h3>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+           重要提示
+        </h3>
+    </div>
+    <div class="panel-body row">
+        <div class="col-md-12 text-info">
+            <p>尊敬的吴先生先生/女士，您当前在车同享汽车交易平台提交购车订单（订单号：<span ng-bind="order.OrderCode"></span>），请在<strong ng-bind="payTime"></strong>(下单日期48小时内)之前通过银行汇款至</p>
+            <div class="row">
+                <div class="col-md-2">开户行：</div>
+                <div class="col-md-8"><strong>民生银行厦门观音山支行</strong></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">户名：</div>
+                <div class="col-md-8"><strong>车同享科技有限公司</strong></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">账号：</div>
+                <div class="col-md-8"><strong>695685945</strong></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">待付款金额：</div>
+                <div class="col-md-8"><strong ng-bind="order.PrePayMoney|currency:'￥'"></strong></div>
+            </div>
+            <p class="text-danger">备注：请在汇款单的备注里填写订单号<strong ng-bind="order.OrderCode"></strong>以便财务人员审核，谢谢合作！</p>
+        </div>
+    </div>
+    <div class="panel-footer">
+       <button class="btn btn-primary" ng-click="getpay()">获取汇款信息</button>
+    </div>
+
+</div>
+<div id="myAlert" class="alert {{alert.type}}" ng-if="alert.msg">
+    <a href="" class="close" data-dismiss="alert">&times;</a>
+    <strong>提示！</strong><span ng-bind="alert.msg"></span>。
+</div>
+<div class="row">
+    <form class="form-horizontal" name="payForm">
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                商品名称
+            </label>
+            <div class="col-md-4">
+                <p class="form-control-static" ng-bind="order.BrandName+order.SpecName"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                待付款金额
+            </label>
+            <div class="col-md-4">
+                <p class="form-control-static" ng-bind="order.PrePayMoney|currency:'￥'"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                汇款时间
+            </label>
+            <div class="col-md-4">
+                <p class="input-group">
+                    <input type="text" class="form-control datetime"  ng-model="PrePayTime" placeholder="输入格式为:2000-01-01" required />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                汇款银行
+            </label>
+            <div class="col-md-8">
+                <div class="" banklist></div>
+            </div>
+        </div>
+        <div class="decollator-line"></div>
+    </form>
+    <div class="col-md-3 col-md-offset-4 " style="margin-top: 30px ">
+        <button class="btn btn-block btn-info" ng-click="prepay()" ng-disabled="payForm.$invalid">提交</button>
+    </div>
+
+</div>
+<script type="text/javascript">
+
+    $('.datetime').datetimepicker({
+        language: 'zh-CN',
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        todayBtn: true,
+        viewSelect: 'month',
+        minView: 2
+    });
+</script>
+</div>

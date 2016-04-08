@@ -1,0 +1,122 @@
+
+<div class="content-wrapper">
+    <div class="tui-admin-title" ng-init="getProfile()">
+        <h3>银行卡管理</h3>
+    </div>
+    <section class="summary-section">
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="tip-wrapper">
+                    <header class="header">
+                        <h4 class="header-label">温馨提示</h4>
+                    </header>
+                    <div>
+                        <ol class="my-account-tip">
+                            <li><p>银行卡用于提现等资金操作</p></li>
+                            <li><p>请认真核对开户银行与账号</p></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="decollator-line"></div>
+    <div ng-show="addbank">
+        <div class="row">
+            <form class="form-horizontal" novalidate name="bandForm" style="margin-top: 30px">
+                <div class="form-group">
+                    <label class="col-md-2 control-label form-required">
+                        真实姓名
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" required ng-model="profile.UserName" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label form-required">
+                        银行卡号
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" required ng-model="profile.RegisterBankCode"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label form-required">
+                        开户行
+                    </label>
+                    <div class="col-md-10">
+                        <div banklist></div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="decollator-line"></div>
+        <div class="col-md-3 col-md-offset-4" style="margin-top: 30px;margin-bottom: 30px">
+            <button class="btn btn-block btn-lg btn-info" ng-click="band()" ng-disabled="bandForm.$invalid">提交</button>
+        </div>
+        <div class="col-md-8 col-md-offset-2" style="height: 60px">
+            <div class="alert {{alert.type}} text-center" ng-bind="alert.msg" ng-show="alert.msg"></div>
+        </div>
+    </div>
+    <div class="cards-content" ng-show="showBank">
+        <div  class="row">
+            <div class="col-xs-12 card-col">
+                <div ng-click="addCard()" class="bank-card add-card text-center">
+                    <div class="sprite add-icon"><i class="glyphicon glyphicon-plus-sign"></i></div>
+                    <p>您尚未绑定银行卡</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cards-content" ng-show="hasBank">
+        <div class="tui-bank">
+        <div class="tui-bank-title">
+            <div class="tui-bank-name" ng-switch="profile.RegisterBank">
+                <span class="bank-logo bank-icbc" ng-switch-when="中国工商银行"></span>
+                <span class="bank-logo bank-abc" ng-switch-when="中国农业银行"></span>
+                <span class="bank-logo bank-boc" ng-switch-when="中国银行"></span>
+                <span class="bank-logo bank-ccb" ng-switch-when="中国建设银行"></span>
+                <span class="bank-logo bank-cmbc" ng-switch-when="民生银行"></span>
+                <span class="bank-logo bank-cmb" ng-switch-when="招商银行"></span>
+                <span class="bank-logo bank-bcom" ng-switch-when="交通银行"></span>
+                <span class="bank-logo bank-cib" ng-switch-when="兴业银行"></span>
+                <span class="bank-logo bank-ceb" ng-switch-when="光大银行"></span>
+                <span class="bank-logo bank-hxb" ng-switch-when="华夏银行"></span>
+                <span class="bank-logo bank-pab" ng-switch-when="平安银行"></span>
+                <span class="bank-logo bank-spdb" ng-switch-when="浦发银行"></span>
+                <span class="bank-logo bank-bob" ng-switch-when="北京银行"></span>
+                <span class="bank-logo bank-post" ng-switch-when="中国邮政储蓄银行"></span>
+                <span class="bank-logo bank-shb" ng-switch-when="上海银行"></span>
+                <span class="bank-logo bank-boxm" ng-switch-when="厦门银行"></span>
+                <span class="bank-logo bank-egb" ng-switch-when="恒丰银行"></span>
+                <span class="bank-logo bank-citic" ng-switch-when="中信银行"></span>
+            </div>
+            <div class="tui-bank-bar">
+                <a href="javscript:void(0)" ng-click="changeBank()">修改</a>
+            </div>
+
+        </div>
+        <div class="tui-bank-body">
+            <table border="0" >
+                <tr>
+                    <th class="text-right" style="width: 30%;">户名：</th>
+                    <td ng-bind="profile.UserName"></td>
+                </tr>
+                <tr>
+                    <th class="text-right">卡号：</th>
+                    <td ng-bind="profile.RegisterBankCode"></td>
+                </tr>
+                <tr>
+                    <th class="text-right">开户行：</th>
+                    <td ng-bind="profile.RegisterBank"></td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="tui-bank-footer">
+            <i class="iconfont icon-zhanghaoanquan0101"></i> 安全银行卡，可用于提现
+        </div>
+    </div>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<style>
+    .modal-dialog{
+        width: 800px;
+    }
+</style>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">
+        <i class="glyphicon glyphicon-remove"></i>
+    </button>
+    <header>
+        <div class="clearfix">
+            <h3 class="modal-title">急售车源</h3>
+        </div>
+    </header>
+</div>
+<div class="modal-body  clearfix">
+   <div class="urgent-title">
+       <span>急售编号：<i ng-bind="urgent.WorryCode"></i></span><span>车辆品牌：<i ng-bind="urgent.BrandName+urgent.SpecName"></i></span><span>发布时间：<i ng-bind="urgent.PublishTime|DateFormat:'yyyy-MM-dd'"></i></span>
+   </div>
+    <div>
+        <table class="urgent-table">
+            <caption>
+                <span>车辆信息</span>
+            </caption>
+            <tbody>
+            <tr>
+                <th style="width:150px">汽车名称：</th>
+                <td ng-bind="urgent.SpecName" style="width:250px" class="ng-binding">2015款 GLA 200 时尚型</td>
+                <th style="width:150px">发动机号：</th>
+                <td ng-bind="urgent.EngineNo" style="width:250px" class="ng-binding"></td>
+            </tr>
+            <tr>
+                <th>车身颜色：</th>
+                <td ng-bind="urgent.Color|FilterCarColor" class="ng-binding">黑色</td>
+                <th>车架号：</th>
+                <td ng-bind="urgent.FrameNumber" class="ng-binding"></td>
+            </tr>
+            <tr>
+
+                <th>行驶里程：</th>
+                <td ng-bind="urgent.Mileage" class="ng-binding">4</td>
+                <th>车龄：</th>
+                <td ng-bind="urgent.CarYear" class="ng-binding">0</td>
+            </tr>
+
+            <tr><th>交易价格：</th>
+                <td ng-bind="urgent.Price|currency:'￥'" class="ng-binding">￥230,000.00</td>
+                <th>二手指导价：</th>
+                <td ng-bind="urgent.ReferencePrice|currency:'￥'" class="ng-binding">￥289,799.00</td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="urgent-table">
+            <caption>
+                <span>车主信息</span>
+            </caption>
+            <tbody>
+            <tr>
+                <th style="width:150px">车主姓名：</th>
+                <td ng-bind="urgent.OwnerName" style="width:250px" class="ng-binding">发</td>
+                <th style="width:150px">车主电话：</th>
+                <td ng-bind="urgent.OwnerPhone" style="width:250px" class="ng-binding">15260697625</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

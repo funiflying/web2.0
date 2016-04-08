@@ -1,0 +1,19 @@
+
+<div class="file-input file-input-ajax-new">
+    <div class="file-preview">
+        <div class=" file-drop-zone">
+            <div class="file-drop-zone-title">添加图片 …
+            </div>
+            <div class="file-preview-thumbnails gridly clearfix">
+            </div>
+        </div>
+    </div>
+    <div class="input-group">
+        <div class="input-group-btn" >
+            <div class="btn btn-primary btn-file">
+                <i class="glyphicon glyphicon-folder-open"></i> &nbsp;选择 …
+                <div class=" filePicker"></div>
+            </div>
+        </div>
+    </div>
+</div>

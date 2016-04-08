@@ -1,0 +1,430 @@
+
+<div class="content-wrapper account-profile" ng-init="getProfile();hasTradePwd()">
+    <div class="tui-admin-title">
+        <h3>我的账户</h3>
+    </div>
+    <div class="account-summary background-blank">
+        <div class="row simple-summary" ng-init="getProfile()">
+            <div class="money-row">
+                <div class="money-row-sum" >
+                    <div class="keywords-gray">可用余额(元)</div>
+                    <div ng-bind-html="profilte_bussiness|Cash"></div>
+                </div>
+            </div>
+            <div class="basic summary-section avatar-row clearfix">
+                <div class="row">
+                    <div class="basic-profile" id="crop-avatar">
+                        <!-- Current avatar -->
+                        <div class="avatar-view pull-left text-center" title="" style="width: 118px;">
+                            <a href="" class="profile-header">
+                                <img ng-src="{{profile.HeadImage||DefaultUserIcon}}" alt="" width="100%" height="100%" id="tui-headImage" />
+                            </a>
+                            <button class="btn btn-primary btn-sm cropper-btn" ng-click="icon()">更换头像</button>
+                        </div>
+                        <!-- Cropping modal -->
+                        <div class="modal fade" id="avatar-modal" aria-hidden="false" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <form class="avatar-form" action="/common/file/UpLoadHeaderImgProcess" enctype="multipart/form-data" method="post">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title" id="avatar-modal-label">上传头像</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="avatar-body">
+
+                                                <!-- Upload image and data -->
+                                                <div class="avatar-upload">
+                                                    <input type="hidden" class="avatar-src" name="avatar_src">
+                                                    <input type="hidden" class="avatar-data" name="avatar_data">
+                                                    <label for="avatarInput">选择头像</label>
+                                                    <button class="btn btn-info">选择头像</button>
+                                                    <input type="file" class="avatar-input" id="avatarInput" name="file">
+                                                </div>
+
+                                                <!-- Crop and preview -->
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <div class="avatar-wrapper"></div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="avatar-preview preview-lg"></div>
+                                                        <div class="avatar-preview preview-md"></div>
+                                                        <div class="avatar-preview preview-sm"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row avatar-btns">
+                                                    <div class="col-md-9">
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-primary" data-method="rotate" data-option="-90" title="Rotate -90 degrees">左旋转</button>
+                                                            <button type="button" class="btn btn-primary" data-method="rotate" data-option="-15">-15度</button>
+                                                            <button type="button" class="btn btn-primary" data-method="rotate" data-option="-30">-30度</button>
+                                                            <button type="button" class="btn btn-primary" data-method="rotate" data-option="-45">-45度</button>
+                                                        </div>
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-primary" data-method="rotate" data-option="90" title="Rotate 90 degrees">右旋转</button>
+                                                            <button type="button" class="btn btn-primary" data-method="rotate" data-option="15">15度</button>
+                                                            <button type="button" class="btn btn-primary" data-method="rotate" data-option="30">30度</button>
+                                                            <button type="button" class="btn btn-primary" data-method="rotate" data-option="45">45度</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button type="button" class="btn btn-primary btn-block avatar-save" ng-click="uplodeImg()">上传</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div> -->
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.modal -->
+
+                        <!-- Loading state -->
+                        <div class="uploader-loading" aria-label="Loading" role="img" tabindex="-1"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-row">
+                <div class="profile-row-security keywords-gray" ng-bind-html="profilte_bussiness|UserInfo"></div>
+                <div class="profile-row-security">
+                    <span>会员级别:</span>
+                    <span class="white" ng-bind="profilte_bussiness.User.IdentityTag|Role"></span>
+                    <p ng-if="profilte_bussiness.User.IdentityTag==0"><a href="#/home/approve" class="manage-security">申请为评估师 <i class="glyphicon glyphicon-pencil"></i></a></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="summary-section section-nav-tabs">
+        <div class="tab-content basic-info-tab">
+            <div class="tab-pane active personal-info" id="personalInfo">
+                <div class="row info-content">
+                    <div class="col-md-9">
+                        <!--username-->
+                        <div class="info-row">
+                            <div  class="row">
+                                <div class="col-md-2 info-value">用户名</div>
+                                <div class="col-md-5">
+                                    <span ng-bind="profile.Account"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--pwd-->
+                        <div class="info-row row-line" >
+                            <div  class="row" >
+                                <div class="col-md-2 info-value">登录密码</div>
+                                <div class="col-md-3">
+                                    <span>******</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <div  class="sl-icons">
+                                        <a href="" class="btn btn-secondary bind-blue btn-hollow" ng-show="!passwdChangeEditor.editing" ng-click="toggleEditor(passwdChangeEditor,'editing', $event)">修改</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row editing" ng-show="passwdChangeEditor.editing">
+                                <form name="passwdChangeForm" role="form" class="" novalidate>
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center">修改登录密码</div>
+                                        <div class="col-xs-6">
+                                            <input type="password" maxlength="32" class="form-control input-sm"  name="oldpwd" placeholder="输入原有登录密码" ng-model="passwdChangeEditor.params.oldPwd" required  >
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center"></div>
+                                        <div class="col-xs-6">
+                                            <input type="password" maxlength="32" class="form-control input-sm"  name="oldpwd" placeholder="输入新登录密码" ng-model="passwdChangeEditor.params.newPwd" required tool-tip title="6到18位字母数字或者符合组合，字母区分大小写" tooltip-placement="right">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center"></div>
+                                        <div class="col-xs-6">
+                                            <input type="password" maxlength="32" class="form-control input-sm"  name="oldpwd" placeholder="确认新登录密码" ng-model="passwdChangeEditor.confPwd" required  tool-tip title="确认新登录密码" tooltip-placement="right">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3"></div>
+                                        <div class="col-xs-6">
+                                            <span class="display-block {{passwdChangeEditor.errorType}}" ng-bind="passwdChangeEditor.error"></span>
+                                            <span class="btn-group"><a class="btn btn-secondary btn-confirm" ng-click="changePassword()" href="">确定</a></span>
+                                            <span class="btn-group"><a class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(passwdChangeEditor,'editing', $event)" href="">取消</a></span>
+                                        </div>
+                                    </div>
+
+                                </form>
+                             </div>
+                        </div>
+                        <!--tradepwd-->
+                        <div class="info-row row-line">
+                            <div  class="row">
+                                <div class="col-md-2 info-value">交易密码</div>
+                                <div class="col-md-3">
+                                    <span class="bind-gray" ng-bind="tradePasswdEditor.TradePwd"></span>
+                                </div>
+                                <div class="col-md-4" ng-if="tradePasswdEditor.TradePwd=='未设置'">
+                                    <div ng-show="!tradePasswdEditor.editing" class="sl-icons">
+                                        <a href="" class="btn btn-secondary bind-blue btn-hollow"  ng-show="!tradePasswdEditor.setting" ng-click="toggleEditor(tradePasswdEditor,'setting', $event)">立即设置</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" ng-if="tradePasswdEditor.TradePwd=='******'">
+                                    <div ng-show="!tradePasswdEditor.editing" class="sl-icons">
+                                        <a href="" class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(tradePasswdEditor,'editing', $event)">立即修改</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row editing tradekey-editing" ng-show="tradePasswdEditor.setting" >
+                                <form name="TradePwdSetForm" role="form" class="" novalidate>
+
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center">设置交易密码</div>
+                                        <div class="col-xs-6">
+                                            <input type="password"  class="form-control input-sm " maxlength="16"  placeholder="输入交易密码" ng-model="tradePasswdEditor.params.PayPassword" required >
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center"></div>
+                                        <div class="col-xs-6">
+                                            <input type="password" maxlength="16" class="form-control input-sm "   placeholder="确认交易密码" ng-model="tradePasswdEditor.confPwd" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3"></div>
+                                        <div class="col-xs-6">
+                                            <span class="display-block {{tradePasswdEditor.errorType}}" ng-bind="tradePasswdEditor.error"></span>
+                                            <span class="btn-group"><a class="btn btn-secondary btn-confirm" ng-click="setTradePassword()" href="">确定</a></span>
+                                            <span class="btn-group"><a class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(tradePasswdEditor,'setting', $event)" href="">取消</a></span>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="row editing tradekey-editing" ng-show="tradePasswdEditor.editing" >
+                                <form name="TradePwdChangeForm" role="form" class="" novalidate>
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center">修改交易密码</div>
+                                        <div class="col-xs-6">
+                                            <input type="password"  class="form-control input-sm " maxlength="16"  placeholder="输入原交易密码" ng-model="tradePasswdEditor.params.oldTradePwd" required >
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center"></div>
+                                        <div class="col-xs-6">
+                                            <input type="password"  class="form-control input-sm " maxlength="16"  placeholder="输入新交易密码" ng-model="tradePasswdEditor.params.newTradePwd" required >
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center"></div>
+                                        <div class="col-xs-6">
+                                            <input type="password" maxlength="16" class="form-control input-sm "   placeholder="确认新交易密码" ng-model="tradePasswdEditor.confPayPassword" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3"></div>
+                                        <div class="col-xs-6">
+                                            <span class="display-block {{tradePasswdEditor.errorType}}" ng-bind="tradePasswdEditor.error"></span>
+                                            <span class="btn-group"><a class="btn btn-secondary btn-confirm" ng-click="changeTradePassword()" href="">确定</a></span>
+                                            <span class="btn-group"><a class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(tradePasswdEditor,'editing', $event)" href="">取消</a></span>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <!--true-name-->
+                        <div class="info-row row-line">
+                            <div  class="row">
+                                <div class="col-md-2 info-value">真实姓名</div>
+                                <div class="col-md-3">
+                                    <span class="bind-gray" ng-bind="profile.UserName||'未设置'"></span>
+                                </div>
+                                <div class="col-md-4" ng-if="profile.UserName==''">
+                                    <div ng-show="!profile.trueNameEditor" class="sl-icons">
+                                        <a href="" class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(trueNameEditor,'setting', $event)">立即设置</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" ng-if="profile.UserName!=''">
+                                    <div ng-show="!profile.trueNameEditor" class="sl-icons">
+                                        <a href="" class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(trueNameEditor,'editing', $event)">立即修改</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row editing tradekey-editing" ng-show="trueNameEditor.setting">
+                                <form name="trueNameSetForm" role="form" novalidate>
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center">设置真实姓名</div>
+                                        <div class="col-xs-6">
+                                            <input type="text" maxlength="6" class="form-control input-sm"  name="confCode" placeholder="输入姓名" ng-model="trueNameEditor.params.UserName" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3"></div>
+                                        <div class="col-xs-6">
+                                            <span class="display-block {{trueNameEditor.errorType}}" ng-bind="trueNameEditor.error"></span>
+                                            <span class="btn-group"><a class="btn btn-secondary btn-confirm"  ng-click="setTrueName()"  href="">确定</a></span>
+                                            <span class="btn-group"><a class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(trueNameEditor,'setting', $event)" href="">取消</a></span>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="row editing tradekey-editing" ng-show="trueNameEditor.editing">
+                                <form name="changeTrueNameForm" role="form" novalidate>
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center">修改真实姓名</div>
+                                        <div class="col-xs-6">
+                                            <input type="text" maxlength="6" class="form-control input-sm "  name="confCode" placeholder="输入姓名" ng-model="trueNameEditor.params.UserName" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3"></div>
+                                        <div class="col-xs-6">
+                                            <span class="display-block {{trueNameEditor.errorType}}" ng-bind="trueNameEditor.error"></span>
+                                            <span class="btn-group"><a class="btn btn-secondary btn-confirm" ng-click="changeTrueName()" href="">确定</a></span>
+                                            <span class="btn-group"><a class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(trueNameEditor,'editing', $event)" href="">取消</a></span>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <!--city-->
+                        <div class="info-row row-line">
+                            <div  class="row">
+                                <div class="col-md-2 info-value">收货城市</div>
+                                <div class="col-md-3">
+                                    <span class="bind-gray" ng-bind="profile.CityName||'未设置'"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <div ng-show="profile.CityName==''" class="sl-icons">
+                                        <a href="" class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(cityEditor,'setting', $event)">立即设置</a>
+                                    </div>
+                                    <div ng-show="profile.CityName!=''" class="sl-icons">
+                                        <a href="" class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(cityEditor,'editing', $event)">立即修改</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row editing tradekey-editing" ng-show="cityEditor.setting">
+                                <form name="citySetForm" role="form" class="">
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center">设置城市</div>
+                                        <div class="col-xs-6">
+                                            <input type="text" maxlength="6" class="form-control input-sm" id="city" name="confCode" placeholder="请输入所在城市" ng-model="profile.CityName" >
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center"></div>
+                                        <div class="col-xs-6">
+                                            <input type="text" maxlength="6" class="form-control input-sm "  name="confCode" placeholder="请输入详细地址" ng-model="profile.Address" >
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3"></div>
+                                        <div class="col-xs-6">
+                                            <span class="display-block {{cityEditor.errorType}}" ng-bind="cityEditor.error"></span>
+                                            <span class="btn-group"><a class="btn btn-secondary btn-confirm" ng-click="setCity()" href="">确定</a></span>
+                                            <span class="btn-group"><a class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(cityEditor,'setting', $event)" href="">取消</a></span>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="row editing tradekey-editing" ng-show="cityEditor.editing">
+                                <form name="cityChangeForm" role="form" class="">
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center">修改城市</div>
+                                        <div class="col-xs-6">
+                                            <input type="text" maxlength="6" class="form-control input-sm " id="city2" name="confCode" placeholder="请输入所在城市" ng-model="profile.CityName" >
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center"></div>
+                                        <div class="col-xs-6">
+                                            <input type="text" maxlength="6" class="form-control input-sm "  name="confCode" placeholder="请输入详细地址" ng-model="profile.Address" >
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3"></div>
+                                        <div class="col-xs-6">
+                                            <span class="display-block {{cityEditor.errorType}}" ng-bind="cityEditor.error"></span>
+                                            <span class="btn-group"><a class="btn btn-secondary btn-confirm" ng-click="changeCity()" href="">确定</a></span>
+                                            <span class="btn-group"><a class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(cityEditor,'editing', $event)" href="">取消</a></span>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <!--phone-->
+                        <div class="info-row row-line">
+                            <div  class="row">
+                                <div class="col-md-2 info-value">绑定手机</div>
+                                <div class="col-md-3">
+                                    <span class="bind-gray" ng-bind="profile.Contact|ClipPhone"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <div ng-show="!phoneEditor.editing" class="sl-icons">
+                                        <a href="" class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(phoneEditor,'editing', $event)">立即修改</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row editing tradekey-editing" ng-show="phoneEditor.editing">
+                                <form name="changPhoneForm" role="form" class="" novalidate>
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center" >绑定手机</div>
+                                        <div class="col-xs-6">
+                                            <input type="text" maxlength="32" class="form-control input-sm "  name="oldpwd" placeholder="输入新手机号" ng-model="phoneEditor.Contact" required >
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3 info-value text-center"></div>
+                                        <div class="col-xs-6">
+                                            <input type="text" maxlength="6" class="form-control input-sm phone-code-input"  name="confCode" placeholder="输入验证码" ng-model="phoneEditor.confCode" required>
+                                            <button ng-disabled="phoneEditor.sent || phoneEditor.sending" class="btn btn-secondary bind-blue btn-hollow get-phonecode-btn " ng-click="fetchTradekeyCode()">
+                                                <span class="phoneCountDown" ng-show="phoneEditor.sent">
+                                                    60
+                                                </span>
+                                                获取验证码
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3"></div>
+                                        <div class="col-xs-6">
+                                            <strong class="display-block {{phoneEditor.errorType}}" ng-bind="phoneEditor.error"></strong>
+                                            <span class="btn-group"><a class="btn btn-secondary btn-confirm" ng-click="changePhone()" href="">确定</a></span>
+                                            <span class="btn-group"><a class="btn btn-secondary bind-blue btn-hollow" ng-click="toggleEditor(phoneEditor,'editing', $event)" href="">取消</a></span>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $("#city").click(function (e) {
+        SelCity(this,e);
+    });
+    $("#city2").click(function (e) {
+        SelCity(this,e);
+    });
+
+
+
+
+</script>

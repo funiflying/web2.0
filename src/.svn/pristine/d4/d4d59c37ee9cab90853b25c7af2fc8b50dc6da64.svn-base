@@ -1,0 +1,132 @@
+
+
+
+<div class="content-wrapper">
+<div class="tui-admin-title" ng-init="getList()">
+    <h3>我的车源</h3>
+    <a href="#/home/issuecar" class="tui-admin-title-btn" >发布车源</a>
+</div>
+<div class="summary-section">
+        <div class="row">
+            <div class="col-xs-7">
+                <div class="tip-wrapper">
+                    <header class="header">
+                        <h4 class="header-label">温馨提示</h4>
+                    </header>
+                    <div>
+                        <ol class="my-account-tip">
+                            <li><p>国产/合资车龄6年以内，进口车车龄8年以内</p></li>
+                            <li><p>车辆行情价在5万元以上</p></li>
+                            <li><p>请遮挡车牌号</p></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-5">
+                <div class="status-wrapper">
+                    <div class="textTop">
+                        <div class="row">
+                            <div class="col-xs-3">总车辆</div>
+                            <div class="col-xs-3" ><i  ng-bind="count.CarCount||0"></i></div>
+                            <div class="col-xs-3">展示中</div>
+                            <div class="col-xs-3" ><i  ng-bind="count.OnlineCarCount||0"></i></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-3">交易中</div>
+                            <div class="col-xs-3" ><i  ng-bind="count.SellingCarCount||0"></i></div>
+                            <div class="col-xs-3">未检测</div>
+                            <div class="col-xs-3" ><i  ng-bind="count.UnTestCarCount||0"></i></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-3">已出售</div>
+                            <div class="col-xs-3" ><i  ng-bind="count.SelledCarCount||0"></i></div>
+                            <div class="col-xs-3">未审核</div>
+                            <div class="col-xs-3" ><i  ng-bind="count.UnCheckCarCount||0"></i></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-3">已下架</div>
+                            <div class="col-xs-3" ><i  ng-bind="count.DownCarCount||0"></i></div>
+                            <div class="col-xs-3">未通过</div>
+                            <div class="col-xs-3" ><i  ng-bind="count.NotPassCheckCarCount||0"></i></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group">
+                        <button type="button" ng-class="{true:'btn btn-default active',false:'btn btn-default'}[history==0]" ng-click="getList(0)">在线车源</button>
+                        <button type="button" ng-class="{true:'btn btn-default active',false:'btn btn-default'}[history==1]" ng-click="getList(1)">历史车源</button>
+                      <!--  <button type="button" class="btn btn-default" ng-click="getList(0)">一键置顶</button>-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="search" class="form-control" placeholder="输入车源号查找" ng-model="searchCarNo"/>
+                   <span class="input-group-btn">
+                      <button class="btn btn-default" type="button" ng-click="search()">
+                          搜索
+                      </button>
+                   </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="car-list-wrap">
+        <div id="myAlert" class="alert alert-warning" ng-if="pageTotal==0">
+            <a href="" class="close" data-dismiss="alert">&times;</a>
+            <strong>提示！</strong>没有记录。
+        </div>
+        <ul class="car-list">
+            <li class="car-list-item" ng-repeat="obj in list">
+            <table class="car-list-tab">
+                <tr>
+                    <td class="car-list-pic">
+                        <a href="item.html?CarNo={{obj.CarNo}}">
+                            <img  class="car-list-cover" ng-src="{{obj.HomePicID||DefaultCarIcon}}"/>
+                            <p class="car-list-carflag">车源编号：<span ng-bind="obj.CarNo"></span></p>
+                        </a>
+                        <span class="renzheng_icon" ng-bind-html="obj|FormatIndexDetection"></span>
+                    </td>
+                    <td class="car-list-info">
+                        <h4 ng-bind="obj.SpecName"></h4>
+                        <p>我的售价：<strong class="text-orange" ng-bind="obj.Price/10000|currency:'￥'"></strong><small class="text-orange">万</small></p>
+                        <p>发布时间：<span class="text-info" ng-bind="obj.PublishTime|DateFormat:'yyyy-MM-dd'"></span>
+                        </p>
+                        <p>
+                            当前状态：<span class="text-success" ng-if="obj.CarFlag!=0" ng-bind="obj.CarFlag|CarStatus"></span>
+                            <span ng-class="{'text-success':obj.CheckFlag==0||obj.CheckFlag==2||obj.CheckFlag==4,'text-danger':obj.CheckFlag==1||obj.CheckFlag==3}" ng-if="obj.CarFlag==0" ng-bind="obj.CheckFlag|CarCheckStatus"></span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;审核备注：
+                            <span class="text-danger"  ng-bind="obj.CheckFailMemo"></span>
+                        </p>
+                        <p class="car-list-info-span">
+                            <span>行驶里程：<i ng-bind="obj.Mileage"></i> 万公里</span>
+                            <span>购买年限：<i ng-bind="obj.Buyyear|DateFormat:'yyyy-MM-dd'"></i></span>
+                            <span>过户次数：<i ng-bind="obj.TransferNo"></i></span>
+                        </p>
+                    </td>
+                    <td class="car-list-toolbar">
+                        <a href="javascript:void(0)" class="btn-operate btn-profile" ng-if="obj.CarFlag==0" ng-click="saleOffDialog(obj)">下架车源</a>
+                        <a href="#/home/editcar?CarNo={{obj.CarNo}}" class="btn-operate btn-profile" ng-if="obj.CarFlag==0">编辑车源</a>
+                        <a href="#/view?Code={{obj.TestReportCode}}" class="btn-operate btn-profile" target="_blank"  ng-if="obj.ReportCount>0&&obj.CarFlag!=254&&obj.CarFlag!=255" >检测报告</a>
+                        <a href="#/detection?CarNo={{obj.CarNo}}&Event=0" class="btn-operate btn-profile" target="_blank"  ng-if="obj.CarFlag==0&&obj.ReportCount==0&&(USER.IdentityTag==2 || USER.IdentityTag==3)&&obj.CarFlag!=254&&obj.CarFlag!=254&&obj.CarFlag!=255" >填检测报告</a>
+                      <!--  <a href="" class="btn-operate btn-profile" target="_blank" >查看详情</a>-->
+                        <a href="javascript:void(0)" class="btn-operate btn-profile" ng-if="obj.CarFlag==254" ng-click="republish(obj.CarNo)">快速发布</a>
+                    </td>
+                </tr>
+            </table>
+            </li>
+        </ul>
+    </div>
+    <div pagination  total-items="pageTotal" ng-model="currentPage" ng-change="changePager()"
+         previous-text="上一页" next-text="下一页" max-size="10" ng-show="pageTotal>PAGE_CONF.PageSize"></div>
+</div>

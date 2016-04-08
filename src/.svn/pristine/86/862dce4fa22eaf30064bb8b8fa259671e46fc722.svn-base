@@ -1,0 +1,164 @@
+
+<div class="content-wrapper assess-container" ng-init="getPreAssess()">
+    <div class="assess-title">
+        <h3 class="title">车同享汽车交易平台二手车鉴定评估报告书</h3>
+    </div>
+    <div class="assess-coeff clearfix">
+        <ul class="assess-coeff-list clearfix">
+            <li class="assess-coeff-item">
+                <label for="TechnologyParam">技术状况</label>
+                <input type="text" id="TechnologyParam" ng-model="evaluate.TechnologyParam"/>
+            </li>
+            <li class="assess-coeff-item">
+                <label for="MaintainParam">维护系数</label>
+                <input type="text" id="MaintainParam" ng-model="evaluate.MaintainParam"/>
+            </li>
+            <li class="assess-coeff-item">
+                 <label for="QualityParam">制造质量</label>
+                <input type="text" id="QualityParam" ng-model="evaluate.QualityParam"/>
+            </li>
+            <li class="assess-coeff-item">
+                <label for="NatureParam">工作性质</label>
+                <input type="text" id="NatureParam" ng-model="evaluate.NatureParam"/>
+            </li>
+            <li class="assess-coeff-item">
+                <label for="ConditionParam">工作条件</label>
+                <input type="text" id="ConditionParam" ng-model="evaluate.ConditionParam"/>
+            </li>
+            <li class="assess-coeff-item">
+                <label for="HotParam">修正系数</label>
+                <input type="text" id="HotParam" ng-model="evaluate.HotParam"/>
+            </li>
+
+        </ul>
+        <div class="assess-result">
+            <h4>车辆价格 </h4>
+            <strong class="text-orange" ng-bind="evaluate.EvaluationPrice|currency:'￥'">$250000</strong>
+        </div>
+    </div>
+    <div class="">
+        <h4 class="assess-preface">一、 绪言</h4>
+        <p class="assess-article"><strong ng-bind="Appraiser.UserName"></strong>（鉴定评估机构）接受<strong ng-bind="Order.UserName"></strong>的委托，根据国家有关资产评估的规定，本着客观、独立、公正、科学的原则，按照公认的资产评估方法，对<span ng-bind="Car.SpecName"></span>(车辆编号:<i ng-bind="Car.CarNo"></i>)进行了鉴定评估。本机构鉴定人员按照必要的程序，对委托鉴定评估车辆进行了实地查勘与市场调查，并对其在<span ng-bind="dateTimeNow|date:'yyyy年MM月dd日'"></span>所表现的市场价值作了公允反映。现将 车辆评估情况及鉴定评估结果报告如下：</p>
+    </div>
+    <div>
+        <h4 class="assess-preface">二、委托方与车辆所有方简介</h4>
+        <p class="assess-article">
+            （一）委托方:
+            <span ng-bind="Order.UserName"></span>，委托方联系人:
+            <span ng-bind="Order.UserName"></span>，联系电话:
+            <span ng-bind="Order.Contact"></span>。
+        </p>
+        <p class="assess-article">
+            （二）根据机动车行驶证所示，委托车辆车主:<span ng-bind="Car.UserName"></span> 。
+        </p>
+    </div>
+    <div>
+        <h4 class="assess-preface">三、评估目的</h4>
+        <p class="assess-article">根据委托方的要求，本项目评估目的为</p>
+        <p class="assess-article">
+              口 交易 口 转籍 口 拍卖 口 置换 口 抵押 口 担保 ▇ 咨询 口 司法裁决
+        </p>
+    </div>
+    <div>
+        <h4 class="assess-preface">四、评估对象</h4>
+        <p class="assess-article">评估车辆的厂牌型号 <span class="base-line" ng-bind="Car.SpecName"></span>；车牌号码 <span class="base-line" ng-bind="Car.BodyBrand"></span> ；</p>
+        <p class="assess-article">发动机号  <span class="base-line" ng-bind="Car.EngineNo"></span>；车辆识别代号/车辆号 <span class="base-line" ng-bind="Car.FrameNumber"></span> ；</p>
+        <p class="assess-article">登记日期  <span class="base-line" ng-bind="Car.InitialDate|DateFormat:'yyyy年MM月dd日'"></span>；年审检验合格至 <span class="base-line" ng-bind="Car.Annual_Inspect_Time|DateFormat:'yyyy年MM月dd日'"></span> ；公路规费交至 <span class="base-line" ng-bind="Car.WayFeeTime|DateFormat:'yyyy年MM月dd日'"></span>；购置附加税（费）证 <span class="base-line" ng-bind="Car.BuyFeeNO"></span></p>
+        <p class="assess-article">车船使用税 <span class="base-line" ng-bind="Car.UseFee"></span>。</p>
+    </div>
+    <div>
+        <h4 class="assess-preface">五、鉴定评估基准日</h4>
+        <p class="assess-article">
+            鉴定评估基准日:<span ng-bind="dateTimeNow|date:'yyyy年MM月dd日'"></span>
+        </p>
+    </div>
+    <div>
+        <h4 class="assess-preface">六、评估原则</h4>
+        <p class="assess-article">
+            严格遵循“客观性、独立性、公正性、科学性”原则。
+        </p>
+    </div>
+    <div>
+        <h4 class="assess-preface">七、评估依据</h4>
+        <p class="assess-article">
+            （一）行为依据
+        </p>
+        <p class="assess-article">二手车评估委托书第 <span class="base-line"></span> 号</p>
+        <p class="assess-article">
+            （二）法律、法规依据
+        </p>
+        <ol class="assess-article">
+            <li>《国有资产评估管理办法》</li>
+            <li>《国有资产评估管理办法实施细则》</li>
+            <li>《二手车流通管理办法》</li>
+            <li>《二手车流通管理办法实施细则》</li>
+            <li>《汽车报废标准》</li>
+            <li>其他相关的法律、法规等。</li>
+        </ol>
+        <p class="assess-article">（三）产权依据 </p>
+        <p class="assess-article">委托鉴定评估车辆的机动车登记证书编号；</p>
+        <p class="assess-article">（四）评定及取价依据 </p>
+        <p class="assess-article">技术标准资料：</p>
+        <p class="assess-article">技术参数资料：</p>
+        <p class="assess-article">技术鉴定资料：</p>
+        <p class="assess-article">其他资料。</p>
+    </div>
+    <div>
+        <h4 class="assess-preface">八、评估方法</h4>
+        <p class="assess-article">口重置成本法 口现行市价法 口收益现值法 ▇其他</p>
+        <p class="assess-article">计算过程如下：</p>
+    </div>
+    <div>
+        <h4 class="assess-preface">九、 评估过程</h4>
+        <p class="assess-article">按照接受委托、验证、现场查勘、评定估算、提交报告的程序进行。</p>
+    </div>
+    <div>
+        <h4 class="assess-preface">十、 评估结论</h4>
+        <p class="assess-article">
+            车辆评估价格 <span class="base-line" ng-bind="evaluate.EvaluationPrice"></span>元，金额大写 <span class="base-line" ng-bind="evaluate.EvaluationPrice|numToCny"></span>
+        </p>
+    </div>
+    <div>
+        <h4 class="assess-preface">十一、特别事项说明 ②</h4>
+        <p class="assess-article">
+
+        </p>
+    </div>
+    <div>
+        <h4 class="assess-preface">十二、评估报告法律效力</h4>
+        <p class="assess-article">
+            （一）本项评估结论有效期为90天，自评估基准日至 <span ng-bind="endTime|DateFormat:'yyyy年MM月dd日'"></span> 日止；
+        </p>
+        <p class="assess-article">
+            （二）当评估目的在有效期内实现时，本评估结果可以作为作价参考依据。超过90天，需重新评估。另外在评估有效期内若被评估车辆的市场价格或因交通事故等原因 导致车辆的价值发生变化，对车辆评估结果产生明显影响时，委托方也需重新委托评估机构重新评估；
+        </p>
+        <p class="assess-article">
+            （三）鉴定评估报告书的使用权归委托方所有，其评估结论仅供委托方为本项目评估目的使用和送交二手车车鉴定评估主管机关审查使用，不适用于其他目的；因使用本报告书不当而产生的任何后果与签署本报告书的鉴定估价师无关；未经委托方许可，本鉴定评估机构承诺不将本报告书的内容向他人提供或公开。
+        </p>
+    </div>
+    <div>
+        <h4 class="assess-preface">附件：</h4>
+        <ol class="assess-article">
+            <li>二手车评估委托书</li>
+            <li>二手车评估作业表</li>
+            <li>车辆行驶证、购置附加税（费）证复印件</li>
+            <li>鉴定估价师职业资格证书复印件</li>
+            <li>鉴定评估机构营业执照复印件</li>
+            <li>二手车车照片（要求外观清晰，车辆牌照能够辨认）</li>
+        </ol>
+    </div>
+    <div class="assess-signature">
+        <p>注册二手车鉴定估价师（签字、盖章）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;复核人①（签字、盖章）</p>
+        <p style="margin-top: 80px">（二手车鉴定评估机构盖章）</p>
+        <p><span ng-bind="dateTimeNow|date:'yyyy年MM月dd日'"></span></p>
+    </div>
+    <div>
+        <p class="assess-article">①复核人须具有高级鉴定评估师资格</p>
+    </div>
+    <div class=" " style="margin-top: 30px ">
+        <div class="alert {{alert.type}} center-block " style="width: 60%;" ng-bind="alert.msg" ng-show="alert.msg">
+        </div>
+        <button class="btn btn-lg btn-info center-block" ng-click="assess()" >提交评估报告</button>
+    </div>
+</div>
+

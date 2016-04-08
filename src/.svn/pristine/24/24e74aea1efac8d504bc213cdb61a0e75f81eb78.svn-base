@@ -1,0 +1,21 @@
+
+        <ul class=" payment-list clearfix" style="padding-left: 0">
+            <li class="bank-logo pl-item bank-icbc pull-left" data-bank="中国工商银行"></li>
+            <li class="bank-logo bank-ccb pl-item" data-bank="中国建设银行"></li>
+            <li class="bank-logo bank-abc pl-item" data-bank="中国农业银行"></li>
+            <li class="bank-logo bank-boc pl-item" data-bank="中国银行"></li>
+            <li class="bank-logo bank-cmbc pl-item" data-bank="民生银行"></li>
+            <li class="bank-logo bank-cmb pl-item" data-bank="招商银行"></li>
+            <li class="bank-logo bank-bcom pl-item" data-bank="交通银行"></li>
+            <li class="bank-logo bank-cib pl-item" data-bank="兴业银行"></li>
+            <li class="bank-logo bank-ceb pl-item" data-bank="光大银行"></li>
+            <li class="bank-logo bank-hxb pl-item" data-bank="华夏银行"></li>
+            <li class="bank-logo bank-pab pl-item" data-bank="平安银行"></li>
+            <li class="bank-logo bank-spdb pl-item" data-bank="浦发银行"></li>
+            <li class="bank-logo bank-bob pl-item" data-bank="北京银行"></li>
+            <li class="bank-logo bank-post pl-item" data-bank="中国邮政储蓄银行"></li>
+            <li class="bank-logo bank-shb pl-item" data-bank="上海银行"></li>
+            <li class="bank-logo bank-boxm pl-item" data-bank="厦门银行"></li>
+            <li class="bank-logo bank-egb pl-item" data-bank="恒丰银行"></li>
+            <li class="bank-logo bank-citic pl-item" data-bank="中信银行"></li>
+        </ul>

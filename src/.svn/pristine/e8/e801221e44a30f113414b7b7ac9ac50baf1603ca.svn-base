@@ -1,0 +1,54 @@
+<style>
+    .modal-dialog{
+        width: 400px;
+    }
+</style>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">
+        <i class="glyphicon glyphicon-remove"></i>
+    </button>
+    <header>
+        <div  class="clearfix">
+            <h3 class="modal-title">登录<span class="pull-right secondary-title" style="color: #444;">没有账号？<a href="/account/create">立即注册</a></span></h3>
+        </div>
+    </header>
+</div>
+<div class="modal-body" id="login-modal" ng-controller="LoginController">
+    <form class="form-horizontal login-form" role="form" novalidate name="loginForm" ng-keypress="submitKey($event)">
+        <div class="input-group">
+            <input type="text" class="form-control username"   placeholder="请输入用户名或手机号码" required ng-model="account.Account">
+        </div>
+        <div class="input-group" >
+            <input type="password" class="form-control password"   placeholder="请输入密码" required ng-model="account.Pwd">
+        </div>
+        <div class="options">
+            <div class="row" >
+                <div class="col-md-6 text-left ">
+
+                        <input type="checkbox" name="remember" ng-model="remember" id="login-modal-remember" >
+                        <label for="login-modal-remember">
+                            记住我
+                        </label>
+                </div>
+                <div class="col-md-6 text-right">
+                    <label>
+                        <a  href="" >忘记密码？</a>
+                    </label>
+                </div>
+                <div class="col-md-12 ">
+                    <div class="alert {{alert.type}} alert-dismissable" ng-show="alert.msg" >
+                        <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true">
+                            &times;
+                        </button>
+                        <span ng-bind="alert.msg"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="input-group" style="margin-bottom: 20px">
+            <button type="button" class="tui-btn btn-block btn-orange"  ng-disabled="loginForm.$invalid" ng-click="login(dialog)">登录</button>
+
+        </div>
+    </form>
+</div>

@@ -1,0 +1,214 @@
+<div class="content-wrapper">
+    <div class="tui-admin-title">
+        <h3>线下检测</h3>
+    </div>
+    <div class="row" id="car">
+        <form novalidate name="carissue" class="form-horizontal" role="form" id="form1">
+            <div class="form-group">
+                <label for="" class="control-label col-md-2 form-required">品牌-车系-车型</label>
+                <div class="col-md-2 form-padding">
+                    <input type="text"  class="form-control"  required="required" size="15" id="brand_name" ng-blur="getSeries()" name="brand_name" mod="address|notice" mod_address_source="brands"
+                           mod_address_suggest="@AD|奥迪|5|@AEFLMO|阿尔法罗密欧|2|@AKKC|安凯客车|4|@ASDMD|阿斯顿·马丁|3|@BBS|巴博斯|6|@BC|奔驰|17|@" mod_address_reference="newbrandid" mod_notice_tip="中文/拼音"  />
+                    <input id="newbrandid" name="newbrandid" type="hidden"  value="{{car.BrandID}}" />
+                </div>
+                <div class="col-md-2 form-padding" ng-show="series[0]">
+                    <select     class="form-control"    ng-change="getArctics()"  ng-model="car.Series" required>
+                        <option value="">请选择车系</option>
+                        <option  ng-repeat="s in series" value="{{s.SeriesID}}">{{s.SeriesName}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3 form-padding" ng-show="arctics[0]">
+                    <select name="" ng-model="spec" class="form-control" ng-options="s.SpecName for s in arctics" required  >
+                        <option value="">请选择车型</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-2 "></label>
+                <div class="col-md-10">
+                    <p class="form-control-static text-info"><i class="glyphicon glyphicon-info-sign text-danger"></i> 如无相符车型，请将您联系客服，客服电话：400-0732-777</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-2 form-required">车身颜色</label>
+                <div class="col-md-7" >
+                    <div class="car-color" car-color>
+                    <span class="car-color-item" data-value="1">
+                        <i class="car-color-fill color-01"></i>
+                        黑色
+                    </span>
+                    <span class="car-color-item" data-value="2">
+                        <i class="car-color-fill color-02"></i>
+                        白色
+                    </span>
+                    <span class="car-color-item" data-value="3">
+                        <i class="car-color-fill color-03"></i>
+                        银灰色
+                    </span>
+                     <span class="car-color-item" data-value="4">
+                        <i class="car-color-fill color-04"></i>
+                        深灰色
+                    </span>
+                    <span class="car-color-item" data-value="5">
+                        <i class="car-color-fill color-05"></i>
+                        红色
+                    </span>
+                     <span class="car-color-item" data-value="6">
+                        <i class="car-color-fill color-06"></i>
+                        橙色
+                    </span>
+                    <span class="car-color-item" data-value="7">
+                        <i class="car-color-fill color-07"></i>
+                        多彩色
+                    </span>
+                     <span class="car-color-item" data-value="8">
+                        <i class="car-color-fill color-08"></i>
+                        绿色
+                    </span>
+                     <span class="car-color-item" data-value="9">
+                        <i class="car-color-fill color-09"></i>
+                        蓝色
+                    </span>
+                    <span class="car-color-item" data-value="10">
+                        <i class="car-color-fill color-10"></i>
+                        咖啡色
+                    </span>
+                     <span class="car-color-item" data-value="11">
+                        <i class="car-color-fill color-11"></i>
+                        紫色
+                    </span>
+                    <span class="car-color-item" data-value="12">
+                        <i class="car-color-fill color-12"></i>
+                        香槟色
+                    </span>
+                     <span class="car-color-item" data-value="13">
+                        <i class="car-color-fill color-13"></i>
+                        黄色
+                    </span>
+                    <span class="car-color-item" data-value="14">
+                        <i class="car-color-fill color-14"></i>
+                        其他
+                    </span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-2 form-required">车辆所在地</label>
+                <div class="col-md-4">
+                    <p class="input-group">
+                        <input type="text" id="city" class="form-control background-blank"  required value="" placeholder="请选择车辆所在城市" readonly/>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ><i class="glyphicon glyphicon-map-marker"></i></button>
+                  </span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="" class="control-label col-md-2 form-required">行驶里程</label>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="car.Mileage" required>
+                        <span class="input-group-addon">万公里</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-2 form-required">初登日期</label>
+                <div class="col-md-4" >
+                    <p class="input-group">
+                        <input type="text" class="form-control datetime" ng-model="car.Buyyear" required placeholder="输入格式为:2000-01-01"/>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default"  ><i class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-2 form-required">交易价格</label>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="Price" required >
+                        <span class="input-group-addon">万</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-2 form-required">过户次数</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" ng-model="car.TransferNo" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-2 form-required">车架号</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control text-uppercase" maxlength="17" minlength="17"  ng-model="car.FrameNumber" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-2 form-required">发动机号</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control form-required" ng-model="car.EngineNo" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="control-label col-md-2 form-required">是否女车主</label>
+                <div class="col-md-4">
+                    <label class="checkbox-inline">
+                        <input type="radio" name="optionsRadiosinline" id="optionsRadios3" ng-model="car.WomenCar"
+                               value="1" checked> 是
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="radio" name="optionsRadiosinline" id="optionsRadios4" ng-model="car.WomenCar"
+                               value="0"> 否
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="control-label col-md-2 form-required">封面图</label>
+                <div class="col-md-4" id="file">
+                    <div uploader data-limit="1" data-action="/common/file/UpLoadCarProcess"  id="car-cover"></div>
+                </div>
+            </div>
+            <div class="decollator-line"></div>
+            <div class="form-group">
+                <label class="col-md-2 control-label form-required">车主姓名：</label>
+                <div class="col-md-4">
+                    <input name="OwnerName" ng-model="car.OwnerName" maxlength="10" class="form-control" type="text" value="" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label form-required">联系电话：</label>
+                <div class="col-md-4">
+                    <input name="OwnerPhone" ng-model="car.OwnerPhone" class="form-control" type="text" value="" />
+                </div>
+            </div>
+        </form>
+        <div id="jsContainer" class="jsContainer" style="height:0">
+            <div id="tuna_alert" style="display:none;position:absolute;z-index:999;overflow:hidden;"></div>
+            <div id="tuna_jmpinfo" style="visibility:hidden;position:absolute;z-index:120;"></div>
+        </div>
+        <div class="decollator-line"></div>
+        <div class="alert {{alert.type}} center-block " style="width: 60%;" ng-bind="alert.msg" ng-show="alert.msg"></div>
+        <div class="col-md-3 col-md-offset-5 " style="margin-top: 30px ">
+            <button class="btn btn-block btn-lg btn-info" ng-click="issueoffline()" ng-disabled="carissue.$invalid">确定发布</button>
+        </div>
+        <script src="./js/brand-change-fixdiv.js"></script>
+        <script src="./js/brand-change-data.js"></script>
+        <script type="text/javascript">
+            $("#city").click(function (e) {
+                SelCity(this,e);
+            });
+            $('.datetime').datetimepicker({
+                language: 'zh-CN',
+                format: "yyyy-mm-dd",
+                autoclose: true,
+                todayBtn: true,
+                viewSelect: 'month',
+                minView: 2
+            });
+
+        </script>
+    </div>
+</div>

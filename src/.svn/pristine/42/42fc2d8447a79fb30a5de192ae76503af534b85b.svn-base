@@ -1,0 +1,10 @@
+<div style="height:280px">
+<ul class="payment-list clearfix" >
+    <li ng-repeat="bld in banklistdata" type-data="{{bld.bankid}}" class="bank-logo bank-{{bld.sname}} pl-item pull-left" data-name="bld.bankname"></li>
+</ul>
+<div class="payment_change">
+    <a href="javascript:void(0)" ng-repeat="typelist in selectedbank.banktype" data-name="{{typelist.cardname}}" data-value="{{typelist.cardtype}}" ng-bind="typelist.cardname"></a>
+</div>
+<input type="hidden" id="banktype" name="banktype"  />
+<input type="hidden" id="bankcode" name="bankcode"  />
+</div>

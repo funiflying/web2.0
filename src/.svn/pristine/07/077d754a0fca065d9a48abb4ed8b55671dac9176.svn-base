@@ -1,0 +1,21 @@
+
+<div class="content-wrapper">
+    <div class="tui-admin-title">
+        <h3>优惠券详情</h3>
+    </div>
+    <div class="discount-container" ng-init="getDiscount()">
+        <div class="dicount-cover" ng-if="discount.PolicyLogoURL">
+            <img ng-src="{{discount.PolicyLogoURL}}" alt=""/>
+        </div>
+        <div class="dicount-descr">
+            <div class="discount-title"></div>
+            <p><strong>使用有效期：</strong><i ng-bind="discount.PolicyStartDateFull|DateFormat:'yyyy年MM月dd日'"></i>到<i ng-bind="discount.PolicyEndDateFull|DateFormat:'yyyy年MM月dd日'"></i></p>
+            <p><strong>优惠劵规则：</strong><i ng-bind="discount.PolicyBrief"></i></p>
+            <p><strong>优惠劵详情：</strong><i ng-bind="discount.PolicyMemo"></i></p>
+            <p class="text-right text-info">
+                本次活动最终解释权归车同享科技有限公司所有
+            </p>
+        </div>
+        
+    </div>
+</div>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html ng-app="chetongxiang">
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta name="Description" content="平台以二手车交易平台为业务核心和入口，通过B2B2C的商业模式，整合全国二手车及上下游资源，建立二手车商诚信体系，提供公正、专业的车辆检测和车况评估服务，最大限度地满足二手车商之间的车源同享、车源互调，真正实现车商和消费者之间爱车同享，利益同享"/>
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="Keywords" content=""/>
+    <title>车同享汽车交易平台</title>
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./css/chetongxiang.css"/>
+    <script src="./lib/jquery/dist/jquery-1.10.2.min.js"></script>
+    <!--[if lte IE 8]>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
+        document.createElement('uploader');
+        document.createElement('header');
+        // Optionally these for CSS
+        document.createElement('ng:include');
+        document.createElement('ng:pluralize');
+        document.createElement('ng:view');
+    </script>
+    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/3.6/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body ng-controller="IndexController" >
+<div class="tui-nav index-nav" ng-controller="LoginController">
+    <div class="tui-nav-top" >
+        <div class="wrapper index-nav-top">
+            欢迎您来到车通享, <span ng-if="!USER.UserName"><a href="./admin.html#/login">请登录</a><span class="spacer"></span><a href="admin.html#/register" class="text-orange">免费注册</a></span><span ng-if="USER.UserName"><a href="./admin.html#/home/main" class="text-orange" ng-bind="USER.UserName||USER.Contact"></a> <a
+                href="javascript:void(0)" ng-click="loginOff()">退出</a></span>
+            <span class="pull-right"><a href="" class="text-orange">急售通道</a><span class="spacer"></span><a href="">意见反馈</a><span class="spacer"></span><a href="">操作手册</a><span class="spacer"></span><a  href="http://192.168.0.218/OA/login.html">分公司登录</a></span>
+        </div>
+    </div>
+    <div class="tui-nav-link wrapper text-right" >
+
+    </div>
+    <div class=" wrapper index-nav-bar">
+        <ul class="index-nav-link">
+            <li class="index-nav-item"><a href="index.html">首页</a></li>
+            <li class="index-nav-item active"><a href="buy.html">我要买车</a></li>
+            <li class="index-nav-item"><a href="sell.html">我要卖车</a></li>
+            <li class="index-nav-item"><a href="join.html">我要入驻</a></li>
+            <li class="index-nav-item"><a href="expert.html">专家库</a></li>
+            <li class="index-nav-item"><a href="safeguard.html">服务保障</a></li>
+        </ul>
+    </div>
+</div>
+<div class="wrapper clearfix" ng-init="getCar()">
+    <div class="item-galery">
+        <div class="item-galery-cover">
+            <img ng-src="{{cover|LargeIcon}}"
+                 alt=""/>
+        </div>
+        <div class="item-galery-item">
+            <a href="javascript:void(0);" class="thumb-arrow-prew" ng-click="previous()"><i class="glyphicon  glyphicon-chevron-left"></i></a>
+            <div class="item-galery-thumb">
+                <div class="item-galery-thumb-container clearfix">
+                    <ul class="item-galery-thumb-list clearfix">
+                        <li ng-repeat="img in Pic" ng-mouseover="changeCover(img.PicAddr)"><img src="{{img.PicAddr}}" alt=""/></li>
+                    </ul>
+                </div>
+            </div>
+            <a href="javascript:void(0);" class="thumb-arrow-next" ng-click="next()"><i class="glyphicon  glyphicon-chevron-right"></i></a>
+        </div>
+    </div>
+    <div class="item-info">
+        <h1 class="item-title" ng-bind="car.SpecName"></h1>
+        <p class="item-tag" >车源号：<strong ng-bind="car.CarNo|FormatCarNo" class="text-orange"></strong></p>
+        <div class="item-price-wrap clearfix">
+           <!-- <div class="item-price-container">
+                <p class="item-price" ng-bind-html="car|CarPrice"></p>
+                <strike class="item-newcar-price" ng-bind-html="car.NewCarPrice|NewCarPrice"></strike>
+            </div>-->
+            <div class="item-price-container" ng-if="!USER||!USER.AllianceCode||car.WholesalePrice==0">
+                <p class="item-price" ng-bind="car.Price/10000|currency:'￥'"><small style="font-size: 14px"> 万</small></p>
+                <strike class="item-newcar-price" >新车价 <i ng-bind="car.NewCarPrice/10000|currency:'￥'"></i><small style="font-size: 12px"> 万</small></strike>
+            </div>
+            <div class="item-price-container" ng-if="USER&&USER.AllianceCode&&car.WholesalePrice>0">
+                <p class="item-price" ><i ng-bind="car.WholesalePrice/10000|currency:'￥'"></i><small style="font-size: 14px"> 万(同行价)</small></p>
+                <strike class="item-newcar-price" ng-bind-html="car.NewCarPrice|NewCarPrice"></strike>
+            </div>
+            <div class="item-price-carinfo">
+                <p>里程 : <i ng-bind="car.Mileage"></i> 万公里</p>
+                <p>车龄 : <i ng-bind="car.Buyyear|DateFormat:'yyyy-MM'"></i> 至今 (<i ng-bind="car.CarYear"></i>) 年</p>
+                <p>过户 : <i ng-bind="car.TransferNo"></i> 次</p>
+            </div>
+        </div>
+        <div class="item-contact clearfix" ng-bind-html="car|FormatOwner">
+        </div>
+        <div ng-bind-html="car|FormatBuyBtn"></div>
+        <div ng-bind-html="car|FormatDetection"> </div>
+    </div>
+</div>
+<div class="wrapper">
+    <ul class="item-describe clearfix">
+        <li>
+            <h3 class="item-describe-title">车主自述</h3>
+            <div class="item-describe-readme" ng-bind="car.Readme||'暂无车主描述信息'"></div>
+        </li>
+        <li style="border-left: 1px solid #DEDEDE;padding-left: 15px">
+            <h3 class="item-describe-title">车源基本信息</h3>
+            <div class="item-describe-info" >
+                <table>
+                    <tr>
+                        <th style="width: 15%">车源号</th>
+                        <td style="width: 25%"><i ng-bind="car.CarNo"></i></td>
+                        <th style="width: 15%">颜色</th>
+                        <td style="width: 15%"><i ng-bind="car.Color|Corlor"></i></td>
+                        <th style="width: 15%">车型</th>
+                        <td style="width: 15%"><i ng-bind="car.Style|CarStyle"></i></td>
+                    </tr>
+                    <tr>
+                        <th>牌照地点</th>
+                        <td><i ng-bind="car.RegisterPlace"></i></td>
+                        <th>年检到期</th>
+                        <td><i ng-bind="car.Annual_Inspect_Time|DateFormat:'yyyy-MM-dd'"></i></td>
+                        <th>排量</th>
+                        <td><i ng-bind="car.OutputVolumeDetail"></i></td>
+                    </tr>
+                    <tr>
+                        <th>变速箱</th>
+                        <td><i ng-bind="car.GearBox|GearBox"></i></td>
+                        <th>国别</th>
+                        <td><i ng-bind="car.Country|Country"></i></td>
+                        <th>排放标准</th>
+                        <td><i ng-bind="car.DischargeStandardDetail"></i></td>
+                    </tr>
+                </table>
+            </div>
+        </li>
+
+    </ul>
+</div>
+<div class="wrapper">
+   <div class="item-title-lead">
+        <div class="title">车辆图片</div>
+        <div class="placeholder"></div>
+   </div>
+</div>
+<div class="wrapper">
+    <ul class="item-galery-repeat clearfix">
+        <li ng-repeat="obj in CarPic"><img src="{{obj.PicAddr|LargeIcon}}" alt=""/></li>
+    </ul>
+    
+</div>
+<div ng-include="'./statics/footer.html'">sddsfds</div>
+<script src="./js/chetongxiang.js"></script>
+<script src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./lib/angular/angular.min.js"></script>
+<script src="./lib/bootstrap/dist/js/ui-bootstrap-tpls.js"></script>
+<script src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="./lib/angular-resource/angular-resource.min.js"></script>
+<script src="./lib/angular/angular-cookies.min.js"></script>
+<script src="./js/app.js"></script>
+<script src="./js/controllersIndex.js"></script>
+<script src="./js/services.js"></script>
+<script src="./js/filters.js"></script>
+<script src="./js/directives.js"></script>
+<script src="./js/cityJson.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<div class="clearfix">
+    <div class="left-nav-list">
+        <div class="summary-nav">
+            <dl class="nav nav-list">
+                <dt class="nav-list-header">
+                    <span class="sl-icon-myaccount"></span>
+                    <span class="nav-list-words">我的账户</span>
+                </dt>
+              <!--  <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='main']">
+                    <a class="list-item-link ng-isolate-scope" ui-sref=".main"  >
+                        <span class="nav-list-words">账户总览</span>
+                    </a>
+                </dd>-->
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='account']" >
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".account" >
+                        <span class="nav-list-words">基本信息</span>
+                    </a>
+                </dd>
+                <dt class="nav-list-header" ng-if="USER.IdentityTag==3">
+                    <span class="sl-icon-myaccount"></span>
+                    <span class="nav-list-words">企业信息</span>
+                </dt>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='company']" ng-if="USER.IdentityTag==3">
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".company" href="home/company">
+                        <span class="nav-list-words">信息编辑</span>
+                    </a>
+                </dd>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='employee']" ng-if="USER.IdentityTag==3">
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".employee" href="home/employee">
+                        <span class="nav-list-words">成员管理</span>
+                    </a>
+                </dd>
+                <dt class="nav-list-header">
+                    <span class="sl-icon-myinvest"></span>
+                    <span class="nav-list-words">我的车源</span>
+                </dt>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='cargather']" >
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".cargather" href="home/cargather">
+                        <span class="nav-list-words">我的车源</span>
+                    </a>
+                </dd>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='issuecar']" >
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".issuecar" href="home/issuecar">
+                        <span class="nav-list-words">发布车源</span>
+                    </a>
+                </dd>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='peer']" ng-if="USER.IdentityTag!=0">
+                    <a class="list-item-link ng-isolate-scope"  target="_blank"  href="peer.html?IncludeFlag=1">
+                        <span class="nav-list-words">同行找车</span>
+                    </a>
+                </dd>
+                <dt class="nav-list-header">
+                    <span class="sl-icon-myinvest"></span>
+                    <span class="nav-list-words">交易管理</span>
+                </dt>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='buyorder']" >
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".buyorder({OUID:0})" href="home/buyorder">
+                        <span class="nav-list-words">买车订单</span>
+                    </a>
+                </dd>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='sellorder']" >
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".sellorder({OUID:1})" href="home/sellorder">
+                        <span class="nav-list-words">卖车订单</span>
+                    </a>
+                </dd>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='entrustorder']" >
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".entrustorder" href="javascript:void(0)">
+                        <span class="nav-list-words">评估订单</span>
+                    </a>
+                </dd>
+                <dt class="nav-list-header" ng-if="USER.IdentityTag==2||USER.IdentityTag==3">
+                    <span class="sl-icon-accountmanage"></span>
+                    <span class="nav-list-words">评估检测</span>
+                </dt>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='entrust']" ng-if="USER.IdentityTag==2||USER.IdentityTag==3">
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".entrust" href="javascript:void(0)">
+                        <span class="nav-list-words">委托评估</span>
+                    </a>
+                </dd>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='']" ng-if="USER.IdentityTag==2||USER.IdentityTag==3">
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".cargather" href="home/cargather">
+                        <span class="nav-list-words">线下检测</span>
+                    </a>
+                </dd>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='professional']" ng-if="USER.IdentityTag==2||USER.IdentityTag==3">
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".professional" href="javascript:void(0)">
+                        <span class="nav-list-words">技能设定</span>
+                    </a>
+                </dd>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='signature']" ng-if="USER.IdentityTag==2||USER.IdentityTag==3">
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".signature" href="javascript:void(0)">
+                        <span class="nav-list-words">我的签名</span>
+                    </a>
+                </dd>
+                <dt class="nav-list-header">
+                    <span class="sl-icon-accountmanage"></span>
+                    <span class="nav-list-words">账户管理</span>
+                </dt>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='deposit']" >
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".withdrawal" href="javascript:void(0)">
+                        <span class="nav-list-words">资金提现</span>
+                    </a>
+                </dd>
+
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='bank']" ng-if="USER.IdentityTag!=3">
+                    <a class="list-item-link "  ui-sref=".bankcard" href="javascript:void(0)">
+                        <span class="nav-list-words">银行卡管理</span>
+                    </a>
+                </dd>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='coupon']" >
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".coupon" href="home/coupon">
+                        <span class="nav-list-words">优惠券</span>
+                    </a>
+                </dd>
+                <dt class="nav-list-header">
+                    <span class="sl-icon-accountothers"></span>
+                    <span class="nav-list-words">其他</span>
+                </dt>
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='approve']" ng-if="USER.IdentityTag==1||USER.IdentityTag==0">
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".approve" href="javascript:void(0)">
+                        <span class="nav-list-words">评估师认证</span>
+                    </a>
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="app-content" ui-view>
+    </div>
+</div>
