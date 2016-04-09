@@ -1183,8 +1183,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
     templateUrl: 'template/datepicker/day.html',
     require: '^datepicker',
     link: function(scope, element, attrs, ctrl) {
-      scope.showWeeks = ctrl.showWeeks;
-
+      scope.showWeeks = ctrl.showWeeks
       ctrl.step = { months: 1 };
       ctrl.element = element;
 
@@ -2227,12 +2226,18 @@ angular.module('ui.bootstrap.pagination', [])
   };
 
   $scope.selectPage = function(page) {
-    if ( $scope.page !== page && page > 0 && page <= $scope.totalPages) {
+    if (page > 0 && page <= $scope.totalPages) {
       ngModelCtrl.$setViewValue(page);
       ngModelCtrl.$render();
     }
   };
-
+  //回车提交
+  $scope.submitKey=function(e){
+    var keyCode=window.event? e.keyCode: e.which;
+    if(keyCode==13){
+      $scope.selectPage($scope.page);
+    }
+  }
   $scope.getText = function( key ) {
     return $scope[key + 'Text'] || self.config[key + 'Text'];
   };
@@ -4037,6 +4042,7 @@ angular.module("template/pagination/pagination.html", []).run(["$templateCache",
     "  <li ng-repeat=\"page in pages track by $index\" ng-class=\"{active: page.active}\"><a href ng-click=\"selectPage(page.number)\">{{page.text}}</a></li>\n" +
     "  <li ng-if=\"directionLinks\" ng-class=\"{disabled: noNext()}\"><a href ng-click=\"selectPage(page + 1)\">{{getText('next')}}</a></li>\n" +
     "  <li ng-if=\"boundaryLinks\" ng-class=\"{disabled: noNext()}\"><a href ng-click=\"selectPage(totalPages)\">{{getText('last')}}</a></li>\n" +
+    "  <li class=\"pagination-input\"><span>共{{totalPages}}页 转到第<input type=\"text\" ng-model=\"page\" ng-keypress=\"submitKey($event)\"/>页<button type=\"button\" class=\"page-btn\" ng-click=\"selectPage(page)\">确定</button></span></li>\n" +
     "</ul>");
 }]);
 
@@ -4149,6 +4155,7 @@ angular.module("template/timepicker/timepicker.html", []).run(["$templateCache",
     "	</tbody>\n" +
     "</table>\n" +
     "");
+
 }]);
 
 angular.module("template/typeahead/typeahead-match.html", []).run(["$templateCache", function($templateCache) {

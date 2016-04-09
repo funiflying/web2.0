@@ -1,5 +1,22 @@
-<div class="content-wrapper" ng-init="getReport()">
+
+<div class="item-title-lead ">
+    <div class="title">检测报告</div>
+    <div class="placeholder"></div>
+    <div class="item-title-tab">
+        <ul class="list-inline nav nav-tabs">
+            <li>
+                <a  data-toggle="tab" data-target="#car">基本信息</a>
+            </li>
+            <li class="active">
+                <a href="javascript:void(0)" data-toggle="tab" data-target="#detection">检测报告</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="content-wrapper tab-content" ng-init="getReport();" id="view-report">
+    <div id="detection" class="tab-pane fade active in">
     <div class="detect-title">
+        <span class="reportcode">报告编号：<i ng-bind="report.TestReportCode"></i></span>
         <h3 class="title">车同享汽车交易平台车辆检测报告</h3>
         <span>检测时间：<span ng-bind="report.TestTime|DateFormat:'yyyy-MM-dd'"></span></span>
         <span>检测车型：<span ng-bind="report.SpecName"></span></span>
@@ -8,7 +25,7 @@
     </div>
     <div class="detect-item-lead">
         <div class="title">事故排查</div>
-        <div class="placeholder"></div>
+       
         <div class="detect-item-input">
             <p ng-bind="report.AccidentCheckMemo"></p>
         </div>
@@ -277,9 +294,8 @@
     </div>
     <div class="detect-item-lead">
         <div class="title">车辆安全</div>
-        <div class="placeholder"></div>
-        <div class="detect-item-input">
-            <p ng-bind="report.SecurityCheckMemo"></p>
+        <div class="detect-item-input" >
+            <p ng-bind="report.SecurityCheckMemo" ></p>
         </div>
     </div>
     <div class="detect-accident">
@@ -360,7 +376,7 @@
     </div>
     <div class="detect-item-lead">
         <div class="title">外观内饰</div>
-        <div class="placeholder"></div>
+        
         <div class="detect-item-input">
             <p ng-bind="report.AICheckMemo"></p>
         </div>
@@ -376,7 +392,6 @@
 
             <span style="float: right;" class="car-interior-flag"><i style="background: #b2cce5;"></i>脏污</span>
             <span style="float: right;" class="car-interior-flag"><i style="background: #ffb2b2;"></i>破损</span>
-            <span style="float: right;" class="car-interior-flag"><i style="background: #ffa566;"></i>色差</span>
         </div>
     </div>
     <div class="car-interior-wrap">
@@ -448,306 +463,572 @@
 
             </li>
         </ul>
-        <div class="e_main" e-remove id="GC_PZ">
+        <div class="e_main"  id="GC_PZ">
 
         </div>
     </div>
     <div class="detect-item-lead">
         <div class="title">设备检测</div>
-        <div class="placeholder"></div>
         <div class="detect-item-input">
             <p ng-bind="report.DeviceCheckMemo"></p>
         </div>
     </div>
     <div class="detect-accident">
-        <ul class="clearfix" id="Device">
-            <li style="width: auto;float: none;">
-                <div class="detect-accident-bitbox" >
-                    <p class=" ">发动机舱</p>
-                    <table class="tableType" border="0" cellpadding="0" cellspacing="0" width="100%" >
-                        <tbody>
-                        <tr>
-                            <th width="159">检查项</th>
-                            <th width="107">结果</th>
-                            <th width="159">检查项</th>
-                            <th width="107">结果</th>
-                        </tr>
-                        <tr>
-                            <td>缸盖外有无机油渗入</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="115" value="2"></i>
-                            </td>
-                            <td>散热器栅格有无破损</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="116" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>蓄电池电极柱有无腐蚀</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="117" value="2"></i>
-                            </td>
-                            <td>蓄电池电解液有无渗漏</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="118" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>发动机皮带有无老化</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="119" value="2"></i>
-                            </td>
-                            <td>油管有无老化裂痕</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="120" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>水管有无老化裂痕</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="121" value="2"></i>
-                            </td>
-                            <td>线束有无老化裂痕</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="122" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>发动机异响</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="127" value="2"></i>
-                            </td>
-                            <td>发动机舱漏油</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="128" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>车辆正常启动</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="129" value="2"></i>
-                            </td>
-                            <td></td>
-                            <td>
+        <ul class="clearfix" >
+            <li style="width: 65%;">
+                <div class="detect-elect-title">
+                    <div  class="col-md-5 elect-sum">
+                        16 <small>项</small>
+                    </div>
+                    <div  class="col-md-7 elect-descr">
+                        <p>电子设备检测</p>
+                        <span class="detect-tongji"><i class="glyphicon glyphicon-ok-sign" id="dz_TJ">全部合格</i></span>
+                    </div>
 
-                            </td>
-                        </tr>
-
-                        </tbody>
-                    </table>
                 </div>
+                <ul class="list-inline detect-elect clearfix tableType"  id="Device">
+                    <li>
+                        <div class="col-md-5">
+                            ABS
+                        </div>
+                        <div class="col-md-5"  >
+                            <div class="moreitem-btn">
+                                <span  data-name="93" data-value="0">有</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="93" data-value="0">有</a>
+                                        <a class="" data-name="93" data-value="-1" >无</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <i class="glyphicon glyphicon-ok-sign" id="93" value="2"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col-md-5">
+                            多媒体
+                        </div>
+                        <div class="col-md-5"  >
+                            <div class="moreitem-btn">
+                                <span data-name="152" data-value="5">多屏</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="152" data-value="1">卡带</a>
+                                        <a class="" data-name="152" data-value="2" >收音机</a>
+                                        <a class="" data-name="152" data-value="3" >CD</a>
+                                        <a class="" data-name="152" data-value="4" >DVD</a>
+                                        <a class="" data-name="152" data-value="5" >多屏</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <i class="glyphicon glyphicon-ok-sign" id="152" value="2"></i>
+                        </div>
+
+                    </li>
+                    <li>
+                        <div class="col-md-5">
+                            助力
+                        </div>
+                        <div class="col-md-5"  >
+                            <div class="moreitem-btn">
+                                <span data-name="138" data-value="0">有</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="138" data-value="0">有</a>
+                                        <a class="" data-name="138" data-value="-1" >无</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <i class="glyphicon glyphicon-ok-sign" id="138" value="2"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col-md-5">
+                            巡航
+                        </div>
+                        <div class="col-md-5"  >
+                            <div class="moreitem-btn">
+                                <span  data-name="139" data-value="0">有</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="139" data-value="0">有</a>
+                                        <a class="" data-name="139" data-value="-1" >无</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <i class="glyphicon glyphicon-ok-sign" id="139" value="2"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col-md-5">
+                            空调系统
+                        </div>
+                        <div class="col-md-5"  >
+                            <div class="moreitem-btn">
+                                <span  data-name="101" data-value="0">有</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="101" data-value="0">有</a>
+                                        <a class="" data-name="101" data-value="-1" >无</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <i class="glyphicon glyphicon-ok-sign" id="101" value="2"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col-md-5">
+                            倒车雷达
+                        </div>
+                        <div class="col-md-5"  >
+                            <div class="moreitem-btn">
+                                <span data-name="111" data-value="0">有</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="111" data-value="0">有</a>
+                                        <a class="" data-name="111" data-value="-1" >无</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <i class="glyphicon glyphicon-ok-sign" id="111" value="2"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col-md-5">
+                            天窗
+                        </div>
+                        <div class="col-md-5"  >
+                            <div class="moreitem-btn">
+                                <span  data-name="108" data-value="2">电动天窗</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="108" data-value="-1">无</a>
+                                        <a class="one" data-name="108" data-value="1">前后天窗</a>
+                                        <a class="" data-name="108" data-value="2" >电动天窗</a>
+                                        <a class="" data-name="108" data-value="3" >全景天窗</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <i class="glyphicon glyphicon-ok-sign" id="108" value="2"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col-md-5">
+                            倒车影像
+                        </div>
+                        <div class="col-md-5"  >
+                            <div class="moreitem-btn">
+                                <span  data-name="112" data-value="0">有</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="112" data-value="0">有</a>
+                                        <a class="" data-name="112" data-value="-1" >无</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <i class="glyphicon glyphicon-ok-sign" id="112" value="2"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col-md-5">
+                            电动座椅
+                        </div>
+                        <div class="col-md-5"  >
+                            <div class="moreitem-btn">
+                                <span  data-name="113" data-value="0">有</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="113" data-value="0">有</a>
+                                        <a class="" data-name="113" data-value="-1" >无</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <i class="glyphicon glyphicon-ok-sign" id="113" value="2"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col-md-5">
+                            导航
+                        </div>
+                        <div class="col-md-5"  >
+                            <div class="moreitem-btn">
+                                <span  data-name="110" data-value="0">有</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="110" data-value="0">有</a>
+                                        <a class="" data-name="110" data-value="-1" >无</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <i class="glyphicon glyphicon-ok-sign" id="110" value="2"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col-md-5">
+                            座椅材质
+                        </div>
+                        <div class="col-md-5"  >
+                            <div class="moreitem-btn">
+                                <span  data-name="149" data-value="3">带记忆</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="149" data-value="1">真皮</a>
+                                        <a class="" data-name="149" data-value="2" >绒布</a>
+                                        <a class="" data-name="149" data-value="3" >带记忆</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <i class="glyphicon glyphicon-ok-sign" id="149" value="2"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col-md-5">
+                            雨刷
+                        </div>
+                        <div class="col-md-5"  >
+                            <div class="moreitem-btn" style="visibility: hidden;">
+                                <span  data-name="100" data-value="0" >有</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="100" data-value="0">有</a>
+                                        <a class="" data-name="100" data-value="-1" >无</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <i class="glyphicon glyphicon-ok-sign" id="100" value="2"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col-md-5">
+                            中控锁
+                        </div>
+                        <div class="col-md-5"  >
+                            <div class="moreitem-btn">
+                                <span  data-name="104" data-value="0">有</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="104" data-value="0">有</a>
+                                        <a class="" data-name="104" data-value="-1" >无</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <i class="glyphicon glyphicon-ok-sign" id="104" value="2"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col-md-5">
+                            轮毂
+                        </div>
+                        <div class="col-md-5"  >
+                            <div class="moreitem-btn">
+                                <span  data-name="157" data-value="2">钢毂</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="157" data-value="1">钢毂</a>
+                                        <a class="" data-name="157" data-value="2" >铝毂</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <!--  <i class="glyphicon glyphicon-ok-sign" id="157" value="2"></i>-->
+                        </div>
+                    </li>
+                    <li style="width: 100%">
+                        <div class="col-md-3" style="width: 143px">
+                            电动反光镜
+                        </div>
+                        <div class="col-md-5"    style="width: 143px">
+                            <div class="moreitem-btn">
+                                <span  data-name="144" data-value="0">有</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="144" data-value="0">有</a>
+                                        <a class="" data-name="144" data-value="-1" >无</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="144" class="col-md-4" >
+                            <i class="glyphicon glyphicon-ok-sign"  data-name="1" value="2">左反光镜</i>  &nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="glyphicon glyphicon-ok-sign"  data-name="2"  value="2">右反光镜</i>
+                        </div>
+                    </li>
+
+                    <li style="width: 100%">
+                        <div class="col-md-3" style="width: 143px">
+                            电动车窗
+                        </div>
+                        <div class="col-md-3"   style="width: 143px">
+                            <div class="moreitem-btn">
+                                <span  data-name="140" data-value="0">有</span>
+                            </div>
+                            <div class="moreitem-box">
+                                <div class="m-i-w1">
+                                    <div class="moreitem-opts">
+                                        <a class="one" data-name="140" data-value="0">有</a>
+                                        <a class="" data-name="140" data-value="-1" >无</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="140" class="pull-left" style="padding-left: 15px">
+                            <i class="glyphicon glyphicon-ok-sign"  data-name="1"  value="2">左前门</i>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="glyphicon glyphicon-ok-sign"  data-name="2"  value="2">右前门</i>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="glyphicon glyphicon-ok-sign"  data-name="3"  value="2">左后门</i>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="glyphicon glyphicon-ok-sign"  data-name="4"  value="2">右后门</i>
+                        </div>
+                    </li>
+                </ul>
             </li>
-            <li style="width: auto;float: none;">
-                <div class="detect-accident-bitbox" >
-                    <p class=" ">电子设备检测</p>
-                    <table class="tableType" border="0" cellpadding="0" cellspacing="0" width="100%">
-                        <tbody>
-                        <tr>
-                            <th width="159">检查项</th>
-                            <th width="107">结果</th>
-                            <th width="159">检查项</th>
-                            <th width="107">结果</th>
-                        </tr>
-                        <tr>
-                            <td>防抱死系统（ABS）</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="93" value="2"></i>
-                            </td>
-                            <td>助力</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="138" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>空调系统</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="101" value="2"></i>
-                            </td>
-                            <td>电动座椅</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="113" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>巡航</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="139" value="2"></i>
-                            </td>
-                            <td>雨刷</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="100" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>倒车雷达</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="111" value="2"></i>
-                            </td>
-                            <td>倒车影像</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="112" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>中控锁</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="104" value="2"></i>
-                            </td>
-                            <td>GPS导航</td>
-                            <td>
-                                <i class="glyphicon glyphicon-ok-sign" id="110" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th width="159">检查项</th>
-                            <th width="107">分项</th>
-                            <th width="159" colspan="2">结果</th>
-                        </tr>
-                        <tr>
-                            <td rowspan="4">电动车窗</td>
-                            <td>
-                                左前门
-                            </td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="140" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td >右前门</td>
+            <li style="width: 35%;">
+                <div class="detect-elect-title">
+                    <div  class="col-md-5 elect-sum">
+                        12<small>项</small>
+                    </div>
+                    <div  class="col-md-7 elect-descr">
+                        <p>发动机舱</p>
+                        <span class="detect-tongji"><i class="glyphicon glyphicon-ok-sign" id="fdj_TJ">全部合格</i></span>
+                    </div>
 
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="141" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>左后门</td>
-
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="142" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>右后门</td>
-
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="143" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td rowspan="2">电动反光镜</td>
-                            <td>左反光镜</td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="144" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>右反光镜</td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="145" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td rowspan="3">天窗</td>
-                            <td>前后天窗</td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="146" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>电动天窗</td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="147" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>全景天窗</td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="148" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td rowspan="3">座椅材质</td>
-                            <td>真皮</td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="149" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>绒布</td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="150" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>带记忆</td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="151" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td rowspan="5">多媒体</td>
-                            <td>卡带</td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="152" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>收音机</td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="153" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>CD</td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="154" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>DVD</td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="155" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>多屏</td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="156" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td rowspan="2">轮毂</td>
-                            <td>钢毂</td>
-                            <td colspan="2">
-                                <i class="glyphicon glyphicon-ok-sign" id="157" value="2"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>铝毂</td>
-                            <td colspan="2">
-                                <i class="glyphicon " id="158" value="2">无</i>
-                            </td>
-                        </tr>
-
-                        </tbody>
-                    </table>
                 </div>
+                <ul class=" detect-elect clearfix tableType" >
+                    <li>
+                        发动机正常启动
+                    </li>
+                    <li class="text-center">
+                        <i class="glyphicon glyphicon-ok-sign" id="159" value="2"></i>
+                    </li>
+                    <li>
+                        发动机漏油
+                    </li>
+                    <li class="text-center">
+                        <i class="glyphicon glyphicon-ok-sign" id="160" value="2"></i>
+                    </li>
+                    <li>
+                        发动机异响
+                    </li>
+                    <li class="text-center">
+                        <i class="glyphicon glyphicon-ok-sign" id="161" value="2"></i>
+                    </li>
+                    <li>
+                        机油有无冷却液混入
+                    </li>
+                    <li class="text-center">
+                        <i class="glyphicon glyphicon-ok-sign" id="158" value="2"></i>
+                    </li>
+                    <li>
+                        缸盖外有无机油渗入
+                    </li>
+                    <li class="text-center">
+                        <i class="glyphicon glyphicon-ok-sign" id="115" value="2"></i>
+                    </li>
+                    <li>散热器栅格有无破损</li>
+                    <li class="text-center">
+                        <i class="glyphicon glyphicon-ok-sign" id="116" value="2"></i>
+                    </li>
+                    <li>蓄电池电极柱有无腐蚀</li>
+                    <li class="text-center">
+                        <i class="glyphicon glyphicon-ok-sign" id="117" value="2"></i>
+                    </li>
+                    <li>蓄电池电解液有无渗漏</li>
+                    <li class="text-center">
+                        <i class="glyphicon glyphicon-ok-sign" id="118" value="2"></i>
+                    </li>
+                    <li>发动机皮带有无老化</li>
+                    <li class="text-center">
+                        <i class="glyphicon glyphicon-ok-sign" id="119" value="2"></i>
+                    </li>
+                    <li>油管有无老化裂痕</li>
+                    <li class="text-center">
+                        <i class="glyphicon glyphicon-ok-sign" id="120" value="2"></i>
+                    </li>
+
+                    <li>水管有无老化裂痕</li>
+                    <li class="text-center">
+                        <i class="glyphicon glyphicon-ok-sign" id="121" value="2"></i>
+                    </li>
+                    <li>线束有无老化裂痕</li>
+                    <li class="text-center">
+                        <i class="glyphicon glyphicon-ok-sign" id="122" value="2"></i>
+                    </li>
+
+
+                </ul>
+
             </li>
         </ul>
     </div>
     <div class="detect-item-lead">
         <div class="title">其他</div>
-        <div class="placeholder"></div>
+        
         <div class="detect-item-input" >
-
         </div>
     </div>
     <div class="detect-accident">
         <div   ng-bind="report.OtheMemo" style="height: 80px;overflow: auto"></div>
     </div>
+    <div class="detect-item-lead">
+        <div class="title">相关图片</div>
+        
+        <div class="detect-item-input" style="line-height: 46px">
+            车辆基本照片、手续照片、瑕疵照片、火烧泡水照片
+        </div>
+    </div>
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active"><a href="javascript:void(0)" data-toggle="tab" data-target="#carpictures">基本照</a></li>
+        <li><a href="javascript:void(0)" data-toggle="tab" data-target="#procedure">手续照</a></li>
+        <li><a href="javascript:void(0)" data-toggle="tab" data-target="#abnormal">瑕疵照</a></li>
+        <li><a href="javascript:void(0)" data-toggle="tab" data-target="#proof">泡水火烧照</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active in" id="carpictures">
+            <ul class="item-galery-repeat clearfix">
+                <li ng-repeat="obj in Test_ReportPic.CarPic"><img ng-src="{{obj.PicURL||obj.PicAddr|LargeIcon}}" alt=""/></li>
+            </ul>
+        </div>
+        <div class="tab-pane fade" id="procedure">
+            <ul class="item-galery-repeat clearfix">
+                <li ng-repeat="obj in Test_ReportPic.ProcudPic"><img ng-src="{{obj.PicURL|LargeIcon}}" alt=""/></li>
+            </ul>
+        </div>
+        <div class="tab-pane fade"  id="abnormal">
+            <ul class="item-galery-repeat clearfix">
+                <li ng-repeat="obj in Test_ReportPic.FlawPic"><img ng-src="{{obj.PicURL|LargeIcon}}" alt=""/></li>
+            </ul>
+        </div>
+        <div class="tab-pane fade" id="proof">
+            <ul class="item-galery-repeat clearfix">
+                <li ng-repeat="obj in Test_ReportPic.ProofPic"><img ng-src="{{obj.PicURL|LargeIcon}}" alt=""/></li>
+            </ul>
+        </div>
+    </div>
     <div class="detect-signature">
         专家库评估师<span class="signature-text" ng-bind="report.UserName"></span>
-        <img ng-src="{{report.Signature}}" alt=""/>
+        <img ng-src="{{report.Signature}}" alt="" ng-if="Appraiser.Signature"/>
     </div>
+    </div>
+    <div id="car" class="tab-pane fade detect-car">
+        <span class="reportcode">报告编号：<i ng-bind="report.TestReportCode"></i></span>
+        <h4 class="detect-car-title text-center">
+            <span ng-bind="report.Car.SpecName"></span>
+        </h4>
+        <ul class="list-inline clearfix">
+            <li>
+                <p>车辆注册地：<span ng-bind="report.Car.RegisterPlace"></span></p>
 
+                <p>行驶里程：<span ng-bind="report.Car.Mileage"></span>万公里</p>
+
+                <p>初登日期：<span ng-bind="report.Car.Buyyear|DateFormat:'yyyy-MM-dd'"></span></p>
+                <p>颜色：<span ng-bind="report.Car.Color|Corlor"></span></p>
+                <p>车龄：<span ng-bind="report.Car.CarYear"></span>年</p>
+
+                <p>过户次数：<span ng-bind="report.Car.TransferNo"></span>次</p>
+
+                <p>变速箱：<span ng-bind="report.Car.GearBox|GearBox"></span></p>
+
+                <p>车型：<span ng-bind="report.Car.Style|CarStyle"></span></p>
+
+
+                
+            </li>
+            <li>
+                <p>排量：<span ng-bind="report.Car.OutputVolume|OutputVolume"></span></p>
+                <p>排放标准：<span ng-bind="report.Car.DischargeStandard|DischargeStandard"></span></p>
+                <p>车架号：<span ng-bind="report.Car.FrameNumber"></span></p>
+
+                <p>发动机号：<span ng-bind="report.Car.EngineNo"></span></p>
+
+                <p>车牌号：<span ng-bind="report.Car.BodyBrand"></span></p>
+
+                <p>行驶证号：<span ng-bind="report.Car.DrivingLicenseModel"></span></p>
+
+                <p>购置附加税(费)证：<span ng-bind="report.Car.BuyFeeNO"></span></p>
+
+            </li>
+            <li>
+                <p>使用性质：<span ng-bind="report.Car.UseType|UseType"></span></p>
+
+                <p>车辆类型：<span ng-bind="report.Car.OwnerType|OwnerType"></span></p>
+
+                <p>行驶证：<span ng-if="report.Car.DrivingLicense">有</span><span ng-if="!report.Car.DrivingLicense">无</span></p>
+
+                <p>登记证：<span ng-if="report.Car.Registration">有</span><span ng-if="!report.Car.Registration">无</span></p>
+
+                <p>购车发票：<span ng-if="report.Car.PurchaseInvoices">有</span><span ng-if="!report.Car.PurchaseInvoices">无</span></p>
+
+                <p>违章记录：<span ng-if="report.Car.ViolationRecord">有</span><span ng-if="!report.Car.ViolationRecord">无</span></p>
+
+               </li>
+            <li style="border: none"></p>
+
+                <p>年检有效期：<span ng-bind="report.Car.Annual_Inspect_Time|DateFormat:'yyyy-MM-dd'"></span></p>
+
+                <p>交强险有效期：<span ng-bind="report.Car.Compulsory_insurance_Time|DateFormat:'yyyy-MM-dd'"></span></p>
+
+                <p>商业险有效期：<span ng-bind="report.Car.Commercial_Insurance_Time|DateFormat:'yyyy-MM-dd'"></span></p>
+
+                <p>女车主：<span ng-if="report.Car.WomenCar=='True'">是</span><span ng-if="report.Car.WomenCar=='False'">否</span></p>
+
+                <p>准新车：<span ng-if="report.Car.QuasiNewCar=='True'">是</span><span ng-if="report.Car.QuasiNewCar=='False'">否</span></p>
+
+              </li>
+        </ul>
+    </div>
 </div>

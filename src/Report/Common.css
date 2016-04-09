@@ -1,0 +1,540 @@
+/* CSS Document */
+body{margin: 0px;}
+img{border:0px;}
+td,div{    
+	color:#455b80;
+	font: 12px/20px Arial, Helvetica, sans-serif;
+    }
+
+A:link    {color: #455b80; text-decoration: none}
+A:visited {color: #996688; text-decoration: none}
+A:hover   {color: #f68428; text-decoration: underline}
+A.import:link    {color: #f68428; text-decoration: none}
+A.import:visited {color: #996688; text-decoration: none}
+A.import:hover   {color: #f68428; text-decoration: underline}
+.Import_Font{
+    color:#f68428;
+    }
+A.More:link,
+A.More:visited {color: #000;font-size:9px; text-decoration: none}
+A.More:hover   {color: #000;font-size:9px; text-decoration: underline}
+
+.TotalNumber,.Scope{
+    color:#c8c8c8;
+    }
+A.TotalNumber:link,A.TotalNumber:visited {color: #c8c8c8; text-decoration: none}
+A.TotalNumber:hover   {color: #f68428; text-decoration: underline}
+
+A.Numberlink:link,A.Numberlink:visited {color: #c8c8c8; text-decoration: none}
+A.Numberlink:hover   {color: #f68428; text-decoration: underline}
+
+.Date{
+    color:#c8c8c8;
+    }    
+A.Area:link    {COLOR: #f68428; TEXT-DECORATION: none}
+A.Area:visited {COLOR: #996688; TEXT-DECORATION: none}
+A.Area:hover   {COLOR: #f68428; TEXT-DECORATION: underline}
+.Area{
+   color:#f68428;
+   }
+A.MA_Font:link    {COLOR: #232323;font-size:10px;line-height:12px; TEXT-DECORATION: none}
+A.MA_Font:visited {COLOR: #996688;font-size:10px;line-height:12px; TEXT-DECORATION: none}
+A.MA_Font:hover   {COLOR: #f68428;font-size:10px;line-height:12px; TEXT-DECORATION: none}
+.MA_Area{
+    color:#f68428;
+	font-size:10px;
+	line-height:12px;
+    }
+.MA_Scope{
+    color:#c8c8c8;
+	font-size:10px;
+	line-height:12px;
+    }
+.MB_btn {
+    font-family:Tahoma;
+	height: 21px;
+	border: 1px solid #1a3266;
+	font-size: 11px;
+	color: #09193c;
+	line-height: 17px;
+	background: #e5ded4 url(../../Images/NewMessage_btn.gif);
+}
+A.Catalogue:link    {COLOR: #172e54;font-weight:bold;TEXT-DECORATION: underline}
+A.Catalogue:visited {COLOR: #996688;font-weight:bold;TEXT-DECORATION: underline}
+A.Catalogue:hover   {COLOR: #f68428;font-weight:bold;TEXT-DECORATION: underline}
+
+.ContactTitle{
+    color: #003399;
+	font-weight:bold;	
+    }
+
+/**** Div ****/
+#head{
+     margin:0px auto;
+	 width:960px;
+     }
+#main{
+     margin:10px auto;
+	 width:960px;
+     }
+/*.bottom 
+   {
+	clear:left;
+	margin: 10px auto 0px auto;
+	width: 960px;
+	text-align: center;
+	background: url(../../Images/HomeBottom.gif) no-repeat center top;
+	padding-top:10px;	
+	color:#a3a3a3;
+    }
+.bottom  a:link {color:#a3a3a3;}
+.bottom  a:visited {color:#996688;}
+*/
+#bottom {
+clear: both;
+margin: 10px auto;
+text-align: center;
+font-family: Tahoma, Arial, Helvetica, Sans-serif;
+font-size: 11px;
+color: #c8c8c8;
+border-top: 1px solid #efefef;
+padding: 10px 25px 5px;
+line-height: 18px;
+}
+#bottom a {
+color: #c8c8c8;
+text-decoration: none;
+}
+#bottom a:hover {
+color: #f68428;
+}
+#bottom A.BottomMenu:link    {color: #845d03;margin-left:5px;margin-right:5px;text-decoration: none}
+#bottom A.BottomMenu:visited {color: #996688;margin-left:5px;margin-right:5px;text-decoration: none}
+#bottom A.BottomMenu:hover   {color: #f68428;margin-left:5px;margin-right:5px;text-decoration: underline}
+.row_space{
+    margin:0px auto;
+	height:10px;
+	overflow:hidden;	
+    }
+.row_left_space{
+    height:5px;
+	overflow:hidden;
+    }
+.row_center_space{
+    height:10px;
+	overflow:hidden;
+    }
+.row_right_space{
+    height:5px;
+	overflow:hidden;
+    }
+
+/* Top  */
+.icon_Signin{
+	padding:4px 0px 4px 15px;
+	margin-left: 3px;
+	background: url(../../Images/TopSignin_icon.gif) no-repeat left center;
+	font-size:11px;
+    }
+.icon_Join,.icon_Edition{
+	padding:4px 0px 4px 8px;
+	margin-left: 5px;
+	font-size:11px;
+	background: url(../../Images/Join_icon.gif) no-repeat left center;
+    }
+
+.icon_Basket{
+	padding:4px 4px 4px 18px;
+	margin-left: 3px;
+	font-size:11px;
+	background: url(../../Images/Basket_icon.gif) no-repeat left center;
+    }
+A.Basket:link    {color: #678296; text-decoration: none}
+A.Basket:visited {color: #996688; text-decoration: none}
+A.Basket:hover   {color: #f68428; text-decoration: underline}
+
+.topKeyword_blur {
+	height: 14px;
+	font-size: 12px;
+	line-height: 14px;
+	color:#666666;
+	padding-left:3px;
+	width:225px;
+}
+.topSearch_selector {
+	height: 20px;
+	font-size: 12px;
+	line-height: 20px;
+	color: #666666;
+}
+.topSearchKeyword {
+    font-weight:bold;
+	color:#172e54;
+}
+.topSearch_btn {
+	background-image: url(../../Images/Search.gif);
+	height: 19px;
+	width: 65px;
+	border: 1px none #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	color: #f68428;
+	line-height: 20px;
+	padding-left:15px;
+	background-color: #e5ded4;
+}
+.SumbitNeeds_btn {
+	background-image: url(../../Images/SumbitNeeds_03.gif);
+	border: 0px none;
+	width: 60px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #ffffff;
+	height: 17px;
+}
+.GO_btn {
+    background-color:#9c9c9c;
+	border: 0px none;
+	width: 20px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #ffffff;
+	height: 19px;
+	margin:0px 0px 1px 1px;
+}
+.GO_bk{
+	height: 16px;
+	border: 1px solid #dedede;
+	font-size: 12px;
+	line-height: 16px;
+	padding-left:3px;
+	}
+
+A.TopSearchKeyword2:link,A.TopSearchKeyword2:visited {color: #172e54; text-decoration: none}
+A.TopSearchKeyword2:hover {color: #172e54; text-decoration: underline}
+
+/* main */
+.Label_BgOrange{
+    background:url(../../Images/HomeTitleBg_01.gif)
+}
+.Label_BgBice{
+    background:url(../../Images/HomeTitleBg_02.gif)
+}
+.Label_Font {
+    font-weight:bold;
+	color:#172e54;
+	line-height:22px;
+	margin-left:5PX;
+}
+.Label_SumbitNeeds{
+    background:url(../../Images/SumbitNeeds_01.gif);
+	height:57px;
+}
+.SumbitNeeds_TitleBg{
+	background: url(../../Images/SumbitNeeds_02.gif) no-repeat center;
+	width:53px;
+	color: #6a6a6a;
+	font-size:10px; 
+}
+.SumbitNeeds_Frame{
+	background: #FFFFFF;
+	border: 1px solid #dedede;
+	width:98px;
+}
+.Login_TitleBg{
+	background: url(../../Images/Id_Bg.gif) no-repeat center;
+	width:70px;
+	color: #6a6a6a; 
+}
+.Login_Frame{
+	background: #FFFFFF;
+	border: 1px solid #dedede;
+	width:80px;
+}
+
+.Search_selector {
+	font-size: 12px;
+	color: #666666;
+	width:166px;
+	margin:1px 0px;
+    }
+.Search_Keyword {
+	height: 16px;	
+	font-size: 11px;
+	line-height: 16px;
+	color:#666666;
+	padding-left:3px;
+	width:88px;
+    }
+.Search_btn {
+	background-image: url(../../Images/Search_03.gif);
+	height: 19px;
+	width: 55px;
+	border: 1px none #FFFFFF;
+	font-size: 11px;
+	color: #f68428;
+	line-height: 20px;
+	padding-left:12px;
+	background-color: #e5ded4;
+    }
+/* 导航栏 */
+#Nav{
+    background:url(../../Images/Nav_01.gif);
+	width:938px;
+	hight:20px;
+	padding:0px 10px;
+	margin:auto;
+	border-left:1px solid #e5e5e5;
+	border-right:1px solid #e5e5e5;
+	border-bottom:1px solid #e5e5e5;
+    }
+
+.Nav_Activation{
+     color:#232323;
+}
+	 
+A.NavMenu:link,A.NavMenu:visited {color: #678296;margin-left:10px;text-decoration: none}
+A.NavMenu:hover   {color: #678296;margin-left:10px;text-decoration: underline}
+/* 翻页 */
+A.page:link,A.page:visited {color: #232323; text-decoration: none}
+A.page:hover   {color: #232323; text-decoration: underline}
+
+/* 主页栏目风格 */
+.FrameStyle{
+    background-color:#f8f8f8;
+	border:1px solid #faa973;
+	margin-bottom:10px;
+    }
+.FrameStyle h3{
+    padding:0px 5px;
+    margin:0px;
+	background:url(../../Images/HomeTitleBg_01.gif);
+	background-color:#faac78;
+	border-bottom:1px solid #e0864a;
+	color:#fff;	
+	font-weight:bold;
+	font-size:12px;
+	line-height:24px;
+    }
+.FrameStyle h3 A:link    {COLOR: #fff; TEXT-DECORATION: none}
+.FrameStyle h3 A:visited {COLOR: #996688; TEXT-DECORATION: none}
+.FrameStyle h3 A:hover   {COLOR: #fff; TEXT-DECORATION: underline}
+.FrameStyle2{
+    background-color:#f8f8f8;
+	border:1px solid #b1c4d2;
+	margin-bottom:10px;
+    }
+.FrameStyle2 h3{
+    padding:0px 5px;
+    margin:0px;
+	background:url(../../Images/HomeTitleBg_02.gif);
+	border-bottom:1px solid #b5c7d4;
+	background-color:#becbd5;
+	color:#172e54;
+    font-weight:bold;
+	font-size:12px;
+    line-height:24px;
+    }
+.FrameStyle2 h3 A:link    {COLOR: #172e54; TEXT-DECORATION: none}
+.FrameStyle2 h3 A:visited {COLOR: #996688; TEXT-DECORATION: none}
+.FrameStyle2 h3 A:hover   {COLOR: #172e54; TEXT-DECORATION: underline}
+.FrameMore{
+    float:right;
+    }
+.ADStyle{
+    background-color:#FFF;
+    }
+.ADStyle h3{
+    padding:0px 5px;
+    margin:0px;
+	color:#90908e;
+    font-weight:bold;
+	font-size:12px;
+    line-height:24px;
+    }
+ .box{padding:5px;}
+/* 登录风格窗口 */
+.LoginHead{
+    background:url(../../Images/Login_01.gif);
+	height:27px;
+	}
+.LoginStyle{
+    border-left:1px solid #faa973;
+	border-right:1px solid #faa973;	
+	border-bottom:1px solid #faa973;
+	background-color:#f8f8f8;
+	margin-bottom:10px;
+	}
+/* FindSupplier搜索风格 */
+#FindSupplierStyle{
+    background-color:#f3f1ef;
+	border:1px solid #dde0e2;
+	padding:0px 5px;
+    color:#f68428;
+	font-weight:bold;
+	height:67px;
+	background:url(../../Images/FindSupplier.gif);
+    }
+#FindSupplierStyle ul {list-style:none;margin:3px 0px;padding:0px;}
+#FindSupplierStyle ul li{float:left;margin:0px 3px;}
+#FindSupplierStyle #line{border-top:1px solid #d6dbde;border-bottom:1px solid #f5f3ef;}
+
+#FindSupplierStyle .Search_selector {
+	width:120px;
+    }
+#FindSupplierStyle .Search_Keyword {
+	width:100px;
+    }
+/* 图片边框及大小 */
+.IMGborder{
+    border:1px solid #ededed;
+    background-color:#ffffff;
+	width:85px;
+	height:85px;
+	line-height:85px;
+	text-align:center;
+}
+/***** 头部目录导航样式 *****/
+.current_Middel a {color: #ffffff;font-weight:bold; text-decoration: none;padding:0px 20px;}
+.current_Middel a:hover   {color: #ffffff;font-weight:bold; text-decoration: underline}
+.current_Left_First
+{
+	background-image: url(../../Images/top-1_0.gif);
+	height:20px;
+	width:4px;
+}
+.current_Left_NotFirst
+{
+	background-image: url(../../Images/top-2_1.gif);
+	height:20px;
+	width:2px;
+}
+.current_Middel
+{
+	background-color:#f09c5f;
+	background-image: url(../../Images/top-1_1.gif);
+	height:20px;
+}
+.current_Right_NotLast
+{
+	background-image: url(../../Images/top-1_2.gif);
+	height:20px;
+	width:2px;
+}
+.current_Right_Last
+{
+	background-image: url(../../Images/top-3.gif);
+	height:20px;
+	width:4px;
+}
+.default_Middle a {color: #845d03;font-weight:bold; text-decoration: none;padding:0px 20px;}
+.default_Middle a:hover   {color: #000000;font-weight:bold; text-decoration: underline}
+.default_Left_First
+{
+	background-image: url(../../Images/top-2_0.gif);
+	height:20px;
+	width:4px;	
+}
+.default_Left_NotFirst
+{
+	background-image: url(../../Images/top-1_4.gif);
+	height:20px;
+	width:2px;
+}
+.default_Middle
+{
+	background-color:#f1eee8;
+	background-image: url(../../Images/top-1_3.gif);
+	height:20px;
+}
+.default_Right_NotLast
+{
+	background-image: url(../../Images/top-1_4.gif);
+	height:20px;
+	width:2px;	
+}
+.default_Right_Last
+{
+	background-image: url(../../Images/top-1_5.gif);
+	height:20px;
+	width:4px;
+}
+
+/***** 头部部局样式 *****/
+#header{width:960px;height:100px;*height:103px;}
+#headerleft{width:808px;float:left;}
+#stonelogo{float:left;}
+#signin{float:right;}
+#signin ul{margin:0px;list-style:none;}
+#signin ul li{float:left;padding:0px;text-align:center;}
+#menu{ clear:both;float:right;}
+#menu ul{margin:0px;list-style:none;}
+#menu ul li{float:left;padding:3px 0px;text-align:center; background-color:#f1eee8;}
+#banner{
+	float:right;
+	margin-top:5px;
+	width:144;
+	height:98;
+	padding:2px;
+	background: url(../../Images/Banner_01.gif) no-repeat left top;
+}
+#searchBox{width:960px;}
+#searchBox .left{
+	float:left;
+	width:7px;
+	height:70px;
+	background: #becbd5 url(../../Images/TopSearch_01.gif) no-repeat left top;
+}
+#searchBox .middle{
+	float:left;
+	width:946px;
+	height:70px;
+	background: #becbd5 url(../../Images/TopSearch_02.gif) repeat-x top;
+}
+#searchBox .right{
+	float:left;
+	width:7px;
+	height:70px;
+	background: #becbd5 url(../../Images/TopSearch_03.gif) no-repeat right top;
+}
+#searchBox #intelligent{margin:10px auto 10px 110px;}
+
+/* 中间内容信息风格 */
+.contentstyle{
+    background-color:#ffffff;
+	border:1px solid #dfdfdf;
+    }
+.contentHead{
+    padding:0px 6px;
+    color:#000000;
+    font-weight:bold;
+    height:23px;
+	background:url(../../Images/CompanySearch_Cid_03.gif);
+	background-color:#f5f4f0;
+	border-bottom:1px solid #dfdfdf;	
+    }
+.contentHead ul {list-style:none;margin:0px;padding:0px;}
+.contentHead ul li{float:left;margin:0px 46px 0px 5px;}
+.contentstyle .Line{width:1px;background:#f0f0f0}
+.contentstyle .btn {
+	background-image: url(../../Images/Btn_01.gif);
+	height: 22px;
+	width: 103px;
+	border: 1px none #FFFFFF;
+	font-size: 10px;
+	font-weight:bold;
+	color: #000066;
+	padding-left:0px;
+	margin-bottom:3px;
+	padding-right:15px;
+    }
+.contentstyle .btn2 {
+	background-image: url(../../Images/Btn_02.gif);
+	height: 22px;
+	width: 103px;
+	border: 1px none #FFFFFF;
+	font-size: 10px;
+	font-weight:bold;
+	color: #f68428;
+	margin-bottom:3px;
+	padding-right:10px;

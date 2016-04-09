@@ -24,19 +24,19 @@
         <div class="form-group">
             <label  class="control-label col-md-3 form-required">联系电话</label>
             <div class="col-md-8">
-                <p class="form-control" ng-bind="employee.Contact" ></p>
+                <p class="form-control-static" ng-bind="employee.Contact" ></p>
             </div>
         </div>
         <div class="form-group">
             <label  class="control-label col-md-3" >真实姓名</label>
             <div class="col-md-8">
-                <p class="form-control" ng-bind="employee.UserName" ></p>
+                <p class="form-control-static" ng-bind="employee.UserName" ></p>
             </div>
         </div>
         <div class="form-group">
             <label  class="control-label col-md-3 form-required">成员角色</label>
             <div class="col-md-8">
-                <p class="form-control" ng-bind="IdentityTag|Role" ></p>
+                <p class="form-control-static" ng-bind="employee.IdentityTag|Role" ></p>
             </div>
         </div>
     </form>
@@ -44,7 +44,7 @@
 <div class="modal-footer clearfix ">
     <div class="alert {{alert.type}} text-center" ng-bind="alert.msg" ng-show="alert.msg"></div>
     <div class="col-md-6 col-md-offset-3">
-        <button class="btn btn-info btn-block" ng-click="delete()" >
+        <button class="btn btn-info btn-block" ng-click="remove()" >
             确定删除
         </button>
     </div>

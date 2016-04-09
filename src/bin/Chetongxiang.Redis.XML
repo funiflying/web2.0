@@ -1,0 +1,1768 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Chetongxiang.Redis</name>
+    </assembly>
+    <members>
+        <member name="T:Chetongxiang.redis.Account.Capital">
+            <summary>
+            账户资金相关
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.Account.Capital.PostAccountLog(CTXProject.Models.UserAccountLog,System.Boolean)">
+            <summary>
+            提交账户流水信息
+            </summary>
+            <param name="log"></param>
+            <param name="inAllianceMoney">是否完全将资金并入联盟商账号（评估师评估所得为false）</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Account.Capital.PostAccountLog(CTXProject.Models.UserAccountLog,System.Boolean,ServiceStack.Redis.IRedisClient)">
+            <summary>
+            提交账户流水信息
+            </summary>
+            <param name="log"></param>
+            <param name="redisClient"></param>
+            <param name="inAllianceMoney">是否完全将资金并入联盟商账号（评估师评估所得为false）</param>
+            <param name="IRT"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Account.Capital.GetList(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            获取指定KEY的账户流水列表数据
+            </summary>
+            <param name="KEY"></param>
+            <param name="PageNo"></param>
+            <param name="PageNum"></param>
+            <param name="Results"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Account.Capital.UserGetCapitalList(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            用户获取账户流水列表
+            </summary>
+            <param name="UserID">用户ID</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">返回数据行</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns>返回记录数</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Account.Capital.UserGetCapitalList(System.String,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            用户获取账户流水列表
+            </summary>
+            <param name="UserID">用户ID</param>
+            <param name="EventFlag">事件标记 0提现 1评估师获得评估费 2卖车获得款</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">返回数据行</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns>返回记录数</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Account.Capital.AllianceGetCapitalList(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            联盟商获取账户流水列表
+            </summary>
+            <param name="AllianceCodee">联盟商编号</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">返回数据行</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns>返回记录数</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Account.Capital.AllianceGetCapitalList(System.String,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            联盟商获取账户流水列表
+            </summary>
+            <param name="AllianceCodee">联盟商编号</param>
+            <param name="EventFlag">事件标记 0提现 1评估师获得评估费 2卖车获得款</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">返回数据行</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns>返回记录数</returns>
+        </member>
+        <member name="T:Chetongxiang.redis.Account.Manage">
+            <summary>
+            账号管理（登陆、判断账号是否存在）
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.Account.Manage.AccountIsExists(System.String)">
+            <summary>
+            判断账号是否存在
+            </summary>
+            <param name="account">可以是：账号、手机、EMail之一</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Account.Manage.Login(System.String,System.Data.DataTable@)">
+            <summary>
+            获取返回指定账号的用户信息，可用于例如比较密码  返回1表示登录成功 0表示账号不存在
+            </summary>
+            <param name="account">可以是：账号、手机、EMail之一</param>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Account.Manage.GetAccountWithUserID(System.String,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据用户ID获取用户信息
+            </summary>
+            <param name="UserID">用户ID</param>
+            <param name="user"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Account.Manage.PostAccount(CTXProject.Models.User)">
+            <summary>
+            注册账号
+            </summary>
+            <param name="us"></param>
+            <param name="IRT"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Chetongxiang.redis.Alliance.Manage">
+            <summary>
+            联盟商控制器
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.Alliance.Manage.PostAlliance(CTXProject.Models.Alliance)">
+            <summary>
+            联盟商信息注册、更新
+            </summary>
+            <param name="user"></param>
+            <param name="GoLastCheck">是否直接进入待终审状态</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Alliance.Manage.GetAllianceInfo(System.String,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据联盟商编号获取联盟商单位信息
+            </summary>
+            <param name="AllianceCode"></param>
+            <param name="alliance"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Alliance.Manage.GetAllianceMembers(System.String,System.Data.DataSet@,System.String[],System.String[][])">
+            <summary>
+            根据联盟商编号，获取联盟商信息以及下属员工（含评估师）信息
+            </summary>
+            <param name="AllianceCode"></param>
+            <param name="Result"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Alliance.Manage.AddAppraiser(CTXProject.Models.Appraiser)">
+            <summary>
+            添加联盟商评估师信息
+            </summary>
+            <param name="app">评估师信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Alliance.Manage.AddEmployee(CTXProject.Models.User)">
+            <summary>
+            添加联盟商员工
+            </summary>
+            <param name="us">员工账号信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Alliance.Manage.GetAllianceListWithDirectCode(System.String,System.Int32,System.Data.DataTable@,System.Int32,System.Int32,System.String[],System.String[][],System.Boolean)">
+            <summary>
+            根据直营商编号及指定审核状态获取所管辖范围的联盟商信息
+            </summary>
+            <param name="DirectCode">直营商编号</param>
+            <param name="CheckFlag">审核状态 -1表示全部 默认0 1初审不通过 2已初审 3终审不通过 4已终审（已认证）</param>
+            <param name="results">返回的联盟商列表</param>
+            <param name="pageno">请求的页码</param>
+            <param name="pagenum">每页请求的数据行数</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <param name="isHistory">是否历史记录查询</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Alliance.Manage.GetList(System.String,System.Data.DataTable@,System.Int32,System.Int32,ServiceStack.Redis.IRedisClient,System.String[],System.String[][])">
+            <summary>
+            获取指定KEY集合里的数据
+            </summary>
+            <param name="KEY"></param>
+            <param name="pageno"></param>
+            <param name="pagenum"></param>
+            <param name="results"></param>        
+            <param name="redisClient"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Appraiser.Manage.RegisterAppraiser(CTXProject.Models.Appraiser)">
+            <summary>
+            注册评估师
+            </summary>
+            <param name="app">评估师信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Appraiser.Manage.ModifyAppraiser(CTXProject.Models.Appraiser)">
+            <summary>
+            修改评估师信息
+            </summary>
+            <param name="app">最新评估师信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Appraiser.Manage.GetAppraiserInfo(System.String,System.Data.DataSet@,System.String[],System.String[][])">
+            <summary>
+            根据用户ID获取评估师信息及技能信息
+            </summary>
+            <param name="UserID"></param>
+            <param name="Result"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Appraiser.Manage.AddAppraiserSkill(CTXProject.Models.AppraiserSkill)">
+            <summary>
+            添加评估师技能
+            </summary>
+            <param name="skill">技能信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Appraiser.Manage.DelAppraiserSkill(CTXProject.Models.AppraiserSkill)">
+            <summary>
+            删除评估师技能
+            </summary>
+            <param name="skill"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Appraiser.Manage.DelAppraiserAllSkill(System.String)">
+            <summary>
+            根据评估师编号删除所有技能
+            </summary>
+            <param name="AppraiserCode">评估师编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Appraiser.Manage.SkillIsExists(System.String,System.Int32,System.Int32)">
+            <summary>
+            检查指定评估师是否已经存在指定技能
+            </summary>
+            <param name="AppraiserCode">评估师编号</param>
+            <param name="BrandID">品牌</param>
+            <param name="SeriesID">车系</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Appraiser.Manage.SearchAppraiserWithSkill(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Data.DataSet@)">
+            <summary>
+            根据品牌ID、车系ID、城市ID 查找符合条件的评估师
+            </summary>
+            <param name="BrandID">品牌ID</param>
+            <param name="SeriesID">车系ID</param>
+            <param name="CityID">城市ID 0表示全国范围</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">传入可回写参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Appraiser.Manage.GetBrandName(System.Int32,System.String@)">
+            <summary>
+            根据品牌ID获取品牌名称
+            </summary>
+            <param name="BrandID">品牌ID</param>
+            <param name="BrandName">品牌名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Appraiser.Manage.GetBrandSeriesName(System.Int32,System.Int32,System.String@,System.String@)">
+            <summary>
+            根据品牌ID、车系ID获取品牌名称和车系名称
+            </summary>
+            <param name="BrandID">品牌ID</param>
+            <param name="SeriesID">车系ID</param>
+            <param name="BrandName">品牌名称</param>
+            <param name="SeriesName">车系名称</param>
+            <returns></returns>
+        </member>
+        <member name="T:Chetongxiang.redis.CarArchies.Manage">
+            <summary>
+            车档案控制管理接口
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.CarArchies.Manage.PostCarArchivesLog(CTXProject.Models.CarArchive,CTXProject.Models.CarArchiveLog)">
+            <summary>
+            提交车档案明细记录，纯新增，不存在修改情况
+            </summary>
+            <param name="master">日志ID</param>
+            <param name="log">车源编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.CarArchies.Manage.GetCarArchivesLog(System.String,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据车源编号查询车档案记录
+            </summary>
+            <param name="EngineCode">发动机号</param>
+            <param name="EventFlag">事件类型 0表示全部，否则根据EventFlag过滤</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页显示数量</param>
+            <param name="Results">返回的查询结果</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="T:Chetongxiang.redis.CarOffline.Manage">
+            <summary>
+            车源线下交易、检测
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.CarOffline.Manage.PostOffineTrade(CTXProject.Models.CarOfflineTrade)">
+            <summary>
+            新增、更新 线下交易检测信息
+            </summary>
+            <param name="trade"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.CarOffline.Manage.GetOffineTradeWithCode(System.String,System.Data.DataSet@,System.String[],System.String[][])">
+            <summary>
+            根据线下交易检测单号获取单据信息
+            </summary>
+            <param name="OffineCode">线下交易检测单号</param>
+            <param name="Result"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.CarOffline.Manage.GetOffineTradeListWithAllianceCode(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据联盟商编号获取线下交易数据
+            </summary>
+            <param name="AllianceCode">联盟商编号</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">页数</param>
+            <param name="GetKeys">获取的字段范围</param>
+            <param name="Results"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.CarOffline.Manage.GetOffineTradeListWithDirectCode(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据直营编号获取线下交易数据
+            </summary>
+            <param name="DirectCode">直营商编号</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">页数</param>
+            <param name="GetKeys">获取的字段范围</param>
+            <param name="Results"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.CarOffline.Manage.GetOffineTradeListWithUserID(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据用户ID获取线下交易数据
+            </summary>
+            <param name="UserID">用户ID</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">页数</param>
+            <param name="GetKeys">获取的字段范围</param>
+            <param name="Results"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.CarOffline.Manage.GetOffineTradeList(System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            获取全部线下交易数据
+            </summary>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">页数</param>
+            <param name="GetKeys">获取的字段范围</param>
+            <param name="Results"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.CarOffline.Manage.GetList(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            向指定集合查找数据
+            </summary>
+            <param name="KEY"></param>
+            <param name="PageNo"></param>
+            <param name="PageNum"></param>
+            <param name="Results"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="T:Chetongxiang.redis.Carsource.Manage">
+            <summary>
+            Redis-车源数据库
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.PostCar(CTXProject.Models.Car)">
+            <summary>
+            发布车源，同步写入Redis
+            </summary>
+            <param name="car">最新车源数据</param>
+            <param name="GoLastCheck">是否直接进入待终审状态</param>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.SetCarFlag(System.String,System.Int32,System.Int32,ServiceStack.Redis.IRedisClient,ServiceStack.Redis.Pipeline.IRedisPipeline)">
+            <summary>
+            设置指定编号的车源状态
+            </summary>
+            <param name="CarNo">车源编号</param>
+            <param name="Pipeline"></param>
+            <param name="redisClient"></param>
+            <param name="oldCarFlag">原标记</param>
+            <param name="CarFlag">新状态 0默认 1交易中 254下架 255交易完成</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.GetUserCarList(System.String,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            查看我的车源：根据用户ID
+            </summary>
+            <param name="UserID">用户ID</param>
+            <param name="CarFlag">-1表示全部   0默认 1交易中 254下架 255交易完成  250线下交易记录（没有上传平台）</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="GetKeys">获取的字段集合 null表示全部字段</param>
+            <param name="Results">传入可变的参数结果</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.GetAllianceCarList(System.String,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            查看我的车源：根据联盟商编号
+            </summary>
+            <param name="AllianceCode">联盟商编号</param>
+            <param name="CarFlag">车源状态   0默认 1交易中 254下架 255交易完成  250线下交易记录（没有上传平台）</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="GetKeys">获取的字段集合 null表示全部字段</param>
+            <param name="Results">传入可变结果集</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.PostCarRevoke(CTXProject.Models.CarRevoke)">
+            <summary>
+            提交车源下架信息
+            </summary>
+            <param name="carRevoke">车源下架信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.GetCarRevokeInfo(System.String,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据车源编号获取下架信息 
+            </summary>
+            <param name="CarNo">车源编号</param>
+            <param name="Result">回传的车源下架信息</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.CalcPriceID(System.Double)">
+            <summary>
+            根据价格计算价位索引
+            </summary>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.CalcCheLingLCID(System.Double)">
+            <summary>
+            根据车龄/行驶里程计算索引
+            </summary>
+            <param name="v"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.GetHomeList(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            请求主页列表数据
+            </summary>
+            <param name="city"></param>
+            <param name="type">0最新上架 1降价急售 2准新车 3练手车 4SUV 5女车主</param>
+            <param name="row_num">请求的数据量</param>        
+            <param name="result"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.getIndex(System.String,System.String[])">
+            <summary>
+            查找key在keys中的索引
+            </summary>
+            <param name="key"></param>
+            <param name="keys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.GetCardata(System.String,System.Data.DataSet@,System.String[],System.String[][])">
+            <summary>
+            请求车源详细页数据
+            </summary>
+            <param name="CarNo">车源编号</param>
+            <param name="Results">返回：车源信息数据行</param>
+            <returns>正常返回1，异常返回-1，没有该编号返回0</returns>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.SearchCar(CTXProject.Models.Car,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String,System.String,System.String[],System.String[][],System.Int32)">
+            <summary>
+            内页，查找车源 SearchCar
+            </summary>
+            <param name="car">车源实体，根据里面的数据做为各种查询条件</param>
+            <param name="Sort">排序0默认 1价格从小到大 -1价格从大到小 2车龄从小到大 -2车龄从大到小 3里程从小到大 -3里程从大到小</param>
+            <param name="pageno">页码</param>
+            <param name="pagenum">每页显示数量</param>
+            <param name="results">返回列表集</param>
+            <param name="PriceStart">起始价格</param>
+            <param name="PriceEnd">截止价格</param>  
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param> 
+            <param name="IncludeFlag">Car.CityID表示当前所在城市，IncludeFlag：0同城  1全市  2全省  3全国</param>
+            <returns>返回查询的记录数</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.GetCarsForIsUrgentIsCheck(System.String,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][],System.Boolean)">
+            <summary>
+            根据直营商编号、审核状态、是否急售 为组合查询条件的所有车源数据
+            </summary>
+            <param name="DirectCode">直营商编号</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页显示数量</param>
+            <param name="CheckFlag">审核标记：-1表示全部 默认0 1初审不通过 2已初审 3终审不通过 4已终审（已认证） </param>
+            <param name="IsUrgent">是否急售 0不限 1急售 2非急售</param>
+            <param name="Results"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <param name="isHistory">是否历史记录查询</param>
+            <returns> >=0表示符合条件的总记录数，-1表示redis异常</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.GetSpecListWithBrandAndSeries(System.Int32,System.Int32,System.Data.DataTable@)">
+            <summary>
+            根据品牌ID、车系ID 获取对应的规格列表
+            </summary>
+            <param name="BrandID">品牌ID</param>
+            <param name="SeriesID">车系ID</param>
+            <param name="Results">传入可回写结果集</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Carsource.Manage.GetCarParam(System.Int32,System.Int32,System.String@)">
+            <summary>
+            根据原厂车源目录ID、参数ID，获取车辆信息
+            </summary>
+            <param name="CatalogID">原厂车源目录ID</param>
+            <param name="ParamID">参数ID</param>
+            <param name="Value">传入可写参数</param>
+            <returns></returns>
+        </member>
+        <member name="T:Chetongxiang.redis.CarWorrySell.Manage">
+            <summary>
+            急售车源管理控制器
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.CarWorrySell.Manage.PostCarWorrySell(CTXProject.Models.CarWorrySell)">
+            <summary>
+            提交、更新急售车源信息
+            </summary>
+            <param name="car"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.CarWorrySell.Manage.GetCarWorrySellListWithFlag(System.Int32,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据审核状态、车源状态获取急售车源列表
+            </summary>
+            <param name="CarFlag">状态 255表示全部 0默认 1已售出 2已下架</param>
+            <param name="CheckFlag">审核状态 255表示全部 0未审核 1审核不通过 2审核通过</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页显示数量</param>
+            <param name="Results">可写回传查询结果集</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.CarWorrySell.Manage.GetCarWorrySellWithCode(System.String,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据急售编号获取急售车源信息
+            </summary>
+            <param name="WorryCode">急售编号</param>
+            <param name="Result">可写回传信息</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="F:Chetongxiang.redis.config.HOST_IP">
+            <summary>
+            Redis服务器IP地址
+            </summary>
+        </member>
+        <member name="F:Chetongxiang.redis.config.TEMP_LIFE_SECOND">
+            <summary>
+            默认临时集合的生存周期（秒）
+            </summary>
+        </member>
+        <member name="F:Chetongxiang.redis.config.TEMP_CAR_LIFE_SECOND">
+            <summary>
+            默认车源查找临时集合的生存周期（秒）
+            </summary>
+        </member>
+        <member name="F:Chetongxiang.redis.config.DB_DEFINE">
+            <summary>
+            系统定义相关数据所在数据库
+            </summary>
+        </member>
+        <member name="F:Chetongxiang.redis.config.DB_CAR_BILL">
+            <summary>
+            车源业务逻辑相关数据库
+            </summary>
+        </member>
+        <member name="T:Chetongxiang.redis.CreditEvaluation.Manage">
+            <summary>
+            诚信评定控制台
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.CreditEvaluation.Manage.PostCreditEvaluationWithAlliance(CTXProject.Models.CreditEvaluationWithAlliance)">
+            <summary>
+            提交/更新联盟商信用数据
+            </summary>
+            <param name="ceAlliance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.CreditEvaluation.Manage.GetCreditEvaluationWithAlliance(System.String,System.Data.DataSet@,System.String[],System.String[][])">
+            <summary>
+            根据联盟商编号，获取联盟商诚信评定数据
+            </summary>
+            <param name="AllianceCode">联盟商编号</param>
+            <param name="ceAlliance">可写回传的诚信评定数据</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.CreditEvaluation.Manage.PostCreditEvaluationWithUser(CTXProject.Models.CreditEvaluationWithUser)">
+            <summary>
+            提交/更新客户信用数据
+            </summary>
+            <param name="ceUser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.CreditEvaluation.Manage.GetCreditEvaluationWithUser(System.String,System.Data.DataSet@,System.String[],System.String[][])">
+            <summary>
+            根据用户ID，获取客户诚信评定数据
+            </summary>
+            <param name="UserID">用户ID</param>
+            <param name="ceUser">可写回传的诚信评定数据</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.CreditEvaluation.Manage.PostCreditEvaluationWithAppraiser(CTXProject.Models.CreditEvaluationWithAppraiser)">
+            <summary>
+            提交/更新评估师信用数据
+            </summary>
+            <param name="ceApp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.CreditEvaluation.Manage.GetCreditEvaluationWithAppraiser(System.String,System.Data.DataSet@,System.String[],System.String[][])">
+            <summary>
+            根据评估师编号，获取评估师诚信评定数据
+            </summary>
+            <param name="AppraiserCode">用户ID</param>
+            <param name="ceApp">可写回传的诚信评定数据</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.DataConvert.FindFieldValue(System.String[],System.String)">
+            <summary>
+            在哈希表里查找字段的值
+            </summary>
+            <param name="row"></param>
+            <param name="fieldname"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.DataConvert.FillColumn(System.Data.DataTable@,System.String,System.String[],System.String[][])">
+            <summary>
+            根据查询配置，添加字段
+            </summary>
+            <param name="dt"></param>
+            <param name="tablename">当前表名</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+        </member>
+        <member name="M:Chetongxiang.redis.DataConvert.AddRowToDataTableWithModels(System.Data.DataTable@,System.String[],System.String[][],System.String[],System.String[][])">
+            <summary>
+            根据模型入数据行
+            </summary>
+            <param name="dt">DataTable可变回传参数</param>
+            <param name="tablenames">表名集合，对应models顺序</param>
+            <param name="models">哈希表数组</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+        </member>
+        <member name="M:Chetongxiang.redis.DataConvert.ByteArrayToStringArray(System.Byte[][])">
+            <summary>
+            将byte[][]类型的数据转化为string[]
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.DataConvert.DateStringToDouble(System.String)">
+            <summary>
+            将日期字符串根据约定转成数值
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.DataConvert.StringArrayToByteArray(System.String[])">
+            <summary>
+            将字符串数组转化为字节数组
+            </summary>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.DataConvert.GetHashKeyValuePair(CTXProject.IBasicModel)">
+            <summary>
+            将模型实体转化为redis存储的哈希格式对象
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.DataConvert.DictionaryToArray(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            字典转化为数组
+            </summary>
+            <param name="dict"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.DebugLog.Log(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            记录异常日志
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="message"></param>
+            <param name="filename"></param>
+            <param name="checkRedisServer">是否需要检测Redis服务器是否崩溃无法连接</param>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.RegisterStruct(CTXProject.Models.DirectBusinessStruct)">
+            <summary>
+            创建组织结构
+            </summary>
+            <param name="struct_"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.GetStructWithParanID(System.Int32,System.Data.DataTable@)">
+            <summary>
+            根据获取指定父节点的所有下级组织结构信息
+            </summary>
+            <param name="ParentID"></param>
+            <param name="results"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.PostDirectBusiness(CTXProject.Models.DirectBusiness)">
+            <summary>
+            组织结构成员单位注册
+            </summary>
+            <param name="direct"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.GetDirectBusinessMembers(System.String,System.Data.DataSet@,System.String[],System.String[][])">
+            <summary>
+            根据直营商编号，获取直营商信息以及下属员工（含评估师）信息
+            </summary>
+            <param name="DirectCode"></param>
+            <param name="Result"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.BindDirectTubeCity(CTXProject.Models.DirectTubeCity)">
+            <summary>
+            绑定组织结构管辖的城市ID
+            </summary>
+            <param name="tube"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.RemoveDirectTubeCity(CTXProject.Models.DirectTubeCity)">
+            <summary>
+            解除绑定组织结构管辖的城市ID
+            </summary>
+            <param name="tube"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.AddAppraiser(CTXProject.Models.Appraiser)">
+            <summary>
+            添加直营商评估师
+            </summary>
+            <param name="app">评估师信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.AddEmployee(CTXProject.Models.User)">
+            <summary>
+            添加直营商员工
+            </summary>
+            <param name="us">用户信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.AddStockholder(CTXProject.Models.DirectStockholder)">
+            <summary>
+            添加直营公司股东
+            </summary>
+            <param name="bsh">直营公司股东信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.GetDirectParentRange(System.String,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            根据指定直营商编号，获取包括自身在内的所有上级直营公司，直至“车同享”总部一并列出
+            </summary>
+            <param name="DirectCode">直营商编号</param>
+            <param name="Result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.GetParentBusinessStruct(System.String,System.Collections.Generic.List{System.String}@,ServiceStack.Redis.IRedisClient)">
+            <summary>
+            根据指定组织结构查找上级所有单位
+            </summary>
+            <param name="BusinessStructID"></param>
+            <param name="Result"></param>
+            <param name="redisClient"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.GetDirectBusinessChildRange(System.String,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            获取管辖的所有下级公司的公司编号
+            </summary>
+            <param name="DirectCode">直营公司编号</param>
+            <param name="Result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.GetDirectBusinessStructChildRange(System.String,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            获取指定直营商的所有下级组织结构节点BusinessStructID
+            </summary>
+            <param name="DirectCode">直营商编号</param>
+            <param name="Result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.GetDirectBusinessWithCityID(System.String,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据城市ID，获取所管辖的直营公司的信息
+            </summary>
+            <param name="CityID"></param>
+            <param name="model">传入可回写实体</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.GetDirectBusinessWithCityID(System.String,System.Data.DataTable@,ServiceStack.Redis.IRedisClient,System.String[],System.String[][])">
+            <summary>
+            根据城市ID，获取所管辖的直营公司的信息
+            </summary>
+            <param name="CityID"></param>
+            <param name="model">传入可回写实体</param>
+            <param name="redisClient"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.GetDirectWithCityID(ServiceStack.Redis.IRedisClient,System.String,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据城市ID获取管辖的直营公司信息
+            </summary>
+            <param name="redisClient"></param>
+            <param name="CityID"></param>
+            <param name="model"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Direct.Manage.IsLastCheck(System.Int32)">
+            <summary>
+            判断指定CityID是否需要直接进入终审。返回-1表示异常，1表示直接终审，0表示需要初审
+            </summary>
+            <param name="CityID">当前城市ID</param>
+            <returns></returns>
+        </member>
+        <member name="T:Chetongxiang.redis.EvaluationReport.Manage">
+            <summary>
+            评估报告
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.EvaluationReport.Manage.PostEvaluationReport(CTXProject.Models.Evaluation_Report)">
+            <summary>
+            提交/更新评估报告
+            </summary>
+            <param name="rpt">评估报告信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.EvaluationReport.Manage.GetEvaluationReportWithCode(System.String,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据评估报告编号获取评估报告信息
+            </summary>
+            <param name="ReportCode">报告编号</param>
+            <param name="Result">可写回传报告信息</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.EvaluationReport.Manage.GetEvaluationReportWithAppraiserCode(System.String,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据评估师编号获取评估报告
+            </summary>
+            <param name="AppraiserCode">评估师编号</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页显示数量</param>
+            <param name="EventFlag">标记 0上架检测 1客户委托 2交易验车A 3交易验车B</param>
+            <param name="Results">可写回传查询结果集</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.EvaluationReport.Manage.GetEvaluationReportWithCarNo(System.String,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据车源编号获取评估报告
+            </summary>
+            <param name="CarNo">车源编号</param>
+            <param name="Results">可写回传查询结果集</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.EvaluationReport.Manage.GetEvaluationReportWithUserID(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据委托用户ID获取评估报告
+            </summary>
+            <param name="UserID">委托用户ID</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页显示数量</param>
+            <param name="Results">可写回传查询结果集</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.EvaluationReport.Manage.GetList(System.String,System.Int32,System.Int32,System.Data.DataTable@,ServiceStack.Redis.IRedisClient,System.String[],System.String[][])">
+            <summary>
+            查找指定集合数据
+            </summary>
+            <param name="KEY"></param>
+            <param name="PageNo"></param>
+            <param name="PageNum"></param>
+            <param name="Results"></param>
+            <param name="redisClient"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="T:Chetongxiang.redis.Finance.Manage">
+            <summary>
+            财务管理控制器
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.Finance.Manage.PostFinanceNeedPay(CTXProject.Models.FinanceNeedPay)">
+            <summary>
+            提交财务待支付信息，目前仅用户提现行为调用
+            </summary>
+            <param name="needpay"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Finance.Manage.GetFinanceNeedPayListWithFlag(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            获取指定状态的财务待支付数据
+            </summary>
+            <param name="NeedpayFlag">待支付状态 0待支付 255已支付 254已撤销</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页显示数量</param>
+            <param name="Results"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="F:Chetongxiang.redis.Global.RedisError">
+            <summary>
+            标记Redis服务器是否处于无法连接状态   1表示服务器正常，-1表示服务器连接失败
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.Global.GetReferenceData(CTXProject.IBasicModel,System.String[])">
+            <summary>
+            根据指定的外键关联信息，自动读取相应的数据进数据字典。最终结果生成在Model.DictionaryReferenceInfo，KEY示例：model[model.PrimaryKey].ToString()+".CityID.City.Name" 或 model[model.PrimaryKey].ToString()+".DirectCode.DirectBusiness.CompanyName"
+            </summary>
+            <param name="model"></param>
+            <param name="ReferenceInfo">外键查询配置信息数组，元素格式：当前表字段+目标表.显示字段 示例：new string[]{"CityID.City.Name","DirectCode.DirectBusiness.CompanyName"}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Global.GetTableRowInfo(System.String,System.String,CTXProject.IBasicModel@)">
+            <summary>
+            根据指定表名、主键，获取所需的数据行信息
+            </summary>
+            <param name="TableName">表名，例如User/Alliance/DirectBusiness等</param>
+            <param name="PrimaryKeyValue">表主键值</param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Global.UnionGetTableAllRows(System.String,System.String,System.Int32,System.Int32,System.Data.DataSet@,System.String[],System.String[][])">
+            <summary>
+            查询指定数据列表
+            </summary>
+            <param name="TableName">查询的表名</param>
+            <param name="PrimaryKey">主键字段名</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">返回数据集</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+        </member>
+        <member name="M:Chetongxiang.redis.Global.CreateTemp(ServiceStack.Redis.IRedisClient,System.String,System.String,System.String[][])">
+            <summary>
+            自动根据查询条件生成数据结果集
+            </summary>
+            <param name="redisClient"></param>
+            <param name="TableName"></param>
+            <param name="PrimaryKey"></param>
+            <param name="WhereKV"></param>
+            <param name="UnionConfig"></param>
+            <param name="UnionGetKeys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Global.GetTableRowCountWHERE(System.String,System.String,System.String[][])">
+            <summary>
+            获取指定表符合条件的记录数
+            </summary>
+            <param name="TableName">表名</param>
+            <param name="PrimaryKey">主键</param>
+            <param name="WhereKV">多种查询条件集合，【特别说明】查询的KEY必须在数据库中有创建索引，且不得为主键。string[][]二维数组，每一组数组彼此之间等同于or效果  【元素实例】以Order表为例：DealPrice>100000表示查找成效金额>=100000的订单， CarNo=CYH-PLT007001429表示查找指定车源编号的所有订单 , BuyerUserID=2015111921444072373B94F0C2AE04AF+OrderFlag=1表示查找指定买家ID及指定订单状态的订单，多查询条件间以+间隔</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Global.UnionGetTableList(System.String,System.String,System.String[][],System.Int32,System.Int32,System.Data.DataSet@,System.String[],System.String[][])">
+            <summary>
+            查询指定条件的数据列表
+            </summary>
+            <param name="TableName">查询的表名</param>
+            <param name="PrimaryKey">主键字段名</param>
+            <param name="WhereKV">多种查询条件集合，【特别说明】查询的KEY必须在数据库中有创建索引，且不得为主键。string[][]二维数组，每一组数组彼此之间等同于or效果  【元素实例】以Order表为例：DealPrice>100000表示查找成效金额>=100000的订单， CarNo=CYH-PLT007001429表示查找指定车源编号的所有订单 , BuyerUserID=2015111921444072373B94F0C2AE04AF+OrderFlag=1表示查找指定买家ID及指定订单状态的订单，多查询条件间以+间隔</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">返回数据集</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+        </member>
+        <member name="M:Chetongxiang.redis.Global.UnionGetTableRow(System.String,System.String,System.String,System.Data.DataSet@,System.String[],System.String[][])">
+            <summary>
+            主从表关联查询(可支持单表关联查询)  ，PS：=嵌套子表时，关联的子表字段不能是主表的主键，关联的主表字段必须是主表的主键
+            </summary>
+            <param name="TableName">主表名称</param>
+            <param name="PrimaryKey">主键名称</param>
+            <param name="PrimaryKeyValue">主键值</param>
+            <param name="Results">数据集</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Global.PostTableRowModel(CTXProject.IBasicModel)">
+            <summary>
+            新增、更新 表实体信息
+            </summary>
+            <param name="model">表实体对象，任何不需要其它任何处理，可直接写入Redis的数据均可通过该接口提交</param>
+            <returns>返回操作是否执行成功</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Global.DeleteTableRowModel(CTXProject.IBasicModel)">
+            <summary>
+            删除表实体信息（彻底删除）
+            </summary>
+            <param name="model">表实体对象，任何不需要其它任何处理，可直接写入Redis的数据均可通过该接口提交</param>
+            <returns>返回操作是否执行成功</returns>
+        </member>
+        <member name="T:Chetongxiang.redis.IndexManage">
+            <summary>
+            索引管理器，负责索引的创建、删除、修改内容等操作
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.IndexManage.CreateSearchIndex(ServiceStack.Redis.Pipeline.IRedisPipeline,CTXProject.IBasicModel,System.String[],System.String,System.Double)">
+            <summary>
+            为模型实体数据创建查询索引
+            </summary>
+            <param name="pipeline">管道对象</param>
+            <param name="model">模型实体对象</param>
+            <param name="indexs">索引数组,keys元素允许,间隔，表示组合索引</param>
+            <param name="value">存储的值，一般为数据行存储在redis的哈希表KEY</param>
+            <param name="score">排序值</param>
+        </member>
+        <member name="M:Chetongxiang.redis.IndexManage.IsNumeric(System.Object)">
+            <summary>
+            判断是否数值
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.IndexManage.UpdateSearchIndex(ServiceStack.Redis.Pipeline.IRedisPipeline,CTXProject.IBasicModel,CTXProject.IBasicModel)">
+            <summary>
+            更新模型实体数据查询索引，删除值有变化的旧索引
+            </summary>
+            <param name="pipeline">管道对象</param>
+            <param name="model">模型实体对象</param>
+            <param name="modelOld">旧的模型实体对象</param>
+        </member>
+        <member name="M:Chetongxiang.redis.IndexManage.DeleteSearchIndex(ServiceStack.Redis.Pipeline.IRedisPipeline,CTXProject.IBasicModel,System.String[])">
+            <summary>
+            删除模型实体数据查询索引
+            </summary>
+            <param name="pipeline">管道对象</param>
+            <param name="model">模型实体对象</param>
+            <param name="indexs">索引数组,keys元素允许,间隔，表示组合索引</param>
+        </member>
+        <member name="M:Chetongxiang.redis.IndexManage.CreateSortIndexWithNumberField(ServiceStack.Redis.Pipeline.IRedisPipeline,CTXProject.IBasicModel,System.String[],System.String)">
+            <summary>
+            为模型实体数据创建排序索引
+            </summary>
+            <param name="pipeline">管道对象</param>
+            <param name="model">模型实体对象</param>
+            <param name="indexs">索引数组,keys元素允许,间隔，表示组合索引。字段必须为数值</param>
+            <param name="value">存储的值，一般为数据行存储在redis的哈希表KEY</param>
+        </member>
+        <member name="M:Chetongxiang.redis.IndexManage.DeleteSortIndexWithNumberField(ServiceStack.Redis.Pipeline.IRedisPipeline,CTXProject.IBasicModel,System.String[],System.String)">
+            <summary>
+            删除模型实体数据排序索引
+            </summary>
+            <param name="pipeline">管道对象</param>
+            <param name="model">模型实体对象</param>
+            <param name="indexs">索引数组,keys元素允许,间隔，表示组合索引</param>
+            <param name="value">存储的值，一般为数据行存储在redis的哈希表KEY</param>
+        </member>
+        <member name="T:Chetongxiang.redis.JoinRequest.Manage">
+            <summary>
+            客户卖车/加盟请求
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.JoinRequest.Manage.PostJoinRequest(CTXProject.Models.JoinMessage)">
+            <summary>
+            提交/更新 加盟请求
+            </summary>
+            <param name="join">请求信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.JoinRequest.Manage.GetJoinRequestWithCode(System.String,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据编号获取请求信息
+            </summary>
+            <param name="RequestCode">编号</param>
+            <param name="Result">可写回传信息</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.JoinRequest.Manage.GetJoinRequestList(System.Int32,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            请求指定标记的列表数据
+            </summary>
+            <param name="EventFlag">请求标记 0客户卖车请求 1联盟商加盟请求</param>
+            <param name="RequestFlag">受理状态 0未处理 1已受理 2处理完成 255表示全部</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">传入可写回传列表集</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.JoinRequest.Manage.GetJoinRequestListWithAcceptUserID(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据用户请求指定标记的列表数据
+            </summary>
+            <param name="AcceptUserID">受理用户ID</param>
+            <param name="EventFlag">请求标记 0客户卖车请求 1联盟商加盟请求</param>
+            <param name="RequestFlag">受理状态 0未处理 1已受理 2处理完成 255表示全部</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">传入可写回传列表集</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.JoinRequest.Manage.GetJoinRequestListWithDirectCodeAllTubeCity(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][],System.Boolean)">
+            <summary>
+            根据直营商编号，获取指定请求标记、受理状态的列表数据
+            </summary>
+            <param name="DirectCode">直营商编号</param>
+            <param name="EventFlag">请求标记 -1全部 0客户卖车请求 1联盟商加盟请求</param>
+            <param name="RequestFlag">受理状态 -1全部 0未处理 1已受理 2处理完成 255表示全部</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">传入可写回传列表集</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.JoinRequest.Manage.GetList(System.String,System.Int32,System.Int32,System.Data.DataTable@,ServiceStack.Redis.IRedisClient,System.String[],System.String[][])">
+            <summary>
+            查找指定集合数据
+            </summary>
+            <param name="KEY"></param>
+            <param name="PageNo"></param>
+            <param name="PageNum"></param>
+            <param name="Results"></param>
+            <param name="redisClient"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Order.Manage.PostOrder(CTXProject.Models.Order,System.String)">
+            <summary>
+            新增、修改 购车订单信息
+            </summary>
+            <param name="order">客户委托评估检测订单实体对象</param>
+            <param name="UserAccountLog_ServiceCode">如果是订单交易完成的话，传递账户流水记录的编号</param>
+            <returns>返回操作是否执行成功</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Order.Manage.IsSellerGiveServiceFee(System.String,System.String,ServiceStack.Redis.IRedisClient,System.String@)">
+            <summary>
+            根据买卖双方身份类型（是否个人与联盟商交易），是的话完全由联盟商付服务费，否则买方付服务费
+            </summary>
+            <param name="BuyerUserID"></param>
+            <param name="SellerUserID"></param>
+            <param name="AlliancecodeSell">卖家所属联盟商编号</param>
+            <param name="redisClient"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Order.Manage.UserGetOrderList(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            客户根据用户ID获取订单列表
+            </summary>
+            <param name="UserID">用户ID</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">返回数据行</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns>返回记录数</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Order.Manage.CarOwnerGetOrderList(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            车主根据用户ID获取订单列表
+            </summary>
+            <param name="UserID">车主用户ID</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">返回数据行</param>        
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns>返回记录数</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Order.Manage.GetOrderInfoWithCode(System.String,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据购车交易订单号获取订单详情
+            </summary>
+            <param name="OrderCode">订单号</param>
+            <param name="Result">返回：订单信息</param>
+            <returns>正常返回1，异常返回-1，没有该编号返回0</returns>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+        </member>
+        <member name="M:Chetongxiang.redis.Order.Manage.DirectFromGetOrderList(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            车主当地直营公司获取指定订单状态的订列表
+            </summary>
+            <param name="DirectCode">车主当地直营公司编号</param>
+            <param name="OrderFlag">订单状态 -1表示全部</param>
+            <param name="RevokeFlag">撤销订单标记 -1全部 0默认 1客户申请 2通过 3不通过 11卖家申请 12通过 13不通过</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">返回数据行</param>        
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns>返回记录数</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Order.Manage.DirectTargetGetOrderList(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            买家当地直营公司获取指定订单状态订单列表（所有管辖、参与范围未完成订单）
+            </summary>
+            <param name="DirectCode">买家当地直营公司ID</param>
+            <param name="OrderFlag">订单状态 -1表示全部</param>
+            <param name="RevokeFlag">撤销订单标记  -1全部 0默认  1客户申请 2通过 3不通过 11卖家申请 12通过 13不通过</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">返回数据行</param>        
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns>返回记录数</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Order.Manage.GetList(System.String,System.Int32,System.Int32,System.Data.DataTable@,ServiceStack.Redis.IRedisClient,System.String[],System.String[][])">
+            <summary>
+            获取指定KEY集合里的数据
+            </summary>
+            <param name="KEY"></param>
+            <param name="PageNo"></param>
+            <param name="PageNum"></param>
+            <param name="Results"></param>        
+            <param name="redisClient"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Order.Manage.PostOrderPrivateTrade(CTXProject.Models.OrderPrivateTrade)">
+            <summary>
+            提交车主跳单线下交易记录（插入或更新）
+            </summary>
+            <param name="trade"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Order.Manage.GetOrderPrivateTrade(System.String,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据跳单单号获取跳单信息
+            </summary>
+            <param name="code">跳单单号</param>
+            <param name="Result"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Order.Manage.GetOrderPrivateTradeList(System.String,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            获取指定用户的所有跳单数据
+            </summary>
+            <param name="UserID">用户ID</param>
+            <param name="Results"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Order.Manage.GetNotCheckOrderPrivateTradeList(System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            获取未复核的跳单数据
+            </summary>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页显示数量</param>
+            <param name="Results"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Order.Manage.GetRevokeOrderList(System.String,System.Int32,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据车主所在地直营商编号获取请求撤单的订单数据
+            </summary>
+            <param name="DirectCode">直营商编号</param>
+            <param name="RevokeFlag">撤单请求标记 1请求撤单 2撤单审批通过 3撤单审批不通过</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页显示数量</param>
+            <param name="Results"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.GetHashKEY(CTXProject.IBasicModel)">
+            <summary>
+            根据实体模型获取哈希KEY名称
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.PostAndCreateSortedset(ServiceStack.Redis.Pipeline.IRedisPipeline,CTXProject.IBasicModel,CTXProject.IBasicModel)">
+            <summary>
+            提交指定实体模型，并自动创建索引
+            </summary>
+            <param name="pipeline">管道对象</param>
+            <param name="model">实体模型</param>
+            <param name="modelOld">旧的实体模型，表示更新数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.DeleteAndFreeSortedset(ServiceStack.Redis.Pipeline.IRedisPipeline,CTXProject.IBasicModel,CTXProject.IBasicModel)">
+            <summary>
+            删除指定实体对象，并释放索引
+            </summary>
+            <param name="pipeline">管道对象</param>
+            <param name="oldRow">旧数据行</param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.GetList(System.String,System.Int32,System.Int32,System.String[][]@,System.String[],ServiceStack.Redis.IRedisClient,System.Boolean)">
+            <summary>
+            获取集合列表
+            </summary>
+            <param name="KEY">集合KEY</param>
+            <param name="PageNo">请求页码</param>
+            <param name="PageNum">每页数据行数</param>
+            <param name="Results">返回数据，string[N][]为哈希表格式</param>
+            <param name="GetKeys">请求主表的字段名称数组，null表示全部字段</param>
+            <param name="redisClient">redis连接对象</param>
+            <param name="Desc">是否倒序</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.ReadDictionaryToModel(System.String,CTXProject.IBasicModel,ServiceStack.Redis.IRedisClient)">
+            <summary>
+            将指定KEY的哈希表数据，填充到指定的model中
+            </summary>
+            <param name="KEY">对应哈希表的KEY</param>
+            <param name="model">需要填充的目标Model</param>
+            <param name="redisClient"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.GetReferenceData(ServiceStack.Redis.IRedisClient,CTXProject.IBasicModel,System.String[])">
+            <summary>
+            根据指定的外键关联信息，自动读取相应的数据进数据字典
+            </summary>
+            <param name="redisClient"></param>
+            <param name="model"></param>
+            <param name="ReferenceInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.FillChildTable(System.String[],System.String,System.String[],System.String[][],ServiceStack.Redis.IRedisClient,System.Data.DataSet@,System.Boolean)">
+            <summary>
+            自动填充子表（UnionConfig有配置的话）
+            </summary>
+            <param name="rowMaster">主表哈希数据行</param>
+            <param name="TableName">子表名称</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <param name="redisClient"></param>
+            <param name="Root">是否Root主表在遍历子表</param>
+            <param name="Results"></param>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.FillChildTable(System.Data.DataRow,System.String,System.String[],System.String[][],ServiceStack.Redis.IRedisClient,System.Data.DataSet@,System.Boolean)">
+            <summary>
+            自动填充子表（UnionConfig有配置的话）
+            </summary>
+            <param name="rowMaster">主表哈希数据行</param>
+            <param name="TableName">子表名称</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <param name="redisClient"></param>
+            <param name="Root">是否Root主表查找子表</param>
+            <param name="Results"></param>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.FillUnionTableRow(System.String[][],System.String,System.String[],System.String[][],ServiceStack.Redis.IRedisClient,System.Data.DataTable@)">
+            <summary>
+            根据指定的关联配置，获取关联表指定字段并入当前表
+            </summary>
+            <param name="rels"></param>
+            <param name="TableName">当前表名</param>
+            <param name="UnionConfig">配置与外键表关联规则，第一个空表示主表，例如： {"", "Order:Order.CarNo-Car.CarNo" , "Order:Car.CatalogID-CarBrand.CatalogID" , "Order:Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，第一个数组表示主表的查询字段范围，同步UnionConfig配置的表顺序，例如 {{"OrderCode", "CarNo", "DealPrice"}, {"CarNo","CatalogID","UserID"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <param name="redisClient"></param>
+            <param name="Results"></param>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.GetChildTableList(System.String,System.String[],System.Boolean)">
+            <summary>
+            根据关联配置信息，找出所有子表名称
+            </summary>
+            <param name="MasterTableName">主表名称</param>
+            <param name="UnionConfig">配置与外键表关联规则，第一个空表示主表，例如： {"", "Order:Order.CarNo-Car.CarNo" , "Order:Car.CatalogID-CarBrand.CatalogID" , "Order:Order.UserID-User.UserID"}</param>
+            <param name="Root"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.GetRowInfoToArray(System.String,ServiceStack.Redis.IRedisClient,System.String[])">
+            <summary>
+            查询指定KEY的哈希表数据
+            </summary>
+            <param name="KEY"></param>
+            <param name="redisClient"></param>
+            <param name="GetKeys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.IsUqKey(CTXProject.IBasicModel,System.String)">
+            <summary>
+            判断指定字段是否唯一索引
+            </summary>
+            <param name="model"></param>
+            <param name="field"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.GetDirectBusinessChildRange(System.String,ServiceStack.Redis.IRedisClient,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            获取管辖的所有下级公司的公司编号
+            </summary>
+            <param name="DirectCode">市直营公司编号</param>
+            <param name="redisClient"></param>
+            <param name="Result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.GetDirectBusinessStructChildRange(System.String,ServiceStack.Redis.IRedisClient,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            获取指定组织结构节点的所有下属节点
+            </summary>
+            <param name="BusinessStructID">组织结构节点</param>
+            <param name="redisClient"></param>
+            <param name="Result"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.QuickRedis.GetDirectBusionessTubeCitys(System.String,ServiceStack.Redis.IRedisClient,System.Collections.Generic.List{System.String}@)">
+            <summary>
+            根据直营商编号，获取管辖的城市ID列表
+            </summary>
+            <param name="DirectCode">直营商编号</param>
+            <param name="redisClient"></param>
+            <param name="Result"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Chetongxiang.redis.RedisPoolManager.RedisPath">
+            <summary>  
+            redis服务器地址  
+            </summary>  
+        </member>
+        <member name="F:Chetongxiang.redis.RedisPoolManager.RedisPwd">
+            <summary>  
+            redis服务器地址  
+            </summary>  
+        </member>
+        <member name="F:Chetongxiang.redis.RedisPoolManager.Manager">
+            <summary>
+            Redis连接池控制器
+            </summary>
+        </member>
+        <member name="F:Chetongxiang.redis.RedisPoolManager.IsLocalServer">
+            <summary>
+            是否本地服务器
+            </summary>
+        </member>
+        <member name="P:Chetongxiang.redis.RedisPoolManager.IsInited">
+            <summary>
+            获取是否已经创建了Redis连接池控制器
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.RedisPoolManager.CreateManager(System.Int32)">
+            <summary>
+            创建Redis连接池控制器
+            </summary>
+            <param name="readWriteHosts"></param>
+            <param name="readOnlyHosts"></param>
+            <param name="initialDB"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.RedisPoolManager.GetClient(System.Int64)">
+            <summary>
+            获取一个Redis可读写链接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.RedisPoolManager.GetReadOnlyClient(System.Int64)">
+            <summary>
+            获取一个Redis只读链接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:Chetongxiang.redis.Session.SESSION_TAG">
+            <summary>
+            会话期对象Redis存储前缀
+            </summary>
+        </member>
+        <member name="F:Chetongxiang.redis.Session.SESSION_DB">
+            <summary>
+            Redis数据库标记
+            </summary>
+        </member>
+        <member name="F:Chetongxiang.redis.Session.LIFE_MINUTE">
+            <summary>
+            用户多长时间无响应自动移除
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.Session.GetOnlineCount">
+            <summary>
+            获取当前有多少人在线
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Session.Logout(System.String)">
+            <summary>
+            退出登录状态，清掉session数据
+            </summary>
+            <param name="SessionID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Session.RefreshExpire(System.String)">
+            <summary>
+            刷新指定Session的生存时间
+            </summary>
+            <param name="SessionID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Session.GetSessionAll(System.String)">
+            <summary>
+            获取指定SessionId的所有Key和Value
+            </summary>
+            <param name="SessionID"></param>
+        </member>
+        <member name="M:Chetongxiang.redis.Session.GetKeyValue(System.String,System.String)">
+            <summary>
+            获取会话期对象键值
+            </summary>
+            <param name="SessionID">Web端Session.SessionID</param>
+            <param name="Key">键</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Session.GetKeyValues(System.String,System.String[])">
+            <summary>
+            获取多个会话期对象键值
+            </summary>
+            <param name="SessionID">Web端Session.SessionID</param>
+            <param name="Key">键数组</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Session.GetAll(System.String)">
+            <summary>
+            获取所有会话期对象键值
+            </summary>
+            <param name="SessionID">Web端Session.SessionID</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Session.SetKeyValue(System.String,System.String,System.String)">
+            <summary>
+            设置会话期对象键值
+            </summary>
+            <param name="SessionID">Web端Session.SessionID</param>
+            <param name="Key">键</param>
+            <param name="Value">值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.Session.SetKeyValues(System.String,System.String[],System.String[])">
+            <summary>
+            设置会话期对象键值
+            </summary>
+            <param name="SessionID">Web端Session.SessionID</param>
+            <param name="Keys">键数组</param>
+            <param name="Values">值数组</param>
+            <returns></returns>
+        </member>
+        <member name="T:Chetongxiang.redis.TestOrder.Manage">
+            <summary>
+            客户委托评估检测订单管理
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.TestOrder.Manage.PostOrder(CTXProject.Models.AppraiserOrder)">
+            <summary>
+            新增、修改 客户委托评估检测订单信息
+            </summary>
+            <param name="order">客户委托评估检测订单实体对象</param>
+            <returns>返回操作是否执行成功</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.TestOrder.Manage.GetTestOrderInfoWithCode(System.String,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            根据委托评估订单号获取订单详情
+            </summary>
+            <param name="TestOrderCode">订单号</param>
+            <param name="Results">返回：订单信息</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns>正常返回1，异常返回-1，没有该编号返回0</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.TestOrder.Manage.UserGetOrderList(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            客户根据用户ID获取订单列表
+            </summary>
+            <param name="UserID">用户ID</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">返回数据行</param>
+            <param name="GetKeys">获取主表的字段列表</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns>返回记录数</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.TestOrder.Manage.AppraiserGetOrderList(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.String[],System.String[][])">
+            <summary>
+            评估师根据评估ID获取订单列表
+            </summary>
+            <param name="AppraiserCode">评估师ID</param>
+            <param name="PageNo">页码</param>
+            <param name="PageNum">每页数量</param>
+            <param name="Results">返回数据行</param>
+            <param name="GetKeys">获取主表的字段列表</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns>返回记录数</returns>
+        </member>
+        <member name="M:Chetongxiang.redis.TestOrder.Manage.GetList(System.String,System.Data.DataTable@,System.Int32,System.Int32,ServiceStack.Redis.IRedisClient,System.String[],System.String[][])">
+            <summary>
+            获取指定KEY集合里的数据
+            </summary>
+            <param name="KEY"></param>
+            <param name="PageNo"></param>
+            <param name="PageNum"></param>
+            <param name="Results"></param>
+            <param name="redisClient"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="T:Chetongxiang.redis.TestReport.Manage">
+            <summary>
+            检测报告管理控制台，提供创建、查询等功能
+            </summary>
+        </member>
+        <member name="M:Chetongxiang.redis.TestReport.Manage.WriteTestReport(CTXProject.Models.Test_Report)">
+            <summary>
+            填写检测报告
+            </summary>
+            <param name="report">检测报告主体</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.TestReport.Manage.WriteTestReport(CTXProject.Models.Test_Report,ServiceStack.Redis.Pipeline.IRedisPipeline)">
+            <summary>
+            写入检测报告
+            </summary>
+            <param name="report"></param>
+            <param name="pipeline"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.TestReport.Manage.GetTestReportWithCode(System.String,System.Data.DataSet@,System.String[],System.String[][])">
+            <summary>
+            根据检测报告编号获取检测报告信息
+            </summary>
+            <param name="TestReportCode"></param>
+            <param name="Results">数据集，主表、子表、刮擦表均在其中</param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.TestReport.Manage.GetTestReportsWithAppraiserID(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.Int32,System.String[],System.String[][])">
+            <summary>
+            根据评估师ID获取检测报告列表
+            </summary>
+            <param name="AppraiserCode">评估师编号</param>
+            <param name="PageNo">请求页码</param>
+            <param name="PageNum">每页数据行数</param>
+            <param name="Results">返回数据，string[N][]为哈希表格式</param>
+            <param name="GetKeys">请求主表的字段名称数组</param>
+            <param name="EventFlag">默认值255全部数据, 0上架检测 1客户委托 2交易验车A 3交易验车B </param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.TestReport.Manage.GetTestReportsWithUserID(System.String,System.Int32,System.Int32,System.Data.DataTable@,System.Int32,System.String[],System.String[][])">
+            <summary>
+            根据用户ID获取检测报告列表
+            </summary>
+            <param name="UserID">用户ID</param>
+            <param name="PageNo">请求页码</param>
+            <param name="PageNum">每页数据行数</param>
+            <param name="Results">返回数据</param>
+            <param name="GetKeys">请求主表的字段名称数组</param>
+            <param name="EventFlag">默认值255全部数据, 0上架检测 1客户委托 2交易验车A 3交易验车B </param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.TestReport.Manage.GetTestReportsWithCarID(System.String,System.Data.DataTable@,System.Int32,System.String[],System.String[][])">
+            <summary>
+            根据车源编号获取检测报告列表
+            </summary>
+            <param name="CarNo">车源编号</param>
+            <param name="Results">返回数据</param>
+            <param name="GetKeys">请求主表的字段名称数组</param>
+            <param name="EventFlag">默认值255全部数据, 0上架检测 1客户委托 2交易验车A 3交易验车B </param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+        <member name="M:Chetongxiang.redis.TestReport.Manage.GetList(System.String,System.Int32,System.Int32,System.Data.DataTable@,ServiceStack.Redis.IRedisClient,System.String[],System.String[][])">
+            <summary>
+            获取指定KEY集合里的数据
+            </summary>
+            <param name="KEY"></param>
+            <param name="PageNo"></param>
+            <param name="PageNum"></param>
+            <param name="Results"></param>
+            <param name="redisClient"></param>
+            <param name="UnionConfig">配置与外键表关联规则，例如： {"Order.CarNo-Car.CarNo" , "Car.CatalogID-CarBrand.CatalogID" , "Order.UserID-User.UserID"}</param>
+            <param name="UnionGetKeys">查询的字段列表，同步UnionConfig配置的表顺序，例如 {{"CarNo","Price"} , {"BrandName", "FactoryPrice"} , {"Account", "UserName"}}</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

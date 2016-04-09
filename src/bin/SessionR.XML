@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SessionR</name>
+    </assembly>
+    <members>
+        <member name="M:SessionR.DebugLog.Log(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            记录异常日志
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="message"></param>
+            <param name="filename"></param>
+            <param name="checkRedisServer">是否需要检测Redis服务器是否崩溃无法连接</param>
+        </member>
+        <member name="F:SessionR.RedisPoolManager.DB_SESSION">
+            <summary>
+            会话期数据库标记
+            </summary>
+        </member>
+        <member name="F:SessionR.RedisPoolManager.RedisPath">
+            <summary>  
+            redis服务器地址  
+            </summary>  
+        </member>
+        <member name="F:SessionR.RedisPoolManager.RedisPwd">
+            <summary>  
+            redis服务器地址  
+            </summary>  
+        </member>
+        <member name="F:SessionR.RedisPoolManager.Manager">
+            <summary>
+            Redis连接池控制器
+            </summary>
+        </member>
+        <member name="F:SessionR.RedisPoolManager.IsLocalServer">
+            <summary>
+            是否本地服务器
+            </summary>
+        </member>
+        <member name="P:SessionR.RedisPoolManager.IsInited">
+            <summary>
+            获取是否已经创建了Redis连接池控制器
+            </summary>
+        </member>
+        <member name="M:SessionR.RedisPoolManager.CreateManager(System.Int32)">
+            <summary>
+            创建Redis连接池控制器
+            </summary>
+            <param name="readWriteHosts"></param>
+            <param name="readOnlyHosts"></param>
+            <param name="initialDB"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SessionR.RedisPoolManager.GetClient">
+            <summary>
+            获取一个Redis可读写链接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SessionR.RedisPoolManager.GetReadOnlyClient">
+            <summary>
+            获取一个Redis只读链接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:SessionR.SessionRedis.SESSION_TAG">
+            <summary>
+            会话期对象Redis存储前缀
+            </summary>
+        </member>
+        <member name="M:SessionR.SessionRedis.GetOnlineCount">
+            <summary>
+            获取当前有多少人在线
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SessionR.SessionRedis.GetKeyValue(System.String,System.String)">
+            <summary>
+            获取会话期对象键值
+            </summary>
+            <param name="SessionID">Web端Session.SessionID</param>
+            <param name="Key">键</param>
+            <returns></returns>
+        </member>
+        <member name="M:SessionR.SessionRedis.GetKeyValues(System.String,System.String[])">
+            <summary>
+            获取多个会话期对象键值
+            </summary>
+            <param name="SessionID">Web端Session.SessionID</param>
+            <param name="Key">键数组</param>
+            <returns></returns>
+        </member>
+        <member name="M:SessionR.SessionRedis.GetAll(System.String)">
+            <summary>
+            获取所有会话期对象键值
+            </summary>
+            <param name="SessionID">Web端Session.SessionID</param>
+            <returns></returns>
+        </member>
+        <member name="M:SessionR.SessionRedis.SetKeyValue(System.String,System.String,System.String)">
+            <summary>
+            设置会话期对象键值
+            </summary>
+            <param name="SessionID">Web端Session.SessionID</param>
+            <param name="Key">键</param>
+            <param name="Value">值</param>
+            <returns></returns>
+        </member>
+        <member name="M:SessionR.SessionRedis.SetKeyValues(System.String,System.String[],System.String[])">
+            <summary>
+            设置会话期对象键值
+            </summary>
+            <param name="SessionID">Web端Session.SessionID</param>
+            <param name="Keys">键数组</param>
+            <param name="Values">值数组</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

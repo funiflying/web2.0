@@ -1,0 +1,329 @@
+﻿@import url(Common.css); 
+/*****  *****/
+.MessageTitle
+{
+	height:23px;
+	border:solid 1px #C5D7E4;
+	margin: 2px 3px 2px 3px;
+	padding: 3px;
+	background-color:#E9EFF3;
+	color: #000;
+	font-weight: bold;
+	font-size: 15px;
+	line-height:23px;
+}
+.MessageContent
+{
+	border:solid 1px #C5D7E4;
+	margin: 2px 3px 2px 3px;
+	padding: 0px;
+	color: #000;
+	font-size: 14px;
+}
+
+/***** *****/
+.RightMain
+{
+	width: 100%;
+	padding: 0px;
+	margin: 2px;
+}
+
+/******  *****/
+.Title
+{
+	height:22px;
+	border:solid 1px #f0f0f0;
+	/*	border:solid 1px #E9EFF3;*/
+	margin: 2px 3px 2px 3px;
+	padding: 2px;
+	background-color:#f9f9f9;
+	/*background:url(../../Images/NewMessage_01.gif);*/
+	color: #000;
+	font-weight: bold;
+	font-size: 13px;
+	line-height:22px;
+	text-align:left;
+}
+/******  *****/
+.DataList
+{
+	margin: 3px 3px 2px 3px;
+}
+.DataListTitle
+{
+	background: url(../../Images/MemberCenter/DataListTitleBg.gif) repeat-x;
+
+}
+
+.DataTableStyle
+{
+	/*background-color:#E9EFF3;*/
+	/*background-color:#E9EFF3;*/
+	border-collapse:collapse;
+	border:solid 1px #f0f0f0;
+}
+
+.DataTableStyle td
+{
+	/*background-color:#E9EFF3;*/
+	/*background-color:#E9EFF3;*/
+	border:solid 1px #EFEFEF;
+	padding: 4px;
+}
+.DataTableStyle th
+{
+	/*background-color:#E9EFF3;*/
+	/*background-color:#E9EFF3;*/
+	border:solid 1px #DBDBDB;
+	padding: 0px;
+	height:25px;
+	line-height:25px;
+}
+.DataTableStyle A:link {COLOR: #333333; TEXT-DECORATION: none}
+.DataTableStyle A:visited {COLOR: #333333; TEXT-DECORATION: none}
+.DataTableStyle A:active {COLOR: #333333; TEXT-DECORATION: underline}
+.DataTableStyle A:hover {COLOR: #333333; TEXT-DECORATION: underline
+}
+
+.RowStyle
+{
+	background-color:#FFFFFF;
+	text-align: left;
+}
+.AlternatingRowStyle
+{
+	background-color:#FDFDFD;
+	text-align: left;
+}
+
+.RowMouseOverStyle
+{
+	background-color:#F5FAFC;
+	text-align: left;
+}
+
+.HeaderStyle
+{
+	background: url(../../Images/MemberCenter/DataListTitleBg.gif) repeat-x;
+	height:18px;
+	background-color:#F7F7F7;	
+	padding:0px;
+	color: #333333;
+	/*border:solid 1px #CCCCCC;*/
+}
+/*****  *****/
+.AddData
+{
+	margin:1px;
+}
+
+.AddData .border {
+	border:1px solid #449AE8;
+}
+
+.AddData .tdbg {
+	background:#F3F3F3 none repeat scroll 0%;
+	line-height:120%;
+	text-align:left;
+}
+
+
+.AddData .tdbgLeft {
+	background:#E0EEF5 none repeat scroll 0%;
+	line-height:120%;
+	text-align:right;
+	padding-right:5px;
+}
+.AddData .tdbgRight {
+	text-align:left;
+	padding-left:5px;
+}
+.AddData input
+{
+	border-left: 1px solid #878787;
+	border-top: 1px solid #878787;
+	border-bottom: 1px solid #878787;
+	border-right: 1px solid #878787;
+}
+/******  *****/
+.AspPagerNext
+{
+	border:solid 1px #f0f0f0;
+	margin: 2px 3px 2px 3px;
+	padding: 3px;
+	color: #000;
+	font-size: 14px;
+	line-height:23px;
+}
+.AspPagerNext_Button
+{
+	border: solid 1px #648BB2;
+	margin: 2px 3px 2px 3px;
+	padding: 0px;
+	color:#326395;
+	font-size: 14px;
+	background-color:#FFFFFF;
+	cursor: hand;
+	width: 30px;
+	height:20px;
+}
+/******  *****/
+.Operate
+{
+	border:solid 1px #f0f0f0;
+	margin: 3px 3px 2px 3px;
+	padding: 2px;
+	color: #000;
+	font-size: 13px;
+	line-height:27px;
+	height:27px;
+}
+.Operate .SelectAll {
+	cursor: hand;
+	margin: 2px 5px 2px 5px;
+	padding: 0px;
+	width:35px;
+	height:25px;
+	line-height:25px;
+	border: solid 1px #648BB2;
+	float:left;
+	clear:none;
+	color:#326395;
+	background-color:#FFFFFF;
+}
+.Operate .DeleteSelect
+{
+	cursor: hand;
+	margin: 2px 5px 2px 5px;
+	padding: 0px;
+	width:130px;
+	height:25px;
+	line-height:25px;
+	border: solid 1px #648BB2;
+	float:left;
+	clear:none;
+	color:#326395;
+	background-color:#FFFFFF;
+}
+
+.Operate .AboutIcon
+{
+	margin: 2px 5px 2px 5px;
+	padding: 3px 0px 0px 0px;
+	width:290px;
+	height:22px;
+	line-height:22px;
+	/*border: solid 1px #648BB2;*/
+	float:right;
+	clear:none;
+	color:#326395;
+	background-color:#FFFFFF;
+	vertical-align:middle;
+	text-align:center;
+}
+/******  *****/
+.DoResult
+{
+	width: 780px;
+	padding: 0px;
+	margin: 0px;
+}
+.DoResult_Title
+{
+	height:23px;
+	border:solid 1px #C5D7E4;
+	margin: 2px 3px 2px 3px;
+	padding: 3px;
+	background-color:#E9EFF3;
+	color: #000;
+	font-weight: bold;
+	font-size: 15px;
+	line-height:23px;
+}
+
+.DoResult_Content
+{
+	border:solid 1px #C5D7E4;
+	margin: 2px 3px 2px 3px;
+	padding: 3px;
+	background-color:#F7F6F3;
+	color: #000;
+	font-size: 15px;
+	height: 200px;
+}
+.DoResult_Content_01
+{
+	border:solid 1px #C5D7E4;
+	margin: 30px 100px 2px 100px;
+	padding: 5px;
+	background-color:#F7F6F3;
+	color: #000;
+	font-size: 15px;
+	height: 100px;
+	text-align:center;
+}
+.DoResult_Content_02
+{
+	border:solid 1px #C5D7E4;
+	margin: 30px 100px 2px 100px;
+	padding: 5px;
+	background-color:#F7F6F3;
+	color: #000;
+	font-size: 15px;
+	font-weight:bold;
+	height: 35px;
+	line-height:35px;
+	text-align:center;
+}
+
+.GoBackDiv
+{
+	width: 100px;
+	height:25px;
+	line-height:25px;
+	background-color:#F7F6F3;
+	color:#000;
+	border: solid 1px #F8D063;
+	margin:auto;
+	padding:0px;
+	cursor: hand;
+}
+/**********   **********/
+.Button
+{
+	height: 22px;
+	width: 46px;
+	border: solid 1px #87A3C1;
+	background: url(../../images/Button_bg_01.gif);
+	background-color: #DEF1FF;
+	color: #07519a;
+
+	font-size: 12px;
+	clear:none;
+	float:left;
+	margin:2px 4px 2px 4px;
+}
+.RedFont {color: #FF0000}
+/***** GlobalCss_Start *****/
+body {
+	margin:0px;
+	padding:0px;
+	font-size: 12px; 
+	font-family: 宋体
+}
+
+div, form, img, ul, ol, li, dl, dt, dd {
+    border-style: none;
+    border-color: inherit;
+    border-width: 0pt;
+    margin: 0pt;
+    padding: 0pt;
+    text-align: left;
+}
+h1, h2, h3, h4, h5, h6 {
+	margin:0pt;
+	padding:0pt;
+    text-align: center;
+}
+/***** GlobalCss_End *****/

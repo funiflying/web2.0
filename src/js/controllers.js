@@ -13,12 +13,13 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             ResourceService.getFunServer('login',$scope.account,'post').then(function(data){
                 if(data.status){
                     AuthService.Login(data.data);
+                    $rootScope.USER=data.data;
                     if(dialog){
                         //弹出层登录
                         $scope.cancel();
                     }
                     else{
-                        $rootScope.state.go('home.main');
+                        $rootScope.state.go('home.account');
                     }
                     //记住用户名
                     if($scope.remember){
@@ -34,19 +35,20 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                         msg:data.message
                     }
                 }
+
             })
         }
     };
     //退出
     $scope.loginOff=function(){
-        ResourceService.getFunServer('loginout',{}).then(function(data){
+        ResourceService.getFunServer('loginout',{},'post').then(function(data){
             AuthService.LoginOut();
             if(data.status==1){
                 AuthService.LoginOut();
             }
 
         });
-    }
+    };
     //接受短信验证码
     $scope.fetchTradekeyCode=function(){
         var params={
@@ -57,7 +59,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             $scope.phoneEditor.error='您输入的手机号已当前手机号码一致';
         }
         else{
-            ResourceService.getFunServer('SendPhoneValCode',params).then(function(data){
+            ResourceService.SendPhoneValCode(params).success(function(data){
                 if(data.status==1){
                     $scope.timmer();
                     $scope.phoneEditor.errorType='text-info';
@@ -68,10 +70,10 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
 
     };
     //回车提交
-    $scope.submitKey=function(e){
+    $scope.submitKey=function(e,dialog){
         var keyCode=window.event? e.keyCode: e.which;
         if(keyCode==13){
-            $scope.login();
+           $scope.login(dialog);
         }
     }
 }]).controller('RegisterController',['$rootScope','$scope','$cookieStore','$filter','ResourceService','AuthService',function($rootScope,$scope,$cookieStore,$filter,ResourceService,AuthService){
@@ -87,12 +89,14 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         if($scope.time==0){
             $scope.time=60;
             $scope.sent=false;
+            angular.element('.password-code-btn').removeAttr('disabled');
+            angular.element('.phoneCountDown').text('');
         }
         else
         {
             $scope.time--;
             $scope.sent=true;
-            angular.element('.phoneCountDown').text($scope.time)
+            angular.element('.phoneCountDown').text($scope.time+'s');
             setTimeout($scope.timmer,1000);
         }
     };
@@ -101,7 +105,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             phoneNum:$scope.Contact
         };
         if($scope.Contact&&!$scope.exist){
-            ResourceService.getFunServer('SendPhoneValCode',params).then(function(data){
+            ResourceService.SendPhoneValCode(params).success(function(data){
                 if(data.status==1){
                     $scope.timmer();
                     $scope.alert= {
@@ -122,7 +126,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             phoneNum:$scope.Contact
         };
         if($scope.Contact&&$scope.exist){
-            ResourceService.getFunServer('SendPhoneValCode',params).then(function(data){
+            ResourceService.SendPhoneValCode(params).success(function(data){
                 if(data.status==1){
                     $scope.timmer();
                     $scope.alert= {
@@ -198,7 +202,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             };
             ResourceService.getFunServer('register',params).then(function(data){
                 if(data.status==1){
-                     $rootScope.state.go('success',{TAG:'REGISTER'})
+                    $rootScope.state.go('success',{TAG:'REGISTER'})
                 }else{
                     $scope.alert= {
                         type: 'alert-danger',
@@ -237,10 +241,10 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     }
 }]).controller('SuccessController',['$rootScope','$scope','$sce',function($rootScope,$scope,$sce){
     $scope.QS=$rootScope.stateParams.TAG;
-    $scope.time=6;
+    $scope.time=3;
     $scope.timmer=function(){
-        if($scope.time==0) {
-            $scope.time = 6;
+        if($scope.time==0&&$rootScope.state.current.url.indexOf('/success')>-1) {
+            $scope.time = 3;
             if ($scope.QS == 'REGISTER' || $scope.QS == 'RESETPWD') {
                 $rootScope.state.go('login');
             }
@@ -253,21 +257,30 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             else if ($scope.QS == 'ORDER') {
                 $rootScope.state.go('home.buyorder', {OUID: 0});
             }
+            else if ($scope.QS == 'DETECTION') {
+                window.close();
+            }
+            else if ($scope.QS == 'ASSESS') {
+                $rootScope.state.go('home.entrust');
+            }
         }
         else
         {
             $scope.time--;
-            angular.element('.timer').text($scope.time)
+            angular.element('.timer').text($scope.time);
             setTimeout($scope.timmer,1000);
         }
-
     };
 
 }]).controller('CarController',['$rootScope','$scope','$filter','ResourceService','CarService',function($rootScope,$scope,$filter,ResourceService,CarService){
     $scope.car={
         WholesalePrice:0,
         Mileage:0,
-        TransferNo:0
+        TransferNo:0,
+        UseType:1,
+        OwnerType:1,
+        WomenCar:0
+
     };
     $scope.CarNo=$rootScope.stateParams.CarNo;
     $scope.list=[];
@@ -278,17 +291,20 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         var params={
             BrandID:angular.element('#newbrandid').val()
         };
-        ResourceService.getFunServer('Series',params).then(function(data){
-            if(data.status==1){
-                $scope.series=data.data;
-            }
-            else{
-                $scope.series=[];
-            }
-        })
+        if(params.BrandID){
+            ResourceService.getFunServer('Series',params).then(function(data){
+                if(data.status==1){
+                    $scope.series=data.data;
+                }
+                else{
+                    $scope.series=[];
+                }
+            })
+        }
     };
     //读取型号
     $scope.getArctics=function(){
+        $scope.spec=null;
         var params={
             brandid:angular.element('#newbrandid').val(),
             seriesid:$scope.car.Series
@@ -302,42 +318,214 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             }
         })
     };
+    $scope.SpecNameChange=function(){
+        $scope.SpecName=$scope.spec.SpecName;
+        var params={
+            brand:angular.element('#newbrandid').val(),
+            catalogid:$scope.spec.CatalogID
+        };
+        ResourceService.getFunServer('carconfig',params).then(function(data){
+               if(data.status==1){
+                   $scope.config=data.data;
+                   $scope.DischargeStandardDetail=data.data.DischargeStandardDetail
+               }
+        })
+
+    };
     //读图片路径
     function getPicPath(){
         var cover=$('#car-cover').find('.file-preview-frame').attr('data-path');
         var pics=angular.element('#car-pics').find('.file-preview-frame');
-        $scope.car.HomePicID=cover;
-        $scope.car.CarPic_Car_CarNo=[];
+        var chejiahao=$('#chejiahao-pics').find('.file-preview-frame').attr('data-path');
+        var arr={
+            HomePicID:cover,
+            FrameNumberPic:chejiahao,
+            CarPic_Car_CarNo:[]
+        };
         $.each(pics,function(index,obj){
             var o=new Object();
             o.PicAddr=$(obj).attr('data-path');
-            $scope.car.CarPic_Car_CarNo.push(o);
+            o.SerialNO=index+1;
+            arr.CarPic_Car_CarNo.push(o);
         });
-        if(!$scope.car.HomePicID||!$scope.car.CarPic_Car_CarNo.length>0){
-          $rootScope.toast('请上传车辆图片');
+        if(!cover||!chejiahao){
+            if(!cover){
+                $scope.alert={
+                    type:'alert-warning',
+                    msg:'请上传车辆封面图'
+                }
+
+            }
+            else if(!chejiahao){
+                $scope.alert={
+                    type:'alert-warning',
+                    msg:'请上传车架号图片'
+                }
+            }
            return false;
         }
-        return true;
+        return arr;
     }
+    //不确定车型
+    $scope.$watch('spec',function(newValue){
+        if(angular.element('#nospac')[0]){
+            angular.element('#nospac')[0].checked=false;
+        }
+
+    });
+    $scope.getCarConf=function(catalogid){
+        var params={
+            catalogid:catalogid
+        };
+        ResourceService.getFunServer('carconfig',params).then(function(data){
+            if(data.status==1){
+
+            }
+        })
+    };
+    $scope.Discharges=[{
+        value:'1',
+        detail:'国II'
+    },{
+        value:'2',
+        detail:'国III'
+    },{
+        value:'3',
+        detail:'国IV'
+    },{
+        value:'3',
+        detail:'国IV(国V)'
+    },{
+        value:'3',
+        detail:'国IV/京V'
+    },{
+        value:'3',
+        detail:'国IV(国V)+OBD'
+    },{
+        value:'4',
+        detail:'国V+OBD'
+    },{
+        value:'1',
+        detail:'欧II'
+    },{
+        value:'2',
+        detail:'欧III'
+    },{
+        value:'2',
+        detail:'欧III+OBD'
+    },{
+        value:'3',
+        detail:'欧IV'
+    },{
+        value:'3',
+        detail:'欧IV+OBD'
+    },{
+        value:'4',
+        detail:'欧V'
+    },{
+        value:'4',
+        detail:'欧V+OBD'
+    },{
+        value:'4',
+        detail:'欧VI'
+    }];
     //发布车源
+    $scope.Price=0.00;
+    $scope.WholesalePrice=0.00;
+    $scope.$watch('Price',function(newValue){
+         if(newValue&&newValue.toString().indexOf('.')>-1){
+             newValue=newValue.toString();
+             $scope.Price=newValue.substring(0,newValue.indexOf('.')+3);
+         }
+    });
+    $scope.$watch('WholesalePrice',function(newValue){
+        if(newValue&&newValue.toString().indexOf('.')>-1){
+            newValue=newValue.toString();
+            $scope.WholesalePrice=newValue.substring(0,newValue.indexOf('.')+3);
+        }
+    });
+
+    $scope.isExistFrameNumber=function(){
+      var params={
+          FrameNumber:$scope.car.FrameNumber
+      };
+        if(params.FrameNumber&&params.FrameNumber.length==17){
+            ResourceService.getFunServer('ExsitFrame',params,'get').then(function(data){
+                  if(data.status==1){
+                      $('.FrameNumber i').removeClass(' glyphicon-exclamation-sign ').addClass('glyphicon  glyphicon-ok-sign').text('车架号可用')
+                  }else{
+                      $('.FrameNumber i').removeClass(' glyphicon-ok-sign ').addClass('glyphicon glyphicon-exclamation-sign ').text('车架号不可用')
+                  }
+            })
+        }else{
+            $('.FrameNumber i').removeClass('glyphicon glyphicon-exclamation-sign glyphicon-ok-sign').text(' ')
+        }
+    };
     $scope.issuecar=function(){
         if($scope.carissue.$valid){
             $scope.car.CatalogID=$scope.spec.CatalogID;
-            $scope.car.SpecName=$scope.spec.SpecName;
+            $scope.car.SpecName=$scope.SpecName;
             $scope.car.Color=$scope.Color;
+            $scope.car.Price=parseFloat($scope.Price)*10000;
+            $scope.car.WholesalePrice=parseFloat($scope.WholesalePrice)*10000;
+            $scope.car.OutputVolumeDetail=$scope.config.OutputVolumeDetail;
+            $scope.car.GearBox=$scope.config.GearBox;
+            angular.forEach($scope.Discharges,function(obj,index){
+                if(obj.detail==$scope.DischargeStandardDetail){
+                    $scope.car.DischargeStandard=obj.value;
+                    return;
+                }
+            });
+            $scope.car.DischargeStandardDetail=$scope.DischargeStandardDetail;
+            if(!$scope.car.Color){
+                $scope.alert={
+                    type:'alert-warning',
+                    msg:'请选择车辆颜色'
+                };
+                return;
+            }
+            if($scope.car.FrameNumber.length!=17){
+                $scope.alert={
+                    type:'alert-warning',
+                    msg:'车架号长度必须为17位'
+                };
+                return false;
+            }
+
             var pic= getPicPath();
             if(!pic){
                 return;
             }
-           $scope.car.RegisterPlace=$('#city').attr('city');
+            $scope.car.CarPic_Car_CarNo=pic.CarPic_Car_CarNo;
+            $scope.car.HomePicID=pic.HomePicID;
+            $scope.car.FrameNumberPic=pic.FrameNumberPic;
+
+            var city=angular.element('#city').val();
+            if(city.indexOf('-')==city.lastIndexOf('-')){
+                city= city.substring(city.indexOf('-')+1,city.length);
+            }else{
+                city=city.substring(city.indexOf('-')+1,city.lastIndexOf('-'))
+            }
+            $scope.car.RegisterPlace=city;
+            $scope.car.CityID=angular.element('#city').attr('city');
             CarService.release($scope.car).success(function(data){
                 if(data.status==1){
                     $rootScope.state.go('success',{TAG:'ISSUE'})
                 }else{
-                    $rootScope.toast(data.message);
+                    $scope.alert={
+                        type:'alert-danger',
+                        msg:data.message
+                    }
                 }
             })
         }
+    };
+    $scope.getCount=function(){
+        ResourceService.getFunServer('carcount',{}).then(function(data){
+            if(data.status==1){
+                $scope.count=data.data
+            }
+        })
     };
     //读取车源
     $scope.getList=function(status){
@@ -357,7 +545,8 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                     $scope.pageTotal=data.data.total;
                 }
                 else {
-
+                    $scope.list=[];
+					$scope.pageTotal=0;
                 }
 
             });
@@ -367,17 +556,20 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             ResourceService.getFunServer('cargather',params,'post').then(function(data){
                 if(data.status==1){
                     $scope.list=data.data.rows;
-                    $rootScope.pageTotal=data.data.total;
+                    $scope.pageTotal=data.data.total;
                 }
                 else {
-
+                    $scope.list=[];
+					$scope.pageTotal=0;
                 }
 
             })
         }
+        $scope.getCount();
     };
    //分页切换
     $scope.changePager=function(){
+        window.scrollTo(0,0);
         $scope.getList();
     };
     //车源下架
@@ -411,7 +603,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     $scope.republish=function(CarNo){
         var params={
             CarNo:CarNo
-        }
+        };
         ResourceService.getFunServer('republish',params,'post').then(function(data){
             if(data.status==1){
                 $rootScope.state.go('success',{TAG:'ISSUE'})
@@ -421,12 +613,42 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             }
         })
     };
+    
+    $scope.confirmCarDialog=function(car){
+        $scope.confirmcarinfo=car;
+        $rootScope.dialog('./admin/confirmcar.html','CarController',$scope,null);
+    };
+    
+    //联盟商确认车源
+    $scope.confirmCarBtn=function(CarNo){
+        var params={
+            CarNo:CarNo
+        };
+        CarService.ConfirmPublishCar(params).then(function(data){
+            if(data.data.status==1){
+                $scope.alert={
+                    msg:'确认车源成功',
+                    type:'alert-success'
+               };
+                setTimeout(function(){
+                    $scope.cancel();
+                    window.location.reload()
+                },1500);
+            }
+            else{
+                $scope.alert={
+                    msg:data.data.message||'确认车源失败',
+                    type:'alert-danger'
+                };
+            }
+        })
+    };
     //车辆详情
     $scope.carInfo=function(){
       var params={
           CarNo:$scope.CarNo
       };
-      ResourceService.getFunServer('GetCar',params).then(function(data){
+      ResourceService.getFunServer('GetCardata',params).then(function(data){
           if(data.status==1){
               var val=data.data;
               var o=new Object();
@@ -435,7 +657,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                   switch (name){
                       case 'Car':
                           var  o= val[i].value[0];
-                          o.Mileage=parseInt(o.Mileage);
+                          o.Mileage=parseFloat(o.Mileage);
                           o.TransferNo=parseInt(o.TransferNo);
                           o.Price=parseFloat(o.Price);
                           o.WholesalePrice=parseFloat(o.WholesalePrice);
@@ -453,14 +675,22 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                           o.Registration=o.Registration.toString().toLowerCase()=='true'?true:false;
                           o.PurchaseInvoices=o.PurchaseInvoices.toString().toLowerCase()=='true'?true:false;
                           o.IncludeTransferFee=o.IncludeTransferFee.toString().toLowerCase()=='true'?true:false;
+                          o.UnknowSpec=o.UnknowSpec.toString().toLowerCase()=='true'?true:false;
                           o.CarPic_Car_CarNo=[];
                           $scope.car=o;
+                          $scope.Price=parseFloat($scope.car.Price/10000);
+                          $scope.WholesalePrice=parseFloat($scope.car.WholesalePrice/10000);
                           $scope.spec={
                               CatalogID:$scope.car.CatalogID,
                               SpecName:$scope.car.SpecName
                           };
+                          $scope.OutputVolumeDetail= $scope.car.OutputVolumeDetail;
+                          $scope.DischargeStandard=$scope.car.DischargeStandardDetail;
+                          $scope.GearBox=$scope.car.GearBox;
                           $scope.Color=$scope.car.Color;
                           preview($scope.car.HomePicID,'#car-cover');
+                          preview($scope.car.FrameNumberPic,'#chejiahao-pics');
+
                           break;
                       case 'CarPic':
                           $scope.CarPic=val[i].value;
@@ -471,7 +701,6 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                          });
                           break;
                       default:
-                        //  obj=val[i].value[0];
                           break;
                   }
               }
@@ -481,7 +710,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     };
    //图片占位符
     function preview(src,element,id) {
-        var holdplace =$( '<div class="file-preview-frame col-md-3" id="'+file.id+'"  data-path="'+src+'">' +
+        var holdplace =$( '<div class="file-preview-frame col-md-3" id="'+id+'"  data-path="'+src+'">' +
             '<img style="width:200px;height:160px;"  class="file-preview-image" src="'+src+'" >' +
             '<div class="file-thumbnail-footer">' +
             '<div class="file-actions">' +
@@ -489,30 +718,12 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             '<button title="删除" class="kv-file-remove btn btn-xs btn-default pull-right" type="button">   <i class="glyphicon glyphicon-trash text-danger"></i>'+
             '</button> ' +
             '</div></div></div></div>');
-        $(element).find('.file-drop-zone-title').hide();
-        $(element).find('.file-preview-thumbnails').append(holdplace);
-        if(id==""||id==undefined){
-            holdplace.find('.kv-file-remove').remove();
-            holdplace.parents('.file-input').find('.input-group ').remove();
-        }
-        //删除
-        var rm=$(element).find('.kv-file-upload');
-        rm.bind('click',function(e){
-            var params={
-                CarPicID:this.value
-            };
-            ResourceService.getFunServer('deletecarimg',params,'post').then(function(data){
-                if(data.status==1){
-                    $(e.target).parents('.file-preview-frame').remove();
-                    var length=$(element).find('.file-preview-frame').length;
-                    if(length==0){
-                        $(element).find('.file-drop-zone-title').show();
-                    }
-                }
-            });
-
-
-        });
+            $(element).find('.file-drop-zone-title').hide();
+            $(element).find('.file-preview-thumbnails').append(holdplace);
+           /* if(id==""||id==undefined){
+                holdplace.find('.kv-file-remove').remove();
+                holdplace.parents('.file-input').find('.input-group ').remove();
+            }*/
         return holdplace
     }
    //车源号查找
@@ -525,7 +736,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
            var params={
                CarNo:$scope.CarNo
            };
-           ResourceService.getFunServer('GetCar',params).then(function(data){
+           ResourceService.getFunServer('GetCardata',params).then(function(data){
                if(data.status==1){
                    var val=data.data;
                    for(var i=0;i<val.length;i++){
@@ -553,14 +764,47 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
    //修改车源
     $scope.editcar=function(){
         if($scope.carissue.$valid){
-            $scope.car.CatalogID=$scope.spec.CatalogID||$scope.car.CatalogID;
-            $scope.car.SpecName=$scope.spec.SpecName||$scope.car.SpecName;
+            $scope.car.CatalogID=$scope.spec.CatalogID;
+            $scope.car.SpecName=$scope.SpecName;
             $scope.car.Color=$scope.Color;
+            $scope.car.Price=parseFloat($scope.Price)*10000;
+            $scope.car.WholesalePrice=parseFloat($scope.WholesalePrice)*10000;
+            angular.forEach($scope.Discharges,function(obj,index){
+                if(obj.detail==$scope.car.DischargeStandardDetail){
+                    $scope.car.DischargeStandard=obj.value;
+                    return;
+                }
+            });
+            if(!$scope.car.Color){
+                $scope.alert={
+                    type:'alert-warning',
+                    msg:'请选择车辆图片'
+                }
+                return;
+            }
+            if($scope.car.FrameNumber.length!=17){
+                $scope.alert={
+                    type:'alert-warning',
+                    msg:'车架号长度必须为17位'
+                };
+                return false;
+            }
             var pic= getPicPath();
             if(!pic){
                 return;
             }
-            $scope.car.RegisterPlace=$('#city').attr('city');
+            $scope.car.CarPic_Car_CarNo=pic.CarPic_Car_CarNo;
+            $scope.car.HomePicID=pic.HomePicID;
+            $scope.car.FrameNumberPic=pic.FrameNumberPic;
+
+            var city=angular.element('#city').val();
+            if(city.indexOf('-')==city.lastIndexOf('-')){
+                city= city.substring(city.indexOf('-')+1,city.length);
+            }else{
+                city=city.substring(city.indexOf('-')+1,city.lastIndexOf('-'))
+            }
+            $scope.car.RegisterPlace=city;
+            $scope.car.CityID=angular.element('#city').attr('city');
             CarService.edit($scope.car).success(function(data){
                 if(data.status==1){
                     $rootScope.state.go('success',{TAG:'ISSUEDIT'});
@@ -569,6 +813,193 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                 }
             })
         }
+    };
+    //急售
+    //指导价
+    $scope.FactoryPrice=0;
+    $scope.GuidePirce=0;
+    $scope.$watch('guide',function(newValue){
+        if(newValue&&newValue.CatalogID&&newValue.Buyyear&&newValue.Mileage){
+            ResourceService.getFunServer('guideprice',$scope.guide).then(function(data){
+                 if(data.status==1){
+                     $scope.FactoryPrice=data.data.FactoryPrice;
+                     $scope.GuidePirce=data.data.GuidePirce;
+                 }
+            })
+        }
+    },true);
+    //急售发布
+    $scope.issueurgent=function(){
+       $scope.car.Color=$scope.Color;
+       $scope.car.CatalogID=$scope.guide.CatalogID;
+        $scope.car.SeriesID=$scope.car.Series;
+       $scope.car.Buyyear=$scope.guide.Buyyear;
+       $scope.car.Mileage=$scope.guide.Mileage;
+       $scope.car.Price=parseFloat($scope.Price*10000);
+       $scope.car.HomePicURL=$('#car-cover').find('.file-preview-frame').attr('data-path');
+       if(!$scope.car.Color){
+           $scope.alert={
+               type:'alert-warning',
+               msg:'请选择车辆颜色'
+           }
+           return false;
+       }
+        if(!$scope.car.HomePicURL){
+            $scope.alert={
+                type:'alert-warning',
+                msg:'请上传车辆图片'
+            }
+            return false;
+        }
+        var city=angular.element('#city').val();
+        if(city.indexOf('-')==city.lastIndexOf('-')){
+            city= city.substring(city.indexOf('-')+1,city.length);
+        }else{
+            city=city.substring(city.indexOf('-')+1,city.lastIndexOf('-'))
+        }
+        $scope.car.CityName=city;
+        $scope.car.CityID=angular.element('#city').attr('city');
+        if(!$scope.car.CityName||!$scope.car.CityID){
+            $scope.alert={
+                type:'alert-warning',
+                msg:'请选择车辆所在城市'
+            };
+            return false;
+        }
+        if($scope.car.Price>parseFloat($scope.GuidePirce) *0.8){
+            $scope.alert={
+                type:'alert-warning',
+                msg:'您的急售价不符合急售条件'
+            };
+            return false;
+        }
+        var params = {
+            phonenum: $scope.car.OwnerPhone,
+            code: $scope.Code
+        };
+        ResourceService.getFunServer('validcode',params).then(function(data){
+            if(data.status==1){
+                ResourceService.getFunServer('worry',$scope.car).then(function(d){
+                    if(d.status==1){
+                        $scope.alert={
+                            type:'alert-success',
+                            msg:'发布成功'
+                        };
+                        setTimeout(function(){
+                            window.location.href='urgent.html'
+                        },1500)
+                    }
+                    else{
+                        $scope.alert={
+                            type:'alert-danger',
+                            msg: d.message
+                        };
+                    }
+                })
+            }else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:'您的验证码错误'
+                };
+                return false;
+            }
+        })
+
+    }
+    //接受短信验证码
+    //计时
+    $scope.time=60;
+    $scope.timmer=function(){
+        if($scope.time==0){
+            $scope.time=60;
+            $scope.sent=false;
+            angular.element('.password-code-btn').removeAttr('disabled');
+            angular.element('.phoneCountDown').text('');
+        }
+        else
+        {
+            $scope.time--;
+            $scope.sent=true;
+            angular.element('.phoneCountDown').text($scope.time+'s');
+            setTimeout($scope.timmer,1000);
+        }
+    };
+    $scope.fetchkeyCode=function(){
+        var params={
+            phoneNum:$scope.car.OwnerPhone
+        };
+        if($scope.car.OwnerPhone){
+            ResourceService.SendPhoneValCode(params).success(function(data){
+                if(data.status==1){
+                    $scope.timmer();
+                    $scope.alert= {
+                        type: 'alert-info',
+                        msg: '验证码已发送至您' + $filter('ClipPhone')($scope.car.OwnerPhone) + '的手机，请注意查收'
+                    }
+                }else{
+                    $scope.alert= {
+                        type: 'alert-danger',
+                        msg: data.message
+                    }
+                }
+            })
+        }
+    };
+    //线下交易
+    $scope.issueoffline=function(){
+        $scope.car.Color=$scope.Color;
+        $scope.car.CatalogID=$scope.spec&&$scope.spec.CatalogID;
+        $scope.car.SpecName=$scope.spec&&$scope.spec.SpecName;
+        $scope.car.SeriesID=$scope.car.Series;
+        $scope.car.TradeMoney=parseFloat($scope.Price*10000);
+        $scope.car.HomePicID=$('#car-cover').find('.file-preview-frame').attr('data-path');
+        if(!$scope.car.Color){
+            $scope.alert={
+                type:'alert-warning',
+                msg:'请选择车辆颜色'
+            }
+            return false;
+        }
+        if(!$scope.car.HomePicID){
+            $scope.alert={
+                type:'alert-warning',
+                msg:'请上传车辆图片'
+            };
+            return false;
+        }
+        var city=angular.element('#city').val();
+        if(city.indexOf('-')==city.lastIndexOf('-')){
+            city= city.substring(city.indexOf('-')+1,city.length);
+        }else{
+            city=city.substring(city.indexOf('-')+1,city.lastIndexOf('-'))
+        }
+        $scope.car.CityName=city;
+        $scope.car.CityID=angular.element('#city').attr('city');
+        if(!$scope.car.CityName||!$scope.car.CityID){
+            $scope.alert={
+                type:'alert-warning',
+                msg:'请选择车辆所在城市'
+            };
+            return false;
+        }
+        ResourceService.getFunServer('issueoffline',$scope.car).then(function(d){
+            if(d.status==1){
+                $scope.alert={
+                    type:'alert-success',
+                    msg:'发布成功,正为您转向检测报告'
+                };
+                setTimeout(function(){
+                    $rootScope.state.go('detection',{Event:3,CarNo: d.data});
+                },1500)
+            }
+            else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg: d.message
+                };
+            }
+        })
+
     }
 }]).controller('OrderController', ['$rootScope','$scope','$filter','ResourceService','CarService', function ($rootScope,$scope,$filter,ResourceService,CarService) {
     $scope.pageTotal=0;
@@ -591,7 +1022,8 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                     $scope.pageTotal=parseInt(data.total) ;
                 }
                 else {
-
+                    $scope.list=[];
+                    $scope.pageTotal=0;
                 }
 
             });
@@ -604,7 +1036,8 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                     $scope.pageTotal=parseInt(data.total);
                 }
                 else {
-
+                    $scope.list=[];
+                    $scope.pageTotal=0;
                 }
 
             })
@@ -618,11 +1051,10 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         ResourceService.getFunServer('order',params).then(function(data){
             if(data.status==1){
                 $scope.order=data.data.rows[0];
-                var date= new Date((new Date($scope.order.OrderTime)/1000+(86400*2))*1000)
+                var date= new Date((new Date($scope.order.OrderTime.replace(/-/gi,'/'))/1000+(86400*2))*1000);
                 $scope.payTime=date.Format('yyyy年MM月dd日');
             }
         })
-
     };
     //订单号查询
     $scope.search=function(){
@@ -701,6 +1133,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         ResourceService.getFunServer('discount',params).then(function(data){
             if(data.status==1){
                 $scope.discountlist=data.data;
+
             }
         })
     };
@@ -816,14 +1249,14 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     //修改成交价
     $scope.price=function(){
         var params={
-            orderCode: $scope.calcel_order.OrderCode,
-            dealPrice: $scope.DealPrice
+            OrderCode: $scope.calcel_order.OrderCode,
+            DealPrice: $scope.OrderPrice
         };
         ResourceService.getFunServer('amount',params).then(function(data){
             if(data.status==1){
                 $scope.alert={
                     type:'alert-success',
-                    msg:'修改成功'
+                    msg:'确认成功'
                 };
                 setTimeout(function(){
                     $scope.cancel();
@@ -910,7 +1343,6 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                     msg:'评价成功'
                 };
                 setTimeout(function(){
-                    $scope.cancel();
                     window.location.reload();
                 },1500)
             }
@@ -922,6 +1354,10 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             }
         })
     };
+    $scope.changePager=function(){
+        window.scrollTo(0,0);
+        $scope.getList();
+    }
 }]). controller('AccountController', ['$rootScope','$scope','ResourceService','$filter',function ($rootScope,$scope,ResourceService,$filter) {
     $scope.profile={};
     $scope.passwdChangeEditor={editing:false,error:'',errorType:'bind-red'};
@@ -936,12 +1372,19 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                $scope.profile=data.data;
                $scope.hasBank=!!$scope.profile.RegisterBankCode;
                $scope.showBank=!$scope.hasBank;
+               $scope.profilte_bussiness={
+                   User:$scope.profile
+               }
            }
-       })
-       if($rootScope.USER.IdentityTag==3){
+       });
+       if($rootScope.USER&&$rootScope.USER.IdentityTag==3){
            ResourceService.getFunServer('alliance',{}).then(function(data){
                if(data.status==1){
                    $scope.Business=data.data[0];
+                   $scope.profilte_bussiness={
+                       User:$scope.profile,
+                       Business:$scope.Business
+                   }
                }
            });
        }
@@ -1003,8 +1446,8 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                    if(data.status==1){
                        $scope.tradePasswdEditor.errorType='text-success';
                        $scope.tradePasswdEditor.error='交易密码设置成功';
+                       $scope.tradePasswdEditor.TradePwd='******';
                    }else{
-
                        $scope.tradePasswdEditor.error=data.message;
                    }
                })
@@ -1110,7 +1553,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             }
             var params={
                 UserID:$scope.profile.UserID,
-                CityID:angular.element('#city').attr('city'),
+                CityID:angular.element('#city2').attr('city'),
                 CityName:city,
                 Address:$scope.profile.Address
             };
@@ -1131,12 +1574,14 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             if($scope.phoneEditor.time==0){
                 $scope.phoneEditor.time=60;
                 $scope.phoneEditor.sent=false;
+                angular.element('.get-phonecode-btn').removeAttr('disabled');
+                angular.element('.phoneCountDown').text('');
             }
             else
             {
                 $scope.phoneEditor.time--;
                 $scope.phoneEditor.sent=true;
-                angular.element('.phoneCountDown').text($scope.phoneEditor.time)
+                angular.element('.phoneCountDown').text($scope.phoneEditor.time+'s');
                 setTimeout($scope.timmer,1000);
             }
 
@@ -1151,7 +1596,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             $scope.phoneEditor.error='您输入的手机号已当前手机号码一致';
         }
         else{
-            ResourceService.getFunServer('SendPhoneValCode',params).then(function(data){
+            ResourceService.SendPhoneValCode(params).success(function(data){
                 if(data.status==1){
                     $scope.timmer();
                     $scope.phoneEditor.errorType='text-info';
@@ -1219,6 +1664,12 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     };
     $scope.band=function(){
         $scope.profile.RegisterBank=$scope.bank;
+        var params={
+            UserID:$scope.profile.UserID,
+            RegisterBank:$scope.bank,
+            UserName:$scope.profile.UserName,
+            RegisterBankCode:$scope.profile.RegisterBankCode
+        };
         if($scope.profile.RegisterBank==null||$scope.profile.RegisterBank==undefined||$scope.profile.RegisterBank==''){
             $scope.alert={
                 type:'alert-danger',
@@ -1226,15 +1677,15 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             };
             return false;
         }
-        ResourceService.getFunServer('updateUser',$scope.profile).then(function(data){
+        ResourceService.getFunServer('updateUser',params).then(function(data){
               if(data.status==1){
                   $scope.alert={
                       type:'alert-success',
                       msg:'银行卡绑定成功'
-                  }
+                  };
                   setTimeout(function(){
                       window.location.reload();
-                  },2000)
+                  },1500)
               }else{
                   $scope.alert={
                       type:'alert-danger',
@@ -1246,8 +1697,12 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     //提现
     $scope.withdraw=function(){
         if($scope.depositForm.$valid){
-            $scope.Business?$scope.deposit.BusinessFlag=1:$scope.deposit.BusinessFlag=0;
-            if(!parseInt($scope.deposit.PayMoney)>0){
+            $rootScope.USER&&$rootScope.USER.IdentityTag==3?$scope.deposit.BusinessFlag=1:$scope.deposit.BusinessFlag=0;
+            if(!parseFloat($scope.deposit.PayMoney)>0){
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:'您输入的提现金额有误。'
+                };
                 return;
             }
             ResourceService.getFunServer('withdraw',$scope.deposit,'post').then(function(data){
@@ -1258,7 +1713,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                     };
                     setTimeout(function(){
                         window.location.reload();
-                    },2000)
+                    },1500)
                 } else{
                     $scope.alert={
                         type:'alert-danger',
@@ -1275,7 +1730,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         Business:null
     };
     $scope.getProfile=function(){
-        if($rootScope.USER.IdentityTag==0){
+        if($rootScope.USER&&$rootScope.USER.IdentityTag==0){
             ResourceService.getFunServer('user',{}).then(function(data){
                 if(data.status==1){
                     $scope.profile.User=data.data;
@@ -1384,8 +1839,8 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     };
     //读图片路径
     function getPicPath(){
-        var cover=$('#OrganizationCode').find('.file-preview-frame').attr('data-path')||'';
-        var pics=angular.element('#BusinessLicenseNo').find('.file-preview-frame').attr('data-path')||'';
+        var cover=$('#OrganizationCode').find('.file-preview-frame').attr('data-path')||'noimg';
+        var pics=angular.element('#BusinessLicenseNo').find('.file-preview-frame').attr('data-path')||'noimg';
         $scope.company.OrganizationPicAddr=cover;
         $scope.company.BusinessLicenseAddr=pics;
         return true;
@@ -1398,7 +1853,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     //编辑成员
     $scope.edit=function(){
         if($scope.employeeForm.$valid){
-            ResourceService.getFunServer('updateUser',$scope.employee).then(function(data){
+            ResourceService.getFunServer('updateAllianceUser',$scope.employee).then(function(data){
                 if(data.status==1){
                     $scope.alert={
                         type:'alert-success',
@@ -1425,8 +1880,8 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
           AllianceCode:$scope.employee.AllianceCode,
           User_Alliance_AllianceCode:[{UserID:$scope.employee.UserID}]
       };
-      ResourceService.getFunServer('deletemployee',params).then(function(data){
-          if(data.status==1){
+      ResourceService.deletemployee(params).then(function(data){
+          if(data.data.status==1){
               $scope.alert={
                   type:'alert-success',
                   msg:'删除成功'
@@ -1437,7 +1892,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
           }else{
               $scope.alert={
                   type:'alert-danger',
-                  msg:data.message
+                  msg:data.data.message
               };
           }
       })
@@ -1538,7 +1993,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     };
     $scope.cancelOrder=function(){
         var params={
-            AppraiserOrderCode:$scope.calcel_order.AppraiserOrderCode
+            AppraiseOrderCode:$scope.calcel_order.AppraiseOrderCode,
         };
         ResourceService.getFunServer('UserRevoke',params).then(function(data){
             if(data.status==1){
@@ -1555,15 +2010,57 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                     msg:data.message
                 };
             }
-
-
         })
 
-
-    }
+    };
     //翻页
     $scope.changePager=function(){
+        window.scrollTo(0,0);
         $scope.getList();
+    };
+    //订单详情
+    $scope.getOrder=function(){
+        var params={
+            OrderCode:$rootScope.stateParams.OrderCode
+        };
+        ResourceService.getFunServer('preassess',params).then(function(data){
+            var d=data.data;
+            for(var i=0;i< d.length;i++){
+                var name=d[i].name;
+                switch (name){
+                    case  'AppraiserOrder':
+                        $scope.order= d[i].value[0];
+                        break;
+                    case  'Car':
+                        $scope.Car= d[i].value[0];
+                        break;
+                }
+            }
+        })
+    };
+    //评价
+    $scope.evaluate=function(){
+        var params={
+            AppraiseOrderCode:$rootScope.stateParams.OrderCode,
+            AppraiserGiveScore:$scope.AppraiserGiveScore||1,
+            AppraiserFeedback:$scope.AppraiserFeedback
+        };
+        ResourceService.getFunServer('AppraiserFeedBack',params).then(function(data){
+            if(data.status==1){
+                $scope.alert={
+                    type:'alert-success',
+                    msg:'评价成功'
+                };
+                setTimeout(function(){
+                    $rootScope.state.go('home.entrustorder');
+                },1500)
+            }else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:data.message
+                }
+            }
+        })
     }
 }]).controller('PayController',['$rootScope','$scope','PayService',function($rootScope,$scope,PayService){
     $scope.OrderCode=$rootScope.stateParams.OrderCode;
@@ -1892,9 +2389,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         );
     };
     $scope.checkpay=function(){
-      $rootScope.dialog('./admin/payconfirm.html','PayController',$scope,function(){
-          window.location.reload();
-      })
+      $rootScope.dialog('./admin/payconfirm.html','PayController',$scope)
     };
     $scope.obstacle=function(){
         window.location.reload();
@@ -1911,7 +2406,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         Business:null
     };
     $scope.getProfile=function(){
-        if($rootScope.USER.IdentityTag==0){
+        if($rootScope.USER&&$rootScope.USER.IdentityTag==0){
             ResourceService.getFunServer('user',{}).then(function(data){
                 if(data.status==1){
                     $scope.profile.User=data.data;
@@ -1939,7 +2434,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         if($rootScope.USER&&$rootScope.USER.AppraiserCode)
         {
             var params={
-                AppraiserCode:$rootScope.USER.AppraiserCode
+                AppraiserCode:$rootScope.USER&&$rootScope.USER.AppraiserCode
             };
             ResourceService.getFunServer('appraiser',params).then(function (data){
                 if(data.status==1){
@@ -2078,10 +2573,21 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         ResourceService.getFunServer('AppraiserGetOrderList',params,'post').then(function(data){
             if(data.status==1){
                 var entity=data.data;
-                $scope.orderlist=entity[1].value.rows;
-                $scope.car=entity[0].value.rows;
+                for(var i=0;i< entity.length;i++){
+                    var name=entity[i].name;
+                    switch (name){
+                        case  'AppraiserOrder':
+                            $scope.orderlist= entity[i].value.rows;
+                            $scope.pageTotal=entity[i].value.total;
+                            break;
+                        case  'Car':
+                            $scope.car= entity[i].value.rows;
+                            break;
+
+                    }
+                }
                 $scope.list=$filter('EntrustOrder')($scope.orderlist,$scope.car);
-                $scope.pageTotal=parseInt($scope.list.length) ;
+
             }
             else {
                 $scope.list=[];
@@ -2090,15 +2596,95 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
 
         });
     };
+    //接单
+    $scope.acceptDialog=function(obj){
+        $scope.accept_order=obj;
+        $rootScope.dialog('./admin/acceptentrust.html','EntrustController',$scope);
+    };
+    $scope.accept=function(){
+        var params={
+            AppraiseOrderCode:$scope.accept_order.AppraiseOrderCode,
+            AppraiserFee:$scope.accept_order.AppraiserFee
+        };
+        ResourceService.getFunServer('AppraiserAccept',params).then(function(data){
+            if(data.status==1){
+                $scope.alert={
+                    type:'alert-success',
+                    msg:'操作成功'
+                };
+                setTimeout(function(){
+                    window.location.reload();
+                },1500)
+            }
+            else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:data.message
+                }
+            }
+        })
+    };
     //翻页
     $scope.changePager=function(){
+        window.scrollTo(0,0);
         $scope.getList();
     };
+    //订单详情
+    $scope.getOrder=function(){
+        var params={
+            OrderCode:$rootScope.stateParams.OrderCode
+        };
+        ResourceService.getFunServer('preassess',params).then(function(data){
+            var d=data.data;
+            for(var i=0;i< d.length;i++){
+                var name=d[i].name;
+                switch (name){
+                    case  'AppraiserOrder':
+                        $scope.order= d[i].value[0];
+                        break;
+                    case  'Car':
+                        $scope.Car= d[i].value[0];
+                        break;
+                }
+            }
+        })
+    };
+    //评价
+    $scope.evaluate=function(){
+        var params={
+            AppraiseOrderCode:$rootScope.stateParams.OrderCode,
+            UserGiveScore:$scope.UserGiveScore||1,
+            UserFeedback:$scope.UserFeedback
+        };
+        ResourceService.getFunServer('UserFeedBack',params).then(function(data){
+            if(data.status==1){
+                $scope.alert={
+                    type:'alert-success',
+                    msg:'评价成功'
+                };
+                setTimeout(function(){
+                    $rootScope.state.go('home.entrust');
+                },1500)
+            }else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:data.message
+                }
+            }
+        })
+    }
 }]).controller('DetectionController',['$rootScope','$scope','ResourceService','$filter','CarService',function ($rootScope,$scope,ResourceService,$filter,CarService){
     var CarNo=$rootScope.stateParams.CarNo;
     var EventFlag=$rootScope.stateParams.Event||0;////委托检测  检测+评估 1,交易车辆卖方检测 2,交易车辆买方检测 3,线下检测 4 默认检测    只检测不做评估 0;
     var TestCode=$rootScope.stateParams.Code;
+    var OrderCode=$rootScope.stateParams.OrderCode;
     $scope.dateTimeNow=new Date();
+    $scope.Test_ReportPic={
+        CarPic:[],
+        ProcudPic:[],
+        FlawPic:[],
+        ProofPic:[]
+    };
     $scope.report={
         CarNo: CarNo,
         CarRate: "95",
@@ -2111,14 +2697,103 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         DeviceCheckMemo: "经检测，安全系统正常、电子设备正常、发动机舱正常！",
         OtheMemo:"",
         Test_ReportCarSurfaceCase_Test_Report_TestReportCode:[],
-        Test_ReportDetail_Test_Report_TestReportCode:[]
+        Test_ReportDetail_Test_Report_TestReportCode:[],
+        Test_ReportPic_Test_Report_TestReportCode:[]
     };
+    $scope.car={
+        WholesalePrice:0,
+        Mileage:0,
+        TransferNo:0,
+        UseType:1,
+        OwnerType:1,
+        WomenCar:0
+    };
+
+    //读取车系
+    $scope.getSeries=function(){
+        var params={
+            BrandID:$scope.car.BrandID
+        };
+        if(params.BrandID){
+            ResourceService.getFunServer('Series',params).then(function(data){
+                if(data.status==1){
+                    $scope.series=data.data;
+                }
+                else{
+                    $scope.series=[];
+                }
+            })
+        }
+    };
+    //读取型号
+    $scope.getArctics=function(){
+        $scope.spec=null;
+        var params={
+            brandid:$scope.car.BrandID,
+            seriesid:$scope.car.SeriesID
+        };
+        ResourceService.getFunServer('SpecName',params).then(function(data){
+            if(data.status==1){
+                $scope.arctics=data.data
+            }
+            else {
+                $scope.arctics=[];
+            }
+        })
+    };
+
+    $scope.Discharges=[{
+        value:'1',
+        detail:'国II'
+    },{
+        value:'2',
+        detail:'国III'
+    },{
+        value:'3',
+        detail:'国IV'
+    },{
+        value:'3',
+        detail:'国IV(国V)'
+    },{
+        value:'3',
+        detail:'国IV/京V'
+    },{
+        value:'3',
+        detail:'国IV(国V)+OBD'
+    },{
+        value:'4',
+        detail:'国V+OBD'
+    },{
+        value:'1',
+        detail:'欧II'
+    },{
+        value:'2',
+        detail:'欧III'
+    },{
+        value:'2',
+        detail:'欧III+OBD'
+    },{
+        value:'3',
+        detail:'欧IV'
+    },{
+        value:'3',
+        detail:'欧IV+OBD'
+    },{
+        value:'4',
+        detail:'欧V'
+    },{
+        value:'4',
+        detail:'欧V+OBD'
+    },{
+        value:'4',
+        detail:'欧VI'
+    }];
     //车辆详情
     $scope.carInfo=function(){
         var params={
             CarNo:CarNo
         };
-        ResourceService.getFunServer('GetCar',params).then(function(data){
+        ResourceService.getFunServer('GetCardata',params).then(function(data){
             if(data.status==1){
                 var val=data.data;
                 var o=new Object();
@@ -2151,25 +2826,26 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                                 CatalogID:$scope.car.CatalogID,
                                 SpecName:$scope.car.SpecName
                             };
+                            $scope.DischargeStandard=$scope.car.DischargeStandardDetail;
                             $scope.Color=$scope.car.Color;
-                           // preview($scope.car.HomePicID,'#car-cover');
                             break;
                         case 'CarPic':
                             $scope.CarPic=val[i].value;
-                            angular.forEach($scope.CarPic,function(obj,index){
-                                if(index>0){
-                                  //  preview(obj.PicAddr,'#car-pics',obj.CarPicID);
-                                }
-                            });
+
                             break;
                         default:
-                            //  obj=val[i].value[0];
+
                             break;
                     }
                 }
+                $scope.getSeries();
                 return $scope.car;
             }
         });
+    };
+    //修改品牌
+    $scope.editabled=function(){
+        $scope.isEdit=!$scope.isEdit;
     };
     //提交检测报告
     $scope.detect=function(){
@@ -2178,11 +2854,11 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         var AI=angular.element('#AI li');
         var GC=angular.element('#GC_PZ .e_guacha');
         var PZ=angular.element('#GC_PZ .e_pengzhuang');
-        var Device=angular.element('#Device i.glyphicon');
+        var Device=angular.element('#Device li');
+        var Engine=angular.element('#Engine i.glyphicon-exclamation-sign');
         var A=-1,B=-1,C=-1,D=-1;
         var Test_ReportDetail_Test_Report_TestReportCode=[];
         var Test_ReportCarSurfaceCase_Test_Report_TestReportCode=[];
-
         angular.forEach(Accident,function(obj,index){
            var id=$(obj).attr('id');
            var value=$(obj).attr('value');
@@ -2254,47 +2930,161 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             B=0;
         });
         angular.forEach(Device,function(obj,index){
-            var id=$(obj).attr('id');
-            var value=parseInt($(obj).attr('value'),10);
-            if(value!=2){
+            var btn=$(obj).find('.moreitem-btn a');
+            var btn_value=parseFloat(btn.attr('data-value'));
+            var id=btn.attr('data-name');
+            var dot=$(obj).find('i.glyphicon');
+            if(btn_value==-1){
                 var o={};
                 o.AbnormalColumn=id;
-                o.Flag=value;
-                if(value==1){
-                    o.Description='缺陷';
-                }
-                else if(value==0){
-                    o.Description='无';
-                }
+                o.Flag=0;
+                o.Description='无';
                 Test_ReportDetail_Test_Report_TestReportCode.push(o);
             }
+           if(btn_value==0){
+               if(dot.length>1){
+                   angular.forEach(dot,function(d,index){
+                       var value=parseInt($(d).attr('value'),10);
+                       if(value==1){
+                           var o={};
+                           o.AbnormalColumn=id;
+                           o.Flag=1;
+                           o.Description='缺陷';
+                           o.DeviceType=$(d).attr('data-name');
+                           Test_ReportDetail_Test_Report_TestReportCode.push(o);
+                       }
+                   })
+               }else{
+                   var value=parseInt(dot.attr('value'),10);
+                   if(value==1){
+                       var o={};
+                       o.AbnormalColumn=id;
+                       o.Flag=1;
+                       o.Description='缺陷';
+                       o.DeviceType=$(d).attr('data-name');
+                       Test_ReportDetail_Test_Report_TestReportCode.push(o);
+                   }
+               }
+           }else{
+
+                   var o={};
+                   o.AbnormalColumn=id;
+                   o.Flag=dot.attr('value');
+                   o.Description=btn.text();
+                   o.DeviceType=btn_value;
+                   Test_ReportDetail_Test_Report_TestReportCode.push(o);
+           }
+        });
+        angular.forEach(Engine,function(obj,index){
+            var id=$(obj).attr('id');
+            var value=$(obj).attr('value');
+            var o={};
+            o.AbnormalColumn=id;
+            o.Flag=value;
+            o.Description='缺陷';
+            Test_ReportDetail_Test_Report_TestReportCode.push(o);
+
         });
         $scope.report.Test_ReportDetail_Test_Report_TestReportCode=Test_ReportDetail_Test_Report_TestReportCode;
         $scope.report.Test_ReportCarSurfaceCase_Test_Report_TestReportCode=Test_ReportCarSurfaceCase_Test_Report_TestReportCode;
-
+        var CarRate='';
         if(A==0&&B==-1&&C==-1&&D==-1){
-            $scope.report.CarRate=$scope.report.CarRate+"A";
+            CarRate="A";
         }
         if(B==0&&C==-1&&D==-1){
-            $scope.report.CarRate=$scope.report.CarRate+"B";
+            CarRate="B";
         }
         if(C==0&&D==-1){
-            $scope.report.CarRate=$scope.report.CarRate+"C";
+           CarRate="C";
         }
         if(D==0){
-            $scope.report.CarRate=$scope.report.CarRate+"D";
+            CarRate="D";
         }
         if(A==-1&&B==-1&&C==-1&&D==-1){
-            $scope.report.CarRate=$scope.report.CarRate+"A";
+            CarRate="A";
         }
-        CarService.WriteTestReport($scope.report).success(function(data){
+        $scope.report.CarRate=$scope.report.CarRate+CarRate;
+        $scope.report.Test_ReportPic_Test_Report_TestReportCode=getPic();
+        if(!$scope.report.Test_ReportPic_Test_Report_TestReportCode){
+            return false;
+        }
+        var params={
+            AppraiseOrderCode:OrderCode,
+            TestReportCode:$scope.report
+        };
+        if(EventFlag==1){
+            CarService.detection(params).success(function(data){
+                if(data.status==1){
 
+                    $scope.addCar(data.data,EventFlag);
+                }else{
+                    $scope.alert={
+                        type:'alert-danger',
+                        msg:data.message
+                    };
+                }
+            })
+        }
+        else{
+            CarService.WriteTestReport($scope.report).success(function(data){
+                if(data.status==1){
+                    $scope.addCar(data.data,EventFlag);
+                }
+                else{
+                    $scope.alert={
+                        type:'alert-danger',
+                        msg:data.message
+                    };
+                }
+            })
+        }
+    };
+    $scope.addCar= function (reportCode,event) {
+           if(!reportCode){
+               return ;
+           }
+            $scope.car.TestReportCode=reportCode;
+            $scope.car.CatalogID=$scope.spec.CatalogID;
+            $scope.car.SpecName=$scope.spec.SpecName;
+            angular.forEach($scope.Discharges,function(obj,index){
+                if(obj.detail==$scope.DischargeStandard){
+                    $scope.car.DischargeStandard=obj.value;
+                    return;
+                }
+            });
+            $scope.car.DischargeStandardDetail=$scope.DischargeStandard;
+            CarService.addCarInfo($scope.car).success(function(data){
+                if(data.status==1){
+                    if(event==1){
+                        $scope.alert={
+                            type:'alert-success',
+                            msg:'检测报告发布成功，为您转到评估报告......'
+                        };
+                        setTimeout(function(){
+                            $rootScope.state.go('assess',{'OrderCode':OrderCode})
+                        },1500)
+                    }else{
+                        $scope.alert={
+                            type:'alert-success',
+                            msg:'检测报告发布成功'
+                        };
+                        setTimeout(function(){
+                            window.location.href='/admin.html#/home/cargather';
+                        },1500)
 
-        })
+                    }
+                }else{
+                    $scope.alert={
+                        type:'alert-danger',
+                        msg:data.message
+                    };
+                }
+            })
 
-
-
-
+    };
+    //排序
+    var sortByFlag=function(a,b){
+       return Number(a.SerialNO)< Number(b.SerialNO);
     };
     //获取检测报告
     $scope.getReport=function(){
@@ -2316,6 +3106,12 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                         case "Test_ReportCarSurfaceCase":
                             $scope.report.SurfaceCase = d[i].value;
                             break;
+                        case "Test_ReportPic":
+                            $scope.report.Test_ReportPic = d[i].value;
+                            break;
+                        case "Test_ReportCarInfo":
+                            $scope.report.Car = d[i].value[0];
+                            break;
                         default:
                             break;
                     }
@@ -2323,48 +3119,390 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                 $scope.score={
                      'background-image':'url("../images/detection/'+$scope.report.CarRate+'.png")'
                 };
-               angular.forEach($scope.report.ReportDetail,function(obj,index){
-                   if(obj.Flag==1&&obj.Param1==null){
-                       angular.element('#'+obj.AbnormalColumn).removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
-                       angular.element('.detect-accident-'+obj.AbnormalColumn).addClass('active')
-                   }
-                   if(obj.Flag==1&&obj.Param1==1){
-                        //修复
-                       angular.element('#'+obj.AbnormalColumn).addClass('carAIblue_'+obj.AbnormalColumn)
-                   }
-                   if(obj.Flag==1&&obj.Param1==2){
-                       //更换
-                       angular.element('#'+obj.AbnormalColumn).addClass('carAIGH_'+obj.AbnormalColumn)
-                   }
-                   if(obj.Flag==1&&obj.Param1==3){
-                       //修复
-                       angular.element('#'+obj.AbnormalColumn).addClass('carAISC_'+obj.AbnormalColumn)
-                   }
-                   if(obj.Flag==0){
-                       angular.element('#'+obj.AbnormalColumn).removeClass('glyphicon-ok-sign').text('无')
-                   }
+                viewReport();
+            }
+       })
+    };
+    //获取图片
+    var getPic=function(){
+        var allpics=angular.element('#uploaderbar').find('.gallery-file-preview-frame');
+        var carpictures=angular.element('#carpictures').find('.gallery-file-preview-frame');
+        var procedure=angular.element('#procedure').find('.gallery-file-preview-frame');
+        var abnormal=angular.element('#abnormal').find('.gallery-file-preview-frame');
+        var proof=angular.element('#proof').find('.gallery-file-preview-frame');
+        var Test_ReportPic=[];
+        if(allpics.length>0){
+            $scope.alert={
+                type:'alert-warning',
+                msg:'请对上传的图片进行分类'
+            };
+            return false;
 
+        }
+        angular.forEach(carpictures,function(obj,index){
+            var o=new Object();
+            var elem=$(obj);
+            var path=elem.data('path');
+            var remark=elem.find('textarea').val();
+            o.PicURL=path;
+            o.PictureFlag=0;
+            o.PicMemo=remark;
+            o.SerialNO=index+1;
+            Test_ReportPic.push(o);
+        });
+        angular.forEach(procedure,function(obj,index){
+            var o=new Object();
+            var elem=$(obj);
+            var path=elem.data('path');
+            var remark=elem.find('textarea').val();
+            o.PicURL=path;
+            o.PictureFlag=1;
+            o.PicMemo=remark;
+            o.SerialNO=index+1;
+            Test_ReportPic.push(o);
+        });
+        angular.forEach(abnormal,function(obj,index){
+            var o=new Object();
+            var elem=$(obj);
+            var path=elem.data('path');
+            var remark=elem.find('textarea').val();
+            o.PicURL=path;
+            o.PictureFlag=2;
+            o.PicMemo=remark;
+            o.SerialNO=index+1;
+            Test_ReportPic.push(o);
+        });
+        angular.forEach(proof,function(obj,index){
+            var o=new Object();
+            var elem=$(obj);
+            var path=elem.data('path');
+            var remark=elem.find('textarea').val();
+            o.PicURL=path;
+            o.PictureFlag=3;
+            o.PicMemo=remark;
+            o.SerialNO=index+1;
+            Test_ReportPic.push(o);
+        });
+        return Test_ReportPic;
+    };
+    var viewReport=function(){
+        if(!$scope.report){
+            return ;
+        }
+        $scope.score={
+            'background-image':'url("../images/detection/'+$scope.report.CarRate+'.png")'
+        };
+        var accident=0;
+        var hs_ps=0;
+        var repair=0;
+        var replace=0;
+        var nei=0;
+        var gcpz=0;
+        var aq=0;
+        var fdj=0;
+        var dz=0;
+        var meiy=0;
+        angular.forEach($scope.report.ReportDetail,function(obj,index){
+            if(obj.AbnormalColumn==0){
+                return;
+            }
+            if(obj.Flag==1&&obj.Param1==null){
+                //电动反光镜，电动车窗
+                if(obj.AbnormalColumn==144||obj.AbnormalColumn==140){
+                    angular.element('#'+obj.AbnormalColumn).find('i[data-name='+obj.DeviceType+']').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                }
+                else if(obj.DeviceType>0){
+                    angular.element('span[data-name='+obj.AbnormalColumn+']').text(obj.Description)
+                }
+                angular.element('i#'+obj.AbnormalColumn).removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                angular.element('.detect-accident-'+obj.AbnormalColumn).addClass('active')
+                if((obj.AbnormalColumn<18||obj.AbnormalColumn==123||obj.AbnormalColumn==124)){
+                    accident++;
+                    angular.element('#shigu .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                    angular.element('#shigu').find('span').text(accident+'项');
+                }
+                else if(obj.AbnormalColumn>114&&obj.AbnormalColumn<122||obj.AbnormalColumn>157&&obj.AbnormalColumn<162){
+                    fdj++;
+                    angular.element('#fdj .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                    angular.element('#fdj').find('span').text(fdj+'项');
+                    $('#fdj_TJ').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ').text(fdj+'项异常')
+                }
+                else if(obj.AbnormalColumn>129&&obj.AbnormalColumn<138){
+                    aq++;
+                    angular.element('#aq .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                    angular.element('#aq').find('span').text(aq+'项');
+                }
+                else if(obj.AbnormalColumn>18&&obj.AbnormalColumn<32){
+                    hs_ps++;
+                    angular.element('#hs_ps .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                    angular.element('#hs_ps').find('span').text(hs_ps+'项');
+                }else{
+                    dz++;
+                    angular.element('#dz .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                    angular.element('#dz').find('span').text(dz+'项');
+                    $('#dz_TJ').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ').text(dz+'项异常')
+                }
+            }
+            if(obj.Flag==1&&obj.Param1==1){
+                //修复
+                angular.element('#'+obj.AbnormalColumn).addClass('carAIblue_'+obj.AbnormalColumn);
+                repair++;
+                angular.element('#repair .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                angular.element('#repair').find('span').text(repair+'项');
+            }
+            if(obj.Flag==1&&obj.Param1==2){
+                //更换
+                angular.element('#'+obj.AbnormalColumn).addClass('carAIGH_'+obj.AbnormalColumn);
 
-               });
-                angular.forEach($scope.report.SurfaceCase,function(obj,index){
-                    if(obj.ProblemFlag==1){
-                        //刮擦
-                        var flag=$('<i class="e_guacha"  style="left: '+obj.X+'px; top: '+obj.Y+'px;"></i>');
-                        $('#GC_PZ').append(flag)
-                    }
-                    if(obj.ProblemFlag==2){
-                        //碰撞
-                        flag=$('<i class="e_pengzhuang"  style="left: '+obj.X+'px; top: '+obj.Y+'px;"></i>');
-                        $('#GC_PZ').append(flag)
-                    }
-                })
-
+                if(obj.AbnormalColumn<65){
+                    replace++;
+                    angular.element('#replace .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                    angular.element('#replace').find('span').text(replace+'项');
+                }
+                else if(obj.AbnormalColumn>64&&obj.AbnormalColumn<88){
+                    nei++;
+                    angular.element('#nei .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                    angular.element('#nei').find('span').text(nei+'项');
+                }
+            }
+            if(obj.Flag==1&&obj.Param1==3){
+                //色差
+                angular.element('#'+obj.AbnormalColumn).addClass('carAISC_'+obj.AbnormalColumn)
+            }
+            if(obj.Flag==0){
+                angular.element('#'+obj.AbnormalColumn).remove();
+                angular.element('span[data-name='+obj.AbnormalColumn+']').text('无');
+                meiy++;
+            }
+            else{
+                if(obj.DeviceType>0){
+                    angular.element('span[data-name='+obj.AbnormalColumn+']').text(obj.Description)
+                }
             }
 
-       })
+        });
+        angular.forEach($scope.report.SurfaceCase,function(obj,index){
+            if(obj.ProblemFlag==1){
+                //刮擦
+                var flag=$('<i class="e_guacha"  style="left: '+obj.X+'px; top: '+obj.Y+'px;"></i>');
+                $('#GC_PZ').append(flag)
+            }
+            if(obj.ProblemFlag==2){
+                //碰撞
+                flag=$('<i class="e_pengzhuang"  style="left: '+obj.X+'px; top: '+obj.Y+'px;"></i>');
+                $('#GC_PZ').append(flag)
+            }
+            gcpz++;
+            angular.element('#gcpz .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+            angular.element('#gcpz').find('span').text(gcpz+'项');
+        });
+        angular.forEach($scope.report.Test_ReportPic,function(obj,index){
+            if(obj.PictureFlag==0){
+                $scope.Test_ReportPic.CarPic.push(obj);
+            }
+            if(obj.PictureFlag==1){
+                $scope.Test_ReportPic.ProcudPic.push(obj);
+            }
+            if(obj.PictureFlag==2){
+                $scope.Test_ReportPic.FlawPic.push(obj);
+            }
+            if(obj.PictureFlag==3){
+                $scope.Test_ReportPic.ProofPic.push(obj);
+            }
+        });
+        $scope.Test_ReportPic.CarPic.sort(sortByFlag);
+        $scope.Test_ReportPic.ProcudPic.sort(sortByFlag);
+        $scope.Test_ReportPic.FlawPic.sort(sortByFlag);
+        $scope.Test_ReportPic.ProofPic.sort(sortByFlag);
 
+    };
+
+}]).controller('AssessController',['$rootScope','$scope','ResourceService','$filter','CarService',function ($rootScope,$scope,ResourceService,$filter,CarService){
+    var OrderCode=$rootScope.stateParams.OrderCode;
+    var ReportCode=$rootScope.stateParams.Code;
+    $scope.dateTimeNow=new Date();
+    $scope.endTime=new Date(($scope.dateTimeNow/1000+86400*90)*1000).toLocaleDateString();
+    $scope.evaluate={
+        TechnologyParam:1,
+        MaintainParam:1,
+        QualityParam:1,
+        NatureParam:1,
+        ConditionParam:1,
+        HotParam:1,
+        EvaluationPrice:0,
+        CarNo:'',
+        EventFlag:1,
+        UserID:$rootScope.USER.Userid
+    };
+    //获取数据
+    $scope.getPreAssess=function(){
+       var params={
+           OrderCode:OrderCode
+       };
+       ResourceService.getFunServer('preassess',params).then(function(data){
+           if(data.status==1){
+                 var d=data.data;
+                 for(var i=0;i< d.length;i++){
+                     var name=d[i].name;
+                     switch (name){
+                         case  'AppraiserOrder':
+                             $scope.Order= d[i].value[0];
+                             break;
+                         case  'Car':
+                             $scope.Car= d[i].value[0];
+                             $scope.evaluate.EvaluationPrice=$scope.Car.NewCarPrice;
+                             $scope.evaluate.CarNo=$scope.Car.CarNo;
+                             break;
+                         case  'Appraiser':
+                             $scope.Appraiser= d[i].value[0];
+                             break;
+                     }
+                 }
+           }
+       });
+    };
+    //计算车价
+     $scope.$watch('evaluate',function(newValue){
+         Number(newValue.TechnologyParam)>1?newValue.TechnologyParam=1:newValue.TechnologyParam;
+         Number(newValue.MaintainParam)>1?newValue.MaintainParam=1:newValue.MaintainParam;
+         Number(newValue.QualityParam)>1?newValue.QualityParam=1:newValue.QualityParam;
+         Number(newValue.NatureParam)>1?newValue.NatureParam=1:newValue.NatureParam;
+         Number(newValue.ConditionParam)>1?newValue.ConditionParam=1:newValue.ConditionParam;
+         var   b = (Number(newValue.TechnologyParam) * 0.3) + (Number(newValue.MaintainParam) * 0.25) + (Number(newValue.QualityParam) * 0.2) + (Number(newValue.NatureParam) * 0.15) + (Number(newValue.ConditionParam) * 0.1);
+         var cary = $scope.Car&&$scope.Car.CarYear || 0.1;
+         y = ((1 - (Number(0.1) * 12) / 180)) * b;
+         p = Math.ceil(Number($scope.Car&&$scope.Car.NewCarPrice) * y * Number(newValue.HotParam));
+         $scope.evaluate.EvaluationPrice=p;
+     },true);
+     //提交
+     $scope.assess=function(){
+         var params={
+             AppraiseOrderCode:OrderCode,
+             ReportCode:$scope.evaluate
+         };
+         CarService.assess(params).success(function(data){
+             if(data.status==1){
+                 $rootScope.state.go('success',{TAG:'ASSESS'})
+             }
+             else{
+                 $scope.alert={
+                     type:'alert-danger',
+                     msg:data.message
+                 };
+             }
+         });
+     };
+     //查看评估报告
+     $scope.getAssess=function(){
+         var params={
+             ReportCode:ReportCode
+         };
+         ResourceService.getFunServer('viewassess',params).then(function(data){
+             if(data.status==1){
+                 var d=data.data;
+                 for(var i=0;i< d.length;i++){
+                     var name=d[i].name;
+                     switch (name){
+                         case  'Evaluation_Report':
+                             $scope.evaluate= d[i].value[0];
+                             $scope.Order=d[i].value[0];
+                             break;
+                         case  'Car':
+                             $scope.Car= d[i].value[0];
+                             break;
+                         case  'Appraiser':
+                             $scope.Appraiser= d[i].value[0];
+                             break;
+                     }
+                 }
+             }
+         })
+     }
+}]).controller('GeneralController',['$rootScope','$scope','ResourceService','$filter','CarService',function ($rootScope,$scope,ResourceService,$filter,CarService){
+    $scope.feedback=function(){
+        ResourceService.getFunServer('fb',$scope.FB).then(function(data){
+            if(data.status==1){
+                $scope.alert={
+                    type:'alert-success',
+                    msg:'提交成功'
+                };
+                setTimeout(function(){
+                    window.location.reload();
+                },1500)
+            }else{
+                $scope.alert={
+                    type:'alert-danger',
+                    msg:data.message
+                }
+            }
+        })
     }
 
+}]).controller('CouponController',['$rootScope','$scope','ResourceService','$filter','CarService',function ($rootScope,$scope,ResourceService,$filter,CarService){
 
+    $scope.pageTotal=0;
+    $scope.getList=function(){
 
+        var params = {
+            PageNo: $scope.currentPage||1,
+            PageSize:$rootScope.PAGE_CONF.PageSize
+        };
+        ResourceService.getFunServer('discount',params).then(function(data){
+            if(data.status==1){
+                $scope.discountlist=data.data;
+                $scope.pageTotal=data.data.length;
+            }
+            else {
+                $scope.discountlist=[];
+                $scope.pageTotal=0;
+            }
+        })
+    };
+    $scope.getDiscount=function(){
+        var params={
+            PolicyCode:$rootScope.stateParams.PolicyCode
+        };
+        ResourceService.getFunServer('discountinfo',params).then(function(data){
+            if(data.status==1){
+                $scope.discount=data.data;
+            }
+        })
+    };
+    $scope.changePager=function(){
+        window.scrollTo(0,0);
+        $scope.getList();
+    }
+}]).controller('OfflineController',['$rootScope','$scope','ResourceService','$filter','CarService',function ($rootScope,$scope,ResourceService,$filter,CarService){
+
+    $scope.pageTotal=0;
+    $scope.getList=function(){
+        var params = {
+            PageNo: $scope.currentPage||1,
+            PageSize:$rootScope.PAGE_CONF.PageSize
+        };
+        ResourceService.getFunServer('offline',params).then(function(data){
+            if(data.status==1){
+                $scope.list=data.data.rows;
+                $scope.pageTotal=data.data.total;
+            }
+            else {
+                $scope.list=[];
+                $scope.pageTotal=0;
+            }
+        })
+    };
+    $scope.getDiscount=function(){
+        var params={
+            PolicyCode:$rootScope.stateParams.PolicyCode
+        };
+        ResourceService.getFunServer('discountinfo',params).then(function(data){
+            if(data.status==1){
+                $scope.discount=data.data;
+            }
+        })
+    };
+    $scope.changePager=function(){
+        window.scrollTo(0,0);
+        $scope.getList();
+    }
 }]);

@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/2/18.
  */
-angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resource', '$rootScope','$q', function($resource, $rootScope,$q) {
+angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resource', '$rootScope','$q','$http', function($resource, $rootScope,$q,$http) {
     return {
         getFunServer: function(sname,params,method) {
             var surl = "",defer = $q.defer();
@@ -63,8 +63,8 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                 case 'sellrevoke'://卖家撤单
                     surl='/order/CarOwnerRevokeRequest';//OrderCode,RevokeMemo
                     break;
-                case 'amount'://修改成交价
-                    surl='/order/CarOwnerUpdateOrder';//orderCode,dealPrice
+                case 'amount'://确认成交价
+                    surl='/order/SellerConfirmPrice';//OrderCode,OrderPrice
                     break;
                 case 'login'://登录
                     surl='/account/OutAndAllanceLogin';
@@ -145,6 +145,10 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                 case 'updateUser':
                     surl='/account/UpdatingUser';//更新用户信息
                     break;
+                    break;
+                case 'updateAllianceUser':
+                    surl='/account/UpdatingAllianceUser';//更新联盟商用户信息
+                    break;
                 case 'resetPwd':
                     surl='/account/ChangePwd';//修改密码//newPwd,oldPwd
                     break;
@@ -217,7 +221,7 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                     break;
                 case 'company':
                     surl='/alliance/alliance/GetCurrentAllanceAndUsers';  //联盟商信息 pageNo,pageNum
-                break;
+                	break;
                 case 'updatecompany':
                     surl='/alliance/alliance/UpdateAllance';  //联盟商信息 entity
                     break;
@@ -245,13 +249,43 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                 case 'addSkill':
                     surl='/Alliance/AppraiserSkill/AddAppraiserSkillList';  //添加评估师技能 [{ BrandID,AppraiserCode}]
                     break;
+                case 'preassess':
+                    surl='/Alliance/AppraiserOrder/GetOrderForEvaluationReportByCode';  //填写评估报告前获取相关数据 orderCode
+                    break;
+                case 'assess':
+                    surl='/Alliance/AppraiserOrder/AppraiserFinishEvaluation';  //填写评估报告 string AppraiseOrderCode, Evaluation_Report ReportCode
+                    break;
+                case 'detection':
+                    surl='/Alliance/AppraiserOrder/AppraiserFinishTest';  //填写评估报告 string AppraiseOrderCode, Test_Report TestReportCode ReportCode
+                    break;
+                case 'viewassess':
+                    surl='/Alliance/EvaluationReport/GetEvaluationReportDetailByCode';  //查看评估报告 ReportCode=
+                    break;
+                case 'carcount':
+                    surl='/common/car/GetMyCarDetailForUser';  //车源统计
+                    break;
+                case 'carconfig':
+                    surl='/car/GetCatalogPara';  //车辆配置参数catalogid
+                    break;
+                case 'fb':
+                    surl='/System/Feedback/PostInfo';  //反馈
+                    break;
+                case 'offline':
+                    surl='/Customer/CarofflineTrade/GetOffLineTradeListWithUserID';  //线下检测列表
+                    break;
+                case 'issueoffline':
+                    surl='/Customer/CarOfflineTrade/PostOffLineTrade';  //线下发布
+                    break;
+                case 'ExsitFrame':
+                    surl='/car/CheckIfExsitFrame';  //车架号是否存在FrameNumber
+                    break;
                 default:
                     break;
             }
             if (surl == "") return '';
             $resource($rootScope.HOST + surl, {}, {
                 query: {
-                    method: method||'get',
+                    method: method||'post',
                     params: params||'{}',
                     isArray: false
                 }
@@ -261,6 +295,13 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
                 defer.reject(data);
             });
             return defer.promise;
+        },
+        SendPhoneValCode:function(data){
+            return $http.post($rootScope.HOST+'/common/message/SendValiadeCode',data)
+        },
+        //删除联盟商成员
+        deletemployee:function(data){
+            return $http.post($rootScope.HOST+'/alliance/alliance/DeleteAllanceUser',data)
         }
     }
 }]).factory('LocalStorageService',function(){
@@ -319,26 +360,33 @@ angular.module('chetongxiang.services',[]).factory('ResourceService', ['$resourc
         },
         serviceFees:function(data){
             return $http.post($rootScope.HOST+'/order/GetServiceFee',data);
+        },
+        detection:function(data){
+            return $http.post($rootScope.HOST+'/Alliance/AppraiserOrder/AppraiserFinishTest',data);
+        },
+        assess:function(data){
+            return $http.post($rootScope.HOST+'/Alliance/AppraiserOrder/AppraiserFinishEvaluation',data);
+        },
+        addCarInfo:function(data){
+            return $http.post($rootScope.HOST+'/Alliance/TestReportCarInfo/AddTestReportCarInfo',data);
+        },
+        ConfirmPublishCar:function(data){
+            //联盟商确认车源
+            return $http.post($rootScope.HOST+'/common/car/ConfirmPublishCar',data)
         }
     }
-}]).factory('AuthService',['$http','$rootScope','$cookieStore','ResourceService',function($http,$rootScope,$cookieStore,ResourceService){
+}]).factory('AuthService',['$http','$rootScope','$cookieStore','ResourceService','CookieService',function($http,$rootScope,$cookieStore,ResourceService,CookieService){
     return {
         Login:function(data){
-            $rootScope.USER=data;
             $cookieStore.put('AUTH',data);
+            CookieService.SetCookie('AUTH',data);
         },
         IsAuthenticated:function(){
-          if(!!$cookieStore.get('AUTH')){
-              $rootScope.USER=$cookieStore.get('AUTH');
-              return true;
-          }else{
-              $rootScope.USER=null;
-              return false;
-          }
+         return CookieService.GetCookie('AUTH');
         },
         LoginOut:function(){
+            CookieService.RemoveCookie('AUTH');
             $cookieStore.remove('AUTH');
-            $rootScope.USER=null;
             window.location.href="index.html";
         }
     }

@@ -1,0 +1,483 @@
+----------------------------------------------
+2015-12-12 17:02:47,201[27] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\车同享\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 19:30:05,783[16] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\车同享\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 19:30:20,854[24] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\车同享\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 19:32:52,932[24] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\车同享\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 19:33:22,371[33] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\车同享\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 19:40:22,624[35] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\车同享\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 19:40:22,624[35] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\车同享\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 63
+   在 CTXProject.Core.BaseRepository.Add[T](T entity, Boolean isSave) 位置 D:\车同享\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 90
+----------------------------------------------
+2015-12-12 20:40:38,199[22] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 20:41:07,637[41] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 20:46:43,081[12] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 20:46:43,086[12] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 68
+   在 CTXProject.Core.BaseRepository.Update[T](T entity, Boolean isSave) 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 164
+----------------------------------------------
+2015-12-12 20:48:09,336[41] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 20:48:09,337[41] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 68
+   在 CTXProject.Core.BaseRepository.Update[T](T entity, Boolean isSave) 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 164
+----------------------------------------------
+2015-12-12 20:48:24,043[22] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 20:48:24,044[22] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 68
+   在 CTXProject.Core.BaseRepository.Update[T](T entity, Boolean isSave) 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 164
+----------------------------------------------
+2015-12-12 20:48:32,177[10] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 20:48:32,178[10] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 68
+   在 CTXProject.Core.BaseRepository.Update[T](T entity, Boolean isSave) 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 164
+----------------------------------------------
+2015-12-12 20:53:49,563[26] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 20:53:49,563[26] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 68
+   在 CTXProject.Core.BaseRepository.Update[T](T entity, Boolean isSave) 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 164
+----------------------------------------------
+2015-12-12 20:54:34,445[12] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 20:54:34,445[12] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 68
+   在 CTXProject.Core.BaseRepository.Update[T](T entity, Boolean isSave) 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 164
+----------------------------------------------
+2015-12-12 21:20:33,795[7] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512101536
+----------------------------------------------
+2015-12-12 21:20:34,150[7] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 21:20:34,165[7] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 68
+   在 CTXProject.Core.BaseRepository.Update[T](T entity, Boolean isSave) 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 164
+----------------------------------------------
+2015-12-12 21:20:39,998[7] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512101536
+----------------------------------------------
+2015-12-12 21:20:40,006[7] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 21:20:40,007[7] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 68
+   在 CTXProject.Core.BaseRepository.Update[T](T entity, Boolean isSave) 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 164
+----------------------------------------------
+2015-12-12 21:25:40,951[14] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512101536
+----------------------------------------------
+2015-12-12 21:25:40,959[14] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 21:25:40,960[14] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions. ---> System.Data.Entity.Core.OptimisticConcurrencyException: Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.ValidateRowsAffected(Int64 rowsAffected, UpdateCommand source)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 68
+   在 CTXProject.Core.BaseRepository.Update[T](T entity, Boolean isSave) 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 164
+----------------------------------------------
+2015-12-12 21:30:12,320[20] INFO  [CTXProject.Business.OrderService] : 记录插入数据库前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 21:30:12,326[20] INFO  [CTXProject.Business.OrderService] : 记录插入数据库后提交前redis订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 21:30:12,342[20] INFO  [CTXProject.Business.OrderService] : 记录插入redis后订单号GCD-1512121612Redis返回值1
+----------------------------------------------
+2015-12-12 21:30:52,957[48] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612
+----------------------------------------------
+2015-12-12 21:30:52,963[48] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 21:30:52,965[48] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 21:31:31,246[8] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612
+----------------------------------------------
+2015-12-12 21:31:31,252[8] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 21:31:31,254[8] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 21:33:11,090[29] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Infrastructure.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.Entity.Core.UpdateException: An error occurred while updating the entries. See the inner exception for details. ---> System.Data.SqlClient.SqlException: 违反了 PRIMARY KEY 约束 'PK_TEST_REPORT'。不能在对象 'dbo.Test_Report' 中插入重复键。
+语句已终止。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 System.Data.Entity.Infrastructure.Interception.InternalDispatcher`1.Dispatch[TTarget,TInterceptionContext,TResult](TTarget target, Func`3 operation, TInterceptionContext interceptionContext, Action`3 executing, Action`3 executed)
+   在 System.Data.Entity.Infrastructure.Interception.DbCommandDispatcher.NonQuery(DbCommand command, DbCommandInterceptionContext interceptionContext)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.DynamicUpdateCommand.Execute(Dictionary`2 identifierValues, List`1 generatedValues)
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()
+   在 System.Data.Entity.Core.Objects.ObjectContext.ExecuteInTransaction[T](Func`1 func, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction, Boolean releaseConnectionOnSuccess)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
+   在 System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   在 System.Data.Entity.Core.Objects.ObjectContext.SaveChangesInternal(SaveOptions options, Boolean executeInExistingTransaction)
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 21:33:37,569[21] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612
+----------------------------------------------
+2015-12-12 21:33:37,575[21] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 21:33:37,577[21] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 21:38:39,763[34] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 21:53:31,862[13] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612
+----------------------------------------------
+2015-12-12 21:53:31,869[13] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 21:53:31,871[13] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 21:56:37,405[56] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612
+----------------------------------------------
+2015-12-12 21:56:37,413[56] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 21:56:37,418[56] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 21:57:42,984[55] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612定单标志6
+----------------------------------------------
+2015-12-12 21:57:42,984[58] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612定单标志6
+----------------------------------------------
+2015-12-12 21:57:44,242[55] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 21:57:44,268[55] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 21:57:44,274[58] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 21:57:44,276[58] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 21:57:44,582[30] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612定单标志6
+----------------------------------------------
+2015-12-12 21:57:44,589[30] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 21:57:44,591[30] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 21:58:23,749[55] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612定单标志7
+----------------------------------------------
+2015-12-12 21:58:23,755[55] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 21:58:23,757[55] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 21:59:05,504[48] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612定单标志8
+----------------------------------------------
+2015-12-12 21:59:05,511[48] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 21:59:05,513[48] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 21:59:34,732[22] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612定单标志9
+----------------------------------------------
+2015-12-12 21:59:34,738[22] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 21:59:34,740[22] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 22:00:22,975[48] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612定单标志10
+----------------------------------------------
+2015-12-12 22:00:22,992[48] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 22:00:22,995[48] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 22:00:23,002[48] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612定单标志255
+----------------------------------------------
+2015-12-12 22:00:23,009[48] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 22:00:23,018[48] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 22:00:55,571[30] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612定单标志256
+----------------------------------------------
+2015-12-12 22:00:55,581[30] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 22:00:55,584[30] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 22:01:26,004[50] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512121612定单标志257
+----------------------------------------------
+2015-12-12 22:01:26,023[50] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512121612
+----------------------------------------------
+2015-12-12 22:01:26,026[50] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512121612Redis返回row值1
+----------------------------------------------
+2015-12-12 22:11:32,190[48] INFO  [CTXProject.Business.OrderService] : 记录插入数据库前订单号GCD-1512129550定单标志0
+----------------------------------------------
+2015-12-12 22:11:32,197[48] INFO  [CTXProject.Business.OrderService] : 记录插入数据库后提交前redis订单号GCD-1512129550
+----------------------------------------------
+2015-12-12 22:11:32,199[48] INFO  [CTXProject.Business.OrderService] : 记录插入redis后订单号GCD-1512129550Redis返回值1
+----------------------------------------------
+2015-12-12 22:12:25,854[29] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512129550定单标志1
+----------------------------------------------
+2015-12-12 22:12:25,862[29] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512129550
+----------------------------------------------
+2015-12-12 22:12:25,865[29] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512129550Redis返回row值1
+----------------------------------------------
+2015-12-12 22:12:46,223[48] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512129550定单标志2
+----------------------------------------------
+2015-12-12 22:12:46,229[48] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512129550
+----------------------------------------------
+2015-12-12 22:12:46,232[48] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512129550Redis返回row值1
+----------------------------------------------
+2015-12-12 22:23:57,097[37] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512129550定单标志3
+----------------------------------------------
+2015-12-12 22:23:57,150[37] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512129550
+----------------------------------------------
+2015-12-12 22:23:57,161[37] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512129550Redis返回row值1
+----------------------------------------------
+2015-12-12 22:24:28,010[37] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512129550定单标志4
+----------------------------------------------
+2015-12-12 22:24:28,016[37] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512129550
+----------------------------------------------
+2015-12-12 22:24:28,018[37] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512129550Redis返回row值1
+----------------------------------------------
+2015-12-12 22:24:45,629[33] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 22:24:45,641[33] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 63
+   在 CTXProject.Core.BaseRepository.Add[T](T entity, Boolean isSave) 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 90
+----------------------------------------------
+2015-12-12 22:25:04,736[33] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512129550定单标志5
+----------------------------------------------
+2015-12-12 22:25:04,742[33] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512129550
+----------------------------------------------
+2015-12-12 22:25:04,744[33] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512129550Redis返回row值1
+----------------------------------------------
+2015-12-12 22:25:22,692[33] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512129550定单标志6
+----------------------------------------------
+2015-12-12 22:25:22,711[33] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512129550
+----------------------------------------------
+2015-12-12 22:25:22,713[33] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512129550Redis返回row值1
+----------------------------------------------
+2015-12-12 22:25:40,728[37] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512129550定单标志7
+----------------------------------------------
+2015-12-12 22:25:40,746[37] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512129550
+----------------------------------------------
+2015-12-12 22:25:40,749[37] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512129550Redis返回row值1
+----------------------------------------------
+2015-12-12 22:25:55,783[48] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512129550定单标志8
+----------------------------------------------
+2015-12-12 22:25:55,801[48] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512129550
+----------------------------------------------
+2015-12-12 22:25:55,803[48] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512129550Redis返回row值1
+----------------------------------------------
+2015-12-12 22:26:43,422[57] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512129550定单标志9
+----------------------------------------------
+2015-12-12 22:26:43,438[57] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512129550
+----------------------------------------------
+2015-12-12 22:26:43,439[57] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512129550Redis返回row值1
+----------------------------------------------
+2015-12-12 22:26:55,755[57] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   在 System.Data.Entity.Internal.InternalContext.SaveChanges()
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 58
+----------------------------------------------
+2015-12-12 22:26:55,755[57] ERROR [CTXProject.Core.BaseRepository] : System.Data.Entity.Validation.DbEntityValidationException: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+   在 CTXProject.Core.BaseRepository.SaveChange() 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 63
+   在 CTXProject.Core.BaseRepository.Add[T](T entity, Boolean isSave) 位置 D:\CTX\CTXProject\CTXProject.Core\BaseRepository.cs:行号 90
+----------------------------------------------
+2015-12-12 22:26:59,679[37] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512129550定单标志10
+----------------------------------------------
+2015-12-12 22:26:59,696[37] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512129550
+----------------------------------------------
+2015-12-12 22:26:59,698[37] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512129550Redis返回row值1
+----------------------------------------------
+2015-12-12 22:26:59,705[37] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512129550定单标志255
+----------------------------------------------
+2015-12-12 22:26:59,712[37] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512129550
+----------------------------------------------
+2015-12-12 22:26:59,714[37] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512129550Redis返回row值1
+----------------------------------------------
+2015-12-12 22:27:25,502[54] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512129550定单标志256
+----------------------------------------------
+2015-12-12 22:27:25,510[54] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512129550
+----------------------------------------------
+2015-12-12 22:27:25,512[54] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512129550Redis返回row值1
+----------------------------------------------
+2015-12-12 22:28:16,406[54] INFO  [CTXProject.Business.OrderService] : 记录更新数据库前订单记录GCD-1512129550定单标志257
+----------------------------------------------
+2015-12-12 22:28:16,424[54] INFO  [CTXProject.Business.OrderService] : 记录更新数据库后提交REDIS前订单号GCD-1512129550
+----------------------------------------------
+2015-12-12 22:28:16,427[54] INFO  [CTXProject.Business.OrderService] : POST REDIS后订单号GCD-1512129550Redis返回row值1

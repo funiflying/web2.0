@@ -21,14 +21,14 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="input-group">
+               <!-- <div class="input-group">
                     <input type="search" class="form-control" placeholder="输入订单号查找" ng-model="searchCode"/>
                <span class="input-group-btn">
                   <button class="btn btn-default" type="button" ng-click="search()">
                       搜索
                   </button>
                </span>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
@@ -63,10 +63,10 @@
                         </p>
                     </td>
                     <td class="car-list-toolbar">
-                        <a href="#/home/prepay?OrderCode={{obj.OrderCode}}"  class="btn-operate btn-profile"  ng-if="obj.OrderFlag==0&&(obj.RevokeFlag!=2&&obj.RevokeFlag!=12)" >预付款支付</a>
-                        <a href="#/home/paid?OrderCode={{obj.OrderCode}}"    class="btn-operate btn-profile"  ng-if="obj.OrderFlag==4&&(obj.RevokeFlag!=2&&obj.RevokeFlag!=12)" >购车款支付</a>
+                        <a href="#/home/prepay?OrderCode={{obj.OrderCode}}"  class="btn-operate btn-profile"  ng-if="obj.OrderFlag==0.5&&(obj.RevokeFlag==0)" >预付款支付</a>
+                        <a href="#/home/paid?OrderCode={{obj.OrderCode}}"    class="btn-operate btn-profile"  ng-if="obj.OrderFlag==4&&(obj.RevokeFlag==0)" >购车款支付</a>
                         <a href="" class="btn-operate btn-profile"  ng-if="obj.RevokeFlag==0&&obj.OrderFlag<10" ng-click="calcelDialog(obj)">撤单申请</a>
-                        <a href="#/home/buyeval?OrderCode={{obj.OrderCode}}" class="btn-operate btn-profile"  ng-if="(obj.OrderFlag==10||obj.OrderFlag==257)&&(obj.RevokeFlag!=2&&obj.RevokeFlag!=12)" >买家评价</a>
+                        <a href="#/home/buyeval?OrderCode={{obj.OrderCode}}" class="btn-operate btn-profile"  ng-if="(obj.OrderFlag==10||obj.OrderFlag==255)&&(obj.RevokeFlag==0)&&obj.UserGiveScore==0" >买家评价</a>
                         <a href="#/home/item?OrderCode={{obj.OrderCode}}"  class="btn-operate btn-profile"  >订单详情</a>
                     </td>
                 </tr>

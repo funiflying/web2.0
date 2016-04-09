@@ -6,11 +6,11 @@
                     <span class="sl-icon-myaccount"></span>
                     <span class="nav-list-words">我的账户</span>
                 </dt>
-                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='main']">
+              <!--  <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='main']">
                     <a class="list-item-link ng-isolate-scope" ui-sref=".main"  >
                         <span class="nav-list-words">账户总览</span>
                     </a>
-                </dd>
+                </dd>-->
                 <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='account']" >
                     <a class="list-item-link ng-isolate-scope"  ui-sref=".account" >
                         <span class="nav-list-words">基本信息</span>
@@ -77,11 +77,11 @@
                         <span class="nav-list-words">委托评估</span>
                     </a>
                 </dd>
-                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='']" ng-if="USER.IdentityTag==2||USER.IdentityTag==3">
-                    <a class="list-item-link ng-isolate-scope"  ui-sref=".cargather" href="home/cargather">
+                <!--<dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='offline']" ng-if="USER.IdentityTag==2||USER.IdentityTag==3">
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".offline" href="home/offline">
                         <span class="nav-list-words">线下检测</span>
                     </a>
-                </dd>
+                </dd>-->
                 <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='professional']" ng-if="USER.IdentityTag==2||USER.IdentityTag==3">
                     <a class="list-item-link ng-isolate-scope"  ui-sref=".professional" href="javascript:void(0)">
                         <span class="nav-list-words">技能设定</span>
@@ -102,13 +102,13 @@
                     </a>
                 </dd>
 
-                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='bank']" >
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='bank']" ng-if="USER.IdentityTag!=3">
                     <a class="list-item-link "  ui-sref=".bankcard" href="javascript:void(0)">
                         <span class="nav-list-words">银行卡管理</span>
                     </a>
                 </dd>
-                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='discount']" >
-                    <a class="list-item-link ng-isolate-scope"  ui-sref=".cargather" href="home/cargather">
+                <dd ng-class="{true:'nav-list-item active',false:'nav-list-item'}[ACTION=='coupon']" >
+                    <a class="list-item-link ng-isolate-scope"  ui-sref=".coupon" href="home/coupon">
                         <span class="nav-list-words">优惠券</span>
                     </a>
                 </dd>

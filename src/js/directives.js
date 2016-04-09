@@ -1,111 +1,140 @@
 /**
  * Created by Administrator on 2016/2/18.
  */
-angular.module('chetongxiang.directives', []).directive('upload', ['UploaderService', 'ResourceService', function (UploaderService, ResourceService) {
-    //图片上传
-    return {
-        restrict: 'EA',
-        templateUrl: './statics/upload.html',
-        replace: false,
-        link: function (scope, element, attr) {
-            var elem = $(element).find('.file')
-            if (elem.files) {
-                elem.bind('change', function (e) {
-                    if (this.files && this.files[0]) {
-                        var i = 0;
-                        var getDataUrl = function (files) {
-                            var file = files[i];
-                            if (file) {
-                                var url = webkitURL.createObjectURL(file);
-                                var $img = new Image();
-                                $img.onload = function () {
-                                    //生成比例
-                                    var width = $img.width,
-                                        height = $img.height
-                                    //   scale = width / height;
-                                    /*  width = parseInt(2560);
-                                     height = parseInt(width / scale);*/
-                                    //生成canvas
-                                    var $canvas = document.createElement('canvas');
-                                    var ctx = $canvas.getContext('2d');
-                                    $canvas.width = width;
-                                    $canvas.height = height;
-                                    ctx.drawImage($img, 0, 0, width, height);
-                                    var base64 = $canvas.toDataURL('image/jpeg');
-                                    var placehold = preview(base64);
-                                    var params = {BaseCode: base64.substr(23)};
-                                    UploaderService.uploader(params, 1).success(function (data) {
-                                        if (data.status == 1) {
-                                            uploaderstatus(placehold, 1, data.data);
-                                        }
-                                        else {
-                                            uploaderstatus(placehold);
-                                        }
-                                    });
-                                    i++
-                                    getDataUrl(files)
-                                }
-                                $img.src = url;
-                            }
-                        }
-                        getDataUrl(this.files);
-                    }
-                    else {
-
-                    }
-                });
-            } else {
-            }
-            function preview(src) {
-                var holdplace = $('<div  class="file-preview-frame col-md-3">' +
-                    '<img style="width:200px;height:160px;"  class="file-preview-image" src="' + src + '">' +
-                    '<div class="file-thumbnail-footer">' +
-                    '<div class="file-actions">' +
-                    '<div class="file-footer-buttons"><span class="text-orange pull-left img-loading"><i class="glyphicon glyphicon-info-sign"></i> <span class="up-text">正在上传... </span><img src="./images/loading.gif" alt=""/></span>' +
-                    '<button title="删除" class="kv-file-upload btn btn-xs btn-default pull-right" type="button">   <i class="glyphicon glyphicon-trash text-danger"></i>' +
-                    '</button> <button title="上传" class="kv-file-remove btn btn-xs btn-default pull-right" type="button"><i class="glyphicon  glyphicon-upload text-info"></i></button>' +
-                    '</div></div></div></div>');
-                $(element).find('.file-drop-zone-title').hide();
-                if (!attr.multi || attr.multi == 'false') {
-                    $(element).find('.file-preview-frame').remove();
-                }
-                $(element).find('.file-preview-thumbnails').append(holdplace);
-                //删除
-                var rm = $(element).find('.kv-file-upload');
-                rm.bind('click', function () {
-                    var params = {
-                        fileName: $(this).parents('.file-preview-frame').attr('data-path')
-                    };
-
-                    ResourceService.getFunServer('delimg', params, 'post').then(function (data) {
-                        if (data.status == 1) {
-                            $(this).parents('.file-preview-frame').remove();
-                        }
-                    });
-                });
-                return holdplace
-            }
-
-            function uploaderstatus(placehold, status, src) {
-                placehold.find('.img-loading').find('img').remove();
-                if (status == 1) {
-                    placehold.attr('data-path', src);
-                    placehold.find('.img-loading').removeClass('text-orange').addClass('text-info');
-                    placehold.find('.up-text').text('上传成功');
-                }
-                else {
-                    placehold.find('.img-loading').removeClass('text-orange').addClass('text-danger');
-                    placehold.find('.up-text').text('上传失败，请重试');
-                }
-            }
-        }
-    }
-}]).directive('uploader', ['UploaderService', 'ResourceService', function (UploaderService, ResourceService) {
+angular.module('chetongxiang.directives', []).directive('uploader', ['UploaderService', 'ResourceService', function (UploaderService, ResourceService) {
 //
     return {
         restrict: 'AE',
         replace: false,
         templateUrl: './statics/uploader.html',
+        link: function (scope, element, attr) {
+            var $elem = $(element);
+            var $btn = $(element).find('.filePicker');
+            $elem.on('click', '.kv-file-remove',function (e) {
+                var params={
+                    CarPicID:$(e.target).parents('.file-preview-frame').attr('id')
+                };
+                if(params.CarPicID=='undefined'){
+                    $(e.target).parents('.file-preview-frame').remove();
+                    var length = $elem.find('.file-preview-frame').length;
+                    if (length == 0) {
+                        $elem.find('.file-drop-zone-title').show();
+                    }
+                }
+                else if(params.CarPicID!='undefined') {
+                    ResourceService.getFunServer('deletecarimg',params,'post').then(function(data){
+                        if(data.status==1){
+                            $(e.target).parents('.file-preview-frame').remove();
+                            var length = $elem.find('.file-preview-frame').length;
+                            if (length == 0) {
+                                $elem.find('.file-drop-zone-title').show();
+                            }
+                            $elem.find('.gridly').gridly({
+                                base: 40,
+                                gutter: 0,
+                                columns:18
+                            });
+                        }
+                    })
+                }
+            });
+            // 初始化Web Uploader
+            var uploader = WebUploader.create({
+                // 选完文件后，是否自动上传。
+                auto: true,
+                // swf文件路径
+                swf: './lib/webuploader-0.1.5/Uploader.swf',
+                // 文件接收服务端。
+                server: attr.action,
+                // 选择文件的按钮。可选。
+                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                pick: $btn,
+                compress: false,
+                // 只允许选择图片文件。
+                accept: {
+                    title: 'Images',
+                    extensions: 'gif,jpg,jpeg,bmp,png',
+                    mimeTypes: 'image/*'
+                },
+                fileNumLimit: attr.limit
+            });
+            // 当有文件添加进来的时候
+            uploader.on('fileQueued', function (file) {
+                var $li = $('<li class="file-preview-frame col-md-3" id="' + file.id + '">' +
+                    '<img style="width:200px;height:160px;"  class="file-preview-image" >' +
+                    '<div class="file-thumbnail-footer">' +
+                    '<div class="file-actions">' +
+                    '<div class="file-footer-buttons"><span class="text-orange pull-left img-loading"><i class="glyphicon glyphicon-info-sign"></i> <span class="up-text">正在上传... </span><img src="./images/loading.gif" alt=""/></span>' +
+                    '<button title="删除" class="kv-file-remove btn btn-xs btn-default pull-right" type="button">   <i class="glyphicon glyphicon-trash text-danger"></i>' +
+                    '</button> <button title="上传" class="kv-file-upload btn btn-xs btn-default pull-right" type="button"><i class="glyphicon  glyphicon-upload text-info"></i></button>' +
+                    '</div></div></div></li>');
+                var $img = $li.find('.file-preview-image');
+                $elem.find('.file-drop-zone-title').hide();
+                if(attr.multi&&attr.multi=='true'){
+                    $elem.find('.file-preview-thumbnails').append($li);
+                }
+                else{
+                    $elem.find('.file-preview-thumbnails').html($li);
+                }
+
+                // 创建缩略图
+                // 如果为非图片文件，可以不用调用此方法。
+                // thumbnailWidth x thumbnailHeight 为 100 x 100
+                uploader.makeThumb(file, function (error, src) {
+                    if (error) {
+                        $img.replaceWith('<span>不能预览</span>');
+                        return;
+                    }
+                    $img.attr('src', src);
+                },1280, 800);
+                $elem.find('.kv-file-remove').bind('click', function (e) {
+                    var filename = $(this).parents('.file-preview-frame').data('path');
+                    if (filename) {
+                        ResourceService.getFunServer('delimg', {fileName: filename});
+                    }
+                    uploader.removeFile(file.id);
+                    $(e.target).parents('.file-preview-frame').remove();
+                    var length = $elem.find('.file-preview-frame').length;
+                    if (length == 0) {
+                        $elem.find('.file-drop-zone-title').show();
+                    }
+                });
+                //重新上传
+                $elem.find('.kv-file-upload').bind('click', function () {
+                    uploader.retry(file);
+                });
+            });
+            // 文件上传过程中创建进度条实时显示。
+            uploader.on('uploadProgress', function (file, percentage) {
+
+            });
+            // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+            uploader.on('uploadSuccess', function (file, data) {
+                $('#' + file.id).find('.file-preview-image').attr('src',data.data);
+                $('#' + file.id).find('.img-loading').find('img').remove();
+                $('#' + file.id).attr('data-path', data.data);
+                $('#' + file.id).find('.img-loading').removeClass('text-orange').addClass('text-info');
+                $('#' + file.id).find('.up-text').text('上传成功');
+            });
+            // 文件上传失败，显示上传出错。
+            uploader.on('uploadError', function (file) {
+                $('#' + file.id).find('.img-loading').find('img').remove();
+                $('#' + file.id).find('.img-loading').removeClass('text-orange').addClass('text-danger');
+                $('#' + file.id).find('.up-text').text('上传失败，请重试');
+            });
+
+            // 完成上传完了，成功或者失败
+            uploader.on('uploadComplete', function (file) {
+
+            });
+        }
+    }
+}]).directive('gallery', ['UploaderService', 'ResourceService', function (UploaderService, ResourceService) {
+   //
+    return {
+        restrict: 'AE',
+        replace: false,
+        templateUrl: './statics/gallery.html',
         link: function (scope, element, attr) {
             var $elem = $(element);
             var $btn = $(element).find('.filePicker');
@@ -132,39 +161,49 @@ angular.module('chetongxiang.directives', []).directive('upload', ['UploaderServ
 
             // 当有文件添加进来的时候
             uploader.on('fileQueued', function (file) {
-                var $li = $('<div class="file-preview-frame col-md-3" id="' + file.id + '">' +
-                    '<img style="width:200px;height:160px;"  class="file-preview-image" >' +
+                var $li = $('<li class="gallery-file-preview-frame" id="' + file.id + '">' +
+                    '<img style="width:100%;height:200px;"  class="file-preview-image" >' +
                     '<div class="file-thumbnail-footer">' +
                     '<div class="file-actions">' +
                     '<div class="file-footer-buttons"><span class="text-orange pull-left img-loading"><i class="glyphicon glyphicon-info-sign"></i> <span class="up-text">正在上传... </span><img src="./images/loading.gif" alt=""/></span>' +
                     '<button title="删除" class="kv-file-remove btn btn-xs btn-default pull-right" type="button">   <i class="glyphicon glyphicon-trash text-danger"></i>' +
                     '</button> <button title="上传" class="kv-file-upload btn btn-xs btn-default pull-right" type="button"><i class="glyphicon  glyphicon-upload text-info"></i></button>' +
-                    '</div></div></div></div>');
+                    '</div> </div></div>' +
+                    '<textarea class="form-control" placeholder="填写图片备注"></textarea>'+
+                    '<div class="file-thumbnail-remark">' +
+                    '<label class="checkbox-inline">'+
+                    '<input type="radio" name="'+file.id+'"  value="0" > 基本照'+
+                    '</label>'+
+                    '<label class="checkbox-inline">'+
+                    '<input type="radio" name="'+file.id+'"  value="1" > 手续照'+
+                    '</label>'+
+                    '<label class="checkbox-inline">'+
+                    '<input type="radio" name="'+file.id+'" value="2" > 瑕疵照'+
+                    '</label>'+
+                    '<label class="checkbox-inline">'+
+                    '<input type="radio" name="'+file.id+'"  value="3" > 泡水火烧照'+
+                    '</label>'+
+                    '</div>' +
+                    '</li>');
                 var $img = $li.find('.file-preview-image');
                 $elem.find('.file-drop-zone-title').hide();
-                /* if (!attr.multi || attr.multi == 'false') {
-                 uploader.cancelFile( file.id );
-                 $(element).find('.file-preview-frame').remove();
-                 }*/
                 $elem.find('.file-preview-thumbnails').append($li);
-                // 创建缩略图
                 // 如果为非图片文件，可以不用调用此方法。
-                // thumbnailWidth x thumbnailHeight 为 100 x 100
                 uploader.makeThumb(file, function (error, src) {
                     if (error) {
                         $img.replaceWith('<span>不能预览</span>');
                         return;
                     }
                     $img.attr('src', src);
-                }, 200, 160);
+                }, 800, 600);
                 $elem.find('.kv-file-remove').bind('click', function (e) {
-                    var filename = $(this).parents('.file-preview-frame').data('path');
+                    var filename = $(this).parents('.gallery-file-preview-frame').data('path');
                     if (filename) {
                         ResourceService.getFunServer('delimg', {fileName: filename});
                     }
-                    uploader.cancelFile(file.id);
-                    $(e.target).parents('.file-preview-frame').remove();
-                    var length = $elem.find('.file-preview-frame').length;
+                    uploader.removeFile (file.id);
+                    $(e.target).parents('.gallery-file-preview-frame').remove();
+                    var length = $elem.find('.gallery-file-preview-frame').length;
                     if (length == 0) {
                         $elem.find('.file-drop-zone-title').show();
                     }
@@ -173,6 +212,36 @@ angular.module('chetongxiang.directives', []).directive('upload', ['UploaderServ
                 $elem.find('.kv-file-upload').bind('click', function () {
                     uploader.retry(file);
                 });
+                //分组
+                $li.on('click','input[type=radio]',function(e){
+                    var flag=$(this).val();
+                    var $elem=$(this).parents('.gallery-file-preview-frame').clone(true);
+                    var $parent=null;
+                    var length=$(this).parents('.file-preview-thumbnails').find('.gallery-file-preview-frame').length;
+                    switch (flag){
+                        case '0':
+                            $parent=$('#carpictures');
+                            break;
+                        case '1':
+                            $parent=$('#procedure');
+                            break;
+                        case '2':
+                            $parent=$('#abnormal');
+                            break;
+                        case '3':
+                            $parent=$('#proof');
+                            break;
+                    }
+                    $parent.find('.gridly').append($elem) ;
+                    $parent.find('.file-drop-zone-title').hide();
+                    $p=$(this).parents('.gallery-file-preview-frame').parent().prev('.file-drop-zone-title');
+                    $(this).parents('.gallery-file-preview-frame').remove();
+                    if (length ==1) {
+                        $p.show();
+                    }
+                    uploader.removeFile (file.id);
+
+                });
             });
             // 文件上传过程中创建进度条实时显示。
             uploader.on('uploadProgress', function (file, percentage) {
@@ -180,6 +249,7 @@ angular.module('chetongxiang.directives', []).directive('upload', ['UploaderServ
             });
             // 文件上传成功，给item添加成功class, 用样式标记上传成功。
             uploader.on('uploadSuccess', function (file, data) {
+                $('#' + file.id).find('.file-preview-image').attr('src',data.data);
                 $('#' + file.id).find('.img-loading').find('img').remove();
                 $('#' + file.id).attr('data-path', data.data);
                 $('#' + file.id).find('.img-loading').removeClass('text-orange').addClass('text-info');
@@ -628,15 +698,19 @@ angular.module('chetongxiang.directives', []).directive('upload', ['UploaderServ
         link: function (scope, element, attr) {
             var QS = QueryString();
             if (QS.CarNo) {
-                var a = '<a href=""  class="filter-a" data-name="CarNo">' + QS.CarNo + '</a>'
+                var a = '<a href="javascript:void(0)"  class="filter-a" data-name="CarNo">' + QS.CarNo + '</a>'
                 $('.filter-reset').before(a);
+                $('.filter-reset').show();
             }
             setTimeout(function () {
                 var elem = $(element[0]).find('a.active');
                 angular.forEach(elem, function (obj, index) {
                     if ($(obj).text() !== '不限') {
                         var a = '<a href="javascript:void(0)"  class="filter-a" data-name="' + $(obj).data('name') + '">' + $(obj).text() + '</a>';
-                        $('.filter-reset').before(a)
+                        var span='<span>'+ $(obj).text()+'</span>';
+                        $('.filter-reset').before(a);
+                        $('.filter-reset').show();
+                        $('#word').append(span)
                     }
                 });
                 $('.filter-a').on('click', function () {
@@ -665,6 +739,7 @@ angular.module('chetongxiang.directives', []).directive('upload', ['UploaderServ
         link: function (scope, element, attr) {
             var btn = $(element).find('.choose-city');
             var box = $(element).find('.city-box');
+            var footcity=$('.our-office');
             btn.hover(function () {
                 $(element).addClass('active');
                 box.addClass('active');
@@ -680,6 +755,29 @@ angular.module('chetongxiang.directives', []).directive('upload', ['UploaderServ
                 box.removeClass('active');
             });
             box.on('click', 'a', function () {
+                $(this).addClass('active').siblings().removeClass('active');
+                CookieService.SetCityCookie({CityName: $(this).data('city'), CityID: $(this).data('value')});
+                var active = angular.element('.filter-content').find('a.active');
+                var qs = QueryString();
+                var href = '?q=0';
+                angular.forEach(active, function (obj, index) {
+                    var name = $(obj).data('name');
+                    var val = $(obj).data('value');
+                    if (val == 0) {
+                        delete  qs[name]
+                    }
+                    else {
+                        qs[name] = val;
+                    }
+                });
+                for (var obj in qs) {
+                    if (obj != 'q') {
+                        href += '&' + obj + '=' + qs[obj];
+                    }
+                }
+                window.location.href = window.location.href.replace(location.search, '') + href;
+            });
+            footcity.on('click', 'a', function () {
                 $(this).addClass('active').siblings().removeClass('active');
                 CookieService.SetCityCookie({CityName: $(this).data('city'), CityID: $(this).data('value')});
                 var active = angular.element('.filter-content').find('a.active');
@@ -762,7 +860,6 @@ angular.module('chetongxiang.directives', []).directive('upload', ['UploaderServ
                     elem.find('#' + id).remove()
                 }
             })
-
         }
     }
 
@@ -849,7 +946,7 @@ angular.module('chetongxiang.directives', []).directive('upload', ['UploaderServ
         replace: false,
         link: function (scope, element, attr) {
             var elem = element[0];
-            $(elem).on('click', '.repair', function (e) {
+            $(elem).on('click', '.repair.carAIbg', function (e) {
                 var _this = $(this);
                 var value = parseInt($(this).attr('value'), 10);
                 var id = $(this).attr('id');
@@ -875,6 +972,28 @@ angular.module('chetongxiang.directives', []).directive('upload', ['UploaderServ
                         break;
                 }
             });
+            $(elem).on('click', '.repair.carNSbg', function (e) {
+                var _this = $(this);
+                var value = parseInt($(this).attr('value'), 10);
+                var id = $(this).attr('id');
+                var blue = 'carAIblue_' + id;
+                var gh = 'carAIGH_' + id;
+                switch (value) {
+                    case 0:
+                        _this.addClass(blue).removeClass(gh);
+                        _this.attr('value', 1);
+                        break;
+                    case 1:
+                        _this.addClass(gh).removeClass(blue);
+                        _this.attr('value', 2);
+                        break;
+                    case 2:
+                        _this.removeClass(blue).removeClass(gh);
+                        _this.attr('value', 0);
+                        break;
+
+                }
+            });
             $(elem).on('click', '.guaca', function (e) {
                 var dot = $('<i class="e_guacha"></i>');
                 var left = parseInt($(this).css('left'));
@@ -882,7 +1001,6 @@ angular.module('chetongxiang.directives', []).directive('upload', ['UploaderServ
                 $('.e_main').append(dot);
                 dot.css({'left': e.offsetX + left - 55, 'top': e.offsetY + top - 35});
                 dot.attr({'data-X': e.offsetX + left - 55, 'data-Y': e.offsetY + top - 35});
-
             });
             $(elem).on('click', '.pengzhuang', function (e) {
                 var dot = $('<i class="e_pengzhuang"></i>');
@@ -971,4 +1089,94 @@ angular.module('chetongxiang.directives', []).directive('upload', ['UploaderServ
 
         }
     }
+}).directive('viewReport', function () {
+    return {
+        restrict: 'AE',
+        replace: false,
+        templateUrl:'./admin/view-report.html',
+        controller:'ViewDetectionController'
+    }
+}).directive('unknowSpec', function () {
+    return {
+        restrict: 'AE',
+        replace: false,
+       link:function(scope, element, attr){
+            var $elem=$(element);
+           $elem.on('change','#nospac',function(){
+               if(this.checked){
+                   var reg=new RegExp("[\\u4E00-\\u9FFF]+","g");
+                   var index=scope.spec.SpecName.lastIndexOf(' ');
+                   var sub=scope.spec.SpecName.substr(index+1);
+                   if(reg.test(sub)){
+                       $('#spacname').text(scope.spec.SpecName.substring(0,index));
+                       scope.SpecName=scope.spec.SpecName.substring(0,index);
+                   }
+               }
+               else{
+                   $('#spacname').text(scope.spec.SpecName);
+                   scope.SpecName=scope.spec.SpecName;
+               }
+           })
+
+       }
+    }
+}).directive('detectSelect', function () {
+    //检测报告设备类型
+    return {
+        restrict: 'AE',
+        replace: false,
+        link: function (scope, element, attr) {
+            var btn = $(element).find('.moreitem-btn');
+            var box = $(element).find('.moreitem-box');
+            var a = box.find('a');
+            btn.hover(function () {
+                $(element).addClass('active').siblings().removeClass('active');
+                box.addClass('active').siblings().removeClass('active');
+            }, function () {
+                $(element).removeClass('active');
+                box.removeClass('active');
+            });
+            box.hover(function () {
+                $(element).addClass('active').siblings().removeClass('active');
+                box.addClass('active').siblings().removeClass('active');
+            }, function () {
+                $(element).removeClass('active');
+                box.removeClass('active');
+            });
+            a.bind('click', function () {
+                var name = $(this).data('name');
+                var val =parseInt($(this).data('value')) ;
+                btn.find('a').attr('data-value',val).text($(this).text());
+                $(this).addClass('active').siblings().removeClass('active');
+                if(val==0){
+                    $('#'+name).show();
+                }
+                else if(val==-1){
+                    $('#'+name).hide();
+                }
+                btn.removeClass('active');
+                box.removeClass('active');
+            });
+
+
+        }
+    }
+}).directive('detectSecond',function(){
+    return {
+        restrict: 'AE',
+        replace: false,
+        link: function (scope, element, attr) {
+          var elem=$(element[0]);
+          elem.on('click',function(){
+              $('.item-title-tab').find('li').eq(1).addClass('active').siblings().removeClass('active');
+              $('#detection').addClass('active in');
+              $('#car').removeClass('active in');
+              window.scrollTo(0,0);
+          })
+        }
+    }
+
+
+
+
 });

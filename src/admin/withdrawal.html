@@ -24,12 +24,21 @@
                 <div class="status-wrapper">
                     <div class="textTop">
                         <div class="col-xs-6 cashText">可用余额</div>
-                        <div  class="col-xs-6 cashNumber" ng-bind="Business.Balance||profile.Balance|currency:'￥'"></div>
+                        <div  class="col-xs-6 cashNumber" >
+                            <span ng-if="USER.IdentityTag!=3" ng-bind="profile.Balance|currency:'￥'"></span>
+                            <span ng-if="USER.IdentityTag==3" ng-bind="Business.Balance|currency:'￥'"></span>
+                        </div>
                         <div class="col-xs-6 cashText">可提现金额</div>
-                        <div class="col-xs-6 cashNumber" ng-bind="Business.Balance||profile.Balance|currency:'￥'"></div>
+                        <div class="col-xs-6 cashNumber" >
+                            <span ng-if="USER.IdentityTag!=3" ng-bind="profile.Balance|currency:'￥'"></span>
+                            <span ng-if="USER.IdentityTag==3" ng-bind="Business.Balance|currency:'￥'"></span>
+                        </div>
                     </div>
                     <div class="buttonBottom">
-                        <a class="btn btn-outline-primary btn-embossed"  href="#/home/bankcard">
+                        <a class="btn btn-outline-primary btn-embossed"  href="#/home/bankcard" ng-if="USER.IdentityTag!=3">
+                            <span class="sl-icon-credit-card"></span>绑定银行卡
+                        </a>
+                        <a class="btn btn-outline-primary btn-embossed"  href="#/home/company" ng-if="USER.IdentityTag==3">
                             <span class="sl-icon-credit-card"></span>绑定银行卡
                         </a>
                         <a class="btn btn-primary btn-embossed"  href="#/home/account">
@@ -71,12 +80,15 @@
                     <p class="form-control-static" ng-bind="Business.CompanyName||profile.UserName"></p>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-init="Business.Balance=100">
                 <label class="col-md-2 control-label">
                     当前余额
                 </label>
                 <div class="col-md-4">
-                    <p class="form-control-static" ng-bind="Business.Balance||profile.Balance|currency:'￥'"></p>
+                    <p class="form-control-static" >
+                        <span ng-if="USER.IdentityTag!=3" ng-bind="profile.Balance|currency:'￥'"></span>
+                        <span ng-if="USER.IdentityTag==3" ng-bind="Business.Balance|currency:'￥'"></span>
+                    </p>
                 </div>
             </div>
             <div class="form-group">
@@ -100,7 +112,7 @@
     <div class="decollator-line"></div>
 
     <div class="col-md-3 col-md-offset-3" style="margin-top: 30px;margin-bottom: 30px">
-        <button class="btn btn-block btn-lg btn-info" ng-click="withdraw()" ng-disabled="depositForm.$invalid">立即提现</button>
+        <button class="btn btn-block btn-lg btn-info"  ng-click="withdraw()" ng-disabled="depositForm.$invalid||deposit.PayMoney==0">立即提现</button>
     </div>
 
 </div>

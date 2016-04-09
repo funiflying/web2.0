@@ -63,10 +63,10 @@
                         </td>
                         <td class="car-list-toolbar">
                             <a href="#/pay?OrderCode={{obj.AppraiseOrderCode}}&&Amount={{obj.AppraiserFee}}"  class="btn-operate btn-profile" ng-if="obj.OrderFlag==0&&obj.RevokeFlag==0">支付费用</a>
-                            <a href=""    class="btn-operate btn-profile" ng-if="obj.OrderFlag>=3">检测报告</a>
-                            <a href="" class="btn-operate btn-profile" ng-if="obj.OrderFlag>=3">评估报告</a>
-                            <a href="" class="btn-operate btn-profile" ng-if="obj.OrderFlag==4">交易评价</a>
-                            <a href=""  class="btn-operate btn-profile" ng-if="obj.OrderFlag==0 && obj.RevokeFlag==0" ng-click="revokeDialog(obj)">撤销委托</a>
+                            <a ng-href="#/view?Code={{obj.TestReportCode}}" class="btn-operate btn-profile" target="_blank" ng-if="obj.OrderFlag>2">检测报告</a>
+                            <a href="#/view-assess?Code={{obj.ReportCode}}" class="btn-operate btn-profile" target="_blank" ng-if="obj.OrderFlag>2.5">评估报告</a>
+                            <a href="#/home/consignor?OrderCode={{obj.AppraiseOrderCode}}" class="btn-operate btn-profile" ng-if="obj.OrderFlag==4">交易评价</a>
+                            <a href="javascript:void(0)"  class="btn-operate btn-profile" ng-if="obj.OrderFlag==0 && obj.RevokeFlag==0" ng-click="revokeDialog(obj)">撤销委托</a>
                         </td>
                     </tr>
                 </table>

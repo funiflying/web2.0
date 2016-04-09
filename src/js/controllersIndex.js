@@ -13,6 +13,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             ResourceService.getFunServer('login',$scope.account,'post').then(function(data){
                 if(data.status){
                     AuthService.Login(data.data);
+                    $rootScope.USER=data.data;
                     if(dialog){
                         //弹出层登录
                         $scope.cancel();
@@ -22,10 +23,10 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                     }
                     //记住用户名
                     if($scope.remember){
-                        $cookieStore.put('NAME',$scope.account.Account)
+                        CookieService.SetCookie('NAME',$scope.account.Account)
                     }
                     else{
-                        $cookieStore.remove('NAME');
+                        CookieService.RemoveCookie('NAME');
                     }
                 }
                 else{
@@ -34,6 +35,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                         msg:data.message
                     }
                 }
+
             })
         }
     };
@@ -44,7 +46,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                 AuthService.LoginOut();
             }
         });
-    }
+    };
     //接受短信验证码
     $scope.fetchTradekeyCode=function(){
         var params={
@@ -65,19 +67,72 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         }
 
     };
-}]).controller('IndexController', ['$rootScope','$scope','$filter','ResourceService','CarService', function ($rootScope,$scope,$filter,ResourceService,CarService) {
+    //回车提交
+    $scope.submitKey=function(e,dialog){
+        var keyCode=window.event? e.keyCode: e.which;
+        if(keyCode==13){
+            $scope.login(dialog);
+        }
+    };
+    //搜索
+    $scope.search=function(){
+        var QS=QueryString();
+        $scope.code=$scope.code.replace(/\s+/g,"");
+        if(!$scope.code){
+            return;
+        }
+        if(!isNaN($scope.code)&&$scope.code.length==13){
+            QS.CarNo=$scope.code;
+            var href='?q=0';
+            delete  QS.q;
+            for(var obj in QS){
+                href+='&'+obj+'='+QS[obj];
+            }
+            window.location.href='buy.html'+href;
+        }
+        else{
+            var elem=angular.element('#Allbrand a');
+            angular.forEach(elem,function(obj,index){
+                var name=$(obj).text();
+                if($scope.code==name){
+                    window.location.href=obj.href;
+                }
+            });
+
+        }
+    };
+    //回车提交
+    $scope.sKey=function(e){
+        var keyCode=window.event? e.keyCode: e.which;
+        if(keyCode==13){
+            $scope.search();
+        }
+    };
+}]).controller('IndexController', ['$rootScope','$scope','$filter','$http','ResourceService','CarService','$resource', function ($rootScope,$scope,$filter,$http,ResourceService,CarService,$resource) {
     if(window.location.href.indexOf('peer.html')>0&&(!$rootScope.USER||$rootScope.USER&&$rootScope.USER.IdentityTag==0)){
         $rootScope.toast('您没有访问权限',function(){
             window.location.href='index.html';
             return false
         })
     }
-    $scope.code='';
+    //回车提交
+    $scope.sKey=function(e){
+        var keyCode=window.event? e.keyCode: e.which;
+        if(keyCode==13){
+            $scope.search();
+        }
+    };
     $scope.currentPage=1;
     $scope.showMore=false;
     $scope.hideMore=true;
     $scope.showCityMore=false;
     $scope.hideCityMore=true;
+    $scope.Test_ReportPic={
+        CarPic:[],
+        ProcudPic:[],
+        FlawPic:[],
+        ProofPic:[]
+    };
     //获取直营公司城市
     $scope.getChain=function(){
         ResourceService.getFunServer('servicecity',{}).then(function(data){
@@ -141,6 +196,8 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         ResourceService.getFunServer('RequestHomeData',params).then(function(data){
             if(data.status==1){
                 $scope.list=data.data;
+            }else{
+                $scope.list=[];
             }
         })
     };
@@ -189,7 +246,42 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         var params={
             BrandID:$scope.filter.Brand
         };
-        ResourceService.getFunServer('Series',params).then(function(data){
+
+        $http.get('./data/brandlist-new.json').success(function(data){
+            if(data.length>0){
+                var s=[];
+                angular.forEach(data,function(obj,index){
+                    if(obj.brandID==$scope.filter.Brand){
+                        s=obj.chexi
+                    }
+                });
+                $scope.seriesArr=$filter('SeriesName')(s,$scope.filter.BrandName,$scope.filter.Series);
+                $scope.series=$scope.seriesArr.slice(0,10);
+                $scope.seriesArr.length>10?$scope.showMore=true:$scope.showMore=false;
+            }
+            else{
+                $scope.series=
+                    [
+                        {"BrandID":48,"SeriesID":3,"SeriesName":"福克斯",BrandName:'福特'},
+                        {"BrandID":22,"SeriesID":1,"SeriesName":"凯越",BrandName:'别克'},
+                        {"BrandID":34,"SeriesID":16,"SeriesName":"宝来",BrandName:'大众'},
+                        {"BrandID":34,"SeriesID":4,"SeriesName":"朗逸",BrandName:'大众'},
+                        {"BrandID":152,"SeriesID":1,"SeriesName":"宏光",BrandName:'五菱汽车'},
+                        {"BrandID":34,"SeriesID":17,"SeriesName":"高尔夫",BrandName:'大众'},
+                        {"BrandID":45,"SeriesID":9,"SeriesName":"卡罗拉",BrandName:'丰田'},
+                        {"BrandID":34,"SeriesID":1,"SeriesName":"Polo",BrandName:'大众'},
+                        {"BrandID":45,"SeriesID":3,"SeriesName":"凯美瑞",BrandName:'丰田'},
+                        {"BrandID":8,"SeriesID":1,"SeriesName":"宝马5系",BrandName:'宝马'},
+                        {"BrandID":126,"SeriesID":7,"SeriesName":"天籁",BrandName:'日产'},
+                        {"BrandID":157,"SeriesID":2,"SeriesName":"世嘉",BrandName:'雪铁龙'},
+                        {"BrandID":107,"SeriesID":6,"SeriesName":"马自达3",BrandName:'马自达'},
+                        {"BrandID":22,"SeriesID":3,"SeriesName":"英朗",BrandName:'别克'},
+                        {"BrandID":156,"SeriesID":3,"SeriesName":"科鲁兹",BrandName:'雪佛兰'}
+                    ];
+            }
+
+        });
+        /*ResourceService.getFunServer('Series',params).then(function(data){
             if(data.status==1){
                 if(data.data.length>0){
                     $scope.seriesArr=$filter('SeriesName')(data.data,$scope.filter.BrandName,$scope.filter.Series);
@@ -220,7 +312,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                         {"BrandID":156,"SeriesID":3,"SeriesName":"科鲁兹",BrandName:'雪佛兰'}
                     ];
             }
-        })
+        })*/
     };
     //更多车系
     $scope.show=function(){
@@ -254,6 +346,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     };
     //翻页
     $scope.changePager=function(){
+        window.scrollTo(0,0);
         $scope.filter.PageNo=$scope.currentPage;
         var QS=QueryString();
         delete  QS.q;
@@ -265,6 +358,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     //搜索
     $scope.search=function(){
         var QS=QueryString();
+        $scope.code=$scope.code.replace(/\s+/g,"");
         if(!$scope.code){
             return;
         }
@@ -272,10 +366,16 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             QS.CarNo=$scope.code;
         }
         else{
-            QS.CarNo=null;
-            QS.SearchWord=$scope.code;
+            var elem=angular.element('.otherbrand a');
+            angular.forEach(elem,function(obj,index){
+                var name=$(obj).text();
+                var val=$(obj).data('value');
+                if($scope.code==name){
+                    QS.BrandName=name;
+                    QS.Brand=val;
+                }
+            });
         }
-
         var href='?q=0';
         delete  QS.q;
         for(var obj in QS){
@@ -318,56 +418,18 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                         case "Test_ReportCarSurfaceCase":
                             $scope.report.SurfaceCase = val[i].value;
                             break;
+                        case "Test_ReportPic":
+                            $scope.report.Test_ReportPic = val[i].value;
+                            break;
                         default:
                             obj=val[i].value[0];
                             break;
                     }
                 }
-                viewReport();
             }
         })
     };
-    var viewReport=function(){
-        $scope.score={
-            'background-image':'url("../images/detection/'+$scope.report.CarRate+'.png")'
-        };
-        angular.forEach($scope.report.ReportDetail,function(obj,index){
-            if(obj.Flag==1&&obj.Param1==null){
-                angular.element('#'+obj.AbnormalColumn).removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
-                angular.element('.detect-accident-'+obj.AbnormalColumn).addClass('active')
-            }
-            if(obj.Flag==1&&obj.Param1==1){
-                //修复
-                angular.element('#'+obj.AbnormalColumn).addClass('carAIblue_'+obj.AbnormalColumn)
-            }
-            if(obj.Flag==1&&obj.Param1==2){
-                //更换
-                angular.element('#'+obj.AbnormalColumn).addClass('carAIGH_'+obj.AbnormalColumn)
-            }
-            if(obj.Flag==1&&obj.Param1==3){
-                //修复
-                angular.element('#'+obj.AbnormalColumn).addClass('carAISC_'+obj.AbnormalColumn)
-            }
-            if(obj.Flag==0){
-                angular.element('#'+obj.AbnormalColumn).removeClass('glyphicon-ok-sign').text('无')
-            }
 
-
-        });
-        angular.forEach($scope.report.SurfaceCase,function(obj,index){
-            if(obj.ProblemFlag==1){
-                //刮擦
-                var flag=$('<i class="e_guacha"  style="left: '+obj.X+'px; top: '+obj.Y+'px;"></i>');
-                $('#GC_PZ').append(flag)
-            }
-            if(obj.ProblemFlag==2){
-                //碰撞
-                flag=$('<i class="e_pengzhuang"  style="left: '+obj.X+'px; top: '+obj.Y+'px;"></i>');
-                $('#GC_PZ').append(flag)
-            }
-        })
-
-    };
     //查看大图
     $scope.changeCover=function(src){
         $scope.cover=src;
@@ -391,29 +453,61 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         }
     };
     //提交订单
-    $scope.orderSubmit=function(){
+
+    $scope.orderDialog=function(car){
+        $scope.configorder=car;
+        
+        $scope.city = $("#city").val();
+        $scope.CityID = $("#city").attr("city");
+        if(!$scope.CityID&&$scope.city!='请选择收车城市'){
+            $scope.alert={
+                type:'alert-warning',
+                msg:'请选择收车城市'
+            };
+        }
+        
         if(!$rootScope.USER){
             $scope.alert={
                 type:'alert-warning',
                 msg:'您还未登录，请登录'
             };
-            $rootScope.dialog('logindialog.html','LoginController',$scope);
+            $rootScope.dialog('logindialog.html','LoginController',$scope,function(){
+                if($rootScope.USER){
+                    $scope.alert={
+                        type:'',
+                        msg:''
+                    };
+                    $scope.orderDialog(car);
+                }
+            });
             return false;
         }
-        if(!angular.element('#city').attr('city')){
-            $rootScope.toast('请输入收车城市')
+        $rootScope.dialog('./admin/configorder.html','IndexController',$scope);
+
+    };
+
+    $scope.orderSubmit=function(){
+
+        //if(!angular.element('#city').attr('city')){
+        if(!$scope.CityID){
+            $scope.alert={
+                type:'alert-warning',
+                msg:'请选择收车城市'
+            };
         }
         else{
             var params={
-                CityID:angular.element('#city').attr('city'),
+                CityID:$scope.CityID,//angular.element('#city').attr('city'),
                 CarNo:$scope.QS.CarNo
             };
             ResourceService.getFunServer('submitorder',params).then(function(data){
                 if(data.status==1){
-                    window.location.href='admin.html#/success?TAG='+'ORDER';
-
+                    window.location.href='admin.html#/success?TAG=ORDER'
                 }else{
-                    $rootScope.toast(data.message)
+                    $scope.alert={
+                        type:'alert-danger',
+                        msg:data.message
+                    };
                 }
             })
         }
@@ -438,7 +532,8 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             EventFlag:0,
             CityID:$scope.xuanchengshi.CityID,
             CityName:$scope.xuanchengshi.Name,
-            ContactPhone:$scope.ContactPhone
+            ContactPhone:$scope.ContactPhone,
+            Contact:$scope.Contact
 
         };
         ResourceService.getFunServer('sellcar',params).then(function(data){
@@ -458,13 +553,14 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                 $scope.joincount = data;
             }
         })
-    }
+    };
     $scope.join=function(){
         var params={
             EventFlag:1,
             CityID:$scope.xuanchengshi.CityID,
             CityName:$scope.xuanchengshi.Name,
-            ContactPhone:$scope.ContactPhone
+            ContactPhone:$scope.ContactPhone,
+            Contact:$scope.Contact
         };
         ResourceService.getFunServer('sellcar',params).then(function(data){
             if(data.status==1){
@@ -493,10 +589,11 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
             $scope.expert_filter[obj]=$scope.QS[obj];
         }
     };
-    if($scope.expert_filter.CityID.length>4){
-        $scope.expert_filter.CityID= $scope.expert_filter.CityID.substring(0,4);
-    }
+
+
+
     $scope.getExpert=function(){
+        $scope.expert_filter.CityID=$rootScope.CITY.CityID||0;
         ResourceService.getFunServer('expert',$scope.expert_filter).then(function(data){
             if(data.status==1){
                 $scope.list=$filter('AppraiserSkill')(data.data.rows['Appraiser'],data.data.rows['AppraiserSkill']);
@@ -510,6 +607,7 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
     };
     //翻页
     $scope.changeCityPager=function(){
+        window.scrollTo(0,0);
         $scope.expert_filter.PageNo=$scope.currentPage;
         var QS=QueryString();
         delete  QS.q;
@@ -536,7 +634,8 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
         };
         ResourceService.getFunServer('CarEvalutionRequest',params).then(function(data){
             if(data.status==1){
-                window.location.href='admin.html#/success?TAG='+'APPRSISER';
+                window.location.href='admin.html#/success?TAG=APPRSISER'
+
             }else{
                 $rootScope.toast(data.message)
             }
@@ -590,5 +689,230 @@ angular.module('chetongxiang.controllers',[]).controller('LoginController',['$ro
                 };
             }
         })
+    };
+    
+    //急售
+    $scope.getUrgent=function(){
+       var params={
+           CarFlag: 255,
+           CheckFlag: 2,
+           pageNo: $scope.currentPage,
+           pageNum: 20
+       };
+       ResourceService.getFunServer('worrylist',params).then(function(data){
+           if(data.rows){
+              $scope.list=data.rows;
+              $scope.pageTotal=data.total;
+           }else{
+               $scope.pageTotal=0;
+           }
+       })
+
+    };
+    //翻页
+    $scope.changeUrgentPager=function(){
+        window.scrollTo(0,0);
+        $scope.getUrgent();
+    };
+    //急售详情
+    $scope.urgentDialog=function(obj){
+        $scope.urgent=obj;
+        $rootScope.dialog('./admin/urgent.html','IndexController',$scope);
+
+    };
+    //诚信数据
+    $scope.getCredit=function(){
+        ResourceService.getFunServer('GetCarCreditInfoByCarNo',{CarNo:$scope.QS.CarNo}).then(function(data){
+            if (data.status == 1 && data.data[0] != null) {
+                $scope.carcreditinfo = data.data[0]
+            }
+
+        })
     }
+}]).controller('ViewDetectionController',['$rootScope','$scope','ResourceService','$filter','CarService',function ($rootScope,$scope,ResourceService,$filter,CarService){
+    var CarNo=QueryString().CarNo;
+
+    var viewReport=function(){
+        if(!$scope.report){
+            return ;
+        }
+        $scope.score={
+            'background-image':'url("../images/detection/'+$scope.report.CarRate+'.png")'
+        };
+        var accident=0;
+        var hs_ps=0;
+        var repair=0;
+        var replace=0;
+        var nei=0;
+        var gcpz=0;
+        var aq=0;
+        var fdj=0;
+        var dz=0;
+        var meiy=0;
+        angular.forEach($scope.report.ReportDetail,function(obj,index){
+            if(obj.AbnormalColumn==0){
+                return;
+            }
+            if(obj.Flag==1&&obj.Param1==null){
+                //电动反光镜，电动车窗
+                if(obj.AbnormalColumn==144||obj.AbnormalColumn==140){
+                    angular.element('#'+obj.AbnormalColumn).find('i[data-name='+obj.DeviceType+']').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                }
+                else if(obj.DeviceType>0){
+                    angular.element('span[data-name='+obj.AbnormalColumn+']').text(obj.Description)
+                }
+                angular.element('i#'+obj.AbnormalColumn).removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                angular.element('.detect-accident-'+obj.AbnormalColumn).addClass('active');
+                if((obj.AbnormalColumn<18||obj.AbnormalColumn==123||obj.AbnormalColumn==124)){
+                    accident++;
+                    angular.element('#shigu .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                    angular.element('#shigu').find('span').text(accident+'项');
+
+                }
+
+                else if(obj.AbnormalColumn>114&&obj.AbnormalColumn<122||obj.AbnormalColumn>157&&obj.AbnormalColumn<162){
+                    fdj++;
+                    angular.element('#fdj .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                    angular.element('#fdj').find('span').text(fdj+'项');
+                    $('#fdj_TJ').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ').text(fdj+'项异常')
+                }
+                else if(obj.AbnormalColumn>129&&obj.AbnormalColumn<138){
+                    aq++;
+                    angular.element('#aq .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                    angular.element('#aq').find('span').text(aq+'项');
+                }
+                else if(obj.AbnormalColumn>18&&obj.AbnormalColumn<32){
+                    hs_ps++;
+                    angular.element('#hs_ps .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                    angular.element('#hs_ps').find('span').text(hs_ps+'项');
+                }else{
+                    dz++;
+                    angular.element('#dz .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                    angular.element('#dz').find('span').text(dz+'项');
+                    $('#dz_TJ').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ').text(dz+'项异常')
+                }
+            }
+            if(obj.Flag==1&&obj.Param1==1){
+                //修复
+                angular.element('#'+obj.AbnormalColumn).addClass('carAIblue_'+obj.AbnormalColumn);
+                repair++;
+                angular.element('#repair .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                angular.element('#repair').find('span').text(repair+'项');
+            }
+            if(obj.Flag==1&&obj.Param1==2){
+                //更换
+                angular.element('#'+obj.AbnormalColumn).addClass('carAIGH_'+obj.AbnormalColumn);
+
+                if(obj.AbnormalColumn<65){
+                    replace++;
+                    angular.element('#replace .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                    angular.element('#replace').find('span').text(replace+'项');
+                }
+                else if(obj.AbnormalColumn>64&&obj.AbnormalColumn<88){
+                    nei++;
+                    angular.element('#nei .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+                    angular.element('#nei').find('span').text(nei+'项');
+                }
+            }
+            if(obj.Flag==1&&obj.Param1==3){
+                //色差
+                angular.element('#'+obj.AbnormalColumn).addClass('carAISC_'+obj.AbnormalColumn)
+            }
+            if(obj.Flag==0){
+                angular.element('#'+obj.AbnormalColumn).remove();
+                angular.element('span[data-name='+obj.AbnormalColumn+']').text('无');
+                meiy++;
+            }
+            else{
+               if(obj.DeviceType>0){
+                    angular.element('span[data-name='+obj.AbnormalColumn+']').text(obj.Description)
+                }
+            }
+
+        });
+        angular.forEach($scope.report.SurfaceCase,function(obj,index){
+            if(obj.ProblemFlag==1){
+                //刮擦
+                var flag=$('<i class="e_guacha"  style="left: '+obj.X+'px; top: '+obj.Y+'px;"></i>');
+                $('#GC_PZ').append(flag)
+            }
+            if(obj.ProblemFlag==2){
+                //碰撞
+                flag=$('<i class="e_pengzhuang"  style="left: '+obj.X+'px; top: '+obj.Y+'px;"></i>');
+                $('#GC_PZ').append(flag)
+            }
+            gcpz++;
+            angular.element('#gcpz .glyphicon').removeClass('glyphicon-ok-sign').addClass('glyphicon-exclamation-sign ');
+            angular.element('#gcpz').find('span').text(gcpz+'项');
+        });
+        angular.forEach($scope.report.Test_ReportPic,function(obj,index){
+            if(obj.PictureFlag==0){
+                $scope.Test_ReportPic.CarPic.push(obj);
+            }
+            if(obj.PictureFlag==1){
+                $scope.Test_ReportPic.ProcudPic.push(obj);
+            }
+            if(obj.PictureFlag==2){
+                $scope.Test_ReportPic.FlawPic.push(obj);
+            }
+            if(obj.PictureFlag==3){
+                $scope.Test_ReportPic.ProofPic.push(obj);
+            }
+        });
+        if($scope.Test_ReportPic.CarPic.length==0){
+            $scope.Test_ReportPic.CarPic=$scope.CarPic;
+        }
+        $scope.Test_ReportPic.CarPic&&$scope.Test_ReportPic.CarPic.sort(sortByFlag);
+        $scope.Test_ReportPic.ProcudPic&&$scope.Test_ReportPic.ProcudPic.sort(sortByFlag);
+        $scope.Test_ReportPic.FlawPic&&$scope.Test_ReportPic.FlawPic.sort(sortByFlag);
+        $scope.Test_ReportPic.ProofPic&&$scope.Test_ReportPic.ProofPic.sort(sortByFlag);
+
+    };
+    //车辆详情
+    $scope.getCar=function(){
+        var params={
+            CarNo:$scope.QS.CarNo
+        };
+        ResourceService.getFunServer('GetCardata',params).then(function(data){
+            if(data.status==1){
+                var val=data.data;
+                var o=new Object();
+                for(var i=0;i<val.length;i++){
+                    var name=val[i].name;
+                    switch (name){
+                        case 'Car':
+                            $scope.car=val[i].value[0];
+                            $scope.cover=$scope.car.HomePicID;
+                            break;
+                        case 'CarPic':
+                            $scope.CarPic=val[i].value;
+
+                            break;
+                        case "Test_Report":
+                            $scope.report = val[i].value[0];
+                            break;
+                        case "Test_ReportDetail":
+                            $scope.report.ReportDetail = val[i].value;
+                            break;
+                        case "Test_ReportCarSurfaceCase":
+                            $scope.report.SurfaceCase = val[i].value;
+                            break;
+                        case "Test_ReportPic":
+                            $scope.report.Test_ReportPic = val[i].value;
+                            break;
+                        default:
+                            obj=val[i].value[0];
+                            break;
+                    }
+                }
+                viewReport();
+            }
+        })
+    };
+    $scope.getCar();
+    //排序
+    var sortByFlag=function(a,b){
+        return Number(a.SerialNO)< Number(b.SerialNO);
+    };
+
 }]);

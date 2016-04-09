@@ -42,16 +42,46 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         controller:'PayController',
         access:1
     }).state('detection',{
-        //支付
-        url:'/detection?CarNo&Event',
+        //检测报告
+        url:'/detection?CarNo&OrderCode&Event',
         templateUrl:'./admin/detection.html',
         controller:'DetectionController',
-        access:0
+        access:1
+    }).state('assess',{
+        //评估报告
+        url:'/assess?OrderCode',
+        templateUrl:'./admin/assess.html',
+        controller:'AssessController',
+        access:1
     }).state('view',{
-        //支付
-        url:'/view?Code',
+        //查看检测
+        url:'/view?Code&CarNO',
         templateUrl:'./admin/view-report.html',
         controller:'DetectionController',
+        access:0
+    }).state('view_assess',{
+        //查看评估
+        url:'/view-assess?Code',
+        templateUrl:'./admin/view-assess.html',
+        controller:'AssessController',
+        access:0
+    }).state('urgent',{
+        //急售发布
+        url:'/urgent',
+        templateUrl:'./admin/issueurgent.html',
+        controller:'CarController',
+        access:0
+    }).state('feedback',{
+        //意见反馈
+        url:'/feedback',
+        templateUrl:'./admin/feedback.html',
+        controller:'GeneralController',
+        access:0
+    }).state('handbook',{
+        //意见反馈
+        url:'/handbook',
+        templateUrl:'./admin/handbook.html',
+        controller:'GeneralController',
         access:0
     }).state('agreement',{
         //注册协议
@@ -188,7 +218,43 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         templateUrl:'./admin/professional.html',
         controller:'AppraiserController',
         access:1,
-        action:'AppraiserController'
+        action:'professional'
+    }).state('home.consignor',{
+        url:'/consignor?OrderCode',
+        templateUrl:'./admin/consignorevaluate.html',
+        controller:'EntrustOrderController',
+        access:1,
+        action:'entrustorder'
+    }).state('home.appraiser',{
+        url:'/appraiser?OrderCode',
+        templateUrl:'./admin/appraiserevaluate.html',
+        controller:'EntrustController',
+        access:1,
+        action:'entrust'
+    }).state('home.coupon',{
+        url:'/coupon',
+        templateUrl:'./admin/coupon.html',
+        controller:'CouponController',
+        access:1,
+        action:'coupon'
+    }).state('home.discount',{
+        url:'/discount?PolicyCode',
+        templateUrl:'./admin/discount.html',
+        controller:'CouponController',
+        access:1,
+        action:'coupon'
+    }).state('home.offline',{
+        url:'/offline',
+        templateUrl:'./admin/offline.html',
+        controller:'OfflineController',
+        access:1,
+        action:'offline'
+    }).state('offline',{
+        url:'/offline',
+        templateUrl:'./admin/issueoffline.html',
+        controller:'CarController',
+        access:1,
+        action:'offline'
     });
      $httpProvider.interceptors.push('myInterceptor');
 }]).constant('PAGE_CONFIG',{
@@ -196,9 +262,9 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         PageTotal:0,
         PageNo:1
     }).run(['$rootScope','$modal','$timeout','$stateParams','$state','$cookieStore','PAGE_CONFIG','AuthService','CookieService',function($rootScope,$modal,$timeout,$stateParams,$state,$cookieStore,PAGE_CONFIG,AuthService,CookieService){
-    $rootScope.USER=$cookieStore.get('AUTH')||null;
+    $rootScope.USER=CookieService.GetCookie('AUTH')||null;
     $rootScope.CITY=CookieService.GetCookie('CITY')||{CityName:'全国',CityID:''} ;
-    $rootScope.HOST='http://demo.chetongxiang.com';//window.location.protocol+window.location.host//
+    $rootScope.HOST='';//window.location.protocol+'//'+window.location.host//
     $rootScope.PAGE_CONF=PAGE_CONFIG;
     $rootScope.state=$state;
     $rootScope.stateParams=$stateParams;
@@ -258,7 +324,7 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
     };
         //路由控制
         $rootScope.$on("$stateChangeStart", function(event) {
-            document.getElementsByTagName('body')[0].scrollTop=0;
+            window.scrollTo(0,0)
         });
         $rootScope.$on('$stateChangeSuccess', function() {
 
@@ -285,28 +351,23 @@ angular.module('chetongxiang',['ui.bootstrap','ui.router','ngResource','ngCookie
         $rootScope.$on('$stateNotFound', function(event){
             $rootScope.state.go('404')
         });
-
-}]).factory("myInterceptor",['$q', '$rootScope', function($q,$rootScope) {
+}]).factory("myInterceptor",['$q', '$rootScope','CookieService', function($q,$rootScope,CookieService) {
         //http 拦截
         var requestInterceptor = {
             request: function(config) {
-
                 return config;
             },
             requestError:function(config){
                 return config
             },
             response:function(response){
-               /* if(response.data.status==-1){
-                    $rootScope.toast('您还没有登录或登录超时',function(){
-                        $rootScope.state.go('login');
-                    });
-                }*/
-
+                if(response.data.status==-1){
+                    CookieService.RemoveCookie('AUTH');
+                }
                 return response
             },
             responseError:function(response){
-
+                console.log(response)
                 return response
             }
         };

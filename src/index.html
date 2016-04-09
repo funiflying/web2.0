@@ -2,14 +2,14 @@
 <html ng-app="chetongxiang" id="ng-app">
 <head lang="en" >
     <meta charset="UTF-8">
-    <link rel="shortcut icon" type="image/ico" href="favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
     <meta name="renderer" content="webkit">
     <meta name="Description" content="平台以二手车交易平台为业务核心和入口，通过B2B2C的商业模式，整合全国二手车及上下游资源，建立二手车商诚信体系，提供公正、专业的车辆检测和车况评估服务，最大限度地满足二手车商之间的车源同享、车源互调，真正实现车商和消费者之间爱车同享，利益同享"/>
     <meta http-equiv="Pragma" content="no-cache" />
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <!--<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />-->
     <meta name="Keywords" content=""/>
     <title>车同享汽车交易平台</title>
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico">
     <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap-datetimepicker.min.css"/>
     <link rel="stylesheet" href="./css/jquery.autocomplete.css"/>
@@ -35,9 +35,9 @@
 <div class="tui-nav index-nav" ng-controller="LoginController">
     <div class="tui-nav-top" >
         <div class="wrapper index-nav-top">
-            欢迎您来到车通享, <span ng-if="!USER.UserName"><a href="./admin.html#/login">请登录</a><span class="spacer"></span><a href="admin.html#/register" class="text-orange">免费注册</a></span><span ng-if="USER.UserName"><a href="./admin.html#/home/main" class="text-orange" ng-bind="USER.UserName||USER.Contact"></a> <a
+            欢迎您来到车同享, <span ng-if="!USER.UserName"><a href="./admin.html#/login">请登录</a><span class="spacer"></span><a href="admin.html#/register" class="text-orange">免费注册</a></span><span ng-if="USER.UserName"><a href="./admin.html#/home/account" class="text-orange" ng-bind="USER.UserName||USER.Contact"></a> <a
                 href="javascript:void(0)" ng-click="loginOff()">退出</a></span>
-            <span class="pull-right"><a href="" class="text-orange">急售通道</a><span class="spacer"></span><a href="">意见反馈</a><span class="spacer"></span><a href="">操作手册</a><span class="spacer"></span><a href="http://192.168.0.218/OA/login.html">分公司登录</a></span>
+            <span class="pull-right"><a href="urgent.html" class="text-orange" target="_blank">急售通道</a><span class="spacer"></span><a href="admin.html#/feedback" target="_blank">意见反馈</a><span class="spacer"></span><a href="admin.html#/handbook" target="_blank">操作手册</a><span class="spacer"></span><a href="http://OA.chetongxiang.net/OA/login.html" target="_blank">分公司登录</a></span>
         </div>
     </div>
     <div class="tui-nav-link wrapper" >
@@ -56,17 +56,36 @@
                          <dt>热门</dt>
                          <dd>
                              <a href="javascript:void(0)" data-city="全国">全国</a>
-                             <a href="javascript:void(0)" data-value="3502" data-name="CityID" data-city="厦门">厦门</a>
-                             <a href="javascript:void(0)" data-value="3502" data-name="CityID" data-city="济南">济南</a>
-                             <a href="javascript:void(0)" data-value="3401" data-name="CityID" data-city="合肥">合肥</a>
-                             <a href="javascript:void(0)" data-value="3701" data-name="5001" data-city="重庆">重庆</a>
+                             <a href="javascript:void(0)" data-value="1101" data-name="CityID" data-city
+                                     ="北京" ng-class="{true:'active',false:''}[CITY.CityID==1101]">北京</a>
+                             <a href="javascript:void(0)" data-value="3401" data-name="CityID" data-city
+                                     ="合肥" ng-class="{true:'active',false:''}[CITY.CityID==3401]">合肥</a>
+                             <a href="javascript:void(0)" data-value="3701" data-name="CityID" data-city
+                                     ="济南" ng-class="{true:'active',false:''}[CITY.CityID==3701]">济南</a>
+                             <a href="javascript:void(0)" data-value="3501" data-name="CityID" data-city
+                                     ="福州" ng-class="{true:'active',false:''}[CITY.CityID==3501]">福州</a>
+                             <a href="javascript:void(0)" data-value="3301" data-name="CityID" data-city
+                                     ="杭州" ng-class="{true:'active',false:''}[CITY.CityID==3301]">杭州</a>
+
+                             <a href="javascript:void(0)" data-value="3101" data-name="CityID" data-city
+                                     ="上海" ng-class="{true:'active',false:''}[CITY.CityID==3101]">上海</a>
+                             <a href="javascript:void(0)" data-value="5001" data-name="CityID" data-city
+                                     ="重庆" ng-class="{true:'active',false:''}[CITY.CityID==5001]">重庆</a>
+                             <a href="javascript:void(0)" data-value="5301" data-name="CityID" data-city
+                                     ="昆明" ng-class="{true:'active',false:''}[CITY.CityID==5301]">昆明</a>
+                             <a href="javascript:void(0)" data-value="4501" data-name="CityID" data-city
+                                     ="南宁" ng-class="{true:'active',false:''}[CITY.CityID==4501]">南宁</a>
+                             <a href="javascript:void(0)" data-value="4101" data-name="CityID" data-city
+                                     ="郑州" ng-class="{true:'active',false:''}[CITY.CityID==4101]">郑州</a>
+                             <a href="javascript:void(0)" data-value="2101" data-name="CityID" data-city
+                                     ="沈阳" ng-class="{true:'active',false:''}[CITY.CityID==2101]">沈阳</a>
                          </dd>
                      </dl>
                      <div class="city-line"></div>
                      <dl ng-repeat="obj in chain">
                          <dt ng-bind="obj.PinYing"></dt>
                          <dd>
-                             <a ng-repeat="o in obj.City" ng-bind="o.CityName" data-city="{{o.CityName}}" href="javascript:void(0)" data-name="CityID" data-value="{{o.CityID}}"></a>
+                             <a ng-repeat="o in obj.City" ng-bind="o.CityName" data-city="{{o.CityName}}" href="javascript:void(0)" data-name="CityID" data-value="{{o.CityID}}" ng-class="{true:'active',false:''}[CITY.CityID==o.CityID]"></a>
                          </dd>
                      </dl>
 
@@ -74,6 +93,9 @@
                  <p class="more-city">更多城市正在筹备，敬请期待。</p>
              </div>
          </div>
+         <span class="pull-right hot-line">
+             <i class="glyphicon glyphicon-earphone"></i> 400-0732-777
+         </span>
     </div>
     <div class=" wrapper index-nav-bar">
         <ul class="index-nav-link">
@@ -87,7 +109,7 @@
         <div class="sef-area">
             <div class="seach-bar">
                 <div class="input-group">
-                    <input type="text" id="search" auto-complete  class="form-control" placeholder="输入品牌、车源号" ng-model="code">
+                    <input type="text" id="search" auto-complete  class="form-control" placeholder="输入品牌、车源号" ng-model="code" ng-keypress="sKey($event)">
                    <span class="input-group-btn">
                       <button class="btn btn-default" type="button" ng-click="search()">
                           <i class="glyphicon glyphicon-search"></i>
@@ -173,10 +195,14 @@
     </div>
 </div>
 <div class="wrapper" ng-init="getHomeCar()">
+    <div class="word" ng-show="list.length==0">
+        <p class="p1" style="padding-bottom: 100px">暂时没有找到二手车。
+        </p>
+    </div>
     <ul class="car-list clearfix">
         <li class="car-item" ng-repeat="obj in list" city="{{obj.CityName}}">
           <div class="list-infoBox">
-              <a href="item.html?CarNo={{obj.CarNo}}">
+              <a href="item.html?CarNo={{obj.CarNo}}" target="_blank">
                   <img ng-src="{{obj.HomePicID||DefaultCarIcon}}" />
               </a>
               <p class="infoBox">
@@ -197,10 +223,12 @@
           </div>
             <span class="ren-icon" ng-bind-html="obj|FormatIndexDetection"></span>
             <span class="report-count"  ng-if="obj.BuyIntentionCount>0">已有<i ng-bind="obj.BuyIntentionCount"></i>人委托评估</span>
+            <span class="car-item-city" ng-bind="obj.CityName"></span>
+            <a class="trading" ng-if="obj.CarFlag==1" href="item.html?CarNo={{obj.CarNo}}" target="_blank"></a>
         </li>
     </ul>
 </div>
-<div class="wrapper text-center" style="margin-top: 30px">
+<div class="wrapper text-center" ng-show="list.length>0" style="margin-top: 30px">
     <a href="buy.html" class="buy-link">查看全部车源</a>
 </div>
 <div class="wrapper tool-bar">

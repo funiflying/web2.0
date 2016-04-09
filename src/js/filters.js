@@ -6,6 +6,9 @@ angular.module('chetongxiang.filters', []).
             var descr = "";
             switch (status) {
                 case "0":
+                    descr = "待确认订单";
+                    break;
+                case "0.5":
                     descr = "支付预付款";
                     break;
                 case "1":
@@ -24,6 +27,9 @@ angular.module('chetongxiang.filters', []).
                     descr = "购车款审核";
                     break;
                 case "6":
+                    descr = "车主当地过户、提档";
+                    break;
+                case "6.5":
                     descr = "物流发车";
                     break;
                 case "7":
@@ -36,16 +42,10 @@ angular.module('chetongxiang.filters', []).
                     descr = "客户提车";
                     break;
                 case "10":
-                    descr = "已完成(未评价)";
-                    break;
-                case "256":
-                    descr = "已完成(买家已评)";
-                    break;
-                case "257":
-                    descr = "已完成(车主已评)";
+                    descr = "客户当地过户、落档";
                     break;
                 case "255":
-                    descr = "已完成(双方已评)";
+                    descr = "已完成";
                     break;
                 default:
                     descr = "";
@@ -57,7 +57,7 @@ angular.module('chetongxiang.filters', []).
     }).filter('CarStatus', function() {
         //车辆状态
         return function(status) {
-            status = status + ""
+            status = status + "";
             var descr = "";
             switch (status) {
                 case "0":
@@ -72,6 +72,9 @@ angular.module('chetongxiang.filters', []).
                 case "255":
                     descr = "交易完成";
                     break;
+                case "-1":
+                    descr = "待商家确认";
+                    break;
                 default:
                     descr = "未知：" + status;
                     break;
@@ -82,7 +85,7 @@ angular.module('chetongxiang.filters', []).
     }).filter('CarCheckStatus', function() {
         //车辆审核状态
         return function(status) {
-            status = status + ""
+            status = status + "";
             var descr = "";
             switch (status) {
                 case "0":
@@ -306,11 +309,25 @@ angular.module('chetongxiang.filters', []).
                 return null;
             }
             if(car.CarFlag==1){
-                var elem= '<div class="item-contact-owner">'+
-                    '<p class="contact"> <i class="glyphicon glyphicon-phone-alt"></i> ***********</p>'+
-                '<p class="text-orange">友情提示：联系时请说明在"<strong>车同享</strong>"看到该车辆信息</p></div>'+
-                '<div class="item-contact-link">'+
-                   ' <a href="" style="opacity: 0.6" ></a></div>'
+                if(car.AllianceCode){
+                    var elem= '<div class="item-contact-owner">'+
+                        '<p class="contact"> <i class="glyphicon glyphicon-phone-alt"></i> *********** '+
+                        '<i class="tui-credit-tip" >联盟商</i></p>'+
+                        '<p class="text-orange">友情提示：联系时请说明在"<strong>车同享</strong>"看到该车辆信息</p></div>'+
+                        '<div class="item-contact-link">'+
+                        ' <a href="" style="opacity: 0.6" ></a></div>'
+                }
+                else{
+                     elem= '<div class="item-contact-owner">'+
+                        '<p class="contact"> <i class="glyphicon glyphicon-phone-alt"></i> *********** '+
+                        '<i class="tui-credit-tip" >个人</i></p>'+
+                        '<p class="text-orange">友情提示：联系时请说明在"<strong>车同享</strong>"看到该车辆信息</p></div>'+
+                        '<div class="item-contact-link">'+
+                        ' <a href="" style="opacity: 0.6" ></a></div>'
+                }
+
+
+
                 return $sce.trustAsHtml(elem);
             }
             else{
@@ -322,11 +339,25 @@ angular.module('chetongxiang.filters', []).
                 else{
                     user='';
                 }
-                var elem= '<div class="item-contact-owner">'+
-                    '<p class="contact"> <i class="glyphicon glyphicon-phone-alt"> </i> '+user+' '+car.Contact+'</p>'+
-                    '<p class="text-orange">友情提示：联系时请说明在"<strong>车同享</strong>"看到该车辆信息</p></div>'+
-                    '<div class="item-contact-link">'+
-                    ' <a href="credit.html?CarNo='+car.CarNo+'" ></a></div>'
+                if(car.AllianceCode){
+                    var elem= '<div class="item-contact-owner">'+
+                        '<p class="contact"> <i class="glyphicon glyphicon-phone-alt"> </i> '+user+' '+car.Contact+'' +
+                        '<i class="tui-credit-tip" >联盟商</i></p>'+
+                        '</p>'+
+                        '<p class="text-orange">友情提示：联系时请说明在"<strong>车同享</strong>"看到该车辆信息</p></div>'+
+                        '<div class="item-contact-link">'+
+                        ' <a href="credit.html?CarNo='+car.CarNo+'" ></a></div>'
+
+                }
+                else{
+                    var elem= '<div class="item-contact-owner">'+
+                        '<p class="contact"> <i class="glyphicon glyphicon-phone-alt"> </i> '+user+' '+car.Contact+'' +
+                        '<i class="tui-credit-tip" >个人</i></p>'+
+                        '</p>'+
+                        '<p class="text-orange">友情提示：联系时请说明在"<strong>车同享</strong>"看到该车辆信息</p></div>'+
+                        '<div class="item-contact-link">'+
+                        ' <a href="credit.html?CarNo='+car.CarNo+'" ></a></div>'
+                }
                 return $sce.trustAsHtml(elem);
             }
         }
@@ -336,15 +367,15 @@ angular.module('chetongxiang.filters', []).
             if(!car){
                 return null;
             }
-            if(car.CarFlag==1){
-                var elem= ' <button type="button" class="item-buy-btn buy-not" disabled><i class="glyphicon glyphicon-shopping-cart"></i>交易中...</button>'+
-                    '<button type="button" class="item-evaluation-btn buy-not" disabled><img src="images/Trust-evaluation-w-icon.png" alt=""/>交易中...</button>';
-                return $sce.trustAsHtml(elem);
-            }
-            else{
-                var elem= ' <a class="item-buy-btn" href="order.html?CarNo='+car.CarNo+'"><i class="glyphicon glyphicon-shopping-cart"></i> 立即购买</a>'+
-                    '<a class="item-evaluation-btn" href="appraiser.html?CarNo='+car.CarNo+'&Brand='+car.Brand+'&CityID='+car.CityID+'"><img src="images/Trust-evaluation-icon.png" alt=""/>委托评估</a>';
 
+            if(car.CarFlag==0){
+                var elem= ' <a class="item-buy-btn" href="order.html?CarNo='+car.CarNo+'"><i class="glyphicon glyphicon-shopping-cart"></i> 立即购买</a>'+
+                    '<a class="item-evaluation-btn" href="appraiser.html?CarNo='+car.CarNo+'&Brand='+car.Brand+'&BrandName='+car.BrandName+'&CityID='+car.CityID+'"><img src="images/Trust-evaluation-icon.png" alt=""/>委托评估</a>';
+
+                return $sce.trustAsHtml(elem);
+            }else{
+                var elem= ' <button type="button" class="item-buy-btn buy-not" disabled><i class="glyphicon glyphicon-shopping-cart"></i>立即购买</button>'+
+                    '<button type="button" class="item-evaluation-btn buy-not" disabled><img src="images/Trust-evaluation-w-icon.png" alt=""/>委托评估</button>';
                 return $sce.trustAsHtml(elem);
             }
         }
@@ -603,6 +634,55 @@ angular.module('chetongxiang.filters', []).
             }
             return flag;
         }
+    }).filter('UseType', function() {
+        //使用性质
+        return function(status) {
+            var flag = "";
+            status=status+"";
+
+            switch (status) {
+
+                case "1":
+                    flag = "非营运";
+                    break;
+                case "2":
+                    flag = "营运";
+                    break;
+                case "3":
+                    flag = "营转非";
+                    break;
+                case "4":
+                    flag = "军转挂";
+                    break;
+                default:
+                    break;
+                    flag = "未知";
+            }
+            return flag;
+        }
+    }).filter('OwnerType', function() {
+        //车辆类型
+        return function(status) {
+            var flag = "";
+            status=status+"";
+
+            switch (status) {
+
+                case "1":
+                    flag = "个人";
+                    break;
+                case "2":
+                    flag = "公用";
+                    break;
+                case "3":
+                    flag = "租赁";
+                    break;
+                default:
+                    break;
+                    flag = "未知";
+            }
+            return flag;
+        }
     }).filter('OutputVolume', function() {
         //车辆排量
         return function(status) {
@@ -625,6 +705,31 @@ angular.module('chetongxiang.filters', []).
                     break;
                 case "5":
                     flag = "3.0L以上";
+                    break;
+                default:
+                    break;
+                    flag = "未知";
+            }
+            return flag;
+        }
+    }).filter('DischargeStandard', function() {
+        return function(status) {
+            var flag = "";
+            switch (status) {
+                case "0":
+                    flag = "未知";
+                    break;
+                case "1":
+                    flag = "国二及以上";
+                    break;
+                case "2":
+                    flag = "国三及以上";
+                    break;
+                case "3":
+                    flag = "国四及以上";
+                    break;
+                case "4":
+                    flag = "国五";
                     break;
                 default:
                     break;
@@ -729,6 +834,7 @@ angular.module('chetongxiang.filters', []).
             status = status + "";
             var descr = "";
             switch (status) {
+
                 case "0":
                     descr = "未付款";
                     break;
@@ -736,7 +842,10 @@ angular.module('chetongxiang.filters', []).
                     descr = "已付款待接单";
                     break;
                 case "2":
-                    descr = "待评估";
+                    descr = "待检测/评估";
+                    break;
+                case "2.5":
+                    descr = "已检测/待评估";
                     break;
                 case "3":
                     descr = "评估师评价";
@@ -763,11 +872,14 @@ angular.module('chetongxiang.filters', []).
     }).filter('UserInfo',['$filter','$sce',function($filter,$sce){
         //格式化个人中心名称
         return function(data){
+            if(!data){
+                return false;
+            }
                if(data.Business){
                   var elemt='<span class="white" >'+data.Business.CompanyName+'</span><small style="margin-left: 20px"><span class="label label-info">商家</span></small>';
                   return   $sce.trustAsHtml(elemt)
                }
-               else{
+               else if(data.User){
                    var elemt='<span class="white" >'+(data.User.UserName||data.User.Account)+'</span> <small style="margin-left: 20px"><span class="label label-info">个人用户</span></small>';
                    return   $sce.trustAsHtml(elemt)
                }
@@ -775,11 +887,14 @@ angular.module('chetongxiang.filters', []).
     }]).filter('Cash',['$filter','$sce',function($filter,$sce){
         //格式化余额显示
         return function(data){
-            if(data.User.IdentityTag==3&&data.Business){
+            if(!data){
+                return false;
+            }
+            if(data.User&&data.User.IdentityTag==3&&data.Business){
                 var elemt=' <h3 class="highlighted-sum" >'+$filter('currency')(data.Business.Balance,"￥")+'</h3><div><a class="btn btn-outline-primary btn-embossed" ui-sref=".deposit" href="#/home/deposit">提现</a></div>';
                 return   $sce.trustAsHtml(elemt)
             }
-            else{
+            else if(data.User){
                 var elemt=' <h3 class="highlighted-sum" >'+$filter('currency')(data.User.Balance,"￥")+'</h3><div><a class="btn btn-outline-primary btn-embossed" ui-sref=".deposit" href="#/home/deposit">提现</a></div>';
                 return   $sce.trustAsHtml(elemt)
             }
@@ -804,5 +919,56 @@ angular.module('chetongxiang.filters', []).
                 }
             }
             return order;
+        }
+    }).filter("numToCny", function() {
+        return function(num) {
+            num = num * 1000;
+            var capUnit = ['万', '亿', '万', '圆', ''];
+            var capDigit = {
+                2: ['角', '分', ''],
+                4: ['仟', '佰', '拾', '']
+            };
+            var capNum = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+            if (((num.toString()).indexOf('.') > 16) || (isNaN(num)))
+                return '';
+            num = (Math.round(num * 100) / 100).toString();
+            num = ((Math.pow(10, 19 - num.length)).toString()).substring(1) + num;
+            var i, ret, j, nodeNum, k, subret, len, subChr, CurChr = [];
+            for (i = 0, ret = ''; i < 5; i++, j = i * 4 + Math.floor(i / 4)) {
+                nodeNum = num.substring(j, j + 4);
+                for (k = 0, subret = '', len = nodeNum.length;
+                     ((k < len) && (parseInt(nodeNum.substring(k)) != 0)); k++) {
+                    CurChr[k % 2] = capNum[nodeNum.charAt(k)] + ((nodeNum.charAt(k) == 0) ? '' : capDigit[len][k]);
+                    if (!((CurChr[0] == CurChr[1]) && (CurChr[0] == capNum[0])))
+                        if (!((CurChr[k % 2] == capNum[0]) && (subret == '') && (ret == '')))
+                            subret += CurChr[k % 2];
+                }
+                subChr = subret + ((subret == '') ? '' : capUnit[i]);
+                if (!((subChr == capNum[0]) && (ret == '')))
+                    ret += subChr;
+            }
+            ret = (ret == '') ? capNum[0] + capUnit[3] : ret;
+            return ret;
+        }
+    }).filter("WorryCarStatus", function() {
+        return function(status) {
+            status = status + "";
+            var descr = "";
+            switch (status) {
+                case "0":
+                    descr = "在售";
+                    break;
+                case "1":
+                    descr = "已售出";
+                    break;
+                case "2":
+                    descr = "已下架";
+                    break;
+                default:
+                    descr = "在售"
+                    break;
+
+            }
+            return descr;
         }
     });

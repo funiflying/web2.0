@@ -289,6 +289,7 @@ function SelCity(obj,e) {
             $("#hcity").val(lev);
             $("#hcity").attr("data-id", $(this).data("id"));
         }
+        
         $("#_citys1 a").click(function () {
             $("#_citys1 a,#_citys2 a").removeClass("AreaS");
             $(this).addClass("AreaS");
@@ -412,7 +413,11 @@ function getArea(obj) {
 }
 //查询字符串
 function QueryString() {
-    var url = location.search; //获取url中"?"符后的字串
+    var url = location.search;
+    if(location.hash.indexOf('#/')>-1){
+         url = location.hash.substring(location.hash.indexOf('?'),location.hash.length);
+    }
+     //获取url中"?"符后的字串
     var qs = new Object();
     if (url.indexOf("?") != -1) {
         var str = url.substr(1);
