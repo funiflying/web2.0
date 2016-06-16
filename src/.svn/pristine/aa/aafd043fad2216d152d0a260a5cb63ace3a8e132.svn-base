@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="chetongxiang">
+<head lang="en">
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta name="Description" content="平台以二手车交易平台为业务核心和入口，通过B2B2C的商业模式，整合全国二手车及上下游资源，建立二手车商诚信体系，提供公正、专业的车辆检测和车况评估服务，最大限度地满足二手车商之间的车源同享、车源互调，真正实现车商和消费者之间爱车同享，利益同享"/>
+    <meta http-equiv="Pragma" content="no-cache" />
+    <!--<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />-->
+    <meta name="Keywords" content=""/>
+    <title>车同享-同行找车</title>
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico">
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./css/jquery.autocomplete.css"/>
+    <link rel="stylesheet" href="./css/chetongxiang.css"/>
+    <script src="./lib/jquery/dist/jquery-1.10.2.min.js"></script>
+    <!--[if lte IE 8]>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
+        document.createElement('uploader');
+        document.createElement('header');
+        // Optionally these for CSS
+        document.createElement('ng:include');
+        document.createElement('ng:pluralize');
+        document.createElement('ng:view');
+    </script>
+    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/3.6/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body ng-controller="IndexController" ng-init="getChain()">
+<div class="tui-nav index-nav" ng-controller="LoginController">
+    <div style="height: 30px;">
+        <div ng-include="'./statics/navbar.html'"></div>
+    </div>
+    <div class="tui-nav-link container text-right" >
+        <div class="c2city " change-city>
+            <a href="javascript:void(0)" class="choose-city" >
+                <span><span class="cn" ng-bind="CITY.CityName"></span><i>&nbsp;</i></span>
+            </a>
+            <i class="maskline"></i>
+            <div class="city-box">
+                <div class="all-city">
+                    <!--  <dl>
+                          <dt>周边</dt>
+                          <dd></dd>
+                      </dl>-->
+                    <dl>
+                        <dt>热门</dt>
+                        <dd>
+                            <a href="javascript:void(0)" data-city="全国">全国</a>
+                            <a href="javascript:void(0)" data-value="1101" data-name="CityID" data-city
+                                    ="北京" ng-class="{true:'active',false:''}[CITY.CityID==1101]">北京</a>
+                            <a href="javascript:void(0)" data-value="3401" data-name="CityID" data-city
+                                    ="合肥" ng-class="{true:'active',false:''}[CITY.CityID==3401]">合肥</a>
+                            <a href="javascript:void(0)" data-value="3701" data-name="CityID" data-city
+                                    ="济南" ng-class="{true:'active',false:''}[CITY.CityID==3701]">济南</a>
+                            <a href="javascript:void(0)" data-value="3501" data-name="CityID" data-city
+                                    ="福州" ng-class="{true:'active',false:''}[CITY.CityID==3501]">福州</a>
+                            <a href="javascript:void(0)" data-value="3301" data-name="CityID" data-city
+                                    ="杭州" ng-class="{true:'active',false:''}[CITY.CityID==3301]">杭州</a>
+
+                            <a href="javascript:void(0)" data-value="3101" data-name="CityID" data-city
+                                    ="上海" ng-class="{true:'active',false:''}[CITY.CityID==3101]">上海</a>
+                            <a href="javascript:void(0)" data-value="5001" data-name="CityID" data-city
+                                    ="重庆" ng-class="{true:'active',false:''}[CITY.CityID==5001]">重庆</a>
+                            <a href="javascript:void(0)" data-value="5301" data-name="CityID" data-city
+                                    ="昆明" ng-class="{true:'active',false:''}[CITY.CityID==5301]">昆明</a>
+                            <a href="javascript:void(0)" data-value="4501" data-name="CityID" data-city
+                                    ="南宁" ng-class="{true:'active',false:''}[CITY.CityID==4501]">南宁</a>
+                            <a href="javascript:void(0)" data-value="4101" data-name="CityID" data-city
+                                    ="郑州" ng-class="{true:'active',false:''}[CITY.CityID==4101]">郑州</a>
+                            <a href="javascript:void(0)" data-value="2101" data-name="CityID" data-city
+                                    ="沈阳" ng-class="{true:'active',false:''}[CITY.CityID==2101]">沈阳</a>
+                        </dd>
+                    </dl>
+                    <div class="city-line"></div>
+                    <dl ng-repeat="obj in chain">
+                        <dt ng-bind="obj.PinYing"></dt>
+                        <dd>
+                            <a ng-repeat="o in obj.City" ng-bind="o.CityName" data-city="{{o.CityName}}" href="javascript:void(0)" data-name="CityID" data-value="{{o.CityID}}" ng-class="{true:'active',false:''}[CITY.CityID==o.CityID]"></a>
+                        </dd>
+                    </dl>
+
+                </div>
+                <p class="more-city">更多城市正在筹备，敬请期待。</p>
+            </div>
+        </div>
+        <span class="pull-right hot-line">
+             <i class="glyphicon glyphicon-earphone"></i> 400-0732-777
+         </span>
+    </div>
+    <div class=" wrapper index-nav-bar">
+        <ul class="index-nav-link">
+            <li class="index-nav-item"><a href="index.html">首页</a></li>
+            <li class="index-nav-item active"><a href="peer.html">同行找车</a></li>
+            <li class="index-nav-item"><a href="sell.html">我要卖车</a></li>
+            <li class="index-nav-item"><a href="join.html">我要入驻</a></li>
+            <li class="index-nav-item"><a href="expert.html">专家库</a></li>
+            <li class="index-nav-item"><a href="safeguard.html">服务保障</a></li>
+        </ul>
+    </div>
+</div>
+<div class="wrapper filter-container">
+    <div class="search-bar">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" id="search" ng-model="code" auto-complete class="form-control" placeholder="输入品牌、车源号">
+                   <span class="input-group-btn">
+                      <button class="btn btn-default" type="button" ng-click="search()">
+                          <i class="glyphicon glyphicon-search"></i>
+                      </button>
+                   </span>
+                </div>
+            </div>
+            <div class="col-md-4 hot-link">
+                <a data-brand="45" data-value="9" href="peer.html?Brand=45&Series=9">卡罗拉</a>
+                <a data-brand="8" data-value="1" href="peer.html?Brand=8&Series=1">宝马3系</a>
+                <a data-brand="48" data-value="3" href="peer.html?Brand=48&Series=3">福克斯</a>
+                <a data-brand="34" data-value="4" href="peer.html?Brand=34&Series=4">朗逸</a>
+                <a data-brand="34" data-value="8" href="peer.html?Brand=34&Series=8">帕萨特</a>
+            </div>
+            <div class="col-md-4">
+                <h4 class="text-right text-orange"><strong ng-bind="pageTotal"></strong> 辆好车</h4>
+            </div>
+        </div>
+    </div>
+    <div class="filter-content">
+        <div class="filter-box" filter>
+            <dl class="fliter-bd clearfix">
+                <dt>品牌</dt>
+                <dd filterbrand morebrand >
+                    <a data-name="Brand" data-value="0"  ng-class="{true:'active',false:''}[filter.Brand==null]" >不限</a>
+                    <a data-name="Brand" data-value="34" ng-class="{true:'active',false:''}[filter.Brand==34]"  class="statics-brand">大众</a>
+                    <a data-name="Brand" data-value="48" ng-class="{true:'active',false:''}[filter.Brand==48]"  class="statics-brand">福特</a>
+                    <a data-name="Brand" data-value="45" ng-class="{true:'active',false:''}[filter.Brand==45]"  class="statics-brand">丰田</a>
+                    <a data-name="Brand" data-value="155" ng-class="{true:'active',false:''}[filter.Brand==155]"  class="statics-brand">现代</a>
+                    <a data-name="Brand" data-value="19" ng-class="{true:'active',false:''}[filter.Brand==19]"  class="statics-brand">本田</a>
+                    <a data-name="Brand" data-value="126" ng-class="{true:'active',false:''}[filter.Brand==126]"  class="statics-brand">日产</a>
+                    <a data-name="Brand" data-value="156" ng-class="{true:'active',false:''}[filter.Brand==156]"  class="statics-brand">雪佛兰</a>
+                    <a data-name="Brand" data-value="21" ng-class="{true:'active',false:''}[filter.Brand==21]"  class="statics-brand">标致</a>
+                    <a data-name="Brand" data-value="20" ng-class="{true:'active',false:''}[filter.Brand==20]"  class="statics-brand">比亚迪</a>
+                    <a data-name="Brand" data-value="8" ng-class="{true:'active',false:''}[filter.Brand==8]"  class="statics-brand">宝马</a>
+                    <a data-name="Brand" data-value="71" ng-class="{true:'active',false:''}[filter.Brand==71]"  class="statics-brand">吉利汽车</a>
+                    <a data-name="Brand" data-value="157" ng-class="{true:'active',false:''}[filter.Brand==157]" class="statics-brand" >雪铁龙</a>
+                    <a data-name="Brand" data-value="122" ng-class="{true:'active',false:''}[filter.Brand==122]"  class="statics-brand">起亚</a>
+                    <a data-name="Brand" data-value="5" ng-class="{true:'active',false:''}[filter.Brand==5]"  class="statics-brand">奥迪</a>
+                    <a data-name="Brand" data-value="120" ng-class="{true:'active',false:''}[filter.Brand==120]"  class="statics-brand">奇瑞</a>
+                    <a data-name="Brand" data-value="17" ng-class="{true:'active',false:''}[filter.Brand==16]"  class="statics-brand">奔驰</a>
+                    <a data-name="Brand" data-value="100" ng-class="{true:'active',false:''}[filter.Brand==100]"  class="statics-brand">铃木</a>
+                    <span class="brand-all" allbrand id="morebrand">
+                    <em class="show" >全部<i></i></em>
+                        <div  class="otherbrand" data-role="otherBrand">
+                            <div class="o-b-box">
+                                <!-- <span class="arrow"><s></s></span>-->
+                                <ul class="o-b-list" data-role="letterNav">
+                                    <li class="clearfix">
+                                        <span>A</span>
+                                        <div>
+                                            <a data-name="Brand" data-value="1">AC Schnitzer</a><a data-name="Brand" data-value="2">阿尔法罗密欧</a><a data-name="Brand" data-value="3">阿斯顿·马丁</a><a data-name="Brand" data-value="4">安凯客车</a><a data-name="Brand" data-value="5">奥迪</a>
+
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>B</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value="6">巴博斯</a>
+                                            <a data-value="7" data-name="Brand">宝骏</a>
+                                            <a data-value=" 8" data-name="Brand">宝马</a>
+                                            <a data-value=" 9" data-name="Brand">宝沃</a>
+                                            <a data-value=" 10" data-name="Brand">保时捷</a>
+                                            <a data-value=" 11" data-name="Brand">北京</a>
+                                            <a data-value=" 12" data-name="Brand">北汽幻速</a>
+                                            <a data-value=" 13" data-name="Brand">北汽绅宝</a>
+                                            <a data-value=" 14" data-name="Brand">北汽威旺</a>
+                                            <a data-value=" 15"  data-name="Brand">北汽新能源</a>
+                                            <a  data-name="Brand" data-value=" 16">北汽制造</a>
+                                            <a  data-name="Brand" data-value=" 17">奔驰</a>
+                                            <a  data-name="Brand" data-value=" 18">奔腾</a>
+                                            <a  data-name="Brand" data-value=" 19">本田</a>
+                                            <a  data-name="Brand" data-value=" 20">比亚迪</a>
+                                            <a  data-name="Brand" data-value=" 21">标致</a>
+                                            <a  data-name="Brand" data-value=" 22">别克</a>
+                                            <a  data-name="Brand" data-value=" 23">宾利</a>
+                                            <a  data-name="Brand" data-value=" 24">布加迪</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>C</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 25">昌河</a>
+                                            <a  data-name="Brand" data-value=" 26">成功汽车</a>
+                                            <a  data-name="Brand" data-value=" 27">长安</a>
+                                            <a  data-name="Brand" data-value=" 28">长安商用</a>
+                                            <a  data-name="Brand" data-value=" 29">长城</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>D</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 30">Dacia</a>
+                                            <a  data-name="Brand" data-value=" 31">DMC</a>
+                                            <a  data-name="Brand" data-value=" 32">DS</a>
+                                            <a  data-name="Brand" data-value=" 33">大发</a>
+                                            <a  data-name="Brand" data-value=" 34">大众</a>
+                                            <a  data-name="Brand" data-value=" 35">道奇</a>
+                                            <a  data-name="Brand" data-value=" 36">东风</a>
+                                            <a  data-name="Brand" data-value=" 37">东风风度</a>
+                                            <a  data-name="Brand" data-value=" 38">东风风行</a>
+                                            <a  data-name="Brand" data-value=" 39">东风风神</a>
+                                            <a  data-name="Brand" data-value=" 40">东风小康</a>
+                                            <a  data-name="Brand" data-value=" 41">东南</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>F</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 42">Fisker</a>
+                                            <a  data-name="Brand" data-value=" 43">法拉利</a>
+                                            <a  data-name="Brand" data-value=" 44">菲亚特</a>
+                                            <a  data-name="Brand" data-value=" 45">丰田</a>
+                                            <a  data-name="Brand" data-value=" 46">福迪</a>
+                                            <a  data-name="Brand" data-value=" 47">福汽启腾</a>
+                                            <a  data-name="Brand" data-value=" 48">福特</a>
+                                            <a  data-name="Brand" data-value=" 49">福田</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfi">
+                                        <span>G</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 50">GMC</a>
+                                            <a  data-name="Brand" data-value=" 51">Gumpert</a>
+                                            <a  data-name="Brand" data-value=" 52">观致</a>
+                                            <a  data-name="Brand" data-value=" 53">光冈</a>
+                                            <a  data-name="Brand" data-value=" 54">广汽传祺</a>
+                                            <a  data-name="Brand" data-value=" 55">广汽吉奥</a>
+
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>H</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 56">Hennessey</a><a  data-name="Brand" data-value=" 57">哈飞</a><a  data-name="Brand" data-value=" 58">哈弗</a><a  data-name="Brand" data-value=" 59">海格</a><a  data-name="Brand" data-value=" 60">海马</a><a  data-name="Brand" data-value=" 61">悍马</a><a  data-name="Brand" data-value=" 62">恒天</a>
+                                            <a  data-name="Brand" data-value=" 63">红旗</a><a  data-name="Brand" data-value=" 65">华普</a><a  data-name="Brand" data-value=" 66">华骐</a><a  data-name="Brand" data-value=" 67">华颂</a><a  data-name="Brand" data-value=" 68">华泰</a><a  data-name="Brand" data-value=" 69">黄海</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>J</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 70">Jeep</a><a  data-name="Brand" data-value=" 71">吉利汽车</a><a  data-name="Brand" data-value=" 72">江淮</a><a  data-name="Brand" data-value=" 73">江铃</a><a  data-name="Brand" data-value=" 74">江铃集团轻汽</a><a  data-name="Brand" data-value=" 75">捷豹</a><a  data-name="Brand" data-value=" 76">金杯</a>
+                                            <a  data-name="Brand" data-value=" 77">金龙</a><a  data-name="Brand" data-value=" 78">金旅</a><a  data-name="Brand" data-value=" 79">九龙</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>K</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 80">KTM</a><a  data-name="Brand" data-value=" 81">卡尔森</a><a  data-name="Brand" data-value=" 82">卡威</a><a  data-name="Brand" data-value=" 83">开瑞</a><a  data-name="Brand" data-value=" 84">凯佰赫</a><a  data-name="Brand" data-value=" 85">凯迪拉克</a><a  data-name="Brand" data-value=" 86">凯翼</a>
+                                            <a  data-name="Brand" data-value=" 87">科尼赛克</a><a  data-name="Brand" data-value=" 88">克莱斯勒</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>L</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 89">兰博基尼</a><a  data-name="Brand" data-value=" 90">蓝旗亚</a><a  data-name="Brand" data-value=" 91">朗世</a><a  data-name="Brand" data-value=" 92">劳斯莱斯</a><a  data-name="Brand" data-value=" 93">雷克萨斯</a><a  data-name="Brand" data-value=" 94">雷诺</a><a  data-name="Brand" data-value=" 95">理念</a>
+                                            <a  data-name="Brand" data-value=" 96">力帆</a><a  data-name="Brand" data-value=" 97">莲花汽车</a><a  data-name="Brand" data-value=" 98">猎豹汽车</a><a  data-name="Brand" data-value=" 99">林肯</a><a  data-name="Brand" data-value=" 100">铃木</a><a  data-name="Brand" data-value=" 101">领志</a><a  data-name="Brand" data-value=" 102">陆风</a>
+                                            <a  data-name="Brand" data-value=" 103">路虎</a>
+                                            <a  data-name="Brand" data-value=" 104">路特斯</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>M</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 105">MG</a><a  data-name="Brand" data-value=" 106">MINI</a><a  data-name="Brand" data-value=" 107">马自达</a><a  data-name="Brand" data-value=" 108">玛莎拉蒂</a><a  data-name="Brand" data-value=" 109">迈巴赫</a><a  data-name="Brand" data-value=" 110">迈凯伦</a><a  data-name="Brand" data-value=" 111">摩根</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>N</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 112">Noble</a><a data-value=" 113">纳智捷</a><a  data-name="Brand" data-value=" 114">南京金龙</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>O</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 115">讴歌</a><a  data-name="Brand" data-value=" 116">欧宝</a><a  data-name="Brand" data-value=" 117">欧朗</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>P</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 118">帕加尼</a><a  data-name="Brand" data-value=" 119">佩奇奥</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>Q</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 120">奇瑞</a><a  data-name="Brand" data-value=" 121">启辰</a><a  data-name="Brand" data-value=" 122">起亚</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>R</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 124">Rezvani</a><a  data-name="Brand" data-value=" 125">Rinspeed</a><a  data-name="Brand" data-value=" 126">日产</a><a  data-name="Brand" data-value=" 127">荣威</a><a  data-name="Brand" data-value=" 128">如虎</a><a  data-name="Brand" data-value=" 129">瑞麒</a></td>
+
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>S</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 130">Scion</a><a  data-name="Brand" data-value=" 131">smart</a><a  data-name="Brand" data-value=" 132">SPIRRA</a><a data-value=" 133">SSC</a><a  data-name="Brand" data-value=" 134">萨博</a><a  data-name="Brand" data-value=" 135">赛麟</a><a  data-name="Brand" data-value=" 136">三菱</a>
+                                            <a  data-name="Brand" data-value=" 137">上海</a><a  data-name="Brand" data-value=" 138">上汽大通</a><a  data-name="Brand" data-value=" 139">世爵</a><a  data-name="Brand" data-value=" 140">双环</a><a  data-name="Brand" data-value=" 141">双龙</a><a  data-name="Brand" data-value=" 142">思铭</a><a  data-name="Brand" data-value=" 143">斯巴鲁</a>
+                                            <a  data-name="Brand" data-value=" 144">斯柯达</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>T</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 145">特斯拉</a><a  data-name="Brand" data-value=" 146">腾势</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>W</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 147">威麟</a><a  data-name="Brand" data-value=" 148">威兹曼</a><a  data-name="Brand" data-value=" 149">潍柴英致</a><a  data-name="Brand" data-value=" 150">沃尔沃</a><a  data-name="Brand" data-value=" 151">沃克斯豪尔</a><a  data-name="Brand" data-value=" 152">五菱汽车</a><a  data-name="Brand" data-value=" 153">五十铃</a></td>
+
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>X</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 154">西雅特</a><a  data-name="Brand" data-value=" 155">现代</a><a  data-name="Brand" data-value=" 156">雪佛兰</a><a  data-name="Brand" data-value=" 157">雪铁龙</a>
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>Y</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 158">野马汽车</a><a  data-name="Brand" data-value=" 159">一汽</a><a  data-name="Brand" data-value=" 160">依维柯</a><a  data-name="Brand" data-value=" 161">英菲尼迪</a><a  data-name="Brand" data-value=" 162">永源</a><a  data-name="Brand" data-value=" 163">游侠</a></td>
+
+                                        </div>
+                                    </li>
+                                    <li class="clearfix">
+                                        <span>Z</span>
+                                        <div>
+                                            <a  data-name="Brand" data-value=" 164">Zenvo</a><a  data-name="Brand" data-value=" 165">之诺</a><a  data-name="Brand" data-value=" 166">知豆</a><a  data-name="Brand" data-value=" 167">中华</a><a  data-name="Brand" data-value=" 168">中兴</a><a  data-name="Brand" data-value=" 169">众泰</a></td>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </span>
+                </dd>
+            </dl>
+            <dl class="fliter-bd clearfix">
+                <dt>车系</dt>
+                <dd  filterseries>
+                    <a data-name="Series" data-brand="0" data-value="0"   ng-class="{true:'active',false:''}[filter.Series==null]">不限</a>
+                    <a href="javascript:void(0)" ng-repeat="obj in series" data-name="Series" data-brand="{{obj.BrandID||filter.Brand}}" data-value="{{obj.SeriesID}}" ng-class="{true:'active',false:''}[filter.Series==obj.SeriesID]" data-brandName="{{obj.BrandName||filter.BrandName}}" ng-bind="obj.SeriesName"></a>
+                     <span class="brand-all" ng-show="showMore" ng-click="show()">
+                        <em class="show">更多<i></i></em>
+                     </span>
+                    <span class="brand-all" ng-hide="hideMore" ng-click="hide()">
+                        <em class="show">收起<i class="up"></i></em>
+                     </span>
+                </dd>
+            </dl>
+            <dl  class="fliter-bd clearfix">
+                <dt>价格</dt>
+                <dd filter-selected>
+                    <a ng-class="{true:'active',false:''}[filter.PriceID==null]" data-name="PriceID" data-value="0">不限</a>
+                    <a ng-class="{true:'active',false:''}[filter.PriceID==1]" data-name="PriceID" data-value="1">5万以下</a>
+                    <a ng-class="{true:'active',false:''}[filter.PriceID==2]" data-name="PriceID" data-value="2">5-10万</a>
+                    <a ng-class="{true:'active',false:''}[filter.PriceID==3]" data-name="PriceID" data-value="3">10-15万</a>
+                    <a ng-class="{true:'active',false:''}[filter.PriceID==4]" data-name="PriceID" data-value="4">15-20万</a>
+                    <a ng-class="{true:'active',false:''}[filter.PriceID==5]" data-name="PriceID" data-value="5">20-30万</a>
+                    <a ng-class="{true:'active',false:''}[filter.PriceID==6]" data-name="PriceID" data-value="6">30-40万</a>
+                    <a ng-class="{true:'active',false:''}[filter.PriceID==7]"  data-name="PriceID" data-value="7">40-50万</a>
+                    <a ng-class="{true:'active',false:''}[filter.PriceID==8]"  data-name="PriceID" data-value="8">50万以上</a>
+                </dd>
+            </dl>
+            <dl  class="fliter-bd clearfix">
+                <dt>车龄</dt>
+                <dd filter-selected>
+                    <a ng-class="{true:'active',false:''}[filter.CarYear==null]" data-name="CarYear" data-value="0">不限</a>
+                    <a ng-class="{true:'active',false:''}[filter.CarYear==1]" data-name="CarYear" data-value="1">1年以内</a>
+                    <a ng-class="{true:'active',false:''}[filter.CarYear==2]" data-name="CarYear" data-value="2">3年内</a>
+                    <a ng-class="{true:'active',false:''}[filter.CarYear==3]" data-name="CarYear" data-value="3">5年内</a>
+                    <a ng-class="{true:'active',false:''}[filter.CarYear==4]" data-name="CarYear" data-value="4">5年以上</a>
+                </dd>
+            </dl>
+            <dl class="moreitem">
+                <dt>更多</dt>
+                <dd filter-more>
+                    <div class="moreitem-btn">
+                        <a href="javascript:void(0)">车型</a>
+                    </div>
+                    <div class="moreitem-box">
+                        <div class="m-i-w1">
+                            <div class="moreitem-opts">
+                                <a data-name="Style" class="one" data-value="0" >不限</a>
+                                <a data-name="Style" data-value="1" ng-class="{true:'active',false:''}[filter.Style==1]">轿车</a>
+                                <a data-name="Style" data-value="2" ng-class="{true:'active',false:''}[filter.Style==2]">SUV</a>
+                                <a data-name="Style" data-value="3" ng-class="{true:'active',false:''}[filter.Style==3]">MPV</a>
+                                <a data-name="Style" data-value="4" ng-class="{true:'active',false:''}[filter.Style==4]">跑车</a>
+                                <a data-name="Style" data-value="5" ng-class="{true:'active',false:''}[filter.Style==5]">其他</a>
+                            </div>
+                        </div>
+                    </div>
+                </dd>
+                <dd filter-more>
+                    <div class="moreitem-btn">
+                        <a href="javascript:void(0)">行驶里程</a>
+                    </div>
+                    <div class="moreitem-box">
+                        <div class="m-i-w1">
+                            <div class="moreitem-opts">
+                                <a class="one" data-name="Mileage" data-value="0" >不限</a>
+                                <a class="" data-name="Mileage" data-value="1"  ng-class="{true:'active',false:''}[filter.Mileage==1]">1万公里内</a>
+                                <a class="" data-name="Mileage" data-value="2"  ng-class="{true:'active',false:''}[filter.Mileage==2]">3万公里内</a>
+                                <a class="" data-name="Mileage" data-value="3"  ng-class="{true:'active',false:''}[filter.Mileage==3]">5万公里内</a>
+                                <a class="" data-name="Mileage" data-value="4"  ng-class="{true:'active',false:''}[filter.Mileage==4]">5万公里以上</a>
+                            </div>
+                        </div>
+                    </div>
+                </dd>
+                <dd filter-more>
+                    <div class="moreitem-btn">
+                        <a href="javascript:void(0)">变速箱</a>
+                    </div>
+                    <div class="moreitem-box">
+                        <div class="m-i-w1">
+                            <div class="moreitem-opts">
+                                <a class="one" data-name="GearBox" data-value="0"  >不限</a>
+                                <a class="" data-name="GearBox" data-value="1"  ng-class="{true:'active',false:''}[filter.GearBox==1]">手动</a>
+                                <a class="" data-name="GearBox" data-value="2"  ng-class="{true:'active',false:''}[filter.GearBox==2]">自动</a>
+                            </div>
+                        </div>
+                    </div>
+                </dd>
+                <dd filter-more>
+                    <div class="moreitem-btn">
+                        <a href="javascript:void(0)">排量</a>
+                    </div>
+                    <div class="moreitem-box">
+                        <div class="m-i-w1">
+                            <div class="moreitem-opts">
+                                <a class="one" data-name="OutputVolume" data-value="0"  >不限</a>
+                                <a class="" data-name="OutputVolume" data-value="1"  ng-class="{true:'active',false:''}[filter.OutputVolume==1]">1.0L以下</a>
+                                <a class="" data-name="OutputVolume" data-value="2"  ng-class="{true:'active',false:''}[filter.OutputVolume==2]">1.0-1.6L</a>
+                                <a class="" data-name="OutputVolume" data-value="3"  ng-class="{true:'active',false:''}[filter.OutputVolume==3]">1.6-2.0L</a>
+                                <a class="" data-name="OutputVolume" data-value="4"  ng-class="{true:'active',false:''}[filter.OutputVolume==4]">2.0-3.0L</a>
+                                <a class="" data-name="OutputVolume" data-value="5"  ng-class="{true:'active',false:''}[filter.OutputVolume==5]">3.0L以上</a>
+                            </div>
+                        </div>
+                    </div>
+                </dd>
+                <dd filter-more>
+                    <div class="moreitem-btn">
+                        <a href="javascript:void(0)">排放标准</a>
+                    </div>
+                    <div class="moreitem-box">
+                        <div class="m-i-w1">
+                            <div class="moreitem-opts">
+                                <a class="one" data-name="DischargeStandard" data-value="0" >不限</a>
+                                <a class="" data-name="DischargeStandard" data-value="1"  ng-class="{true:'active',false:''}[filter.DischargeStandard==1]">国二及以上</a>
+                                <a class="" data-name="DischargeStandard" data-value="2"  ng-class="{true:'active',false:''}[filter.DischargeStandard==2]">国三及以上</a>
+                                <a class="" data-name="DischargeStandard" data-value="3"  ng-class="{true:'active',false:''}[filter.DischargeStandard==3]">国四及以上</a>
+                                <a class="" data-name="DischargeStandard" data-value="4"  ng-class="{true:'active',false:''}[filter.DischargeStandard==4]">国五</a>
+                            </div>
+                        </div>
+                    </div>
+                </dd>
+                <dd filter-more>
+                    <div class="moreitem-btn">
+                        <a href="javascript:void(0)">颜色</a>
+                    </div>
+                    <div class="moreitem-box">
+                        <div class="m-i-w1 moreitem-color">
+                            <div class="moreitem-opts">
+                                <a class="one" data-name="Color" data-value="0"><i></i> 不限</a>
+                                <a class="" data-name="Color" data-value="1"  ng-class="{true:'active',false:''}[filter.Color==1]"><i class="color-01"></i> 黑色</a>
+                                <a class="" data-name="Color" data-value="2" ng-class="{true:'active',false:''}[filter.Color==2]"><i class="color-02" style="border: 1px solid #DEDEDE;"></i> 白色</a>
+                                <a class="" data-name="Color" data-value="3" ng-class="{true:'active',false:''}[filter.Color==3]"><i class="color-03"></i> 银灰色</a>
+                                <a class="" data-name="Color" data-value="4" ng-class="{true:'active',false:''}[filter.Color==4]"><i class="color-04"></i> 深灰色</a>
+                                <a class="" data-name="Color" data-value="5" ng-class="{true:'active',false:''}[filter.Color==5]"><i class="color-05"></i> 红色</a>
+                                <a class="" data-name="Color" data-value="6" ng-class="{true:'active',false:''}[filter.Color==6]"><i class="color-06"></i> 橙色</a>
+                                <a class="" data-name="Color" data-value="7" ng-class="{true:'active',false:''}[filter.Color==7]"><i class="color-07"></i> 多彩色</a>
+                                <a class="" data-name="Color" data-value="8" ng-class="{true:'active',false:''}[filter.Color==8]"><i class="color-08"></i> 绿色</a>
+                                <a class="" data-name="Color" data-value="9" ng-class="{true:'active',false:''}[filter.Color==9]"><i class="color-09"></i> 蓝色</a>
+                                <a class="" data-name="Color" data-value="10" ng-class="{true:'active',false:''}[filter.Color==10]"><i class="color-10"></i> 咖啡色</a>
+                                <a class="" data-name="Color" data-value="11" ng-class="{true:'active',false:''}[filter.Color==11]"><i class="color-11"></i> 紫色</a>
+                                <a class="" data-name="Color" data-value="12" ng-class="{true:'active',false:''}[filter.Color==12]"><i class="color-12"></i> 香槟色</a>
+                                <a class="" data-name="Color" data-value="13" ng-class="{true:'active',false:''}[filter.Color==13]"><i class="color-13"></i> 黄色</a>
+                                <a class="" data-name="Color" data-value="14" ng-class="{true:'active',false:''}[filter.Color==14]"><i class="color-14"></i> 其它</a>
+                            </div>
+                        </div>
+                    </div>
+                </dd>
+                <dd filter-more>
+                    <div class="moreitem-btn">
+                        <a href="javascript:void(0)">国别</a>
+                    </div>
+                    <div class="moreitem-box">
+                        <div class="m-i-w1">
+                            <div class="moreitem-opts">
+                                <a class="one" data-name="Country" data-value="0">不限</a>
+                                <a class="" data-name="Country" data-value="1"  ng-class="{true:'active',false:''}[filter.Country==1]">德系</a>
+                                <a class="" data-name="Country" data-value="2" ng-class="{true:'active',false:''}[filter.Country==2]">日系</a>
+                                <a class="" data-name="Country" data-value="3" ng-class="{true:'active',false:''}[filter.Country==3]">美系</a>
+                                <a class="" data-name="Country" data-value="4" ng-class="{true:'active',false:''}[filter.Country==4]">法系</a>
+                                <a class="" data-name="Country" data-value="5" ng-class="{true:'active',false:''}[filter.Country==5]">韩系</a>
+                                <a class="" data-name="Country" data-value="6" ng-class="{true:'active',false:''}[filter.Country==6]">自主</a>
+                                <a class="" data-name="Country" data-value="7" ng-class="{true:'active',false:''}[filter.Country==7]">其他</a>
+                            </div>
+                        </div>
+                    </div>
+                </dd>
+                <dd  filter-more>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-value="1" data-name="IsUrgent" ng-checked="filter.IsUrgent==1">降价急售
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-value="1" data-name="QuasiNewCar" ng-checked="filter.QuasiNewCar==1">准新车
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-value="1" data-name="WomenCar" ng-checked="filter.WomenCar==1">女车主
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-value="1" data-name="SevenSeat" ng-checked="filter.SevenSeat==1">7座车
+                    </label>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<div class="wrapper filter-menu" >
+    <p class="filter-p">当前筛选&gt;</p>
+    <a href="peer.html"  class="filter-reset"  style="display:none">重置</a>
+</div>
+<div class="wrapper tool-bar">
+    <ul class="peer-btn clearfix pull-left" filterpeer>
+        <li class="peer-btn-item" ng-class="{true:'active',false:''}[filter.IncludeFlag==1]" data-name="IncludeFlag" data-value="1"><a href="javascript:void(0)">同城车源</a></li>
+        <li class="peer-btn-item" ng-class="{true:'active',false:''}[filter.IncludeFlag==2]" data-name="IncludeFlag" data-value="2"><a href="javascript:void(0)">同省车源</a></li>
+        <li class="peer-btn-item" ng-class="{true:'active',false:''}[filter.IncludeFlag==3]" data-name="IncludeFlag" data-value="3"><a href="javascript:void(0)">全国车源</a></li>
+    </ul>
+    <ul class="sort-btn clearfix pull-right" filtersort>
+        <li class="sort-btn-item" ng-class="{true:'active',false:''}[filter.Sort==null]"><a href="javascript:void(0)">默认排序</a></li>
+        <li class="sort-btn-item" ng-class="{true:'active',false:''}[filter.Sort==1||filter.Sort==-1]" data-name="Sort" data-value="1"><a href="javascript:void(0)">价格<i class="glyphicon glyphicon-arrow-up" ng-class="{'glyphicon-arrow-up':filter.Sort==1,'glyphicon-arrow-down':filter.Sort==-1}"></i></a></li>
+        <li class="sort-btn-item" ng-class="{true:'active',false:''}[filter.Sort==2||filter.Sort==-2]" data-name="Sort" data-value="2"><a href="javascript:void(0)">车龄<i class="glyphicon glyphicon-arrow-up" ng-class="{'glyphicon-arrow-up':filter.Sort==2,'glyphicon-arrow-down':filter.Sort==-2}"></i></a></li>
+        <li class="sort-btn-item" ng-class="{true:'active',false:''}[filter.Sort==3||filter.Sort==-3]" data-name="Sort" data-value="3"><a href="javascript:void(0)">里程<i class="glyphicon glyphicon-arrow-up" ng-class="{'glyphicon-arrow-up':filter.Sort==2,'glyphicon-arrow-down':filter.Sort==-2}"></i></a></li>
+    </ul>
+</div>
+<div class="wrapper" ng-init="peerList();getSeries()" style="min-height: 800px">
+    <ul class="car-list clearfix" ng-show="pageTotal>0">
+
+    </ul>
+
+</div>
+<div class="wrapper">
+    <div pagination  total-items="pageTotal" ng-model="currentPage" ng-change="changePager()" class="pagination-lg" items-perPage="24"
+         previous-text="上一页" next-text="下一页" max-size="10" ng-show="pageTotal>PAGE_CONF.PageSize"></div>
+</div>
+<div ng-include="'./statics/footer.html'"></div>
+<script src="./js/chetongxiang.js"></script>
+<script src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./lib/angular/angular.min.js"></script>
+<script src="./lib/bootstrap/dist/js/ui-bootstrap-tpls.js"></script>
+<script src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="./lib/angular-resource/angular-resource.min.js"></script>
+<script src="./lib/angular/angular-cookies.min.js"></script>
+<script src="./js/app.js"></script>
+<script src="./js/controllersIndex.js"></script>
+<script src="./js/services.js"></script>
+<script src="./js/filters.js"></script>
+<script src="./js/directives.js"></script>
+<script src="./lib/jquery/dist/jquery.autocomplete.min.js"></script>
+<script type='text/javascript' src='./js/loading-bar.min.js'></script>
+</body>
+</html>

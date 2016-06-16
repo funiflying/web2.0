@@ -1,0 +1,74 @@
+<div class="wrapper text-center" ng-controller="SuccessController" ng-init="timmer()" ng-switch="QS">
+    <div class="success-container"  ng-switch-when="REGISTER">
+        <p class="success-info">
+            <i class="glyphicon glyphicon-ok-sign"></i>恭喜您成功开通车同享服务!
+        </p>
+        <p class="success-tip">
+            请使用您的注册手机号和初始密码登录车同享
+        </p>
+        <span class="success-skip">本页将在<span class="timer">3</span>秒后自动跳转......</span>
+    </div>
+    <div class="success-container"  ng-switch-when="RESETPWD">
+        <p class="success-info">
+            <i class="glyphicon glyphicon-ok-sign"></i>您的登录密码已重新设置，请用新密码登录!
+        </p>
+        <p class="success-tip">
+            <a href="index.html">返回首页</a>或则 <a href="#/login">立即登录</a>
+        </p>
+        <span class="success-skip">本页将在<span class="timer">3</span>秒后自动跳转......</span>
+    </div>
+    <div class="success-container" ng-switch-when="ISSUE">
+        <p class="success-info">
+            <i class="glyphicon glyphicon-ok-sign"></i>您的车源发布成功!
+        </p>
+        <p class="success-tip">
+           您可以 <a href="#/home/cargather" target="_blank">查看我的车源</a>或则 <a href="#/home/issuecar">再发布一辆</a>
+        </p>
+        <span class="success-skip">本页将在<span class="timer">3</span>秒后自动跳转......</span>
+    </div>
+    <div class="success-container" ng-switch-when="ISSUEDIT">
+        <p class="success-info">
+            <i class="glyphicon glyphicon-ok-sign"></i>您的车源编辑成功!
+        </p>
+        <p class="success-tip">
+            您可以 <a href="#/home/cargather">查看我的车源</a>或则 <a href="#/home/issuecar">发布一辆</a>
+        </p>
+        <span class="success-skip">本页将在<span class="timer">3</span>秒后自动跳转......</span>
+    </div>
+    <div class="success-container" ng-switch-when="APPRSISER">
+        <p class="success-info">
+            <i class="glyphicon glyphicon-ok-sign"></i>您的评估请求已提交，车同享金牌评估师将会与您联系
+        </p>
+        <p class="success-tip">
+            您可以 <a href="#/home/entrust">查看我的评估订单</a>或则 <a href="index.html">返回首页</a>
+        </p>
+        <span class="success-skip">本页将在<span class="timer">3</span>秒后自动跳转......</span>
+    </div>
+    <div class="success-container" ng-switch-when="ORDER">
+        <p class="success-info">
+            <i class="glyphicon glyphicon-ok-sign"></i>您的订单已成功提交
+        </p>
+        <p class="success-tip">
+            您可以 <a href="#/home/order?OUID=0">查看我的购车订单</a>或则 <a href="index.html">返回首页</a>
+        </p>
+        <span class="success-skip">本页将在<span class="timer">3</span>秒后自动跳转......</span>
+    </div>
+    <div class="success-container" ng-switch-when="DETECTION">
+        <p class="success-info">
+            <i class="glyphicon glyphicon-ok-sign"></i>您的检测报告已提交成功
+        </p>
+        <p class="success-tip">
+            <a href="index.html">返回首页</a>
+        </p>
+        <span class="success-skip">本页将在<span class="timer">3</span>秒跳转......</span>
+    </div>
+    <div class="success-container" ng-switch-when="ASSESS">
+        <p class="success-info">
+            <i class="glyphicon glyphicon-ok-sign"></i>您的评估报告已提交成功
+        </p>
+        <p class="success-tip">
+            您可以 <a href="#/home/entrust">查看委托评估</a>或则 <a href="index.html">返回首页</a>
+        </p>
+        <span class="success-skip">本页将在<span class="timer">3</span>秒后自动跳转......</span>
+    </div>
+</div>

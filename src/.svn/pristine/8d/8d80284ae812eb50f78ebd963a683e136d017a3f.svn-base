@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="chetongxiang">
+<head lang="en">
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta name="Description" content="平台以二手车交易平台为业务核心和入口，通过B2B2C的商业模式，整合全国二手车及上下游资源，建立二手车商诚信体系，提供公正、专业的车辆检测和车况评估服务，最大限度地满足二手车商之间的车源同享、车源互调，真正实现车商和消费者之间爱车同享，利益同享"/>
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="Keywords" content=""/>
+    <title>车同享汽车交易平台</title>
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico">
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./css/jquery.autocomplete.css"/>
+    <link rel="stylesheet" href="./css/chetongxiang.css"/>
+    <script src="./lib/jquery/dist/jquery-1.10.2.min.js"></script>
+    <!--[if lte IE 8]>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
+        document.createElement('uploader');
+        document.createElement('header');
+        // Optionally these for CSS
+        document.createElement('ng:include');
+        document.createElement('ng:pluralize');
+        document.createElement('ng:view');
+    </script>
+    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/3.6/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body ng-controller="IndexController" ng-init="getChain();getUrgent()">
+<div class="tui-nav index-nav" ng-controller="LoginController">
+    <div class="tui-nav-top" >
+        <div class="wrapper index-nav-top">
+            欢迎您来到车同享, <span ng-if="!USER.UserName"><a href="./admin.html#/login">请登录</a><span class="spacer"></span><a href="admin.html#/register" class="text-orange">免费注册</a></span><span ng-if="USER.UserName"><a href="./admin.html#/home/account" class="text-orange" ng-bind="USER.UserName||USER.Contact"></a> <a
+                href="javascript:void(0)" ng-click="loginOff()">退出</a></span>
+            <span class="pull-right"><a href="urgent.html" target="_blank" class="text-orange">急售通道</a><span class="spacer"></span><a href="admin.html#/feedback" target="_blank">意见反馈</a><span class="spacer"></span><a href="admin.html#/handbook" target="_blank">操作手册</a><span class="spacer"></span><a href="http://OA.chetongxiang.com/OA/login.html" target="_blank">分公司登录</a></span>
+        </div>
+    </div>
+    <div class="tui-nav-link container text-right" >
+        <div class="c2city " change-city>
+            <a href="javascript:void(0)" class="choose-city" >
+                <span><span class="cn" ng-bind="CITY.CityName"></span><i>&nbsp;</i></span>
+            </a>
+            <i class="maskline"></i>
+            <div class="city-box">
+                <div class="all-city">
+                    <!--  <dl>
+                          <dt>周边</dt>
+                          <dd></dd>
+                      </dl>-->
+                    <dl>
+                        <dt>热门</dt>
+                        <dd>
+                            <a href="javascript:void(0)" data-city="全国">全国</a>
+                            <a href="javascript:void(0)" data-value="1101" data-name="CityID" data-city
+                                    ="北京" ng-class="{true:'active',false:''}[CITY.CityID==1101]">北京</a>
+                            <a href="javascript:void(0)" data-value="3401" data-name="CityID" data-city
+                                    ="合肥" ng-class="{true:'active',false:''}[CITY.CityID==3401]">合肥</a>
+                            <a href="javascript:void(0)" data-value="3701" data-name="CityID" data-city
+                                    ="济南" ng-class="{true:'active',false:''}[CITY.CityID==3701]">济南</a>
+                            <a href="javascript:void(0)" data-value="3501" data-name="CityID" data-city
+                                    ="福州" ng-class="{true:'active',false:''}[CITY.CityID==3501]">福州</a>
+                            <a href="javascript:void(0)" data-value="3301" data-name="CityID" data-city
+                                    ="杭州" ng-class="{true:'active',false:''}[CITY.CityID==3301]">杭州</a>
+
+                            <a href="javascript:void(0)" data-value="3101" data-name="CityID" data-city
+                                    ="上海" ng-class="{true:'active',false:''}[CITY.CityID==3101]">上海</a>
+                            <a href="javascript:void(0)" data-value="5001" data-name="CityID" data-city
+                                    ="重庆" ng-class="{true:'active',false:''}[CITY.CityID==5001]">重庆</a>
+                            <a href="javascript:void(0)" data-value="5301" data-name="CityID" data-city
+                                    ="昆明" ng-class="{true:'active',false:''}[CITY.CityID==5301]">昆明</a>
+                            <a href="javascript:void(0)" data-value="4501" data-name="CityID" data-city
+                                    ="南宁" ng-class="{true:'active',false:''}[CITY.CityID==4501]">南宁</a>
+                            <a href="javascript:void(0)" data-value="4101" data-name="CityID" data-city
+                                    ="郑州" ng-class="{true:'active',false:''}[CITY.CityID==4101]">郑州</a>
+                            <a href="javascript:void(0)" data-value="2101" data-name="CityID" data-city
+                                    ="沈阳" ng-class="{true:'active',false:''}[CITY.CityID==2101]">沈阳</a>
+                        </dd>
+                    </dl>
+                    <div class="city-line"></div>
+                    <dl ng-repeat="obj in chain">
+                        <dt ng-bind="obj.PinYing"></dt>
+                        <dd>
+                            <a ng-repeat="o in obj.City" ng-bind="o.CityName" data-city="{{o.CityName}}" href="javascript:void(0)" data-name="CityID" data-value="{{o.CityID}}" ng-class="{true:'active',false:''}[CITY.CityID==o.CityID]"></a>
+                        </dd>
+                    </dl>
+
+                </div>
+                <p class="more-city">更多城市正在筹备，敬请期待。</p>
+            </div>
+        </div>
+         <span class="pull-right hot-line">
+             <i class="glyphicon glyphicon-earphone"></i> 400-0732-777
+         </span>
+    </div>
+    <div class=" wrapper index-nav-bar">
+        <ul class="index-nav-link">
+            <li class="index-nav-item"><a href="index.html">首页</a></li>
+            <li class="index-nav-item"><a href="buy.html">我要买车</a></li>
+            <li class="index-nav-item active"><a href="sell.html">我要卖车</a></li>
+            <li class="index-nav-item"><a href="join.html">我要入驻</a></li>
+            <li class="index-nav-item"><a href="expert.html">专家库</a></li>
+            <li class="index-nav-item"><a href="safeguard.html">服务保障</a></li>
+        </ul>
+    </div>
+</div>
+<div class="wrapper content-wrapper">
+    <div class="tui-admin-title">
+        <h3>急售车源</h3>
+        <a href="admin.html#/urgent" target="_blank" class="tui-admin-title-btn" >急售发布</a>
+    </div>
+    <div class="car-list-wrap">
+        <div id="myAlert" class="alert alert-warning" ng-if="pageTotal==0">
+            <a href="" class="close" data-dismiss="alert">&times;</a>
+            <strong>提示！</strong>没有记录。
+        </div>
+        <ul class="car-list">
+            <li class="car-list-item" ng-repeat="obj in list">
+                <table class="car-list-tab" style="width: 100%">
+                    <tr>
+                        <td class="car-list-pic">
+                            <a href="javascript;void(0)">
+                                <img  class="car-list-cover" ng-src="{{obj.HomePicURL||DefaultCarIcon}}" />
+                                <p class="car-list-carflag">急售编号：<span ng-bind="obj.WorryCode"></span></p>
+                            </a>
+                        </td>
+                        <td class="car-list-info">
+                            <h4 ng-bind="obj.BrandName+obj.SpecName"></h4>
+                            <p>急售报价：<strong class="text-orange" ng-bind="obj.Price/10000|currency:'￥'"></strong><small class="text-orange">万</small></p>
+                            <p>发布时间：<span class="text-info" ng-bind="obj.PublishTime|DateFormat:'yyyy-MM-dd'"></span>&nbsp;&nbsp;&nbsp;&nbsp;当前状态：<span class="text-success" ng-if="obj.CarFlag!=0" ng-bind="obj.CarFlag|WorryCarStatus"></span>
+                                <span class="text-success" ng-if="obj.CarFlag==0" ng-bind="obj.CheckFlag|CarCheckStatus"></span>
+                                <span class="text-danger" ng-if="obj.CheckFailMemo">(<i ng-bind="obj.CheckFailMemo"></i>)</span>
+                            </p>
+                            <p>车主：<i ng-bind="obj.OwnerName"></i> <i ng-bind="obj.OwnerPhone"></i></p>
+                            <p class="car-list-info-span">
+                                <span>行驶里程：<i ng-bind="obj.Mileage"></i> 万公里</span>
+                                <span>购买年限：<i ng-bind="obj.Buyyear|DateFormat:'yyyy-MM-dd'"></i></span>
+                                <span>过户次数：<i ng-bind="obj.TransferNo"></i></span>
+                            </p>
+                        </td>
+                        <td class="car-list-toolbar" style="width: 400px;">
+                            <a href="javascript:void(0)" class="btn-operate btn-profile"  ng-click="urgentDialog(obj)">查看详情</a>
+                        </td>
+                    </tr>
+                </table>
+            </li>
+        </ul>
+    </div>
+    <div pagination  total-items="pageTotal" ng-model="currentPage" ng-change="changeUrgentPager()"
+         previous-text="上一页" next-text="下一页" max-size="10" ng-show="pageTotal>PAGE_CONF.PageSize"></div>
+</div>
+<div ng-include="'./statics/footer.html'"></div>
+<script src="./js/chetongxiang.js"></script>
+<script src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./lib/angular/angular.min.js"></script>
+<script src="./lib/bootstrap/dist/js/ui-bootstrap-tpls.js"></script>
+<script src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="./lib/angular-resource/angular-resource.min.js"></script>
+<script src="./lib/angular/angular-cookies.min.js"></script>
+<script src="./js/app.js"></script>
+<script src="./js/controllersIndex.js"></script>
+<script src="./js/services.js"></script>
+<script src="./js/filters.js"></script>
+<script src="./js/directives.js"></script>
+</body>
+</html>

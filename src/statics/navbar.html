@@ -1,0 +1,75 @@
+<style type="text/css">
+	.top-nav-ul{
+		width: 100%;
+		display: inline-block;
+	}
+	.top-nav-li{
+		float: left;
+		position: relative;
+	}
+	.top-app-wrap{
+		position: absolute; top: 30px; left: 0px; width: 410px; background: #fff; height: 210px; z-index: 999; border: 1px solid #E4E4E4;
+		/*display: none;*/
+	}
+	.top-app-erweima{
+		width: 200px; padding-top: 25px; float: left; text-align: center;
+	}
+	.top-app-iphone-btn a{
+		padding-left: 25px; line-height: 45px; margin-right: 15px; width: 170px; text-align: left; background: #b3b3b3; border: none; color: #fff !important;
+		display: inherit;
+	}
+	
+	.top-app-android a{
+		margin-top:15px; padding-left: 25px; line-height: 45px; margin-right: 15px; width: 170px; text-align: left; background: #ff6a00; border: none; color: #fff !important;
+		display: inherit;
+	}
+	.top-app-iphone-btn a:hover{color: #fff;}
+	.top-app-android a:hover{color: #fff;}
+</style>
+<div class="tui-nav-top" ng-init="appshow=0">
+    <div class="wrapper index-nav-top">
+    	<ul class="top-nav-ul">
+    		<li class="top-nav-li"> 欢迎您来到车同享, </li>
+    		<li class="top-nav-li" ng-if="!USER.UserName">
+    			<span>
+		        	<a href="./admin.html#/login" class="text-orange">请登录</a>
+		        	<span class="spacer"></span>
+		        	<a href="admin.html#/register">免费注册</a>
+		        	<span class="spacer"></span>
+		        </span>
+    		</li>
+    		<li class="top-nav-li" ng-if="USER.UserName">
+    			<span>
+		        	<a href="./admin.html#/home/account" class="text-orange" ng-bind="USER.UserName||USER.Contact"></a> 
+		        	<a href="javascript:void(0)" ng-click="loginOff()">退出</a>
+		        	<span class="spacer"></span>
+		        </span>
+    		</li>
+    		<li class="top-nav-li" ng-mouseover="appshow=1" ng-mouseout="appshow=0">
+    			<a href="javascript:;" style="margin-left:10px;" id="appdownload">
+	            	<i class="glyphicon glyphicon-phone"></i> APP下载
+	            	<div class="top-app-wrap" id="appdownloadview" ng-show="appshow">
+	            		<div class="top-app-erweima"><img src="images/app_erweima.gif"></div>
+	            		<div style="width:200px; float: right; text-align: center;">
+	            			<div class="top-app-iphone-btn"><a href="javascript:;"><i class="iconfont icon-iphone"></i> 敬请期待</a></div>
+	            			<div class="top-app-android"><a href="http://app.chetongxiang.com/download/android/chetongxiang_install.apk"><i class="iconfont icon-android"></i> Andorid版下载</a></div>
+	            		</div>
+	            	</div>
+	            </a>
+    		</li>
+    		<li class="pull-right">
+    			<span class="pull-right">
+		        	<a href="urgent.html" class="text-orange" target="_blank">急售通道</a>
+		        	<span class="spacer"></span>
+		        	<a href="admin.html#/feedback" target="_blank">意见反馈</a>
+		        	<span class="spacer"></span>
+		        	<a href="admin.html#/handbook" target="_blank">操作手册</a>
+		        	<span class="spacer"></span>
+		        	<a href="http://oa.chetongxiang.com/OA/login.html" target="_blank">分公司登录</a>
+		        </span>
+    		</li>
+    	</ul>
+
+    </div>
+</div>
+

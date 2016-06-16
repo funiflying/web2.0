@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html ng-app="chetongxiang">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <meta name="Description"
+          content="平台以二手车交易平台为业务核心和入口，通过B2B2C的商业模式，整合全国二手车及上下游资源，建立二手车商诚信体系，提供公正、专业的车辆检测和车况评估服务，最大限度地满足二手车商之间的车源同享、车源互调，真正实现车商和消费者之间爱车同享，利益同享"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <!--<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>-->
+    <meta name="Keywords" content=""/>
+    <title>车同享汽车交易平台</title>
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico">
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./css/chetongxiang.css"/>
+    <script src="./lib/jquery/dist/jquery-1.10.2.min.js"></script>
+    <!--[if lte IE 8]>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
+        document.createElement('uploader');
+        document.createElement('header');
+        // Optionally these for CSS
+        document.createElement('ng:include');
+        document.createElement('ng:pluralize');
+        document.createElement('ng:view');
+    </script>
+    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/3.6/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body ng-controller="IndexController" data-spy="scroll" data-target="#navbar-fixed" data-offset="0">
+<div class="tui-nav index-nav" ng-controller="LoginController"  >
+    <div style="height: 30px;">
+        <div ng-include="'./statics/navbar.html'"></div>
+    </div>
+    <div class="tui-nav-link wrapper">
+        <a href="index.html" class="home-link" title="首页"></a>
+        <div change-city2 id="citybox"></div>
+         <span class="pull-right hot-line">
+             <i class="glyphicon glyphicon-earphone"></i> 400-0732-777
+         </span>
+    </div>
+    <div class=" wrapper index-nav-bar">
+        <ul class="index-nav-link">
+            <li class="index-nav-item"><a href="index.html">首页</a></li>
+            <li class="index-nav-item active"><a href="buy.html">我要买车</a></li>
+            <li class="index-nav-item"><a href="sell.html">我要卖车</a></li>
+            <li class="index-nav-item"><a href="join.html">我要入驻</a></li>
+            <li class="index-nav-item"><a href="expert.html">专家库</a></li>
+            <li class="index-nav-item"><a href="safeguard.html">服务保障</a></li>
+        </ul>
+    </div>
+</div>
+<div class="wrapper clearfix flip-in" ng-init="getCar()">
+    <div class="item-galery">
+        <div class="item-galery-cover">
+            <img ng-src="{{cover|LargeIcon}}" class="cover"
+                 alt=""/>
+            <span class="ren-icon" ng-bind-html="car|FormatIndexDetection"></span>
+        </div>
+        <div class="item-galery-item">
+            <a href="javascript:void(0);" class="thumb-arrow-prew" ng-click="previous()"><i
+                    class="glyphicon  glyphicon-chevron-left"></i></a>
+
+            <div class="item-galery-thumb">
+                <div class="item-galery-thumb-container clearfix">
+                    <ul class="item-galery-thumb-list clearfix">
+                        <li ng-repeat="img in Pic" ng-mouseover="changeCover(img.PicAddr)"><img ng-src="{{img.PicAddr}}"
+                                                                                                alt=""/></li>
+                    </ul>
+                </div>
+            </div>
+            <a href="javascript:void(0);" class="thumb-arrow-next" ng-click="next()"><i
+                    class="glyphicon  glyphicon-chevron-right"></i></a>
+        </div>
+
+    </div>
+    <div class="item-info">
+        <h1 class="item-title text-ellipsis" ng-bind="car.SpecName"></h1>
+
+        <p class="item-tag">车源号：<strong ng-bind="car.CarNo|FormatCarNo" class="text-orange"></strong></p>
+
+        <div class="item-price-wrap clearfix">
+            <div class="item-price-container">
+                <p class="item-price" ng-bind-html="car|CarPrice"></p>
+                <strike class="item-newcar-price" ng-bind-html="car.NewCarPrice|NewCarPrice"></strike>
+            </div>
+           <!-- <div class="item-price-container" ng-if="!USER||!USER.AllianceCode||car.WholesalePrice==0">
+                <p class="item-price" ng-bind="car.Price/10000|currency:'￥'"><small style="font-size: 14px"> 万</small></p>
+                <strike class="item-newcar-price" >新车价 <i ng-bind="car.NewCarPrice/10000|currency:'￥'"></i><small style="font-size: 12px"> 万</small></strike>
+            </div>
+            <div class="item-price-container" ng-if="USER&&USER.AllianceCode&&car.WholesalePrice>0">
+                <p class="item-price" ><i ng-bind="car.WholesalePrice/10000|currency:'￥'"></i><small style="font-size: 14px"> 万(同行价)</small></p>
+                <strike class="item-newcar-price" ng-bind-html="car.NewCarPrice|NewCarPrice"></strike>
+            </div>-->
+            <div class="item-price-carinfo">
+                <p>里程 : <i ng-bind="car.Mileage"></i> 万公里</p>
+
+                <p>车龄 : <i ng-bind="car.Buyyear|DateFormat:'yyyy-MM'"></i> 至今 <i ng-bind="car.CarYear"></i>年</p>
+
+                <p>过户 : <i ng-bind="car.TransferNo"></i> 次</p>
+            </div>
+        </div>
+        <div class="item-contact clearfix" ng-bind-html="car|FormatOwner">
+        </div>
+        <div ng-bind-html="car|FormatBuyBtn"></div>
+        <div ng-bind-html="car|FormatDetection"></div>
+    </div>
+</div>
+<div class="wrapper" id="base">
+    <ul class="item-describe clearfix">
+        <li>
+            <h3 class="item-describe-title">车主自述</h3>
+
+            <div class="item-describe-readme" ng-bind="car.Readme||'暂无车主描述信息'"></div>
+        </li>
+        <li style="border-left: 1px solid #DEDEDE;padding-left: 15px">
+            <h3 class="item-describe-title">车源基本信息</h3>
+
+            <div class="item-describe-info">
+                <table>
+                    <tr>
+                        <th style="width: 15%">车源编号</th>
+                        <td style="width: 25%"><i ng-bind="car.CarNo|FormatCarNo"></i></td>
+                        <th style="width: 15%">车辆颜色</th>
+                        <td style="width: 15%"><i ng-bind="car.Color|Corlor"></i></td>
+                        <th style="width: 15%">车型</th>
+                        <td style="width: 15%"><i ng-bind="car.Style|CarStyle"></i></td>
+                    </tr>
+                    <tr>
+                        <th>牌照地点</th>
+                        <td><i ng-bind="car.RegisterPlace"></i></td>
+                        <th>年检到期</th>
+                        <td><i ng-bind="car.Annual_Inspect_Time|DateFormat:'yyyy-MM-dd'"></i></td>
+                        <th>汽车排量</th>
+                        <td><i ng-bind="car.OutputVolumeDetail"></i></td>
+                    </tr>
+                    <tr>
+                        <th>变 速 箱</th>
+                        <td><i ng-bind="car.GearBox|GearBox"></i></td>
+                        <th>车辆国别</th>
+                        <td><i ng-bind="car.Country|Country"></i></td>
+                        <th>排放标准</th>
+                        <td><i ng-bind="car.DischargeStandardDetail"></i></td>
+                    </tr>
+                    <tr>
+                        <th>车辆类型</th>
+                        <td><i ng-bind="car.OwnerType|OwnerType"></i></td>
+                        <th>使用性质</th>
+                        <td><i ng-bind="car.UseType|UseType"></i></td>
+                        <th>发布时间</th>
+                        <td><i ng-bind="car.PublishTime|DateFormat:'yyyy-MM-dd'"></i></td>
+                    </tr>
+                </table>
+            </div>
+        </li>
+
+    </ul>
+</div>
+<!--<div class="wrapper">
+    <div class="cont-tips-outer" id="navbar-fixed">
+        <div class="cont-tips">
+          &lt;!&ndash;  <a ng-href="order.html?CarNo={{car.CarNo}}" class="apt-btn pull-right">立即购买</a>&ndash;&gt;
+            <p class="pull-right check-tel">
+            <span class="f18">
+                <i class="fc-org yahei">客服电话：</i>
+                <b class="teltype js-change-phone">400-0732-777</b>
+            </span>
+            </p>
+            <ul class="nav cont-tips-qh clearfix" nav-fix>
+                <li data-action="0"><a href="#base" class="base">基本信息</a></li>
+                <li data-action="1"><a href="#report" class="report">检测报告</a></li>
+                <li data-action="1"><a href="#myTabContent" class="picture">车辆图片</a></li>
+            </ul>
+        </div>
+    </div>
+</div>-->
+<div class="wrapper laybox combox clearfix" id="report"  ng-if="!report">
+    <div class="detect-bd clearfix">
+        <div class="detect-right pull-right">
+            <span class="divis-pic">
+                <img width="84" height="84" ng-src="{{DefaultUserIcon}}">
+            </span>
+            <p class="f-type02" >暂无检测人员</p>
+
+        </div>
+        <div class="detect-left pull-left">
+            <div class="detect-c">
+                <div class="detect-tt">
+                    <p class="f16 yahei">检测结果</p>
+                </div>
+                <div class="detect-info" style="height: 200px;line-height: 200px;text-align: center;">
+                    暂无检测报告
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrapper laybox combox clearfix"  ng-show="report">
+    <div class="detect-bd clearfix">
+        <div class="detect-right pull-right">
+            <span class="divis-pic">
+                <img width="84" height="84" ng-src="{{report.HeadImage||DefaultUserIcon}}">
+            </span>
+            <p class="f-type02" ng-bind="report.UserName"></p>
+            <p>二手车评估师</p>
+        </div>
+        <div class="detect-left pull-left">
+            <div class="detect-c">
+                <div class="detect-tt">
+                    <p class="f16 yahei">检测结果</p>
+                </div>
+                <div class="detect-info">
+                    <div class="detect-txt" ng-bind="report.TestDescription">
+                    </div>
+                    <div class="detect-xm clearfix">
+                        <div class="detect-xm-c">
+                            <dl>
+                                <dt>事故排查</dt>
+                                <dd>
+                                    <span class="d-w1">排除重大碰撞（共20项）</span>
+                                        <span class="d-w2" id="shigu">
+                                            <span></span>
+                                            <i class="glyphicon glyphicon-ok-sign"></i>
+                                        </span>
+                                </dd>
+                                <dd>
+                                    <span class="d-w1">排除泡水,火烧（共13项）</span>
+                                        <span class="d-w2" id="hs_ps">
+                                              <span></span>
+                                          <i class="glyphicon glyphicon-ok-sign" ></i>
+                                      </span>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>外观内饰检测</dt>
+                                <dd>
+                                    <span class="d-w1">外观修复检查（共51项）</span>
+                                        <span class="d-w2" id="repair">
+                                              <span></span>
+                                              <i class="glyphicon glyphicon-ok-sign" ></i>
+                                         </span>
+                                </dd>
+                                <dd>
+                                    <span class="d-w1">外观缺陷检查（共34项）</span>
+                                        <span class="d-w2" id="gcpz">
+                                               <span></span>
+                                               <i class="glyphicon glyphicon-ok-sign" ></i>
+                                         </span>
+                                </dd>
+                                <dd>
+                                    <span class="d-w1">内饰缺陷检查（共29项）</span>
+                                        <span class="d-w2" id="nei">
+                                                <i class="glyphicon glyphicon-ok-sign" ></i>
+                                         </span>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>系统设备检测</dt>
+                                <dd>
+                                    <span class="d-w1">安全系统检测（共8项）</span>
+                                        <span class="d-w2" id="aq">
+                                            <span></span>
+                                                <i class="glyphicon glyphicon-ok-sign" ></i>
+                                         </span>
+                                </dd>
+                                <dd>
+                                    <span class="d-w1">发动机舱检测（共11项）</span>
+                                        <span class="d-w2" id="fdj">
+                                            <span></span>
+                                                <i class="glyphicon glyphicon-ok-sign" ></i>
+                                         </span>
+                                </dd>
+                                <dd>
+                                    <span class="d-w1">电子设备检测（共16项）</span>
+                                        <span class="d-w2" id="dz">
+                                            <span></span>
+                                                <i class="glyphicon glyphicon-ok-sign" ></i>
+                                         </span>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>驾驶检测</dt>
+                                <dd>
+                                    <span class="d-w1">启动与起步（共5项）</span>
+                                        <span class="d-w2">
+                                             <i class="glyphicon glyphicon-ok-sign" ></i>
+                                        </span>
+                                </dd>
+                                <dd>
+                                    <span class="d-w1">加速与行驶（共8项）</span>
+                                        <span class="d-w2">
+                                                <i class="glyphicon glyphicon-ok-sign" ></i>
+                                         </span>
+                                </dd>
+                                <dd>
+                                    <span class="d-w1">减速与制动（共4项）</span>
+                                        <span class="d-w2">
+                                                <i class="glyphicon glyphicon-ok-sign" ></i>
+                                         </span>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrapper" view-report id="report" ng-show="report"  ng-controller="ViewDetectionController"></div>
+<div class="wrapper" id="myTabContent" ng-if="!report">
+    <div class="item-title-lead">
+        <div class="title">车辆图片</div>
+        <div class="placeholder"></div>
+    </div>
+</div>
+<div class="wrapper"  ng-if="!report">
+    <ul class="item-galery-repeat clearfix">
+        <li ng-repeat="obj in CarPic"><img ng-src="{{obj.PicAddr|LargeIcon}}" alt=""/></li>
+    </ul>
+
+</div>
+<div ng-include="'./statics/footer.html'"></div>
+<script src="./js/chetongxiang.js"></script>
+<script src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./lib/angular/angular.min.js"></script>
+<script src="./lib/bootstrap/dist/js/ui-bootstrap-tpls.js"></script>
+<script src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="./lib/angular-resource/angular-resource.min.js"></script>
+<script src="./lib/angular/angular-cookies.min.js"></script>
+<script src="./js/app.js"></script>
+<script src="./js/controllersIndex.js"></script>
+<script src="./js/services.js"></script>
+<script src="./js/filters.js"></script>
+<script src="./js/directives.js"></script>
+<script src="./js/cityJson.js"></script>
+<script type='text/javascript' src='./js/loading-bar.min.js'></script>
+<script src="./lib/jquery/dist/jquery.autocomplete.min.js"></script>
+<script>
+    $('#navbar-fixed').on('activate.bs.scrollspy', function (e) {
+        $(this).addClass('navbar-fixed');
+        if ($(e.target).data('action') == 0) {
+            $(this).removeClass('navbar-fixed');
+        }
+
+    });
+
+</script>
+</body>
+</html>

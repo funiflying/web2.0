@@ -1,0 +1,73 @@
+<div class="content-wrapper">
+    <div class="tui-admin-title" ng-init="getserviceFees();">
+        <h3>使用优惠券</h3>
+    </div>
+    <div class="row" style="margin-bottom: 20px">
+        <form class="form-horizontal" name="payForm">
+            <div class="form-group">
+                <label class="control-label col-md-2">
+                    商品名称
+                </label>
+                <div class="col-md-4">
+                    <p class="form-control-static" ng-bind="order.BrandName+order.SpecName"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">
+                    平台服务费
+                </label>
+                <div class="col-md-4">
+                    <p class="form-control-static text-info" ng-bind="serviceFees|currency:'￥'"></p>
+                </div>
+            </div>
+            <div class="decollator-line"></div>
+            <div class="form-group" ng-if="discountlist[0]&&serviceFees>0">
+                <label class="col-md-2 control-label">
+                    使用优惠券
+                </label>
+                <div class="col-md-2">
+                    <p class="form-control-static text-orange" id="discountCount">￥0.00</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="form-control-static text-danger" ><strong id="Msg"></strong></p>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#coupon">选择优惠券</button>
+                </div>
+            </div>
+            <div class="discount-forOrder collapse col-md-12" id="coupon" style="border-bottom: 1px solid #dedede;margin-bottom: 10px">
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>选择</th>
+                        <th>金额</th>
+                        <th>名称</th>
+                        <th>有效期</th>
+                        <th>叠加使用</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="obj in discountlist" tui-discout>
+                        <td><input type="checkbox" name="discount" id="{{obj.PolicyCode}}" value="{{obj.PolicyValue}}" /></td>
+                        <td><span ng-bind="obj.PolicyValue|currency:'￥'"></span></td>
+                        <td>【<span ng-bind="obj.PolicyName"></span>】</td>
+                        <td><span ng-bind="obj.PolicyStartDateFull|DateFormat:'yyyy-MM-dd'"></span>到<span ng-bind="obj.PolicyEndDateFull|DateFormat:'yyyy-MM-dd'"></span></td>
+                        <td><span ng-if="obj.PolicyUseMutile">是</span><i ng-if="!obj.PolicyUseMutile">否</i></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="decollator-line"></div>
+
+        </form>
+        <div class="col-md-3 col-md-offset-4 " style="margin-top: 30px ">
+            <button class="btn btn-block btn-info" ng-click="sellUsageDicount()" ng-disabled="payForm.$invalid">提交</button>
+        </div>
+    </div>
+    <div id="myAlert" class="alert {{alert.type}}" ng-if="alert.msg">
+        <!--<a href="" class="close" data-dismiss="alert">&times;</a>-->
+        <strong>提示！</strong><span ng-bind="alert.msg"></span>。
+    </div>
+
+</div>

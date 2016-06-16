@@ -1,0 +1,59 @@
+<dl class="select-city fixed-city abs" id="citySelect">
+    <dt id="current_city_id" ng-bind="CITY.CityName">全国</dt>
+    <dd id="cityWrap" >
+        <div class="hot-city">
+            <p class="search-focus"><input type="text" placeholder="请输入城市名称" id="topSearch" class="ui-autocomplete-input" autocomplete="off"><b class="glyphicon glyphicon-search search-ico"></b></p>
+            <ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content" id="ui-id-2" tabindex="0" style="display: none;"></ul></div>
+        <p class="hot-city">
+            <span>热门</span>
+            <a class="searc-for" href="javascript:void(0)" data-city="全国">全国</a>
+            <a class="searc-for" href="javascript:void(0)" data-value="1101" data-name="CityID" data-city
+                    ="北京" ng-class="{true:'active',false:''}[CITY.CityID==1101]">北京</a>
+            <a class="searc-for" href="javascript:void(0)" data-value="3401" data-name="CityID" data-city
+                    ="合肥" ng-class="{true:'active',false:''}[CITY.CityID==3401]">合肥</a>
+            <a class="searc-for" href="javascript:void(0)" data-value="3701" data-name="CityID" data-city
+                    ="济南" ng-class="{true:'active',false:''}[CITY.CityID==3701]">济南</a>
+            <a class="searc-for" href="javascript:void(0)" data-value="3501" data-name="CityID" data-city
+                    ="福州" ng-class="{true:'active',false:''}[CITY.CityID==3501]">福州</a>
+            <a class="searc-for" href="javascript:void(0)" data-value="3301" data-name="CityID" data-city
+                    ="杭州" ng-class="{true:'active',false:''}[CITY.CityID==3301]">杭州</a>
+
+            <a class="searc-for" href="javascript:void(0)" data-value="3101" data-name="CityID" data-city
+                    ="上海" ng-class="{true:'active',false:''}[CITY.CityID==3101]">上海</a>
+            <a class="searc-for" href="javascript:void(0)" data-value="5001" data-name="CityID" data-city
+                    ="重庆" ng-class="{true:'active',false:''}[CITY.CityID==5001]">重庆</a>
+            <a class="searc-for" href="javascript:void(0)" data-value="5301" data-name="CityID" data-city
+                    ="昆明" ng-class="{true:'active',false:''}[CITY.CityID==5301]">昆明</a>
+            <a class="searc-for" href="javascript:void(0)" data-value="4501" data-name="CityID" data-city
+                    ="南宁" ng-class="{true:'active',false:''}[CITY.CityID==4501]">南宁</a>
+        </p>
+        <p class="pro-letter">
+            <span>省份首字母</span>
+            <em title="A">A</em>
+            <em title="B">B</em>
+            <em title="C">C</em>
+            <em title="F">F</em>
+            <em title="G">G</em>
+            <em title="H">H</em>
+            <em title="J">J</em>
+            <em title="L">L</em>
+            <em title="N">N</em>
+            <em title="Q">Q</em>
+            <em title="S">S</em>
+            <em title="T">T</em>
+            <em title="X">X</em>
+            <em title="Y">Y</em>
+            <em title="Z">Z</em>
+        </p>
+        <p class="cityMore" id="{{obj.PY}}" ng-repeat="obj in chain">
+            <span class="searc-for" data-city="{{obj.Name}}" data-value="{{obj.ID}}"><b ng-bind="obj.PY" ng-if="obj.PY!=chain[$index-1].PY"></b>{{obj.Name}}</span>
+
+            <span>
+                <em>
+                    <a class="searc-for" href="javascript:void(0)" data-city="{{c.CityName}}" data-value="{{c.CityID}}" ng-repeat="c in obj.City">{{c.CityName}}</a>
+                </em>
+            </span>
+        </p>
+
+    </dd>
+</dl>

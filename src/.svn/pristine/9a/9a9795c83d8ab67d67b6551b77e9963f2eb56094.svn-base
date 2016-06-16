@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html ng-app="chetongxiang">
+<head lang="en">
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta name="Description" content="平台以二手车交易平台为业务核心和入口，通过B2B2C的商业模式，整合全国二手车及上下游资源，建立二手车商诚信体系，提供公正、专业的车辆检测和车况评估服务，最大限度地满足二手车商之间的车源同享、车源互调，真正实现车商和消费者之间爱车同享，利益同享"/>
+    <meta http-equiv="Pragma" content="no-cache" />
+    <!--<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />-->
+    <meta name="Keywords" content=""/>
+    <title>车同享汽车交易平台</title>
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico">
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./css/chetongxiang.css"/>
+    <script src="./lib/jquery/dist/jquery-1.10.2.min.js"></script>
+    <!--[if lte IE 8]>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
+        document.createElement('uploader');
+        document.createElement('header');
+        // Optionally these for CSS
+        document.createElement('ng:include');
+        document.createElement('ng:pluralize');
+        document.createElement('ng:view');
+    </script>
+    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/3.6/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body ng-controller="IndexController" >
+<div class="tui-nav index-nav" ng-controller="LoginController">
+    <div class="tui-nav-top" >
+        <div class="wrapper index-nav-top">
+            欢迎您来到车同享, <span ng-if="!USER.UserName"><a href="./admin.html#/login">请登录</a><span class="spacer"></span><a href="admin.html#/register" class="text-orange">免费注册</a></span><span ng-if="USER.UserName"><a href="./admin.html#/home/account" class="text-orange" ng-bind="USER.UserName||USER.Contact"></a> <a
+                href="javascript:void(0)" ng-click="loginOff()">退出</a></span>
+<<<<<<< HEAD
+            <span class="pull-right"><a href="urgent.html" class="text-orange" target="_blank">急售通道</a><span class="spacer"></span><a href="admin.html#/feedback" target="_blank">意见反馈</a><span class="spacer"></span><a href="admin.html#/handbook" target="_blank">操作手册</a><span class="spacer"></span><a  href="http://OA.chetongxiang.net/OA/login.html">分公司登录</a></span>
+=======
+            <span class="pull-right"><a href="urgent.html" class="text-orange" target="_blank">急售通道</a><span class="spacer"></span><a href="admin.html#/feedback" target="_blank">意见反馈</a><span class="spacer"></span><a href="admin.html#/handbook" target="_blank">操作手册</a><span class="spacer"></span><a  href="http://OA.chetongxiang.net/OA/login.html" target="_blank">分公司登录</a></span>
+>>>>>>> 135db4f1703d6f7cf293661391e07973e2eec5e4
+        </div>
+    </div>
+    <div class="tui-nav-link wrapper text-right" >
+        <div class="c2city " change-city>
+            <a href="javascript:void(0)" class="choose-city" >
+                <span><span class="cn" ng-bind="CITY.CityName"></span><i>&nbsp;</i></span>
+            </a>
+            <i class="maskline"></i>
+            <div class="city-box">
+                <div class="all-city">
+                    <!--  <dl>
+                          <dt>周边</dt>
+                          <dd></dd>
+                      </dl>-->
+                    <dl>
+                        <dt>热门</dt>
+                        <dd>
+                            <a href="javascript:void(0)" data-city="全国">全国</a>
+                            <a href="javascript:void(0)" data-value="1101" data-name="CityID" data-city
+                                    ="北京" ng-class="{true:'active',false:''}[CITY.CityID==1101]">北京</a>
+                            <a href="javascript:void(0)" data-value="3401" data-name="CityID" data-city
+                                    ="合肥" ng-class="{true:'active',false:''}[CITY.CityID==3401]">合肥</a>
+                            <a href="javascript:void(0)" data-value="3701" data-name="CityID" data-city
+                                    ="济南" ng-class="{true:'active',false:''}[CITY.CityID==3701]">济南</a>
+                            <a href="javascript:void(0)" data-value="3501" data-name="CityID" data-city
+                                    ="福州" ng-class="{true:'active',false:''}[CITY.CityID==3501]">福州</a>
+                            <a href="javascript:void(0)" data-value="3301" data-name="CityID" data-city
+                                    ="杭州" ng-class="{true:'active',false:''}[CITY.CityID==3301]">杭州</a>
+
+                            <a href="javascript:void(0)" data-value="3101" data-name="CityID" data-city
+                                    ="上海" ng-class="{true:'active',false:''}[CITY.CityID==3101]">上海</a>
+                            <a href="javascript:void(0)" data-value="5001" data-name="CityID" data-city
+                                    ="重庆" ng-class="{true:'active',false:''}[CITY.CityID==5001]">重庆</a>
+                            <a href="javascript:void(0)" data-value="5301" data-name="CityID" data-city
+                                    ="昆明" ng-class="{true:'active',false:''}[CITY.CityID==5301]">昆明</a>
+                            <a href="javascript:void(0)" data-value="4501" data-name="CityID" data-city
+                                    ="南宁" ng-class="{true:'active',false:''}[CITY.CityID==4501]">南宁</a>
+                            <a href="javascript:void(0)" data-value="4101" data-name="CityID" data-city
+                                    ="郑州" ng-class="{true:'active',false:''}[CITY.CityID==4101]">郑州</a>
+                            <a href="javascript:void(0)" data-value="2101" data-name="CityID" data-city
+                                    ="沈阳" ng-class="{true:'active',false:''}[CITY.CityID==2101]">沈阳</a>
+                        </dd>
+                    </dl>
+                    <div class="city-line"></div>
+                    <dl ng-repeat="obj in chain">
+                        <dt ng-bind="obj.PinYing"></dt>
+                        <dd>
+                            <a ng-repeat="o in obj.City" ng-bind="o.CityName" data-city="{{o.CityName}}" href="javascript:void(0)" data-name="CityID" data-value="{{o.CityID}}" ng-class="{true:'active',false:''}[CITY.CityID==o.CityID]"></a>
+                        </dd>
+                    </dl>
+
+                </div>
+                <p class="more-city">更多城市正在筹备，敬请期待。</p>
+            </div>
+        </div>
+        <span class="pull-right hot-line">
+             <i class="glyphicon glyphicon-earphone"></i> 400-0732-777
+         </span>
+    </div>
+    <div class=" wrapper index-nav-bar">
+        <ul class="index-nav-link">
+            <li class="index-nav-item"><a href="index.html">首页</a></li>
+            <li class="index-nav-item"><a href="buy.html">我要买车</a></li>
+            <li class="index-nav-item"><a href="sell.html">我要卖车</a></li>
+            <li class="index-nav-item"><a href="join.html">我要入驻</a></li>
+            <li class="index-nav-item"><a href="expert.html">专家库</a></li>
+            <li class="index-nav-item active"><a href="safeguard.html">服务保障</a></li>
+        </ul>
+    </div>
+</div>
+<div class="tui-service-content" style="background: url(images/service-top.png) no-repeat left top; background-size:contain ;">
+
+</div>
+<div class="tui-service-content">
+    <div class="container">
+        <div class="col-md-10 col-md-offset-1 tui-service-content-1">
+            <div class="pull-right tui-service-descr">
+                <h2 class="tui-service-title">
+                    百万车源 在线同享
+                </h2>
+                <p class="tui-service-text">
+                    全国诚信车商联盟，精选上线100%认证好车，真正实现全国车源同享。
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tui-service-content ">
+    <div class="container">
+        <div class="col-md-10 col-md-offset-1 tui-service-content-2">
+            <div class="tui-service-descr">
+                <h2 class="tui-service-title">
+                    四重评估检测
+                </h2>
+                <p class="tui-service-text">
+                    诚信、专业的检测、评估，线下层层把关，
+                    保证车辆评估报告的公平、公正、公开。
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tui-service-content ">
+    <div class="container">
+        <div class="col-md-10 col-md-offset-1 tui-service-content-3">
+            <div class="pull-right tui-service-descr">
+                <h2 class="tui-service-title">
+                    强大物流支持
+                </h2>
+                <p class="tui-service-text">
+                    异地车源快速互调，车商省时、省力；
+                    车同享提供强大物流支持，调车省钱、省心。
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tui-service-content ">
+    <div class="container">
+        <div class="col-md-10 col-md-offset-1 tui-service-content-4">
+            <div class="tui-service-descr">
+                <h2 class="tui-service-title">
+                    车贷无忧服务
+                </h2>
+                <p class="tui-service-text">
+                    根据购车者的资信情况，提供车贷服务，
+                    让消费者轻松把车“贷”回家！
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tui-service-content ">
+    <div class="container">
+        <div class="col-md-10 col-md-offset-1 tui-service-content-5">
+            <div class="pull-right tui-service-descr">
+                <h2 class="tui-service-title">
+                    资金交易保障
+                </h2>
+                <p class="tui-service-text">
+                    车辆交易的资金划转依照买卖双方指令完成，
+                    车同享平台第三方托管，保障资金安全。
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tui-service-content ">
+    <div class="container">
+        <div class="col-md-10 col-md-offset-1 tui-service-content-6">
+            <div class="tui-service-descr">
+                <h2 class="tui-service-title">
+                    车商诚信体系
+                </h2>
+                <p class="tui-service-text">
+                    车同享自建车商、评估师、检测师、购车消费者
+                    的诚信系统，实行买卖评价体系，确保平台诚信、
+                    公正、透明的交易秩序。
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tui-service-content ">
+    <div class="container">
+        <div class="col-md-10 col-md-offset-1 tui-service-content-7">
+            <div class="pull-right tui-service-descr">
+                <h2 class="tui-service-title">
+                    1年/2万公里质保
+                </h2>
+                <p class="tui-service-text">
+                    1年/2万公里质保服务，超长售后保障，
+                    合作维修网点遍布全国，让您真正无忧出行！
+
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-include="'./statics/footer.html'"></div>
+<script src="./js/chetongxiang.js"></script>
+<script src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./lib/angular/angular.min.js"></script>
+<script src="./lib/bootstrap/dist/js/ui-bootstrap-tpls.js"></script>
+<script src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="./lib/angular-resource/angular-resource.min.js"></script>
+<script src="./lib/angular/angular-cookies.min.js"></script>
+<script src="./js/app.js"></script>
+<script src="./js/controllersIndex.js"></script>
+<script src="./js/services.js"></script>
+<script src="./js/filters.js"></script>
+<script src="./js/directives.js"></script>
+
+</body>
+</html>

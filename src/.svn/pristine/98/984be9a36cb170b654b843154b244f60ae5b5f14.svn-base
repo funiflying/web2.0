@@ -1,0 +1,52 @@
+<div class="c2city" change-city>
+    <a href="javascript:void(0)" class="choose-city" >
+        <span><span class="cn" ng-bind="CITY.CityName"></span><i>&nbsp;</i></span>
+    </a>
+    <i class="maskline"></i>
+    <div class="city-box">
+        <div class="all-city">
+            <!--  <dl>
+                  <dt>周边</dt>
+                  <dd></dd>
+              </dl>-->
+            <dl>
+                <dt>热门</dt>
+                <dd>
+                    <a href="javascript:void(0)" data-city="全国">全国</a>
+                    <a href="javascript:void(0)" data-value="1101" data-name="CityID" data-city
+                            ="北京" ng-class="{true:'active',false:''}[CITY.CityID==1101]">北京</a>
+                    <a href="javascript:void(0)" data-value="3401" data-name="CityID" data-city
+                            ="合肥" ng-class="{true:'active',false:''}[CITY.CityID==3401]">合肥</a>
+                    <a href="javascript:void(0)" data-value="3701" data-name="CityID" data-city
+                            ="济南" ng-class="{true:'active',false:''}[CITY.CityID==3701]">济南</a>
+                    <a href="javascript:void(0)" data-value="3501" data-name="CityID" data-city
+                            ="福州" ng-class="{true:'active',false:''}[CITY.CityID==3501]">福州</a>
+                    <a href="javascript:void(0)" data-value="3301" data-name="CityID" data-city
+                            ="杭州" ng-class="{true:'active',false:''}[CITY.CityID==3301]">杭州</a>
+
+                    <a href="javascript:void(0)" data-value="3101" data-name="CityID" data-city
+                            ="上海" ng-class="{true:'active',false:''}[CITY.CityID==3101]">上海</a>
+                    <a href="javascript:void(0)" data-value="5001" data-name="CityID" data-city
+                            ="重庆" ng-class="{true:'active',false:''}[CITY.CityID==5001]">重庆</a>
+                    <a href="javascript:void(0)" data-value="5301" data-name="CityID" data-city
+                            ="昆明" ng-class="{true:'active',false:''}[CITY.CityID==5301]">昆明</a>
+                    <a href="javascript:void(0)" data-value="4501" data-name="CityID" data-city
+                            ="南宁" ng-class="{true:'active',false:''}[CITY.CityID==4501]">南宁</a>
+                    <a href="javascript:void(0)" data-value="4101" data-name="CityID" data-city
+                            ="郑州" ng-class="{true:'active',false:''}[CITY.CityID==4101]">郑州</a>
+                    <a href="javascript:void(0)" data-value="2101" data-name="CityID" data-city
+                            ="沈阳" ng-class="{true:'active',false:''}[CITY.CityID==2101]">沈阳</a>
+                </dd>
+            </dl>
+            <div class="city-line"></div>
+            <dl ng-repeat="obj in chain">
+                <dt ng-bind="obj.PY"></dt>
+                <dd>
+                    <a ng-repeat="o in obj.Value" ng-bind="o.CityName" data-city="{{o.CityName}}" href="javascript:void(0)" data-name="CityID" data-value="{{o.CityID}}" ng-class="{true:'active',false:''}[CITY.CityID==o.CityID]"></a>
+                </dd>
+            </dl>
+
+        </div>
+        <p class="more-city">更多城市正在筹备，敬请期待。</p>
+    </div>
+</div>

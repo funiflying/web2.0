@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html ng-app="chetongxiang">
+<head lang="en">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta charset="UTF-8">
+    <meta name="Description" content="平台以二手车交易平台为业务核心和入口，通过B2B2C的商业模式，整合全国二手车及上下游资源，建立二手车商诚信体系，提供公正、专业的车辆检测和车况评估服务，最大限度地满足二手车商之间的车源同享、车源互调，真正实现车商和消费者之间爱车同享，利益同享"/>
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="Keywords" content=""/>
+    <title>车同享汽车交易平台</title>
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico">
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./lib/webuploader-0.1.5/webuploader.css"/>
+    <link rel="stylesheet" href="./lib/cropper/css/cropper.min.css"/>
+    <link rel="stylesheet" href="./lib/cropper/css/main.css"/>
+    <link rel="stylesheet" href="./css/chetongxiang.css"/>
+    <!--[if lte IE 9]>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
+        document.createElement('uploader');
+        document.createElement('header');
+        // Optionally these for CSS
+        document.createElement('ng:include');
+        document.createElement('ng:pluralize');
+        document.createElement('ng:view');
+    </script>
+    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/3.6/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="tui-nav" ng-controller="LoginController">
+
+    <div style="height: 30px;">
+        <div ng-include="'./statics/navbar.html'"></div>
+    </div>
+
+    <div class="tui-nav-link container text-right">
+        <a href="index.html" class="pull-left" style="display: inline-block;width: 248px;height:50px;"></a>
+        <a href="index.html" target="_blank">首页</a><a href="buy.html" target="_blank">我要买车</a><a href="sell.html" target="_blank">我要卖车</a><a href="expert.html" target="_blank">专家库</a>
+    </div>
+</div>
+<div class="container container-fluid" style="padding: 30px 0">
+    <div ui-view></div>
+</div>
+<div ng-include="'./statics/footer.html'"></div>
+
+<script src="./lib/jquery/dist/jquery-1.10.2.min.js"></script>
+<script src="./js/chetongxiang.js"></script>
+<script src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./lib/angular/angular.min.js"></script>
+<script src="./lib/bootstrap/dist/js/ui-bootstrap-tpls.js"></script>
+<script src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="./lib/angular-resource/angular-resource.min.js"></script>
+<script src="./lib/angular/angular-cookies.min.js"></script>
+<script src="./lib/cropper/js/cropper.min.js"></script>
+<script src="./lib/cropper/js/main.js"></script>
+<script src="./js/app.js"></script>
+<script src="./js/controllers.js"></script>
+<script src="./js/services.js"></script>
+<script src="./js/filters.js"></script>
+<script src="./js/directives.js"></script>
+<script src="./js/cityJson.js"></script>
+<script src="./js/pikaday.min.js"></script>
+<script src="./lib/webuploader-0.1.5/webuploader.flashonly.js"></script>
+<script src="./lib/jquery/dist/jquery.dragsort.js"></script>
+<script type='text/javascript' src='./js/loading-bar.min.js'></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<div class="tui-nav-top" >
+    <div class="wrapper index-nav-top">
+        欢迎您来到车同享, <span ng-if="!USER.UserName"><a href="./admin.html#/login">请登录</a><span class="spacer"></span><a href="admin.html#/register" class="text-orange">免费注册</a></span><span ng-if="USER.UserName"><a href="./admin.html#/home/account" class="text-orange" ng-bind="USER.UserName||USER.Contact"></a> <a
+            href="javascript:void(0)" ng-click="loginOff()">退出</a></span>
+        <span class="pull-right"><a href="urgent.html" class="text-orange" target="_blank">急售通道</a><span class="spacer"></span><a href="admin.html#/feedback" target="_blank">意见反馈</a><span class="spacer"></span><a href="admin.html#/handbook" target="_blank">操作手册</a><span class="spacer"></span><a href="http://oa.chetongxiang.net/OA/login.html" target="_blank">分公司登录</a></span>
+    </div>
+</div>
+

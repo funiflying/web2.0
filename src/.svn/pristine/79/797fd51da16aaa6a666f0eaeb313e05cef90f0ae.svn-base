@@ -1,0 +1,23 @@
+
+<div class="file-input file-input-ajax-new">
+    <div class="file-preview">
+        <div class=" file-drop-zone">
+            <div class="file-drop-zone-title">添加图片 …
+            </div>
+            <ul class="file-preview-thumbnails gridly clearfix">
+            </ul>
+        </div>
+    </div>
+    <div class="input-group">
+        <div class="input-group-btn" >
+            <div class="btn btn-primary btn-file">
+                <i class="glyphicon glyphicon-folder-open"></i> &nbsp;选择 …
+                <div class=" filePicker" ></div>
+            </div>
+            <div class="btn btn-info btn-file uploader-btn"  style="margin-left: 20px">
+                <i class="glyphicon glyphicon-upload"></i> &nbsp;上传 …
+            </div>
+        </div>
+    </div>
+
+</div>

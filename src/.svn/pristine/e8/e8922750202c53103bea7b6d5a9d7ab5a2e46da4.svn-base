@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="chetongxiang">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta name="Description" content="平台以二手车交易平台为业务核心和入口，通过B2B2C的商业模式，整合全国二手车及上下游资源，建立二手车商诚信体系，提供公正、专业的车辆检测和车况评估服务，最大限度地满足二手车商之间的车源同享、车源互调，真正实现车商和消费者之间爱车同享，利益同享"/>
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="Keywords" content=""/>
+    <title>车同享汽车交易平台</title>
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico">
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./css/chetongxiang.css"/>
+    <script src="./lib/jquery/dist/jquery-1.10.2.min.js"></script>
+    <!--[if lte IE 8]>
+    <script>
+        document.createElement('ng-include');
+        document.createElement('ng-pluralize');
+        document.createElement('ng-view');
+        document.createElement('uploader');
+        document.createElement('header');
+        // Optionally these for CSS
+        document.createElement('ng:include');
+        document.createElement('ng:pluralize');
+        document.createElement('ng:view');
+    </script>
+    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <script src="//cdn.bootcss.com/html5shiv/3.6/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body ng-controller="ShopController" ng-init="getChain()">
+<div class="tui-nav index-nav" ng-controller="LoginController">
+    <div style="height: 30px;">
+        <div ng-include="'./statics/navbar.html'"></div>
+    </div>
+    <div class="tui-nav-link container text-right" >
+        <div ng-include="'./statics/city.html'"></div>
+         <span class="pull-right hot-line">
+             <i class="glyphicon glyphicon-earphone"></i> 400-0732-777
+         </span>
+    </div>
+    <div class=" wrapper index-nav-bar">
+        <ul class="index-nav-link">
+            <li class="index-nav-item"><a href="index.html">首页</a></li>
+            <li class="index-nav-item active"><a href="buy.html">我要买车</a></li>
+            <li class="index-nav-item"><a href="sell.html">我要卖车</a></li>
+            <li class="index-nav-item"><a href="join.html">我要入驻</a></li>
+            <li class="index-nav-item"><a href="expert.html">专家库</a></li>
+            <li class="index-nav-item"><a href="safeguard.html">服务保障</a></li>
+        </ul>
+    </div>
+</div>
+<div class="wrapper filter-container">
+    <div class="search-bar">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                     <div class="input-group-btn" >
+                       <button type="button" class="btn btn-default dropdown-toggle" style="border-right: none"
+                               data-toggle="dropdown">
+                           车辆
+                           <span class="caret"></span>
+                       </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0)">车辆</a></li>
+                        <li><a href="javascript:void(0)">店铺</a></li>
+                    </ul>
+                   </div>
+
+                    <input type="text" id="search" ng-model="code" auto-complete class="form-control" placeholder="输入品牌、车系、车源号" ng-keypress="sKey($event)">
+                   <span class="input-group-btn">
+                      <button class="btn btn-default" type="button" ng-click="search()">
+                          <i class="glyphicon glyphicon-search"></i>
+                      </button>
+                   </span>
+                </div>
+            </div>
+            <div class="col-md-4 hot-link">
+                <a data-brand="45" data-value="9" href="buy.html?Brand=45&Series=9">卡罗拉</a>
+                <a data-brand="8" data-value="1" href="buy.html?Brand=8&Series=1">宝马3系</a>
+                <a data-brand="48" data-value="3" href="buy.html?Brand=48&Series=3">福克斯</a>
+                <a data-brand="34" data-value="4" href="buy.html?Brand=34&Series=4">朗逸</a>
+                <a data-brand="34" data-value="8" href="buy.html?Brand=34&Series=8">帕萨特</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrapper filter-container" style="margin-top: 10px" ng-init="getCredit()">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="tui-credit-icon pull-left">
+                <img src="../images/defaultheadicon.gif" alt="" /><!--carcreditinfo.HeadImage||-->
+            </div>
+            <div class="tui-credit-userinfo pull-left ml15">
+                <p class="tui-credit-name">
+                    <a href="credit.html?Code={{carcreditinfo.AllianceCode}}" ng-bind="carcreditinfo.UserName||carcreditinfo.CompanyName"></a>
+                    <i class="tui-credit-tip" ng-if="carcreditinfo.CompanyName">
+                        联盟商
+                    </i>
+                    <i class="tui-credit-tip" ng-if="carcreditinfo.UserName">
+                        个人
+                    </i>
+                </p>
+                <p ng-if="carcreditinfo.Charger">
+                    联系人：<span style="color: #0091ff;" ng-bind="carcreditinfo.Charger" ></span>
+                </p>
+
+                <p>
+                    电话：<span style="color: #0091ff;" ng-bind="carcreditinfo.Phone||carcreditinfo.Contact"></span>
+                </p>
+                <p>
+                    城市：<span style="color: #0091ff;" ng-bind="carcreditinfo.CityName||'未知'"></span>
+                </p>
+            </div>
+
+        </div>
+        <div class="col-md-5  text-right">
+            <div class="tui-credit-grade" style="background: #ff6a00; color: #ffffff;">
+                <p>购车好评</p>
+                <p class="font-white" ><i  ng-bind="carcreditinfo.BuyCarGoodPerson||100"></i>%</p>
+            </div>
+            <div class="tui-credit-grade" style="background: #ffd2b2;">
+                <p>卖车好评</p>
+                <p class="font-white" ><i ng-bind="carcreditinfo.SellCarGoodPerson||100"></i>%</p>
+            </div>
+            <div class="tui-credit-grade" style="background: #ffd2b2;">
+                <p>评估好评</p>
+                <p class="font-white" ><i ng-bind="carcreditinfo.EntrustGoodPerson||100"></i>%</p>
+            </div>
+            <p class="tui-worry-span" style="border: none;">
+                <span>购买车辆：<i ng-bind="carcreditinfo.BuyCarCount||0" class="font-orange"></i> 辆</span>
+                <span>委托评估：<i ng-bind="carcreditinfo.EntrustTestCount||0" class="font-orange"></i> 次</span>
+                <span>注册时间：<i ng-bind="carcreditinfo.RegisterTime|DateFormat:'yyyy年MM月dd日'"></i></span>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="wrapper tool-bar">
+    <ul class="sort-btn clearfix" filtersort>
+        <li class="sort-btn-item" ng-class="{true:'active',false:''}[filter.Sort==null]"><a href="javascript:void(0)">默认排序</a></li>
+        <li class="sort-btn-item" ng-class="{true:'active',false:''}[filter.Sort==1||filter.Sort==-1]" data-name="Sort" data-value="1"><a href="javascript:void(0)">价格<i class="glyphicon glyphicon-arrow-up" ng-class="{'glyphicon-arrow-up':filter.Sort==1,'glyphicon-arrow-down':filter.Sort==-1}"></i></a></li>
+        <li class="sort-btn-item" ng-class="{true:'active',false:''}[filter.Sort==2||filter.Sort==-2]" data-name="Sort" data-value="2"><a href="javascript:void(0)">车龄<i class="glyphicon glyphicon-arrow-up" ng-class="{'glyphicon-arrow-up':filter.Sort==2,'glyphicon-arrow-down':filter.Sort==-2}"></i></a></li>
+        <li class="sort-btn-item" ng-class="{true:'active',false:''}[filter.Sort==3||filter.Sort==-3]" data-name="Sort" data-value="3"><a href="javascript:void(0)">里程<i class="glyphicon glyphicon-arrow-up" ng-class="{'glyphicon-arrow-up':filter.Sort==3,'glyphicon-arrow-down':filter.Sort==-3}"></i></a></li>
+    </ul>
+    <span class="pull-right text-orange"><strong ng-bind="pageTotal"></strong> 辆好车</span>
+</div>
+<div class="wrapper" ng-init="getList();" style="min-height: 800px">
+    <div class="word" ng-show="pageTotal==0">
+        <p class="p1">暂时没有找到 <label id="word"></label>二手车。
+        </p>
+    </div>
+
+    <ul class="car-list clearfix" ng-show="pageTotal>0">
+
+    </ul>
+
+</div>
+<div class="wrapper">
+    <div pagination  total-items="pageTotal" ng-model="currentPage" ng-change="changePager()" class="pagination-lg" items-perPage="24"
+         previous-text="上一页" next-text="下一页" max-size="10" ng-show="pageTotal>PAGE_CONF.PageSize"></div>
+</div>
+<div ng-include="'./statics/footer.html'"></div>
+<script src="./js/chetongxiang.js"></script>
+<script src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./lib/angular/angular.min.js"></script>
+<script src="./lib/bootstrap/dist/js/ui-bootstrap-tpls.js"></script>
+<script src="./lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="./lib/angular-resource/angular-resource.min.js"></script>
+<script src="./lib/angular/angular-cookies.min.js"></script>
+<script src="./js/app.js"></script>
+<script src="./js/controllersIndex.js"></script>
+<script src="./js/services.js"></script>
+<script src="./js/filters.js"></script>
+<script src="./js/directives.js"></script>
+<script src="./lib/jquery/dist/jquery.autocomplete.min.js"></script>
+<script type='text/javascript' src='./js/loading-bar.min.js'></script>
+</body>
+</html>
